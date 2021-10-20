@@ -9,7 +9,7 @@ export interface Colors {
 }
 
 export const colors: Colors = {
-	themeBackground: '#28222E',
+	themeBackground: '#000',
 	black: '#000000',
 	primary: '#00EAFF',
 };

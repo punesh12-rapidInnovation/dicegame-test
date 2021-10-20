@@ -6,6 +6,8 @@ import { Redirect, Switch } from "react-router";
 import { Router, Route } from 'react-router-dom'
 import history from '../history'
 import LandingPage from '../../../../pages/landingPage/LandingPage';
+import LiveChat from '../../../liveChat/LiveChat';
+
 
 
 
@@ -23,6 +25,12 @@ export const routes: RouteDefinition[] = [
         component: LandingPage,
         protected: false,
         redirect: Paths.landing,
+    },
+    {
+        path: Paths.liveChat,
+        component: LiveChat,
+        protected: false,
+        redirect: Paths.liveChat,
     },
 ].concat(notFoundRoute as any) // Ensure that notFound is the last route
 
@@ -53,9 +61,9 @@ const authLoading = false
 const Routes = () => {
     return (
         <Router history={history}>
-            <Header />
             <Switch>
                 <Redirect exact from="/" to={Paths.landing} />
+
                 {routes.map((route, i) => {
 
                     if (authLoading) {
