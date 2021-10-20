@@ -11,7 +11,8 @@ import {
     Button,
     PopupModal,
     Ownmsg,
-    Messagediv
+    Messagediv,
+    InputParent
 
 } from './style'
 import threedot from '../../assets/images/threedot.svg';
@@ -153,16 +154,18 @@ const LiveChat = (props: any) => {
                     <ChatMiddlediv>
                         {renderchat()}
                     </ChatMiddlediv>
+                    <InputParent>
                     <Input
                         onChange={handleInputMessage}
                         value={inputMessage}
-                        style={{ width: '100%', height: '15%' }} type="text" placeholder="Type message..." />
+                        style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
                     <Button
                         onClick={() => { sendTOAPI() }}
                         disabled={walletAddress === '' || inputMessage === ''}
 
                     >
                     </Button>
+                    </InputParent>
 
 
                 </ChatBox>

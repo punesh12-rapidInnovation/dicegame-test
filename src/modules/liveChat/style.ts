@@ -58,6 +58,7 @@ padding-left: 20px;
 display: flex;
 justify-content: space-between;
 align-items: center;
+color: white;
 
 ::placeholder{
     color:white;
@@ -96,9 +97,9 @@ overflow:scroll;
 export const Messagediv = styled.div`
 background: rgba(255, 255, 255, 0.23);
 border-radius: 10px;
-padding: 10px;
+padding: 15px;
 display: flex;
-width: 73%;
+max-width: 73%;
 border-top-left-radius:0;
 margin: 10px 0;
 align-self: flex-start;
@@ -111,9 +112,9 @@ export const Ownmsg = styled.div`
 background: linear-gradient(92.8deg, rgba(30, 232, 183, 0.8) 2.13%, rgba(172, 51, 191, 0.4) 102.29%);
 border-radius: 10px;
 border-bottom-right-radius:0;
-padding: 13px 10px;
+padding: 15px;
 display: flex;
-width: 73%;
+max-width: 73%;
 margin: 10px 0;
 align-self: flex-end;
 text-align: left;
@@ -124,13 +125,18 @@ export const Button = styled.button`
 background-image: url(${sendimage});
 background-position: center;
 background-size: contain;
-position: absolute;
-bottom: 4%;
-right: 15px;
 cursor: pointer;
 border-radius: 12px;
 width: 40px;
 height: 40px;
 border: none;
+position: absolute;
+bottom: 14px;
+right: 12px;
+`
 
+export const InputParent = styled.div`
+width: 100%;
+height: 14%;
+position: relative;
 `
