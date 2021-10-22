@@ -131,12 +131,13 @@ width: 40px;
 height: 40px;
 border: none;
 position: absolute;
-bottom: 14px;
 right: 12px;
+top: 50%;
+transform: translatey(-50%);
 `
 
 export const InputParent = styled.div`
 width: 100%;
-height: 14%;
+height: 60px;
 position: relative;
 `
