@@ -61,7 +61,7 @@ body{
 	// background-repeat: no-repeat;
 	// background-position: center;	
 	
-	background-color: ${colors.themeBackground};	
+	// background-color: ${colors.themeBackground};	
 
 	
 }

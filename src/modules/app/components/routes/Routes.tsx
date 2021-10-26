@@ -63,6 +63,7 @@ const Routes = () => {
         <Router history={history}>
             <Switch>
                 <Redirect exact from="/" to={Paths.landing} />
+                <Header />
 
                 {routes.map((route, i) => {
 
