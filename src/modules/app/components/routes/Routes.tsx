@@ -45,12 +45,6 @@ export interface RouteDefinition {
 }
 
 
-interface Props { }
-interface RoutesProps { }
-interface StateProps {
-    user: any
-}
-
 function getRouteRenderWithAuth(route: RouteDefinition, i: number) {
     return () => <route.component />
 }

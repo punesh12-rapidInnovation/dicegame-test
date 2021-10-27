@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Login, setChainIdValue, setWalletBalance, walletConnectCheck } from '../../logic/action/wallet.action';
 import { WalletTypes } from '../../utils/constant';
 import { convertToEther } from '../../utils/helper';
 import wallet from '../../utils/wallet';
-import web3 from '../../utils/web3.js';
 import CustomModal from '../custom-modal';
 import { AddressInfo, ConnectWalletButton, WalletCont, WalletList, WalletOption } from './style';
 
 const ConnectWallet = (props: any) => {
-    const { connectWallet, walletAddress, setConnectWallet } = props;
+    const { connectWallet, walletAddress, setConnectWallet, setWalletAddress } = props;
     const dispatch = useDispatch()
 
     const [showModal, setShowModal] = useState(false)
     const [disconnectWallet, setDisconnectWallet] = useState(false);
-    const [walletType, setWalletType] = useState(false)
-
-
-    const { userAddress } = useSelector(
-        (state: any) => state.wallet
-    );
+    const [walletType] = useState(false)
 
     const connect = async (type: any) => {
 
@@ -32,6 +26,7 @@ const ConnectWallet = (props: any) => {
                 await wallet.setProvider(type);
                 const address = await wallet.login(type, dispatch);
                 dispatch(Login(address));
+                setWalletAddress(address)
                 const chainId = await wallet.web3.eth.getChainId();
                 dispatch(setChainIdValue(chainId));
                 const balance = await wallet.web3.eth.getBalance(address);
@@ -51,10 +46,6 @@ const ConnectWallet = (props: any) => {
             }
         }
     };
-
-    useEffect(() => {
-        // dispatch(Login(address));
-    }, [localStorage.getItem('address')])
 
     return (
         <WalletCont>

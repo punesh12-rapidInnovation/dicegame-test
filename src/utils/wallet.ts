@@ -8,7 +8,7 @@ import {
 	networkTestChainId,
 	networkMainChainId,
 } from '../config';
-import { Login } from '../logic/action/wallet.action';
+import { Login, setChainIdValue } from '../logic/action/wallet.action';
 
 class Wallet {
 	web3: any;
@@ -118,18 +118,8 @@ class Wallet {
 				this.web3.currentProvider.on(
 					'accountsChanged',
 					async (accounts: Array<string>) => {
-						//@ts-ignore
-						const chainId = await this.web3.currentProvider.request({
-							method: 'eth_chainId',
-						});
-						const walletaddress = await this.web3.currentProvider.request({
-							method: 'eth_accounts',
-						});
-						console.log('walletaddress', walletaddress);
-
 						if (accounts.length) {
 							address = accounts[0];
-							console.log('walletaddress', address);
 							dispatch(Login(address));
 							localStorage.setItem('address', JSON.stringify(address));
 						}
@@ -137,8 +127,8 @@ class Wallet {
 				);
 
 				//@ts-ignore
-				this.web3.currentProvider.on('chainChanged', () => {
-					window.location.reload();
+				this.web3.currentProvider.on('chainChanged', (chainId: number) => {
+					dispatch(setChainIdValue(chainId));
 				});
 				break;
 
