@@ -45,36 +45,20 @@ export interface RouteDefinition {
 }
 
 
-interface Props { }
-interface RoutesProps { }
-interface StateProps {
-    user: any
-}
-
 function getRouteRenderWithAuth(route: RouteDefinition, i: number) {
     return () => <route.component />
 }
 
-
-const authLoading = false
-
 const Routes = () => {
     return (
         <Router history={history}>
-            <Header/>
+            <Header />
             <Switch>
                 <Redirect exact from="/" to={Paths.landing} />
-                
-
                 {routes.map((route, i) => {
-
-                    if (authLoading) {
-                        return <div key={i}>Loading ...</div>
-                    } else {
-                        const render = getRouteRenderWithAuth(route, i)
-                        const rest = { render }
-                        return <Route key={i} path={route.path} exact {...rest} />
-                    }
+                    const render = getRouteRenderWithAuth(route, i)
+                    const rest = { render }
+                    return <Route key={i} path={route.path} exact {...rest} />
                 })}
             </Switch>
         </Router>

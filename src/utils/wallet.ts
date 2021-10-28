@@ -3,8 +3,8 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { Networks, WalletTypes } from './constant';
 import {
-	walletTestConnetId,
-	walletMainConnetId,
+	walletTestConnectId,
+	walletMainConnectId,
 	networkTestChainId,
 	networkMainChainId,
 } from '../config';
@@ -66,8 +66,8 @@ class Wallet {
 					// infuraId:'0fe795d7c0254f8096cdeba845d83e99'
 					rpc: {
 						//@ts-ignore
-						[networkMainChainId]: walletMainConnetId,
-						[networkTestChainId]: walletTestConnetId,
+						[networkMainChainId]: walletMainConnectId,
+						[networkTestChainId]: walletTestConnectId,
 					},
 					chainId: 56,
 					bridge: 'https://bridge.walletconnect.org',
