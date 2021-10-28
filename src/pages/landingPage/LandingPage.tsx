@@ -1,10 +1,9 @@
 import React from 'react';
+import LiveChat from '../../modules/liveChat';
 
 const LandingPage = () => {
     return (
-        <div>
-            landing page
-        </div>
+        <LiveChat/>
     );
 };
 
