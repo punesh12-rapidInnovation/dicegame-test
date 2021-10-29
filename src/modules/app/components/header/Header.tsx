@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Login, setChainIdValue } from '../../../../logic/action/wallet.action';
 import ConnectWallet from '../../../../shared/Connect-wallet';
 import web3 from '../../../../utils/web3';
-import { HeaderContainer } from './style';
+import { HeaderContainer,Walletcontainer,WalletLogo,Walletoutline,H1 } from './style';
+import sitelogo from '../../../../assets/icons/sitelogo.png';
+import walletlogo from '../../../../assets/icons/walleticon.png';
+import walletoutline from '../../../../assets/icons/walletoutline.png';
 
 const Header = () => {
     const dispatch = useDispatch()
@@ -44,17 +47,17 @@ const Header = () => {
 
 
     return (
-        <div>
-            <HeaderContainer>
-                <ConnectWallet
-                    connectWallet={connectWallet}
-                    walletAddress={walletAddress}
-                    walletBalance={walletBalance}
-                    setConnectWallet={setConnectWallet}
-                    setWalletAddress={setWalletAddress}
-                />
+           <HeaderContainer>
+            <img src={sitelogo} alt="" />
+            <Walletcontainer>
+                <WalletLogo src={walletlogo}/>
+                <Walletoutline src={walletoutline} />
+                <H1>99.02</H1>
+                
+            </Walletcontainer>
+
+             
             </HeaderContainer>
-        </div>
     );
 };
 

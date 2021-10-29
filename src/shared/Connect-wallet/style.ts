@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-export const WalletCont = styled.div``;
+export const WalletCont = styled.div`
+`;
 
 export const WalletList = styled.div`
 	display: flex;
