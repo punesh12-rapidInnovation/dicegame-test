@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { colors } from '../styles/theme';
 
 export const WalletCont = styled.div`
 `;
@@ -19,8 +20,10 @@ export const WalletOption = styled.div`
 export const AddressInfo = styled.div`
 	display: flex;
 	flex-direction: column;
+	color:${colors.white}
 `;
 export const ConnectWalletButton = styled.button`
 	background: transparent;
 	border: none;
+	color:${colors.white};
 `;

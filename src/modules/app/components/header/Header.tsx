@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Login, setChainIdValue } from '../../../../logic/action/wallet.action';
+import { Login, setChainIdValue, setWalletBalance } from '../../../../logic/action/wallet.action';
 import ConnectWallet from '../../../../shared/Connect-wallet';
 import web3 from '../../../../utils/web3';
-import { HeaderContainer,Walletcontainer,WalletLogo,Walletoutline,H1 } from './style';
+import { HeaderContainer, Walletcontainer, WalletLogo, Walletoutline, H1 } from './style';
 import sitelogo from '../../../../assets/icons/sitelogo.png';
 import walletlogo from '../../../../assets/icons/walleticon.png';
 import walletoutline from '../../../../assets/icons/walletoutline.png';
+import { convertToEther } from '../../../../utils/helper';
 
 const Header = () => {
     const dispatch = useDispatch()
-    const { walletBalance, walletConnectCheck } = useSelector(
+    const { walletConnectCheck, chainId } = useSelector(
         (state: any) => state.wallet
     );
 
@@ -42,22 +43,46 @@ const Header = () => {
                 dispatch(setChainIdValue(chainId));
             });
         };
+
         changedAccountAddress();
     }, [dispatch]);
 
 
+    useEffect(() => {
+        const getWalletBalance = async () => {
+            try {
+                if (walletAddress) {
+                    const address = walletAddress.toString()
+                    const balance = await web3.eth.getBalance(address);
+                    dispatch(setWalletBalance(convertToEther(balance)));
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getWalletBalance()
+    }, [walletAddress, dispatch, chainId])
+
     return (
-           <HeaderContainer>
+        <HeaderContainer>
             <img src={sitelogo} alt="" />
             <Walletcontainer>
-                <WalletLogo src={walletlogo}/>
+                <WalletLogo src={walletlogo} />
                 <Walletoutline src={walletoutline} />
                 <H1>99.02</H1>
-                
             </Walletcontainer>
+            <ConnectWallet
+                connectWallet={connectWallet}
+                walletAddress={walletAddress}
+                setWalletAddress={setWalletAddress}
+                setConnectWallet={setConnectWallet}
+                showWalletContent
+            />
 
-             
-            </HeaderContainer>
+
+
+        </HeaderContainer>
     );
 };
 
