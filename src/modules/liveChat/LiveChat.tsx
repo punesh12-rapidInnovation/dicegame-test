@@ -199,7 +199,7 @@ const LiveChat = (props: any) => {
                         <Rolldice>Roll Dice</Rolldice>
                     </Betbottom>
                 </Betbox>
-                <ChatBox style={{ height: '75%', width: '45%', position: 'relative' }}>
+                <ChatBox style={{ height: '80%', width: '45%', position: 'relative' }}>
 
 
                     <ChatTopdiv><div style={{ textAlign: 'left' }}> <h3 style={{ fontSize: '14px' }}>GLOBAL CHAT</h3>

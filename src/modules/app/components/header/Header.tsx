@@ -55,8 +55,7 @@ const Header = () => {
                 <H1>99.02</H1>
                 
             </Walletcontainer>
-
-             
+                
             </HeaderContainer>
     );
 };

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import landingtop from '../../../../assets/images/landingtop.png'
+
 
 export const HeaderContainer = styled.div`
 height: 10vh;
@@ -7,6 +9,10 @@ justify-content: center;
 align-items: center;
 background: black;
 position: relative;
+background: url(${landingtop});
+background-color: #000;
+background-size: cover;
+background-position:right;
 `;
 
 export const Walletcontainer = styled.div`
@@ -21,12 +27,12 @@ align-items: center;
 `
 
 export const WalletLogo = styled.img`
-width: 120px;
+width: 80px;
 z-index: 2;
 object-fit: contain;
 `
 export const Walletoutline = styled.img`
-width: 150px;
+width: 130px;
 transform: translatex(-30px);
 object-fit: contain;
 `

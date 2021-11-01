@@ -43,7 +43,7 @@ background: rgba(0,0,0,1);
 background-image: url(${Chatsection});
 background-position: center;
 background-size: cover;
-height: 90vh;
+height: 80vh;
 width: 100%;
 display: flex;
 justify-content:center;
@@ -152,7 +152,7 @@ box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 
 border-radius: 20px;
 width: 45%;
 max-width: 700px;
-height: 75%;
+height: 80%;
 margin-right: 20px;
 display: flex;
 align-items: center;

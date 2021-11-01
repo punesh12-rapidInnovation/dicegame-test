@@ -6,6 +6,6 @@ const Betting = () => {
             <h1>betting</h1>
         </div>
     );
-};
+};                                                                               
 
 export default Betting;
