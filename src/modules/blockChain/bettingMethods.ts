@@ -1,14 +1,14 @@
-import { instanceType, selectInstances } from '../../utils/contracts';
+import { BETTING_ADDRESS } from "./../../config";
+import { instanceType, selectInstances } from "../../utils/contracts";
 
-// export const userLpBalance = async (userAddress: any, tokenAddress: any) => {
-//     //create instance of an abi to call any blockChain function
-//     const lpInstance =
-//         await selectInstances(
-//             instanceType.LP, // type of instance
-//             tokenAddress //contract address
-//         );
-//     if (userAddress) {
-//         const userBalance = await lpInstance.methods.balanceOf(userAddress).call();
-//         return userBalance;
-//     }
-// };
+export const MinBetAmount = async () => {
+  //create instance of an abi to call any blockChain function
+  const lpInstance = await selectInstances(
+    instanceType.BETTING, // type of instance
+    BETTING_ADDRESS //contract address
+  );
+  if (true) {
+    const MinBetAmount = await lpInstance.methods.minBet().call();
+    return MinBetAmount;
+  }
+};
