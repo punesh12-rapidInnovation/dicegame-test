@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Login, setChainIdValue, setWalletBalance, walletConnectCheck } from '../../logic/action/wallet.action';
 import { WalletTypes } from '../../utils/constant';
 import { convertToEther } from '../../utils/helper';
@@ -8,9 +8,11 @@ import CustomModal from '../custom-modal';
 import { AddressInfo, ConnectWalletButton, WalletCont, WalletList, WalletOption } from './style';
 
 const ConnectWallet = (props: any) => {
-    const { connectWallet, walletAddress, setConnectWallet, setWalletAddress } = props;
+    const { connectWallet, setConnectWallet, setWalletAddress, showWalletContent } = props;
     const dispatch = useDispatch()
-
+    const { walletBalance } = useSelector(
+        (state: any) => state.wallet
+    );
     const [showModal, setShowModal] = useState(false)
     const [disconnectWallet, setDisconnectWallet] = useState(false);
     const [walletType] = useState(false)
@@ -49,10 +51,10 @@ const ConnectWallet = (props: any) => {
 
     return (
         <WalletCont>
-            {
+            {showWalletContent ?
                 connectWallet ?
                     <AddressInfo onClick={() => setDisconnectWallet(true)}>
-                        {walletAddress}
+                        {isNaN(walletBalance) || walletBalance === '' ? '0' : parseFloat(walletBalance).toFixed(4)}
                     </AddressInfo>
                     :
                     <ConnectWalletButton
@@ -60,6 +62,7 @@ const ConnectWallet = (props: any) => {
                     >
                         Connect Wallet
                     </ConnectWalletButton>
+                : null
             }
 
 

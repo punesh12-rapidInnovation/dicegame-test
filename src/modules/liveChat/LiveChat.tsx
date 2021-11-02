@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { io } from "socket.io-client";
 import axios from 'axios';
+import Betting from '../betting';
 import {
     GlobalChatSection,
     Box,
@@ -146,59 +147,7 @@ const LiveChat = (props: any) => {
     return (
         <GlobalChatSection>
             <Box style={{ height: '75%', width: '90%', maxWidth: '1200px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Betbox>
-                    <Bettop><img src={historyicon} style={{ marginRight: '10px' }} /> YOUR LAST 10 ROLLS</Bettop>
-                    <Betmiddle>
-                        <Flexcolumn style={{ width: '100%' }}>
-                            <H2 style={{ fontSize: '13px' }}>BET AMOUNT | AVL BL:963 PLS</H2>
-                            <Flex style={{ justifyContent: 'space-between', marginBottom: '12px' }}>
-                                <Chance>5</Chance>
-                                <Flex style={{ width: '75%', maxWidth: '300px' }}>
-                                    <Transchance>MIN</Transchance>
-                                    <Transchance>5</Transchance>
-                                    <Transchance>6</Transchance>
-                                    <Transchance>10</Transchance>
-
-                                    <Transchance>MAX</Transchance>
-                                </Flex>
-
-                            </Flex>
-
-
-                        </Flexcolumn>
-                        <Flexcolumn style={{ width: '100%' }}>
-                            <H2 style={{ marginBottom: '16px' }}>CHANCE OF WINNING</H2>
-                            <Flex>
-
-                                <Flexcolumn style={{ width: '30%' }}>
-
-                                    <Chance style={{ marginBottom: '8px' }}>{Rangevalue}%</Chance>
-                                    <H2 style={{ fontSize: '12px' }}>Min Chance</H2>
-                                </Flexcolumn>
-                                <Flex style={{ justifyContent: 'center', alignItems: 'center', width: '70%' }}>
-                                    <Range type="range" value={Rangevalue} onChange={(event) => setRangevalue(event.target.value)}></Range>
-                                </Flex>
-
-                            </Flex>
-
-                        </Flexcolumn>
-                        <Flex>
-                            <H2 style={{ marginBottom: '6px' }}>ROLL UNDER </H2>
-                            <H1 style={{ fontSize: '16px', marginBottom: '6px' }}>44</H1>
-
-                        </Flex>
-                        <Flex>
-                            <H2 >Profit </H2>
-                            <H1 style={{ fontSize: '16px' }}>+5.2551 PLS</H1>
-
-                        </Flex>
-
-
-                    </Betmiddle>
-                    <Betbottom>
-                        <Rolldice>Roll Dice</Rolldice>
-                    </Betbottom>
-                </Betbox>
+                <Betting/>
                 <ChatBox style={{ height: '80%', width: '45%', position: 'relative' }}>
 
 

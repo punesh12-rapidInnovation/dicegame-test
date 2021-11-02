@@ -5,24 +5,28 @@ import ThemeBackground from '../../assets/images/theme-background.svg';
 export interface Colors {
 	themeBackground: string;
 	black: string;
+	white: string;
 	primary: string;
+
 }
 
 export const colors: Colors = {
 	themeBackground: '#000',
 	black: '#000000',
+	white: '#ffffff',
 	primary: '#00EAFF',
 };
 
 export interface ThemeStarter {
 	[propName: string]: string | undefined;
 	themeBackground: string;
-
 	black: string;
+	white: string;
 }
 
 export const theme: ThemeStarter = {
 	black: colors.black,
+	white: colors.white,
 	themeBackground: colors.themeBackground,
 };
 

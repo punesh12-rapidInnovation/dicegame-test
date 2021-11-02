@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { colors } from '../styles/theme';
 
 export const WalletCont = styled.div`
 `;
@@ -17,10 +18,22 @@ export const WalletOption = styled.div`
 	cursor: pointer;
 `;
 export const AddressInfo = styled.div`
-	display: flex;
-	flex-direction: column;
+	border: none;
+	color:${colors.white};
+	cursor: pointer;
+	background-color: white;
+	color: black;
+	border-radius:4px;
+	padding: 10px;
 `;
 export const ConnectWalletButton = styled.button`
 	background: transparent;
 	border: none;
+	color:${colors.white};
+	cursor: pointer;
+	background-color: white;
+	color: black;
+	border-radius:4px;
+	padding: 10px;
+
 `;
