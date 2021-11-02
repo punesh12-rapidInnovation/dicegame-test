@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Login, setChainIdValue, setWalletBalance } from '../../../../logic/action/wallet.action';
 import ConnectWallet from '../../../../shared/Connect-wallet';
 import web3 from '../../../../utils/web3';
-import { HeaderContainer, Walletcontainer, WalletLogo, Walletoutline, H1 } from './style';
-import sitelogo from '../../../../assets/icons/sitelogo.png';
-import walletlogo from '../../../../assets/icons/walleticon.png';
-import walletoutline from '../../../../assets/icons/walletoutline.png';
+import { HeaderContainer, Walletcontainer, WalletLogo } from './style';
+import siteLogo from '../../../../assets/icons/sitelogo.png';
+import walletLogo from '../../../../assets/icons/walleticon.png';
 import { convertToEther } from '../../../../utils/helper';
 
 const Header = () => {
@@ -66,23 +65,28 @@ const Header = () => {
 
     return (
         <HeaderContainer>
-            <img src={sitelogo} alt="" />
+            <div style={{ width: "100%" }}></div>
+
+            <div style={{ width: "100%" }}>
+                <img src={siteLogo} alt="" />
+            </div>
+
             <Walletcontainer>
-                <WalletLogo src={walletlogo} />
-                <Walletoutline src={walletoutline} />
-                <H1>99.02</H1>
+                <WalletLogo src={walletLogo} />
+                <ConnectWallet
+                    connectWallet={connectWallet}
+                    walletAddress={walletAddress}
+                    setWalletAddress={setWalletAddress}
+                    setConnectWallet={setConnectWallet}
+                    showWalletContent
+                />
+
+
             </Walletcontainer>
-            <ConnectWallet 
-                connectWallet={connectWallet}
-                walletAddress={walletAddress}
-                setWalletAddress={setWalletAddress}
-                setConnectWallet={setConnectWallet}
-                showWalletContent
-            />
 
 
 
-        </HeaderContainer>
+        </HeaderContainer >
     );
 };
 
