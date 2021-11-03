@@ -16,14 +16,18 @@ import {
   Transchance,
   Percentchance,
 } from "./style";
-import Web3 from "web3";
 import historyicon from "../../assets/icons/history.svg";
-import { MinBetAmount } from "../blockChain/bettingMethods";
+import {
+  MinBetAmount,
+  HouseEdge,
+  HouseEdgeDiviser,
+} from "../blockChain/bettingMethods";
 import { convertToEther } from "../../utils/helper";
 
 const Betting = () => {
   const [Rangevalue, setRangevalue] = useState<number>(1);
-  const [BetAmount, setBetAmount] = useState<any>();
+  const [BetAmount, setBetAmount] = useState<number>(0);
+  const [Profit, setProfit] = useState<number>(0);
 
   const { walletBalance } = useSelector((state: any) => state.wallet);
 
@@ -43,6 +47,26 @@ const Betting = () => {
       setRangevalue(Rangepercent);
     }
   };
+
+  const ProfitCalculator = async () => {
+    const Houseedgeamount = await HouseEdge();
+    const Houseedgediviseramount = await HouseEdgeDiviser();
+
+    const Profit =
+      (((BetAmount * (100 - Rangevalue)) / Rangevalue + BetAmount) *
+        Houseedgeamount) /
+        Houseedgediviseramount -
+      BetAmount;
+    console.log(Profit);
+    const showingprofit = (Math.round(Profit * 100) / 100).toFixed(5);
+    console.log(showingprofit);
+    setProfit(parseFloat(showingprofit));
+    //    ((useramount * (100 - (rollUnder- 1))) /
+    //     (rollUnder-1) +useramount)
+    // ) * houseEdge) / houseEdgeDivisor) -
+    // useramount
+  };
+  ProfitCalculator();
 
   return (
     <Betbox>
@@ -104,7 +128,7 @@ const Betting = () => {
         </Flex>
         <Flex>
           <H2>Profit </H2>
-          <H1 style={{ fontSize: "16px" }}>+5.2551 PLS</H1>
+          <H1 style={{ fontSize: "16px" }}>+{Profit} PLS</H1>
         </Flex>
       </Betmiddle>
       <Betbottom>

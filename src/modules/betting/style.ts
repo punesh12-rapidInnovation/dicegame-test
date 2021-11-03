@@ -253,12 +253,12 @@ export const Flex = styled.div`
 `;
 
 export const Chance = styled.input`
-  font-size: 20px;
+  font-size: 18px;
   background: white;
   padding: 8px;
   border-radius: 6px;
   color: rgba(112, 7, 255, 1);
-  width: 50px;
+  width: 70px;
   font-weight: 700;
   border: none;
   display: flex;
