@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import {
@@ -21,13 +21,18 @@ import {
   MinBetAmount,
   HouseEdge,
   HouseEdgeDiviser,
+  RollDice,
 } from "../blockChain/bettingMethods";
 import { convertToEther } from "../../utils/helper";
+import { CheckAllowance, GetAllowance } from "../blockChain/Routermethods";
+import { BETTING_ADDRESS } from "../../config";
 
 const Betting = () => {
   const [Rangevalue, setRangevalue] = useState<number>(1);
   const [BetAmount, setBetAmount] = useState<number>(0);
   const [Profit, setProfit] = useState<number>(0);
+  const [myAddress, setmyAddress] = useState<any>();
+  const [userAllowance, setuserAllowance] = useState(false);
 
   const { walletBalance } = useSelector((state: any) => state.wallet);
 
@@ -48,6 +53,11 @@ const Betting = () => {
     }
   };
 
+  const CallingRollDice = () => {
+    const myAddress: any = localStorage.getItem("address");
+    RollDice(JSON.parse(myAddress), BetAmount, Rangevalue);
+  };
+
   const ProfitCalculator = async () => {
     const Houseedgeamount = await HouseEdge();
     const Houseedgediviseramount = await HouseEdgeDiviser();
@@ -66,7 +76,37 @@ const Betting = () => {
     // ) * houseEdge) / houseEdgeDivisor) -
     // useramount
   };
-  ProfitCalculator();
+
+  const CheckUserAllowance = async () => {
+    const myAddress: any = localStorage.getItem("address");
+    console.log(
+      BETTING_ADDRESS,
+      myAddress,
+      "0x3564732D6De2C0B0DCCa76Cd5b8fA78b4a79dA23"
+    );
+    if (myAddress) {
+      const CheckAllowanceResult = await CheckAllowance(
+        JSON.parse(myAddress),
+        BETTING_ADDRESS
+      );
+      if (CheckAllowanceResult > 1 || CheckAllowanceResult === 1) {
+        setuserAllowance(true);
+      } else {
+        setuserAllowance(false);
+      }
+    }
+  };
+
+  const GettingAllowance = async () => {
+    const myAddress: any = localStorage.getItem("address");
+
+    GetAllowance(JSON.parse(myAddress));
+  };
+
+  useEffect(() => {
+    ProfitCalculator();
+    CheckUserAllowance();
+  });
 
   return (
     <Betbox>
@@ -132,7 +172,11 @@ const Betting = () => {
         </Flex>
       </Betmiddle>
       <Betbottom>
-        <Rolldice>Roll Dice</Rolldice>
+        {userAllowance ? (
+          <Rolldice onClick={CallingRollDice}>Roll Dice</Rolldice>
+        ) : (
+          <Rolldice onClick={GettingAllowance}>Approve</Rolldice>
+        )}
       </Betbottom>
     </Betbox>
   );

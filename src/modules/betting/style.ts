@@ -213,6 +213,7 @@ export const Betbottom = styled.div`
 export const Rolldice = styled.button`
   width: 100%;
   padding: 17px;
+  cursor: pointer;
   background: linear-gradient(
     90deg,
     rgba(239, 8, 150, 0.2) -6.9%,

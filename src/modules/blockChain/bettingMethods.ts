@@ -1,5 +1,6 @@
 import { BETTING_ADDRESS } from "./../../config";
 import { instanceType, selectInstances } from "../../utils/contracts";
+import web3 from "../../utils/web3";
 
 export const MinBetAmount = async () => {
   //create instance of an abi to call any blockChain function
@@ -32,5 +33,25 @@ export const HouseEdgeDiviser = async () => {
   if (true) {
     const HouseEdgeDiviser = await lpInstance.methods.houseEdgeDivisor().call();
     return HouseEdgeDiviser;
+  }
+};
+export const RollDice = async (
+  myAccount: string | null,
+  Amount: any,
+  Rollunder: number
+) => {
+  //create instance of an abi to call any blockChain function
+  const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
+
+  const lpInstance = await selectInstances(
+    instanceType.BETTING, // type of instance
+    BETTING_ADDRESS //contract address
+  );
+  if (true) {
+    const RollDice = await lpInstance.methods.playerRollDice(Rollunder).send({
+      from: myAccount,
+      value: Ethervalue,
+    });
+    return RollDice;
   }
 };

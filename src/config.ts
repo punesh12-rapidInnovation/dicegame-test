@@ -7,7 +7,7 @@ export const walletMainConnectId = "https://bsc-dataseed.binance.org/";
 export const networkTestChainId = "97";
 export const networkMainChainId = "56";
 
-export const ROUTER_ADDRESS = "";
+export const ROUTER_ADDRESS = "0x01BE23585060835E02B77ef475b0Cc51aA1e0709";
 export const FACTORY_ADDRESS = "";
 export const FARM_ADDRESS = "";
 
