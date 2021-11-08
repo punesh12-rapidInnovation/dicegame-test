@@ -8,27 +8,16 @@ export const CheckAllowance = async (
 ) => {
   //create instance of an abi to call any blockChain function
   const lpInstance = await selectInstances(
-    instanceType.ROUTER, // type of instance
+    instanceType.ERC20TOKEN, // type of instance
     ROUTER_ADDRESS //contract address
   );
   if (true) {
     const CheckAllowanceResult = await lpInstance.methods
       .allowance(OwnerAddress, ContractAddress)
       .call();
+    console.log(CheckAllowanceResult);
     return CheckAllowanceResult;
   }
 };
 
-export const GetAllowance = async (OwnerAddress: string) => {
-  //create instance of an abi to call any blockChain function
-  const lpInstance = await selectInstances(
-    instanceType.ROUTER, // type of instance
-    ROUTER_ADDRESS //contract address
-  );
-  if (true) {
-    const CheckAllowanceResult = await lpInstance.methods
-      .approve(BETTING_ADDRESS, 1000000000000)
-      .send({ from: OwnerAddress });
-    return CheckAllowanceResult;
-  }
-};
+

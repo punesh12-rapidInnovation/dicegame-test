@@ -24,8 +24,11 @@ import {
   RollDice,
 } from "../blockChain/bettingMethods";
 import { convertToEther } from "../../utils/helper";
-import { CheckAllowance, GetAllowance } from "../blockChain/Routermethods";
+import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
+import { instanceType, selectInstances } from "../../utils/contracts";
+import { ROUTER_ADDRESS } from "../../config";
+
 
 const Betting = () => {
   const [Rangevalue, setRangevalue] = useState<number>(1);
@@ -34,11 +37,12 @@ const Betting = () => {
   const [myAddress, setmyAddress] = useState<any>();
   const [userAllowance, setuserAllowance] = useState(false);
 
-  const { walletBalance } = useSelector((state: any) => state.wallet);
+    const { walletBalance } = useSelector((state: any) => state.wallet);
+    
 
   const SetMinBetAmount = async () => {
     const MinBet = await MinBetAmount();
-    setBetAmount(convertToEther(MinBet));
+    setBetAmount(convertToEther(MinBet));   
   };
 
   const RangeValueChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,33 +79,55 @@ const Betting = () => {
     //     (rollUnder-1) +useramount)
     // ) * houseEdge) / houseEdgeDivisor) -
     // useramount
-  };
+    };
+    
 
   const CheckUserAllowance = async () => {
-    const myAddress: any = localStorage.getItem("address");
-    console.log(
-      BETTING_ADDRESS,
-      myAddress,
-      "0x3564732D6De2C0B0DCCa76Cd5b8fA78b4a79dA23"
-    );
-    if (myAddress) {
-      const CheckAllowanceResult = await CheckAllowance(
-        JSON.parse(myAddress),
-        BETTING_ADDRESS
-      );
-      if (CheckAllowanceResult > 1 || CheckAllowanceResult === 1) {
-        setuserAllowance(true);
-      } else {
-        setuserAllowance(false);
-      }
-    }
-  };
+      const myAddress: any = localStorage.getItem("address");
 
-  const GettingAllowance = async () => {
-    const myAddress: any = localStorage.getItem("address");
+      if (myAddress) {
+          console.log(myAddress)
+               
+          
+        
+               const CheckAllowanceResult = await CheckAllowance(
+                  JSON.parse(myAddress),
+                  BETTING_ADDRESS
+              );
+              if (CheckAllowanceResult > 1 || CheckAllowanceResult === 1) {
+                  setuserAllowance(true);
+              } else {
+                  setuserAllowance(false);
+              }
+          }
+    };
 
-    GetAllowance(JSON.parse(myAddress));
-  };
+    const setAllowance = async () => {
+        const myAddress: any = localStorage.getItem("address");
+        if (myAddress) {
+            const OwnerAddress: string = JSON.parse(myAddress);
+            //create instance of an abi to call any blockChain function
+            const lpInstance = await selectInstances(
+                instanceType.ERC20TOKEN, // type of instance
+                ROUTER_ADDRESS //contract address
+
+            );
+            if (true) {
+                const CheckAllowanceResult = await lpInstance.methods
+                    .approve(BETTING_ADDRESS, 1000000000000)
+                    .send({ from: OwnerAddress })
+                    .once('confirmation',
+                        function (receipt: any) {
+                  
+                            setuserAllowance(true)
+                  
+                        });
+      
+            }
+        } else {
+            alert("Connect wallet to place bet")
+        }
+};
 
   useEffect(() => {
     ProfitCalculator();
@@ -171,11 +197,11 @@ const Betting = () => {
           <H1 style={{ fontSize: "16px" }}>+{Profit} PLS</H1>
         </Flex>
       </Betmiddle>
-      <Betbottom>
+          <Betbottom>
         {userAllowance ? (
           <Rolldice onClick={CallingRollDice}>Roll Dice</Rolldice>
-        ) : (
-          <Rolldice onClick={GettingAllowance}>Approve</Rolldice>
+              ) : (
+          <Rolldice onClick={setAllowance}>Approve</Rolldice>
         )}
       </Betbottom>
     </Betbox>
