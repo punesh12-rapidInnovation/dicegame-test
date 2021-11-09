@@ -35,7 +35,7 @@ export const HouseEdgeDiviser = async () => {
     return HouseEdgeDiviser;
   }
 };
-export const RollDice = async (
+export const PlaceBet = async (
   myAccount: string | null,
   Amount: any,
   Rollunder: number

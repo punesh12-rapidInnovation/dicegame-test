@@ -32,6 +32,7 @@ justify-content:space-between;
 align-items: flex-start;
 display: relative;
 max-width: 700px;
+height: 85%;
 
 >*{
     color: white;

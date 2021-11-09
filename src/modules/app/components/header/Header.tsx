@@ -33,7 +33,8 @@ const Header = () => {
         const changedAccountAddress = async () => {
             web3.currentProvider.on("accountsChanged", async function () {
                 let accounts = await web3.eth.getAccounts();
-                localStorage.setItem("address", JSON.stringify(accounts));
+                console.log(accounts);
+                localStorage.setItem("address", JSON.stringify(accounts[0]));
                 setWalletAddress(accounts[0])
                 dispatch(Login(accounts[0]));
             });

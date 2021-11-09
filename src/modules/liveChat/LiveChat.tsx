@@ -148,7 +148,7 @@ const LiveChat = (props: any) => {
         <GlobalChatSection>
             <Box style={{ height: '75%', width: '90%', maxWidth: '1200px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Betting/>
-                <ChatBox style={{ height: '80%', width: '45%', position: 'relative' }}>
+                <ChatBox style={{ height: '85%', width: '45%', position: 'relative' }}>
 
 
                     <ChatTopdiv><div style={{ textAlign: 'left' }}> <h3 style={{ fontSize: '14px' }}>GLOBAL CHAT</h3>

@@ -158,7 +158,7 @@ export const InputParent = styled.div`
   position: relative;
 `;
 
-export const Betbox = styled.div`
+export const BetBox = styled.div`
   background: linear-gradient(
     90deg,
     rgba(239, 8, 150, 0.1) -6.9%,
@@ -170,7 +170,7 @@ export const Betbox = styled.div`
   border-radius: 20px;
   width: 45%;
   max-width: 700px;
-  height: 80%;
+  height: 85%;
   margin-right: 20px;
   display: flex;
   align-items: center;
@@ -178,7 +178,7 @@ export const Betbox = styled.div`
   justify-content: center;
 `;
 
-export const Bettop = styled.div`
+export const BetTop = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 85%;
@@ -189,7 +189,7 @@ export const Bettop = styled.div`
   align-items: center;
 `;
 
-export const Betmiddle = styled.div`
+export const BetMiddle = styled.div`
   height: 70%;
   width: 85%;
   color: white;
@@ -201,7 +201,7 @@ export const Betmiddle = styled.div`
   align-items: flex-start;
 `;
 
-export const Betbottom = styled.div`
+export const BetBottom = styled.div`
   width: 85%;
   height: 15%;
   width: 90%;
@@ -210,7 +210,7 @@ export const Betbottom = styled.div`
   justify-content: center;
 `;
 
-export const Rolldice = styled.button`
+export const RollDice = styled.button`
   width: 100%;
   padding: 17px;
   cursor: pointer;
@@ -239,7 +239,7 @@ export const H1 = styled.h2`
   color: #00eaff;
 `;
 
-export const Flexcolumn = styled.div`
+export const FlexColumn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -276,7 +276,7 @@ export const Chance = styled.input`
     margin: 0;
   }
 `;
-export const Percentchance = styled.div`
+export const PercentChance = styled.div`
   font-size: 18px;
   background: white;
   padding: 8px;
@@ -291,7 +291,7 @@ export const Percentchance = styled.div`
   text-align: center;
 `;
 
-export const Transchance = styled.button`
+export const TransChance = styled.button`
   font-size: 12px;
   border-radius: 6px;
   color: rgba(0, 234, 255, 1);
