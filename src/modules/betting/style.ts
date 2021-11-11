@@ -193,11 +193,11 @@ export const BetMiddle = styled.div`
   height: 70%;
   width: 85%;
   color: white;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: normal;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: flex-start;
 `;
 
@@ -228,35 +228,37 @@ export const RollDice = styled.button`
   border: none;
 `;
 
-export const H2 = styled.h2`
-  font-size: 15px;
-  margin-bottom: 14px;
+export const H2 = styled.h2<any>`
+  font-size: ${props => props.FontSize || '15px'};
+  margin-bottom: ${props => props.MarginBottom || '14px'};
   font-weight: 600;
 `;
-export const H1 = styled.h2`
-  font-size: 18px;
+export const H1 = styled.h2<any>`
+  font-size: ${props => props.FontSize || '18px'};
   margin-bottom: 14px;
   color: #00eaff;
 `;
 
-export const FlexColumn = styled.div`
+export const FlexColumn = styled.div<any>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: space-between;
+  width: ${props => props.width || "100%"};
 `;
 
-export const Flex = styled.div`
+export const Flex = styled.div<any>`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${props => props.JustifyContent || 'space-between'};
   align-content: center;
-  width: 100%;
+  width:${props => props.Width || '100%'};
+  margin-bottom: ${props => props.MarginBottom || '0'};;
 `;
 
 export const Chance = styled.input`
   font-size: 18px;
   background: white;
-  padding: 8px;
+  padding: 10px;
   border-radius: 6px;
   color: rgba(112, 7, 255, 1);
   width: 70px;
@@ -276,23 +278,24 @@ export const Chance = styled.input`
     margin: 0;
   }
 `;
-export const PercentChance = styled.div`
+export const PercentChance = styled.div<any>`
   font-size: 18px;
   background: white;
-  padding: 8px;
+  padding: 10px;
   border-radius: 6px;
   color: rgba(112, 7, 255, 1);
-  width: 50px;
+  width: 60px;
   font-weight: 700;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  margin-bottom: ${props => props.MarginBottom || '0'};;
 `;
 
 export const TransChance = styled.button`
-  font-size: 12px;
+  font-size: 14px;
   border-radius: 6px;
   color: rgba(0, 234, 255, 1);
   width: 45px;

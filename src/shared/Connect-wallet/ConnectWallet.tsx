@@ -93,7 +93,7 @@ const ConnectWallet = (props: any) => {
         show={disconnectWallet}
         toggleModal={() => setDisconnectWallet(false)}
       >
-        <button onClick={() => connect(walletType)}>Logout</button>
+        <WalletOption onClick={() => connect(walletType)}>Logout</WalletOption>
       </CustomModal>
     </WalletCont>
   );

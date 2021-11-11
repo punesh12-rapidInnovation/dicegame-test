@@ -26,7 +26,7 @@ const CustomModal = (props: any) => {
       onMouseDown={handleClickOutside}
       style={{ ...styles }}
     >
-      <ModalContent borderRadius={borderRadius}>
+      <ModalContent>
         <ModelHead>
           <h2>
             {heading}

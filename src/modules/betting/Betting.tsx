@@ -69,8 +69,8 @@ const Betting = () => {
   };
 
   const ProfitCalculator = async () => {
-    const Houseedgeamount = await HouseEdge();
-    const Houseedgediviseramount = await HouseEdgeDiviser();
+    const Houseedgeamount = parseInt(await HouseEdge());
+    const Houseedgediviseramount = parseInt(await HouseEdgeDiviser());
 
     const Profit =
       (((BetAmount * (100 - RangeValue)) / RangeValue + BetAmount) *
@@ -136,18 +136,16 @@ const Betting = () => {
   return (
     <BetBox>
       <BetMiddle>
-        <FlexColumn style={{ width: "100%" }}>
-          <H2 style={{ fontSize: "13px" }}>
+        <FlexColumn>
+          <H2 MarginBottom = '16px'>
             BET AMOUNT | AVL BL: {walletBalance ? walletBalance : 0} PLS
           </H2>
-          <Flex
-            style={{ justifyContent: "space-between", marginBottom: "12px" }}
-          >
+          <Flex MarginBottom="16px">
             <Chance
               value={BetAmount}
               onChange={(e) => BetSetThroughInput(e) }
             />
-            <Flex style={{ width: "75%", maxWidth: "300px" }}>
+            <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
               <TransChance onClick={() => setBetAmount(5)}>5</TransChance>
               <TransChance onClick={() => setBetAmount(6)}>6</TransChance>
@@ -157,14 +155,14 @@ const Betting = () => {
             </Flex>
           </Flex>
         </FlexColumn>
-        <FlexColumn style={{ width: "100%" }}>
-          <H2 style={{ marginBottom: "16px" }}>CHANCE OF WINNING</H2>
+        <FlexColumn>
+          <H2 FontSize="16px">CHANCE OF WINNING</H2>
           <Flex>
             <FlexColumn style={{ width: "30%" }}>
-              <PercentChance style={{ marginBottom: "8px" }}>
+              <PercentChance MarginBottom="12px">
                 {RangeValue}%
               </PercentChance>
-              <H2 style={{ fontSize: "12px" }}>Min Chance</H2>
+              <H2 FontSize="14px">Min Chance</H2>
             </FlexColumn>
             <Flex
               style={{
@@ -182,14 +180,14 @@ const Betting = () => {
           </Flex>
         </FlexColumn>
         <Flex>
-          <H2 style={{ marginBottom: "6px" }}>ROLL UNDER </H2>
-          <H1 style={{ fontSize: "16px", marginBottom: "6px" }}>
+          <H2 >ROLL UNDER </H2>
+          <H1 FontSize="16px">
             {RangeValue + 1}
           </H1>
         </Flex>
         <Flex>
           <H2>Profit </H2>
-          <H1 style={{ fontSize: "16px" }}>+{Profit} PLS</H1>
+          <H1 FontSize="16px">+{Profit} PLS</H1>
         </Flex>
       </BetMiddle>
           <BetBottom>

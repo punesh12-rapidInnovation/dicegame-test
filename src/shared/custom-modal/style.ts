@@ -37,14 +37,12 @@ export const ModalBody = styled.div<ModalBodyProps>`
 `;
 
 export const ModalContent = styled.div<any>`
-	padding: 20px;
-	border-radius: 0px !important;
+	padding: 40px;
 	background-color: ${colors.primary};
 	display: inline-block;
 	border-radius: 8px;
 	margin: 0 auto;
 	border: none;
-	border-radius: 10px;
 	overflow: auto;
 	// min-width: 280px;
 	position: absolute;
@@ -52,6 +50,9 @@ export const ModalContent = styled.div<any>`
 	top: 50%;
 	transform: translate(-50%, -50%);
 	max-height: 100%;
+	background: #2A1966;
+    box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7;
+    border-radius:20px;
 	// overflow-y: auto;
 	::-webkit-scrollbar {
 		width: 0 !important;
@@ -59,7 +60,6 @@ export const ModalContent = styled.div<any>`
 	overflow: -moz-scrollbars-none;
 	-ms-overflow-style: none;
 	width: 80%;
-	border-radius: 8px;
 	@media (min-width: ${screenSizes.mediaL}px) {
 		width: 524px;
 	}
