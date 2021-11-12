@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Chatsection from "../../assets/images/Chatsection.png";
 import sendimage from "../../assets/images/send-icon.svg";
+import ModalBackground from '../../assets/images/ModalBackground.png';
 
 export const Box = styled.div`
   background: linear-gradient(
@@ -365,3 +366,31 @@ export const Range = styled.input`
     transition: opacity 0.2s;
   }
 `;
+
+export const BetResultPopup = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+padding: 30px;
+position: absolute;
+top:50%;
+left: 50%;
+transform: translate(-50%,10%);
+width: 550px;
+height: 360px;
+z-index: 2;
+background: url(${ModalBackground});
+background-color: #2A1966;
+box-shadow: 0px 3px 5px #2A1966, inset 0px 0px 24px #CA1AE7;
+border-radius: 10px;
+background-size: cover;
+`
+export const Crossimg = styled.img`
+width: 40px;
+height: 40px;
+position: absolute;
+top: 20px;
+right: 20px;
+cursor: pointer;
+`

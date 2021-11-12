@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { ethers } from "ethers";
-
+import web3 from "../../utils/web3";
+import { io } from "socket.io-client";
 import {
   BetBox,
   BetMiddle,
@@ -15,13 +16,16 @@ import {
   Range,
   TransChance,
   PercentChance,
+  BetResultPopup,
+  Crossimg
 } from "./style";
 import {
   MinBetAmount,
+  MaxBetAmount,
   HouseEdge,
   HouseEdgeDiviser,
-  PlaceBet,
 } from "../blockChain/bettingMethods";
+import Cross from '../../assets/icons/Cross.svg';
 import { convertToEther } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
@@ -35,6 +39,15 @@ const Betting = () => {
   const [Profit, setProfit] = useState<number>(0);
   const [MyAddress, setMyAddress] = useState<any>();
   const [UserAllowance, setUserAllowance] = useState(false);
+  const [BetplacedLoading, setBetplacedLoading] = useState(false);
+  const [PlacingBetId, setPlacingBetId] = useState(1);
+  const [ResultObject, setResultObject] = useState<any>()
+  const [ResultPopupDisplay, setResultPopupDisplay] = useState<string>("none")
+  const [ResultRoll, setResultRoll] = useState(0);
+  const [WinLooseMsg, setWinLooseMsg] = useState("")
+  const [PlayerRoll, setPlayerRoll] = useState(0)
+
+
 
     const { walletBalance } = useSelector((state: any) => state.wallet);
     
@@ -42,6 +55,10 @@ const Betting = () => {
   const SetMinBetAmount = async () => {
     const MinBet = await MinBetAmount();
     setBetAmount(convertToEther(MinBet));   
+  };
+  const SetMaxBetAmount = async () => {
+    const MaxBet = await MaxBetAmount();
+    setBetAmount(convertToEther(MaxBet));   
   };
 
   const RangeValueChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,16 +73,24 @@ const Betting = () => {
     }
     };
     
-    const BetSetThroughInput = (e: any) => {
-        if (e.target.value <= 10) {
-            setBetAmount(e.target.value)
+  const BetSetThroughInput = (e: any) => {
+    if (e.target.value <= 10) {
+          setBetAmount(e.target.value);
         } 
      
- }
+  }
+  
+  
 
-  const CallingPlaceBet = () => {
-    const myAddress: any = localStorage.getItem("address");
-    PlaceBet(JSON.parse(myAddress), BetAmount, RangeValue);
+  const CallingPlaceBet = async () => {
+    if (BetplacedLoading) {
+      return;
+    } else {
+      const myAddress: any = localStorage.getItem("address");
+      const RollUnder: any = RangeValue + 1
+      const BetId = await PlaceBet(JSON.parse(myAddress), BetAmount, RollUnder);
+      setPlacingBetId(BetId.events.LogBet.returnValues.BetID);
+    }
   };
 
   const ProfitCalculator = async () => {
@@ -97,7 +122,8 @@ const Betting = () => {
               }
       } 
           
-    };
+  };
+  const AccountAddress: any = localStorage.getItem("address");
 
     const HandleAllowance = async () => {
         const myAddress: any = localStorage.getItem("address");
@@ -126,7 +152,81 @@ const Betting = () => {
         } else {
             alert("Connect wallet to place bet")
         }
-};
+  };
+
+  const ButtonText = () => {
+     if (BetplacedLoading) {
+      return "Loading Result..."
+    } else {
+      return "Roll Dice"
+    }
+
+  }
+
+  const PlaceBet = async (
+  myAccount: string | null,
+  Amount: any,
+  Rollunder: number
+) => {
+  //create instance of an abi to call any blockChain function
+  const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
+
+  const lpInstance = await selectInstances(
+    instanceType.BETTING, // type of instance
+    BETTING_ADDRESS //contract address
+  );
+    if (true) {
+    const RollDice = await lpInstance.methods.playerRollDice(Rollunder).send({
+      from: myAccount,
+      value: Ethervalue,
+    }).once('confirmation',
+      function (receipt: any) {
+                          setBetplacedLoading(true);
+                          
+                  
+                        });
+      return RollDice;
+  }
+  };
+
+  console.log(ResultObject);
+
+  useEffect(() => {
+    if (PlacingBetId === ResultObject?.BetID) {
+      console.log("result is ours")
+      console.log(PlacingBetId,ResultObject?.BetID)
+    } else {
+      console.log(ResultObject);
+      console.log(PlacingBetId,ResultObject?.BetID)
+    }
+    
+
+    
+  }, [ResultObject])
+
+  
+
+  
+  useEffect(() => {
+        const socket = io('wss://diceroll.rapidinnovation.tech');
+        try {
+            socket.on('connection', () => {
+                // Replace event name with connection event name
+                console.log('websocket connected');
+            });
+          socket.on('BettingEvent', (data) => {
+            
+            console.log(data);
+            
+              
+            });
+        } catch (err) {
+            console.log('err', err);
+
+        }
+        
+  }, []);
+  
 
   useEffect(() => {
     ProfitCalculator();
@@ -151,7 +251,7 @@ const Betting = () => {
               <TransChance onClick={() => setBetAmount(6)}>6</TransChance>
               <TransChance onClick={() => setBetAmount(10)}>10</TransChance>
 
-              <TransChance onClick={() => setBetAmount(10)}>MAX</TransChance>
+              <TransChance onClick={SetMaxBetAmount}>MAX</TransChance>
             </Flex>
           </Flex>
         </FlexColumn>
@@ -192,11 +292,22 @@ const Betting = () => {
       </BetMiddle>
           <BetBottom>
         {UserAllowance ? (
-          <RollDice onClick={CallingPlaceBet}>Roll Dice</RollDice>
+          <RollDice onClick={CallingPlaceBet}>{ButtonText()}</RollDice>
               ) : (
           <RollDice onClick={HandleAllowance}>Approve</RollDice>
         )}
       </BetBottom>
+      <BetResultPopup style={{ display: `${ResultPopupDisplay}` }}>
+        <Crossimg onClick={() => setResultPopupDisplay("none")}  src={Cross} alt="" />
+        <H1 style={{fontSize:'20px',color:'white'}}>Your Roll</H1>
+        <H2 style={{ fontSize: '20px', color: 'white', marginBottom: '16px' }}>{AccountAddress}</H2>
+        <PercentChance style={{width:'150px',height:'80px',fontSize:'40px',marginBottom:'31px',color:'#00EAFF',border: '0.558333px solid #F5B849',backgroundColor:'transparent',borderRadius:'8px'}}>
+         {ResultRoll}
+        </PercentChance>
+        <H1 style={{fontSize:'24px',color:'white'}}>{WinLooseMsg}</H1>
+        <H2 style={{fontSize:'18px',color:'#00EAFF'}}>Player NO. {PlayerRoll}</H2>
+        
+      </BetResultPopup>
     </BetBox>
   );
 };

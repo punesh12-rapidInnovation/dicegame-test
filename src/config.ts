@@ -12,4 +12,4 @@ export const FACTORY_ADDRESS = "";
 export const FARM_ADDRESS = "";
 
 export const PULSE_TOKEN_ADDRESS = "";
-export const BETTING_ADDRESS = "0xDd8E2D4eC8ff4c069bA7aEaF9aeB8CCBfFaa5697";
+export const BETTING_ADDRESS = "0x475e6894F5A826192f28c8297bD06cfC30090DF3";

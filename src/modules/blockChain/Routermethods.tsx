@@ -15,7 +15,6 @@ export const CheckAllowance = async (
     const CheckAllowanceResult = await lpInstance.methods
       .allowance(OwnerAddress, ContractAddress)
       .call();
-    console.log(CheckAllowanceResult);
     return CheckAllowanceResult;
   }
 };
