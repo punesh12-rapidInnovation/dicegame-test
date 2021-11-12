@@ -40,12 +40,12 @@ const Betting = () => {
   const [MyAddress, setMyAddress] = useState<any>();
   const [UserAllowance, setUserAllowance] = useState(false);
   const [BetplacedLoading, setBetplacedLoading] = useState(false);
-  const [PlacingBetId, setPlacingBetId] = useState(1);
+  const [PlacingBetId, setPlacingBetId] = useState();
   const [ResultObject, setResultObject] = useState<any>()
   const [ResultPopupDisplay, setResultPopupDisplay] = useState<string>("none")
-  const [ResultRoll, setResultRoll] = useState(0);
+  const [ResultRoll, setResultRoll] = useState("0");
   const [WinLooseMsg, setWinLooseMsg] = useState("")
-  const [PlayerRoll, setPlayerRoll] = useState(0)
+  const [PlayerRoll, setPlayerRoll] = useState("0")
 
 
 
@@ -75,7 +75,7 @@ const Betting = () => {
     
   const BetSetThroughInput = (e: any) => {
     if (e.target.value <= 10) {
-          setBetAmount(e.target.value);
+      setBetAmount(Number(e.target.value));
         } 
      
   }
@@ -92,6 +92,8 @@ const Betting = () => {
       setPlacingBetId(BetId.events.LogBet.returnValues.BetID);
     }
   };
+
+  console.log(PlacingBetId);
 
   const ProfitCalculator = async () => {
     const Houseedgeamount = parseInt(await HouseEdge());
@@ -191,13 +193,35 @@ const Betting = () => {
 
   console.log(ResultObject);
 
+
+
   useEffect(() => {
-    if (PlacingBetId === ResultObject?.BetID) {
+    if (PlacingBetId === undefined) {
+      return;
+    }
+    else if (PlacingBetId === ResultObject?.Betid) {
       console.log("result is ours")
-      console.log(PlacingBetId,ResultObject?.BetID)
+      console.log(typeof PlacingBetId, typeof ResultObject?.Betid)
+      if (ResultObject?.Status === '0') {
+        setResultRoll(ResultObject?.Diceresult);
+        setWinLooseMsg("You Lost The Bet,Better Luck Next Time");
+        setPlayerRoll(ResultObject?.Playernumber);
+        setResultPopupDisplay("flex");
+
+        
+      }else if (ResultObject?.Status === '1') {
+        setResultRoll(ResultObject?.Diceresult);
+        setWinLooseMsg("Hurray,You Won The Bet");
+        setPlayerRoll(ResultObject?.Playernumber);
+        setResultPopupDisplay("flex");
+
+        
+      } else {
+        console.log('unhandled result')
+      }
     } else {
-      console.log(ResultObject);
-      console.log(PlacingBetId,ResultObject?.BetID)
+      console.log("not our result")
+      console.log(ResultObject?.Betid)
     }
     
 
@@ -214,9 +238,17 @@ const Betting = () => {
                 // Replace event name with connection event name
                 console.log('websocket connected');
             });
-          socket.on('BettingEvent', (data) => {
+          socket.on('betting', (data) => {
             
-            console.log(data);
+            setResultObject({
+              Betid: data.BetID,
+              Diceresult: data.DiceResult,
+              Playeraddress: data.PlayerAddress,
+              Playernumber: data.PlayerNumber,
+              Status: data.Status,
+              Value: data.Value
+
+            })
             
               
             });
@@ -226,6 +258,12 @@ const Betting = () => {
         }
         
   }, []);
+
+  const ResultPopupCloser = () => {
+    setBetplacedLoading(false);
+    setResultPopupDisplay('none');
+
+  }
   
 
   useEffect(() => {
@@ -298,13 +336,13 @@ const Betting = () => {
         )}
       </BetBottom>
       <BetResultPopup style={{ display: `${ResultPopupDisplay}` }}>
-        <Crossimg onClick={() => setResultPopupDisplay("none")}  src={Cross} alt="" />
+        <Crossimg onClick={ResultPopupCloser}  src={Cross} alt="" />
         <H1 style={{fontSize:'20px',color:'white'}}>Your Roll</H1>
         <H2 style={{ fontSize: '20px', color: 'white', marginBottom: '16px' }}>{AccountAddress}</H2>
         <PercentChance style={{width:'150px',height:'80px',fontSize:'40px',marginBottom:'31px',color:'#00EAFF',border: '0.558333px solid #F5B849',backgroundColor:'transparent',borderRadius:'8px'}}>
          {ResultRoll}
         </PercentChance>
-        <H1 style={{fontSize:'24px',color:'white'}}>{WinLooseMsg}</H1>
+        <H1 style={{fontSize:'20px',color:'white'}}>{WinLooseMsg}</H1>
         <H2 style={{fontSize:'18px',color:'#00EAFF'}}>Player NO. {PlayerRoll}</H2>
         
       </BetResultPopup>
