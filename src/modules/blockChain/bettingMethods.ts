@@ -29,15 +29,24 @@ export const MaxBetAmount = async () => {
 };
 
 export const HouseEdge = async () => {
-  //create instance of an abi to call any blockChain function
-  const lpInstance = await selectInstances(
-    instanceType.BETTING, // type of instance
-    BETTING_ADDRESS //contract address
-  );
-  if (true) {
-    const Houseedge = await lpInstance.methods.houseEdge().call();
-    return Houseedge;
+
+  try {
+    //create instance of an abi to call any blockChain function
+    const lpInstance = await selectInstances(
+      instanceType.BETTING, // type of instance
+      BETTING_ADDRESS //contract address
+    );
+    if (true) {
+      const Houseedge = await lpInstance.methods.houseEdge().call();
+      return Houseedge;
+    }
+
+  } catch (error) {
+    console.log(error);
+
+
   }
+
 };
 export const HouseEdgeDiviser = async () => {
   //create instance of an abi to call any blockChain function
