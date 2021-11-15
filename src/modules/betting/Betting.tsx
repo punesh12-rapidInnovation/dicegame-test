@@ -73,11 +73,11 @@ const Betting = () => {
     }
     };
     
-  const BetSetThroughInput = (e: any) => {
-    if (e.target.value <= 10) {
-      setBetAmount(Number(e.target.value));
-        } 
-     
+    const BetSetThroughInput = (e: any) => {
+      if (e.target.value <= 10) {
+        setBetAmount(Number(e.target.value));
+          } 
+  
   }
   
   
@@ -307,6 +307,8 @@ const Betting = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 width: "70%",
+                alignSelf:"flex-start",
+                marginTop:"20px",
               }}
             >
               <Range
@@ -317,7 +319,7 @@ const Betting = () => {
             </Flex>
           </Flex>
         </FlexColumn>
-        <Flex>
+        <Flex style={{marginTop:"10px"}}>
           <H2 >ROLL UNDER </H2>
           <H1 FontSize="16px">
             {RangeValue + 1}
@@ -328,7 +330,7 @@ const Betting = () => {
           <H1 FontSize="16px">+{Profit} PLS</H1>
         </Flex>
       </BetMiddle>
-          <BetBottom>
+      <BetBottom>
         {UserAllowance ? (
           <RollDice onClick={CallingPlaceBet}>{ButtonText()}</RollDice>
               ) : (

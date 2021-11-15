@@ -209,6 +209,7 @@ export const BetBottom = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  margin-top: 30px;
 `;
 
 export const RollDice = styled.button`
@@ -299,9 +300,11 @@ export const TransChance = styled.button`
   font-size: 14px;
   border-radius: 6px;
   color: rgba(0, 234, 255, 1);
-  width: 45px;
+  /*width: 45px;*/
+  flex-grow:1;
+  margin-right:10px;
   font-weight: 500;
-  background-color: rgba(83, 57, 100, 0.2);
+  background-color: rgba(255, 255, 255, 0.2);
   border: none;
   cursor: pointer;
 `;
@@ -311,34 +314,31 @@ export const Range = styled.input`
   -moz-appearance: none !important;
   width: 100%;
   height: 4px;
-  background: transparent
-    linear-gradient(90deg, #ef0896 -6.9%, #7007ff 55.31%, #00c8ff 107.28%) 0% 0%
-    no-repeat padding-box;
+  /*background: green;*/
   outline: none;
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
   cursor: pointer;
   &::-webkit-slider-thumb {
-    width: 22px;
-    height: 22px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    background: transparent
-      linear-gradient(
-        156.93deg,
-        #ef0896 -49.7%,
-        #7007ff 44.05%,
-        #00c8ff 122.38%
-      )
-      0% 0% no-repeat padding-box;
-    border: 0;
+	  background: linear-gradient(#513D64, #513D64) padding-box, linear-gradient(90deg, #EF0896 -6.9%, #7007FF 55.31%, #00C8FF 107.28%) border-box;
+	  border: 4px solid transparent;
     cursor: pointer;
     -webkit-appearance: none;
-    margin-top: -8px;
+    margin-top: -10px;
   }
   &::-webkit-slider-runnable-track {
-    background: white;
-    height: 6px;
-    border-radius: 3px;
+    background: ${props =>  {
+      console.log(props.value,100 - parseFloat(`${props.value}`));
+      return parseFloat(`${props.value}`) >= 50 ? 
+      `linear-gradient(to right, #6FCF97 ${props.value}%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)` 
+      : 
+      `linear-gradient(to left, #EB5757 ${100 - parseFloat(`${props.value}`)}%, #6FCF97 ${props.value}%)`
+    } };
+    height: 15px;
+    border-radius: 10px;
     width: 100%;
     border: none;
   }
