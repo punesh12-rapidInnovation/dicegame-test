@@ -349,6 +349,8 @@ const Betting = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 width: "70%",
+                alignSelf:"flex-start",
+                marginTop:"20px",
               }}
             >
               <Range
@@ -359,8 +361,8 @@ const Betting = () => {
             </Flex>
           </Flex>
         </FlexColumn>
-        <Flex>
-          <H2 >ROLL Under </H2>
+        <Flex style={{marginTop:"10px"}}>
+          <H2 >ROLL UNDER </H2>
           <H1 FontSize="16px">
             {RangeValue + 1}
           </H1>
@@ -370,7 +372,7 @@ const Betting = () => {
           <H1 FontSize="16px">+{Profit} PLS</H1>
         </Flex>
       </BetMiddle>
-          <BetBottom>
+      <BetBottom>
         {UserAllowance ? (
           <RollDice onClick={CallingPlaceBet}>{ButtonText()}</RollDice>
               ) : (
