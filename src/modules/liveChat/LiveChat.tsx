@@ -146,13 +146,13 @@ const LiveChat = (props: any) => {
 
     return (
         <GlobalChatSection>
-            <Box style={{ height: '75%', width: '90%', maxWidth: '1200px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Box style={{ height: '75%', width: '90%', maxWidth: '1500px',minWidth:'1000px',minHeight:'550px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Betting/>
                 <ChatBox style={{ height: '85%', width: '45%', position: 'relative' }}>
 
 
                     <ChatTopdiv><div style={{ textAlign: 'left' }}> <h3 style={{ fontSize: '14px' }}>GLOBAL CHAT</h3>
-                        <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 playing</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
+                        <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 PLAYING</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
                     <ChatMiddlediv>
                         {renderchat()}
                     </ChatMiddlediv>

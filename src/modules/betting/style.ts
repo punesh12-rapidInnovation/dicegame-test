@@ -304,6 +304,11 @@ export const TransChance = styled.button`
   background-color: rgba(83, 57, 100, 0.2);
   border: none;
   cursor: pointer;
+
+  :hover{
+    background-color: rgba(0,0,0,0.2);
+
+  }
 `;
 
 export const Range = styled.input`

@@ -2,6 +2,12 @@ import styled from 'styled-components';
 import landingtop from '../../../../assets/images/landingtop.png'
 import walletoutline from '../../../../assets/icons/walletoutline.png';
 
+export const HeaderDiv = styled.div`
+position: absolute;
+height: 10vh;
+width: 100%;
+`
+
 
 export const HeaderContainer = styled.div`
 height: 10vh;
@@ -16,6 +22,7 @@ background-size: cover;
 background-position:right;
 margin:0;
 padding:0;
+background: rgba(0,0,0,0.5);
 `;
 
 export const Walletcontainer = styled.div`

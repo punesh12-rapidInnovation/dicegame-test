@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Login, setChainIdValue, setWalletBalance } from '../../../../logic/action/wallet.action';
 import ConnectWallet from '../../../../shared/Connect-wallet';
 import web3 from '../../../../utils/web3';
-import { HeaderContainer, Walletcontainer, WalletLogo } from './style';
+import { HeaderContainer, Walletcontainer, WalletLogo,HeaderDiv } from './style';
 import siteLogo from '../../../../assets/icons/sitelogo.png';
 import walletLogo from '../../../../assets/icons/walleticon.png';
 import { convertToEther } from '../../../../utils/helper';
@@ -20,12 +20,16 @@ const Header = () => {
 
 
     React.useEffect(() => {
-        //@ts-ignore
-        const walletConnect = JSON.parse(localStorage.getItem("walletConnected"));
-        setConnectWallet(walletConnect);
-        //@ts-ignore
-        const address = JSON.parse(localStorage.getItem("address"));
-        setWalletAddress(address);
+        try {
+            //@ts-ignore
+            const walletConnect = JSON.parse(localStorage.getItem("walletConnected"));
+            setConnectWallet(walletConnect);
+            //@ts-ignore
+            const address = JSON.parse(localStorage.getItem("address"));
+            setWalletAddress(address);
+        } catch(err : any) {
+            console.log(err)
+        }
 
     }, [connectWallet, setConnectWallet, walletConnectCheck]);
 
@@ -65,6 +69,7 @@ const Header = () => {
     }, [walletAddress, dispatch, chainId])
 
     return (
+        <HeaderDiv>
         <HeaderContainer>
             <div style={{ width: "100%" }}></div>
 
@@ -87,7 +92,8 @@ const Header = () => {
 
 
 
-        </HeaderContainer >
+            </HeaderContainer >
+            </HeaderDiv>
     );
 };
 

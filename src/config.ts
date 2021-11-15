@@ -1,15 +1,15 @@
 //config files
 
 export const walletTestConnectId =
-  "https://data-seed-prebsc-1-s1.binance.org:8545/";
+  "https://rpc-mumbai.maticvigil.com/";
 export const walletMainConnectId = "https://bsc-dataseed.binance.org/";
 
-export const networkTestChainId = "97";
+export const networkTestChainId = "80001";
 export const networkMainChainId = "56";
 
-export const ROUTER_ADDRESS = "0x01BE23585060835E02B77ef475b0Cc51aA1e0709";
+export const ROUTER_ADDRESS = "0x326C977E6efc84E512bB9C30f76E30c160eD06FB";
 export const FACTORY_ADDRESS = "";
 export const FARM_ADDRESS = "";
 
 export const PULSE_TOKEN_ADDRESS = "";
-export const BETTING_ADDRESS = "0x475e6894F5A826192f28c8297bD06cfC30090DF3";
+export const BETTING_ADDRESS = "0x054DAc777aB876F0E7b53ba026bb242C29d54621";

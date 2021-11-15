@@ -46,6 +46,10 @@ const Betting = () => {
   const [ResultRoll, setResultRoll] = useState("0");
   const [WinLooseMsg, setWinLooseMsg] = useState("")
   const [PlayerRoll, setPlayerRoll] = useState("0")
+  const [OnLoadMin, setOnLoadMin] = useState<any>();
+  const [OnLoadMax, setOnLoadMax] = useState<any>();
+  const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
+  
 
 
 
@@ -61,6 +65,25 @@ const Betting = () => {
     setBetAmount(convertToEther(MaxBet));   
   };
 
+  const OnLoadMinBet = async () => {
+    const MinBet = convertToEther(await MinBetAmount());
+    setOnLoadMin(MinBet);
+  }
+  const OnLoadMaxBet = async () => {
+    const MaxBet = convertToEther(await MaxBetAmount());
+    setOnLoadMax(MaxBet);
+  }
+
+  useEffect(() => {
+    if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
+      setBetRightOrNotAlert(true);
+    } else {
+      setBetRightOrNotAlert(false);
+    }
+  }, [BetAmount])
+
+
+
   const RangeValueChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
     const RangePercent = parseInt(e.currentTarget.value);
     if (RangePercent > 98) {
@@ -73,10 +96,8 @@ const Betting = () => {
     }
     };
     
-  const BetSetThroughInput = (e: any) => {
-    if (e.target.value <= 10) {
-      setBetAmount(Number(e.target.value));
-        } 
+  const BetSetThroughInput = async (e: any) => {
+      setBetAmount(e.target.value);
      
   }
   
@@ -85,10 +106,13 @@ const Betting = () => {
   const CallingPlaceBet = async () => {
     if (BetplacedLoading) {
       return;
+    } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
+      alert ("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED")
     } else {
       const myAddress: any = localStorage.getItem("address");
       const RollUnder: any = RangeValue + 1
       const BetId = await PlaceBet(JSON.parse(myAddress), BetAmount, RollUnder);
+      console.log(BetId);
       setPlacingBetId(BetId.events.LogBet.returnValues.BetID);
     }
   };
@@ -186,13 +210,18 @@ const Betting = () => {
                           setBetplacedLoading(true);
                           
                   
-                        });
+      });
+      console.log(RollDice);
       return RollDice;
+        
+
+
+
   }
   };
 
   console.log(ResultObject);
-
+  console.log(RollDice);
 
 
   useEffect(() => {
@@ -239,7 +268,9 @@ const Betting = () => {
                 console.log('websocket connected');
             });
           socket.on('betting', (data) => {
-            
+
+
+            console.log(data);
             setResultObject({
               Betid: data.BetID,
               Diceresult: data.DiceResult,
@@ -259,9 +290,12 @@ const Betting = () => {
         
   }, []);
 
+  
+
   const ResultPopupCloser = () => {
     setBetplacedLoading(false);
     setResultPopupDisplay('none');
+    
 
   }
   
@@ -269,16 +303,22 @@ const Betting = () => {
   useEffect(() => {
     ProfitCalculator();
     CheckAllowanceStatus();
+    
   });
+  useEffect(() => {
+    OnLoadMaxBet();
+    OnLoadMinBet();
+   
+  }, [])
 
   return (
     <BetBox>
       <BetMiddle>
         <FlexColumn>
           <H2 MarginBottom = '16px'>
-            BET AMOUNT | AVL BL: {walletBalance ? walletBalance : 0} PLS
+            BET AMOUNT | AVL BL  :  {walletBalance ? walletBalance : 0} PLS
           </H2>
-          <Flex MarginBottom="16px">
+          <Flex>
             <Chance
               value={BetAmount}
               onChange={(e) => BetSetThroughInput(e) }
@@ -293,6 +333,8 @@ const Betting = () => {
             </Flex>
           </Flex>
         </FlexColumn>
+        {BetRightOrNotAlert ?
+          <H2 style={{color:'red',padding:'0',margin:'0',fontSize:'12px'}}>Bet Amount Not Between The Minimum And Maximum Allowed</H2> : <H2 style={{zIndex:'-2',padding:'0',margin:'0',fontSize:'12px'}}>zzz</H2>}
         <FlexColumn>
           <H2 FontSize="16px">CHANCE OF WINNING</H2>
           <Flex>
@@ -318,7 +360,7 @@ const Betting = () => {
           </Flex>
         </FlexColumn>
         <Flex>
-          <H2 >ROLL UNDER </H2>
+          <H2 >ROLL Under </H2>
           <H1 FontSize="16px">
             {RangeValue + 1}
           </H1>
@@ -343,7 +385,7 @@ const Betting = () => {
          {ResultRoll}
         </PercentChance>
         <H1 style={{fontSize:'20px',color:'white'}}>{WinLooseMsg}</H1>
-        <H2 style={{fontSize:'18px',color:'#00EAFF'}}>Player NO. {PlayerRoll}</H2>
+        <H2 style={{fontSize:'18px',color:'#00EAFF'}}>Roll Under. {PlayerRoll}</H2>
         
       </BetResultPopup>
     </BetBox>

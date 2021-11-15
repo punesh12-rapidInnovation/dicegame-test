@@ -11,15 +11,17 @@ export const Landingdiv = styled.div`
 
 export const Beonediv = styled.div`
 background: url(${landingtop});
-height: 45vh;
+height: 55vh;
 width: 100%;
-background-position-x: center;
-background-position-y: center;
-background-size: cover;
+background-size: contain;
+background-repeat: no-repeat;
 background-color: #000;
 display: flex;
 justify-content: center;
 align-items:center;
+ background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 `
 export const Flexcol = styled.div`
 display: flex;
@@ -43,7 +45,7 @@ max-width: 400px;
 display: flex;
 justify-content: flex-end;
 align-items:center;
-
+transform: translatey(15%);
 
 >*{
     margin-right: 20%;
@@ -54,6 +56,7 @@ export const Beoneimg = styled.img`
 width: 250px;
 height: 250px;
 object-fit: contain;
+
 `
 
 export const H1 = styled.h1`
@@ -89,11 +92,6 @@ align-items: center;
 `
 
 export const Rankimg = styled.img`
-width: 70px;
-height: 55px;
-background: linear-gradient(90deg, rgba(239, 8, 150, 0.02) -6.9%, rgba(112, 7, 255, 0.02) 55.31%, rgba(0, 200, 255, 0.02) 107.28%);
-box-shadow: 0px 3px 5px rgba(23, 15, 24, 0.5), inset 0px 0px 14px rgba(202, 26, 231, 0.6);
-border-radius: 10px;
-padding: 10px 20px;
-
+width: 90px;
+height: 75px;
 `
