@@ -114,7 +114,7 @@ word-break: break-all;
 
 
 `
-export const Ownmsg = styled.div`
+export const OwnMsg = styled.div`
 background: linear-gradient(92.8deg, rgba(30, 232, 183, 0.8) 2.13%, rgba(172, 51, 191, 0.4) 102.29%);
 border-radius: 10px;
 border-bottom-right-radius:0;

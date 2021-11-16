@@ -18,6 +18,7 @@ const Header = () => {
 
     const [connectWallet, setConnectWallet] = useState(false);
     const [walletAddress, setWalletAddress] = useState('')
+    const [showWrongNetwork, setShowWrongNetwork] = useState(false)
 
 
     React.useEffect(() => {
@@ -25,13 +26,10 @@ const Header = () => {
             //@ts-ignore
             const walletConnect = JSON.parse(localStorage.getItem("walletConnected"));
             setConnectWallet(walletConnect);
-
             //@ts-ignore
             const address = JSON.parse(localStorage.getItem("address"));
             setWalletAddress(address);
             dispatch(Login(address));
-
-
         } catch (err: any) {
             console.log(err)
         }
@@ -66,7 +64,8 @@ const Header = () => {
                 }
                 const chainId = await web3.eth.getChainId();
                 dispatch(setChainIdValue(chainId));
-
+                if (chainId !== Number(networkTestChainId))
+                    setShowWrongNetwork(true)
 
             } catch (error) {
                 console.log(error);
@@ -104,7 +103,7 @@ const Header = () => {
                 </Walletcontainer>
             </HeaderContainer >
             <WrongNetwork
-                show={chainId !== Number(networkTestChainId)}
+                show={showWrongNetwork}
                 toggleModal={() => disconnectWallet()}
             >
             </WrongNetwork>

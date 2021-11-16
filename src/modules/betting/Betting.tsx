@@ -40,7 +40,6 @@ import { colors } from "shared/styles/theme";
 
 const Betting = () => {
 
-  
   const [RangeValue, setRangeValue] = useState<number>(1);
   const [BetAmount, setBetAmount] = useState<number>(0);
   const [Profit, setProfit] = useState<number>(0);
@@ -101,14 +100,14 @@ const Betting = () => {
       setRangeValue(RangePercent);
     }
   };
-    
+
   const BetSetThroughInput = async (e: any) => {
-      setBetAmount(e.target.value);
+    setBetAmount(e.target.value);
   }
 
   const OutFocusSetBetamount = () => {
     //@ts-ignore
-    if (BetAmount == "") {
+    if (BetAmount === "") {
       setBetAmount(0)
       console.log("set 0")
     }
@@ -164,8 +163,6 @@ const Betting = () => {
 
   const HandleAllowance = async () => {
     if (userAddress) {
-      console.log('userAddress', userAddress);
-
       //create instance of an abi to call any blockChain function
       const lpInstance = await selectInstances(
         instanceType.ERC20TOKEN, // type of instance
@@ -208,7 +205,8 @@ const Betting = () => {
     Rollunder: number
   ) => {
     //create instance of an abi to call any blockChain function
-    const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
+    // const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
+    const Ethervalue = convertToEther(Amount);
 
     const lpInstance = await selectInstances(
       instanceType.BETTING, // type of instance
@@ -242,9 +240,9 @@ const Betting = () => {
     }
   };
 
-  
- 
-    useEffect(() => {
+
+
+  useEffect(() => {
     if (PlacingBetId === undefined) {
       return;
     }
@@ -337,10 +335,10 @@ const Betting = () => {
   });
 
   useEffect(() => {
-    
+
     OnLoadMaxBet();
     OnLoadMinBet();
-   
+
   }, [BetAmount]);
 
   useEffect(() => {
@@ -348,7 +346,7 @@ const Betting = () => {
       OnLoadMaxBet();
       OnLoadMinBet();
       console.log("ran")
-      
+
     }, 5000);
   }, [ResultObject])
 
@@ -357,8 +355,8 @@ const Betting = () => {
     OnLoadMaxBet();
     OnLoadMinBet();
   }
-   
-, []);
+
+    , []);
 
   return (
     <BetBox>
@@ -373,7 +371,7 @@ const Betting = () => {
               onChange={(e) => BetSetThroughInput(e)}
               onBlur={OutFocusSetBetamount}
               type="number"
-              
+
             />
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
@@ -442,9 +440,9 @@ const Betting = () => {
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
-          <RollDice onClick={CallingPlaceBet}>{ButtonText()}</RollDice>
+          <PrimaryButton onClick={CallingPlaceBet}>{ButtonText()}</PrimaryButton>
         ) : (
-          <RollDice onClick={HandleAllowance}>Approve</RollDice>
+          <PrimaryButton onClick={HandleAllowance}>Approve</PrimaryButton>
         )}
       </BetBottom>
       {/* <BetResultPopup style={{ display: `${ResultPopupDisplay}` }}>
