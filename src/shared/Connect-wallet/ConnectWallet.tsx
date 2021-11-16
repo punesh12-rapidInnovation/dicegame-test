@@ -69,7 +69,7 @@ const ConnectWallet = (props: any) => {
           <AddressInfo onClick={() => setDisconnectWallet(true)}>
             {isNaN(walletBalance) || walletBalance === ""
               ? "0"
-              : parseFloat(walletBalance).toFixed(4)}
+              : parseFloat(walletBalance).toFixed(4)} PLS
           </AddressInfo>
         ) : (
           <ConnectWalletButton onClick={() => setShowModal(true)}>

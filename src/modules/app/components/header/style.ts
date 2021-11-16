@@ -10,7 +10,7 @@ width: 100%;
 
 
 export const HeaderContainer = styled.div`
-height: 10vh;
+height: 100px;
 width:100%;
 display: flex;
 justify-content: space-between;

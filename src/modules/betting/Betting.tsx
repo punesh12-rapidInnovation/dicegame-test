@@ -39,6 +39,8 @@ import { colors } from "shared/styles/theme";
 
 
 const Betting = () => {
+
+  
   const [RangeValue, setRangeValue] = useState<number>(1);
   const [BetAmount, setBetAmount] = useState<number>(0);
   const [Profit, setProfit] = useState<number>(0);
@@ -86,7 +88,7 @@ const Betting = () => {
     } else {
       setBetRightOrNotAlert(false);
     }
-  }, [BetAmount])
+  })
 
   const RangeValueChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
     const RangePercent = parseInt(e.currentTarget.value);
@@ -99,13 +101,18 @@ const Betting = () => {
       setRangeValue(RangePercent);
     }
   };
-
+    
   const BetSetThroughInput = async (e: any) => {
-    setBetAmount(e.target.value);
-
+      setBetAmount(e.target.value);
   }
 
-
+  const OutFocusSetBetamount = () => {
+    //@ts-ignore
+    if (BetAmount == "") {
+      setBetAmount(0)
+      console.log("set 0")
+    }
+  }
 
   const CallingPlaceBet = async () => {
     if (BetplacedLoading) {
@@ -235,9 +242,9 @@ const Betting = () => {
     }
   };
 
-
-
-  useEffect(() => {
+  
+ 
+    useEffect(() => {
     if (PlacingBetId === undefined) {
       return;
     }
@@ -248,7 +255,6 @@ const Betting = () => {
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
         setShowResultModal(true);
-
 
       } else if (ResultObject?.Status === '1') {
         setResultRoll(ResultObject?.Diceresult);
@@ -331,12 +337,28 @@ const Betting = () => {
   });
 
   useEffect(() => {
-    setTimeout(function () {
+    
+    OnLoadMaxBet();
+    OnLoadMinBet();
+   
+  }, [BetAmount]);
+
+  useEffect(() => {
+    setTimeout(() => {
       OnLoadMaxBet();
       OnLoadMinBet();
-    }, 3000);
-
+      console.log("ran")
+      
+    }, 5000);
   }, [ResultObject])
+
+
+  useEffect(() => {
+    OnLoadMaxBet();
+    OnLoadMinBet();
+  }
+   
+, []);
 
   return (
     <BetBox>
@@ -349,6 +371,9 @@ const Betting = () => {
             <Chance
               value={BetAmount}
               onChange={(e) => BetSetThroughInput(e)}
+              onBlur={OutFocusSetBetamount}
+              type="number"
+              
             />
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
@@ -399,7 +424,7 @@ const Betting = () => {
 
                 clipPath: "polygon(0% 0%, 100% 0%, 100% 85%, 55px 85%, 50% 100%, 45px 85%, 0px 85%)",
               }}>
-                Roll under {RangeValue} to get profit of +{Profit} PLS
+                Roll under {RangeValue} to get profit of +{Profit.toFixed(8)} PLS
               </div>
             </Flex>
           </Flex>
@@ -412,7 +437,7 @@ const Betting = () => {
         </Flex>
         <Flex>
           <H2 style={{ fontSize: '18px' }}>Profit </H2>
-          <H1 FontSize="18px">+{Profit} PLS</H1>
+          <H1 FontSize="18px">+{Profit.toFixed(8)} PLS</H1>
         </Flex>
       </BetMiddle>
       <BetBottom>

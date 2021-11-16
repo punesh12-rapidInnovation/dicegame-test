@@ -12,6 +12,7 @@ export const Landingdiv = styled.div`
 export const Beonediv = styled.div`
 background: url(${landingtop});
 height: 55vh;
+min-height: 500px;
 width: 100%;
 background-size: contain;
 background-repeat: no-repeat;
