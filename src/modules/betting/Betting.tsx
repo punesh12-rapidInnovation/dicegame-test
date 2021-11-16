@@ -89,8 +89,8 @@ const Betting = () => {
 
   const RangeValueChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
     const RangePercent = parseInt(e.currentTarget.value);
-    if (RangePercent > 98) {
-      setRangeValue(98);
+    if (RangePercent > 100) {
+      setRangeValue(100);
       console.log("greater");
     } else if (RangePercent < 1) {
       setRangeValue(1);
@@ -364,6 +364,8 @@ const Betting = () => {
                 width: "70%",
                 alignSelf:"flex-start",
                 marginTop:"20px",
+
+                position:"relative"
               }}
             >
               <Range
@@ -371,6 +373,20 @@ const Betting = () => {
                 value={RangeValue}
                 onChange={RangeValueChanger}
               ></Range>
+              <div style={{
+                position: "absolute",
+                width: "100px",
+                background: "#533964",
+                top: "-40px",
+                left: `${RangeValue}%`,
+                transform: 'translate(-50%,-50%)',
+                padding:"5px 5px 15px",
+                boxShadow: "inset 0px -3px 11px #00eaff",
+
+                clipPath: "polygon(0% 0%, 100% 0%, 100% 85%, 55px 85%, 50% 100%, 45px 85%, 0px 85%)",
+              }}>
+                Roll under {RangeValue} to get profit of +{Profit} PLS
+              </div>
             </Flex>
           </Flex>
         </FlexColumn>
