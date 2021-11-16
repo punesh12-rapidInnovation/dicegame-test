@@ -336,7 +336,6 @@ export const Range = styled.input`
   }
   &::-webkit-slider-runnable-track {
     background: ${props =>  {
-      console.log(props.value,100 - parseFloat(`${props.value}`));
       return parseFloat(`${props.value}`) >= 50 ? 
       `linear-gradient(to right, #6FCF97 ${props.value}%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)` 
       : 
