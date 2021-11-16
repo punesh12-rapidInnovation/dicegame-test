@@ -273,8 +273,8 @@ export const Chance = styled.input`
   :focus {
     outline: none;
   }
-  :-webkit-outer-spin-button,
-  :-webkit-inner-spin-button {
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }

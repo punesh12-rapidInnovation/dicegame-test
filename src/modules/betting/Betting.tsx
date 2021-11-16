@@ -34,6 +34,8 @@ import { ROUTER_ADDRESS } from "../../config";
 
 
 const Betting = () => {
+
+  
   const [RangeValue, setRangeValue] = useState<number>(1);
   const [BetAmount, setBetAmount] = useState<number>(0);
   const [Profit, setProfit] = useState<number>(0);
@@ -51,19 +53,16 @@ const Betting = () => {
   const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
   const [PlacingBet, setPlacingBet] = useState(false);
   
-
-
-
-    const { walletBalance } = useSelector((state: any) => state.wallet);
+  const { walletBalance } = useSelector((state: any) => state.wallet);
     
 
   const SetMinBetAmount = async () => {
     const MinBet = await MinBetAmount();
-    setBetAmount(convertToEther(MinBet));   
+    setBetAmount(convertToEther(MinBet));
   };
   const SetMaxBetAmount = async () => {
     const MaxBet = await MaxBetAmount();
-    setBetAmount(convertToEther(MaxBet));   
+    setBetAmount(convertToEther(MaxBet));
   };
 
   const OnLoadMinBet = async () => {
@@ -83,7 +82,7 @@ const Betting = () => {
     } else {
       setBetRightOrNotAlert(false);
     }
-  }, [BetAmount])
+  })
 
 
 
@@ -97,14 +96,19 @@ const Betting = () => {
     } else {
       setRangeValue(RangePercent);
     }
-    };
+  };
     
   const BetSetThroughInput = async (e: any) => {
       setBetAmount(e.target.value);
-     
   }
-  
-  
+
+  const OutFocusSetBetamount = () => {
+    //@ts-ignore
+    if (BetAmount == "") {
+      setBetAmount(0)
+      console.log("set 0")
+    }
+  }
 
   const CallingPlaceBet = async () => {
     if (BetplacedLoading) {
@@ -112,7 +116,7 @@ const Betting = () => {
     } else if (PlacingBet) {
       return;
     } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
-      alert ("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED")
+      alert("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED")
     } else {
       const myAddress: any = localStorage.getItem("address");
       const RollUnder: any = RangeValue + 1
@@ -129,85 +133,85 @@ const Betting = () => {
 
     const MultipliedBetAmount = BetAmount * 1e18;
     const ProfitInWei =
-     ((((((MultipliedBetAmount * (100 - RangeValue)) /RangeValue +MultipliedBetAmount)) * Houseedgeamount ) / Houseedgediviseramount) - MultipliedBetAmount) ;
+      ((((((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount)) * Houseedgeamount) / Houseedgediviseramount) - MultipliedBetAmount);
     
     const FinalProfit = ProfitInWei / 1e18;
     setProfit(FinalProfit)
     
-    };
+  };
     
 
   const CheckAllowanceStatus = async () => {
-      const myAddress: any = localStorage.getItem("address");
+    const myAddress: any = localStorage.getItem("address");
 
-      if (myAddress) {
-             const CheckAllowanceResult = await CheckAllowance(
-                  JSON.parse(myAddress),
-                  BETTING_ADDRESS
-              );
-              if (CheckAllowanceResult > 1 || CheckAllowanceResult === 1) {
-                  setUserAllowance(true);
-              } else {
-                  setUserAllowance(false);
-              }
-      } 
+    if (myAddress) {
+      const CheckAllowanceResult = await CheckAllowance(
+        JSON.parse(myAddress),
+        BETTING_ADDRESS
+      );
+      if (CheckAllowanceResult > 1 || CheckAllowanceResult === 1) {
+        setUserAllowance(true);
+      } else {
+        setUserAllowance(false);
+      }
+    }
           
   };
   const AccountAddress: any = localStorage.getItem("address");
 
-    const HandleAllowance = async () => {
-        const myAddress: any = localStorage.getItem("address");
-        if (myAddress) {
-            const OwnerAddress: string = JSON.parse(myAddress);
-            //create instance of an abi to call any blockChain function
-            const lpInstance = await selectInstances(
-                instanceType.ERC20TOKEN, // type of instance
-                ROUTER_ADDRESS //contract address
+  const HandleAllowance = async () => {
+    const myAddress: any = localStorage.getItem("address");
+    if (myAddress) {
+      const OwnerAddress: string = JSON.parse(myAddress);
+      //create instance of an abi to call any blockChain function
+      const lpInstance = await selectInstances(
+        instanceType.ERC20TOKEN, // type of instance
+        ROUTER_ADDRESS //contract address
 
-            );
+      );
             
-            if (true) {
-                const approvalAmount = ethers.constants.MaxUint256 //  Infinite number
-                const CheckAllowanceResult = await lpInstance.methods
-                    .approve(BETTING_ADDRESS, approvalAmount)
-                    .send({ from: OwnerAddress })
-                    .once('confirmation',
-                        function (receipt: any) {
+      if (true) {
+        const approvalAmount = ethers.constants.MaxUint256 //  Infinite number
+        const CheckAllowanceResult = await lpInstance.methods
+          .approve(BETTING_ADDRESS, approvalAmount)
+          .send({ from: OwnerAddress })
+          .once('confirmation',
+            function (receipt: any) {
                   
-                            setUserAllowance(true)
+              setUserAllowance(true)
                   
-                        });
+            });
       
-            }
-        } else {
-            alert("Connect wallet to place bet")
-        }
+      }
+    } else {
+      alert("Connect wallet to place bet")
+    }
   };
 
   const ButtonText = () => {
-     if (BetplacedLoading) {
+    if (BetplacedLoading) {
       return "Loading Result..."
-     } else if (PlacingBet) {
-       return "Placing Bet.."
+    } else if (PlacingBet) {
+      return "Placing Bet.."
 
-     }else {
+    } else {
       return "Roll Dice"
     }
 
   }
 
   const PlaceBet = async (
-  myAccount: string | null,
-  Amount: any,
-  Rollunder: number
-) => {
-  //create instance of an abi to call any blockChain function
-  const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
+    myAccount: string | null,
+    Amount: any,
+    Rollunder: number
+  ) => {
+    //create instance of an abi to call any blockChain function
+    const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
 
-  const lpInstance = await selectInstances(
-    instanceType.BETTING, // type of instance
-    BETTING_ADDRESS //contract address
-  );
+    const lpInstance = await selectInstances(
+      instanceType.BETTING, // type of instance
+      BETTING_ADDRESS //contract address
+    );
     if (true) {
       try {
         setPlacingBet(true);
@@ -230,15 +234,15 @@ const Betting = () => {
       } catch (error: any) {
         console.log(error);
         if (error.code === 4001) {
-          setPlacingBet(false); 
+          setPlacingBet(false);
         }
       }
     }
   };
 
-
-
-  useEffect(() => {
+  
+ 
+    useEffect(() => {
     if (PlacingBetId === undefined) {
       return;
     }
@@ -250,7 +254,7 @@ const Betting = () => {
         setResultPopupDisplay("flex");
 
         
-      }else if (ResultObject?.Status === '1') {
+      } else if (ResultObject?.Status === '1') {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("Hurray,You Won The Bet");
         setPlayerRoll(ResultObject?.Playernumber);
@@ -270,32 +274,32 @@ const Betting = () => {
   }, [ResultObject])
   
   useEffect(() => {
-        const socket = io('wss://diceroll.rapidinnovation.tech');
-        try {
-            socket.on('connection', () => {
-                // Replace event name with connection event name
-                console.log('websocket connected');
-            });
-          socket.on('betting', (data) => {
+    const socket = io('wss://diceroll.rapidinnovation.tech');
+    try {
+      socket.on('connection', () => {
+        // Replace event name with connection event name
+        console.log('websocket connected');
+      });
+      socket.on('betting', (data) => {
 
 
-            console.log(data);
-            setResultObject({
-              Betid: data.BetID,
-              Diceresult: data.DiceResult,
-              Playeraddress: data.PlayerAddress,
-              Playernumber: data.PlayerNumber,
-              Status: data.Status,
-              Value: data.Value
+        console.log(data);
+        setResultObject({
+          Betid: data.BetID,
+          Diceresult: data.DiceResult,
+          Playeraddress: data.PlayerAddress,
+          Playernumber: data.PlayerNumber,
+          Status: data.Status,
+          Value: data.Value
 
-            })
+        })
             
               
-            });
-        } catch (err) {
-            console.log('err', err);
+      });
+    } catch (err) {
+      console.log('err', err);
 
-        }
+    }
         
   }, []);
 
@@ -317,12 +321,28 @@ const Betting = () => {
   });
 
   useEffect(() => {
-    setTimeout(function () {
+    
+    OnLoadMaxBet();
+    OnLoadMinBet();
+   
+  }, [BetAmount]);
+
+  useEffect(() => {
+    setTimeout(() => {
       OnLoadMaxBet();
       OnLoadMinBet();
-    }, 3000);
-   
+      console.log("ran")
+      
+    }, 5000);
   }, [ResultObject])
+
+
+  useEffect(() => {
+    OnLoadMaxBet();
+    OnLoadMinBet();
+  }
+   
+, []);
 
   return (
     <BetBox>
@@ -334,7 +354,10 @@ const Betting = () => {
           <Flex>
             <Chance
               value={BetAmount}
-              onChange={(e) => BetSetThroughInput(e) }
+              onChange={(e) => BetSetThroughInput(e)}
+              onBlur={OutFocusSetBetamount}
+              type="number"
+              
             />
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
