@@ -6,14 +6,11 @@ const App = (props: any) => {
 
   return (
     <div>
-
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Routes />
       </ThemeProvider>
     </div>
-
-
   );
 }
 

@@ -9,6 +9,7 @@ import {
 	networkMainChainId,
 } from '../config';
 import { Login, setChainIdValue } from '../logic/action/wallet.action';
+import web3 from './web3';
 
 class Wallet {
 	web3: any;
@@ -274,5 +275,56 @@ class Wallet {
 		}
 	};
 }
+
+export const setupNetwork = async (dispatch: any, walletType: any) => {
+	const provider = await web3.currentProvider;
+	let hexChainId = `0x${networkTestChainId.toString(16)}`;
+
+	const data = [
+		{
+			chainId: hexChainId,
+			chainName: 'Polygon Testnet',
+			nativeCurrency: {
+				name: 'Matic',
+				symbol: 'Matic',
+				decimals: 18,
+			},
+			rpcUrls: [walletTestConnectId],
+			blockExplorerUrls: ['https://testnet.bscscan.com/'],
+		},
+	];
+
+	if (provider) {
+		try {
+			await provider.request({
+				method: 'wallet_switchEthereumChain',
+				params: [{ chainId: hexChainId }], // chainId must be in hexadecimal numbers
+			});
+			return true;
+		} catch (error: any) {
+			console.error(error);
+			//@ts-ignore
+			if (error.code === 4001) {
+				// dispatch(disconnect(walletType));
+			}
+			if (error.code === 4902) {
+				try {
+					await provider
+						.request({ method: 'wallet_addEthereumChain', params: data })
+						.catch();
+				} catch (error) {
+					console.error(error);
+				}
+			}
+
+			return false;
+		}
+	} else {
+		console.error(
+			"Can't setup the BSC network on metamask because window.ethereum is undefined"
+		);
+		return false;
+	}
+};
 
 export default new Wallet();

@@ -7,12 +7,8 @@ import {
 } from "./style";
 
 const CustomModal = (props: any) => {
-  const { show, toggleModal, borderRadius, heading, styles } =
+  const { show, toggleModal, heading, styles } =
     props;
-  // console.log(
-  //   "🚀 ~ file: CustomModal.tsx ~ line 14 ~ CustomModal ~ headIcon",
-  //   headIcon
-  // );
 
   const handleClickOutside = (e: any) => {
     if (e.target === e.currentTarget) {

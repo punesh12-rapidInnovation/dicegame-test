@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ethers } from "ethers";
 import web3 from "../../utils/web3";
 import { io } from "socket.io-client";
@@ -31,13 +31,13 @@ import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
 import { instanceType, selectInstances } from "../../utils/contracts";
 import { ROUTER_ADDRESS } from "../../config";
+import { setWalletBalance } from "logic/action/wallet.action";
 
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(1);
   const [BetAmount, setBetAmount] = useState<number>(0);
   const [Profit, setProfit] = useState<number>(0);
-  const [MyAddress, setMyAddress] = useState<any>();
   const [UserAllowance, setUserAllowance] = useState(false);
   const [BetplacedLoading, setBetplacedLoading] = useState(false);
   const [PlacingBetId, setPlacingBetId] = useState();
@@ -50,20 +50,18 @@ const Betting = () => {
   const [OnLoadMax, setOnLoadMax] = useState<any>();
   const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
   const [PlacingBet, setPlacingBet] = useState(false);
-  
 
 
-
-    const { walletBalance } = useSelector((state: any) => state.wallet);
-    
+  const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
+  const dispatch = useDispatch()
 
   const SetMinBetAmount = async () => {
     const MinBet = await MinBetAmount();
-    setBetAmount(convertToEther(MinBet));   
+    setBetAmount(convertToEther(MinBet));
   };
   const SetMaxBetAmount = async () => {
     const MaxBet = await MaxBetAmount();
-    setBetAmount(convertToEther(MaxBet));   
+    setBetAmount(convertToEther(MaxBet));
   };
 
   const OnLoadMinBet = async () => {
@@ -85,8 +83,6 @@ const Betting = () => {
     }
   }, [BetAmount])
 
-
-
   const RangeValueChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
     const RangePercent = parseInt(e.currentTarget.value);
     if (RangePercent > 98) {
@@ -97,14 +93,14 @@ const Betting = () => {
     } else {
       setRangeValue(RangePercent);
     }
-    };
-    
+  };
+
   const BetSetThroughInput = async (e: any) => {
-      setBetAmount(e.target.value);
-     
+    setBetAmount(e.target.value);
+
   }
-  
-  
+
+
 
   const CallingPlaceBet = async () => {
     if (BetplacedLoading) {
@@ -112,13 +108,14 @@ const Betting = () => {
     } else if (PlacingBet) {
       return;
     } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
-      alert ("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED")
+      alert("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED")
     } else {
-      const myAddress: any = localStorage.getItem("address");
-      const RollUnder: any = RangeValue + 1
-      const BetId = await PlaceBet(JSON.parse(myAddress), BetAmount, RollUnder);
-      console.log(BetId);
-      setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
+      if (userAddress) {
+        const RollUnder: any = RangeValue + 1
+        const BetId = await PlaceBet(userAddress, BetAmount, RollUnder);
+        console.log(BetId);
+        setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
+      }
     }
   };
 
@@ -129,85 +126,82 @@ const Betting = () => {
 
     const MultipliedBetAmount = BetAmount * 1e18;
     const ProfitInWei =
-     ((((((MultipliedBetAmount * (100 - RangeValue)) /RangeValue +MultipliedBetAmount)) * Houseedgeamount ) / Houseedgediviseramount) - MultipliedBetAmount) ;
-    
+      ((((((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount)) * Houseedgeamount) / Houseedgediviseramount) - MultipliedBetAmount);
+
     const FinalProfit = ProfitInWei / 1e18;
     setProfit(FinalProfit)
-    
-    };
-    
+
+  };
+
 
   const CheckAllowanceStatus = async () => {
-      const myAddress: any = localStorage.getItem("address");
+    if (userAddress) {
+      const CheckAllowanceResult = await CheckAllowance(
+        userAddress,
+        BETTING_ADDRESS
+      );
+      if (CheckAllowanceResult > 1 || CheckAllowanceResult === 1) {
+        setUserAllowance(true);
+      } else {
+        setUserAllowance(false);
+      }
+    }
 
-      if (myAddress) {
-             const CheckAllowanceResult = await CheckAllowance(
-                  JSON.parse(myAddress),
-                  BETTING_ADDRESS
-              );
-              if (CheckAllowanceResult > 1 || CheckAllowanceResult === 1) {
-                  setUserAllowance(true);
-              } else {
-                  setUserAllowance(false);
-              }
-      } 
-          
   };
-  const AccountAddress: any = localStorage.getItem("address");
+  // const AccountAddress: any = localStorage.getItem("address");
 
-    const HandleAllowance = async () => {
-        const myAddress: any = localStorage.getItem("address");
-        if (myAddress) {
-            const OwnerAddress: string = JSON.parse(myAddress);
-            //create instance of an abi to call any blockChain function
-            const lpInstance = await selectInstances(
-                instanceType.ERC20TOKEN, // type of instance
-                ROUTER_ADDRESS //contract address
+  const HandleAllowance = async () => {
+    if (userAddress) {
+      console.log('userAddress', userAddress);
 
-            );
-            
-            if (true) {
-                const approvalAmount = ethers.constants.MaxUint256 //  Infinite number
-                const CheckAllowanceResult = await lpInstance.methods
-                    .approve(BETTING_ADDRESS, approvalAmount)
-                    .send({ from: OwnerAddress })
-                    .once('confirmation',
-                        function (receipt: any) {
-                  
-                            setUserAllowance(true)
-                  
-                        });
-      
-            }
-        } else {
-            alert("Connect wallet to place bet")
-        }
+      //create instance of an abi to call any blockChain function
+      const lpInstance = await selectInstances(
+        instanceType.ERC20TOKEN, // type of instance
+        ROUTER_ADDRESS //contract address
+
+      );
+
+      if (true) {
+        const approvalAmount = ethers.constants.MaxUint256 //  Infinite number
+        await lpInstance.methods
+          .approve(BETTING_ADDRESS, approvalAmount)
+          .send({
+            from: userAddress
+          })
+          .once('confirmation', function (receipt: any) {
+            setUserAllowance(true)
+          });
+
+      }
+    } else {
+      alert("Connect wallet to place bet")
+    }
   };
 
   const ButtonText = () => {
-     if (BetplacedLoading) {
+    if (BetplacedLoading) {
       return "Loading Result..."
-     } else if (PlacingBet) {
-       return "Placing Bet.."
+    } else if (PlacingBet) {
+      return "Placing Bet.."
 
-     }else {
+    } else {
       return "Roll Dice"
     }
 
   }
 
   const PlaceBet = async (
-  myAccount: string | null,
-  Amount: any,
-  Rollunder: number
-) => {
-  //create instance of an abi to call any blockChain function
-  const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
+    myAccount: string | null,
+    Amount: any,
+    Rollunder: number
+  ) => {
+    //create instance of an abi to call any blockChain function
+    const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
 
-  const lpInstance = await selectInstances(
-    instanceType.BETTING, // type of instance
-    BETTING_ADDRESS //contract address
-  );
+    const lpInstance = await selectInstances(
+      instanceType.BETTING, // type of instance
+      BETTING_ADDRESS //contract address
+    );
     if (true) {
       try {
         setPlacingBet(true);
@@ -218,19 +212,19 @@ const Betting = () => {
           function (receipt: any) {
             setPlacingBet(false);
             setBetplacedLoading(true);
-                          
-                  
+
+
           });
         console.log(RollDice);
         return RollDice;
-        
+
 
 
 
       } catch (error: any) {
         console.log(error);
         if (error.code === 4001) {
-          setPlacingBet(false); 
+          setPlacingBet(false);
         }
       }
     }
@@ -249,14 +243,14 @@ const Betting = () => {
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
 
-        
-      }else if (ResultObject?.Status === '1') {
+
+      } else if (ResultObject?.Status === '1') {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("Hurray,You Won The Bet");
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
 
-        
+
       } else {
         console.log('unhandled result')
       }
@@ -264,56 +258,69 @@ const Betting = () => {
       console.log("not our result")
       console.log(ResultObject?.Betid)
     }
-    
-
-    
   }, [ResultObject])
-  
+
+
   useEffect(() => {
-        const socket = io('wss://diceroll.rapidinnovation.tech');
-        try {
-            socket.on('connection', () => {
-                // Replace event name with connection event name
-                console.log('websocket connected');
-            });
-          socket.on('betting', (data) => {
-
-
-            console.log(data);
-            setResultObject({
-              Betid: data.BetID,
-              Diceresult: data.DiceResult,
-              Playeraddress: data.PlayerAddress,
-              Playernumber: data.PlayerNumber,
-              Status: data.Status,
-              Value: data.Value
-
-            })
-            
-              
-            });
-        } catch (err) {
-            console.log('err', err);
-
+    const getWalletBalance = async () => {
+      try {
+        if (userAddress) {
+          const balance = await web3.eth.getBalance(userAddress);
+          dispatch(setWalletBalance(convertToEther(balance)));
         }
-        
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getWalletBalance()
+  }, [userAddress, ResultPopupDisplay])
+
+
+  useEffect(() => {
+    const socket = io('wss://diceroll.rapidinnovation.tech');
+    try {
+      socket.on('connection', () => {
+        // Replace event name with connection event name
+        console.log('websocket connected');
+      });
+      socket.on('betting', (data) => {
+
+
+        console.log(data);
+        setResultObject({
+          Betid: data.BetID,
+          Diceresult: data.DiceResult,
+          Playeraddress: data.PlayerAddress,
+          Playernumber: data.PlayerNumber,
+          Status: data.Status,
+          Value: data.Value
+
+        })
+
+
+      });
+    } catch (err) {
+      console.log('err', err);
+
+    }
+
   }, []);
 
-  
+
 
   const ResultPopupCloser = () => {
     setPlacingBet(false);
     setBetplacedLoading(false);
     setResultPopupDisplay('none');
-    
+
 
   }
-  
+
 
   useEffect(() => {
     ProfitCalculator();
     CheckAllowanceStatus();
-    
+
   });
 
   useEffect(() => {
@@ -321,20 +328,20 @@ const Betting = () => {
       OnLoadMaxBet();
       OnLoadMinBet();
     }, 3000);
-   
+
   }, [ResultObject])
 
   return (
     <BetBox>
       <BetMiddle>
         <FlexColumn>
-          <H2 MarginBottom = '16px'>
+          <H2 MarginBottom='16px'>
             BET AMOUNT | AVL BL  :  {walletBalance ? walletBalance : 0} PLS
           </H2>
           <Flex>
             <Chance
               value={BetAmount}
-              onChange={(e) => BetSetThroughInput(e) }
+              onChange={(e) => BetSetThroughInput(e)}
             />
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
@@ -347,7 +354,7 @@ const Betting = () => {
           </Flex>
         </FlexColumn>
         {BetRightOrNotAlert ?
-          <H2 style={{color:'red',padding:'0',margin:'0',fontSize:'12px'}}>Bet Amount Not Between The Minimum And Maximum Allowed</H2> : <H2 style={{zIndex:'-2',padding:'0',margin:'0',fontSize:'12px'}}>zzz</H2>}
+          <H2 style={{ color: 'red', padding: '0', margin: '0', fontSize: '12px' }}>Bet Amount Not Between The Minimum And Maximum Allowed</H2> : <H2 style={{ zIndex: '-2', padding: '0', margin: '0', fontSize: '12px' }}>zzz</H2>}
         <FlexColumn>
           <H2 FontSize="16px">CHANCE OF WINNING</H2>
           <Flex>
@@ -355,15 +362,15 @@ const Betting = () => {
               <PercentChance MarginBottom="12px">
                 {RangeValue}%
               </PercentChance>
-              <H2 FontSize="14px" style={{fontWeight:'600'}}>Min Chance</H2>
+              <H2 FontSize="14px" style={{ fontWeight: '600' }}>Min Chance</H2>
             </FlexColumn>
             <Flex
               style={{
                 justifyContent: "center",
                 alignItems: "center",
                 width: "70%",
-                alignSelf:"flex-start",
-                marginTop:"20px",
+                alignSelf: "flex-start",
+                marginTop: "20px",
               }}
             >
               <Range
@@ -374,34 +381,34 @@ const Betting = () => {
             </Flex>
           </Flex>
         </FlexColumn>
-        <Flex style={{marginTop:"10px"}}>
-          <H2 style={{fontSize:'18px'}} >Roll Under </H2>
+        <Flex style={{ marginTop: "10px" }}>
+          <H2 style={{ fontSize: '18px' }} >Roll Under </H2>
           <H1 FontSize="18px">
             {RangeValue + 1}
           </H1>
         </Flex>
         <Flex>
-          <H2 style={{fontSize:'18px'}}>Profit </H2>
+          <H2 style={{ fontSize: '18px' }}>Profit </H2>
           <H1 FontSize="18px">+{Profit} PLS</H1>
         </Flex>
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
           <RollDice onClick={CallingPlaceBet}>{ButtonText()}</RollDice>
-              ) : (
+        ) : (
           <RollDice onClick={HandleAllowance}>Approve</RollDice>
         )}
       </BetBottom>
       <BetResultPopup style={{ display: `${ResultPopupDisplay}` }}>
-        <Crossimg onClick={ResultPopupCloser}  src={Cross} alt="" />
-        <H1 style={{fontSize:'20px',color:'white'}}>Your Roll</H1>
-        <H2 style={{ fontSize: '20px', color: 'white', marginBottom: '16px' }}>{AccountAddress}</H2>
-        <PercentChance style={{width:'150px',height:'80px',fontSize:'40px',marginBottom:'31px',color:'#00EAFF',border: '0.558333px solid #F5B849',backgroundColor:'transparent',borderRadius:'8px'}}>
-         {ResultRoll}
+        <Crossimg onClick={ResultPopupCloser} src={Cross} alt="" />
+        <H1 style={{ fontSize: '20px', color: 'white' }}>Your Roll</H1>
+        <H2 style={{ fontSize: '20px', color: 'white', marginBottom: '16px' }}>{userAddress}</H2>
+        <PercentChance style={{ width: '150px', height: '80px', fontSize: '40px', marginBottom: '31px', color: '#00EAFF', border: '0.558333px solid #F5B849', backgroundColor: 'transparent', borderRadius: '8px' }}>
+          {ResultRoll}
         </PercentChance>
-        <H1 style={{fontSize:'20px',color:'white'}}>{WinLooseMsg}</H1>
-        <H2 style={{fontSize:'18px',color:'#00EAFF'}}>Roll Under. {PlayerRoll}</H2>
-        
+        <H1 style={{ fontSize: '20px', color: 'white' }}>{WinLooseMsg}</H1>
+        <H2 style={{ fontSize: '18px', color: '#00EAFF' }}>Roll Under. {PlayerRoll}</H2>
+
       </BetResultPopup>
     </BetBox>
   );
