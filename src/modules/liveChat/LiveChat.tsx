@@ -11,7 +11,6 @@ import {
     Input,
     Button,
     PopupModal,
-    Ownmsg,
     Messagediv,
     InputParent,
     Betbox,
@@ -25,7 +24,8 @@ import {
     H1,
     Chance,
     Range,
-    Transchance
+    Transchance,
+    OwnMsg
 
 
 } from './style'
@@ -91,9 +91,6 @@ const LiveChat = (props: any) => {
         finally {
             setInputMessage('')
         }
-
-
-
     }
 
     const handleInputMessage = (e: any) => {
@@ -101,15 +98,15 @@ const LiveChat = (props: any) => {
         setInputMessage(value)
     }
 
-    const renderchat = () => {
+    const renderChat = () => {
         return messages.map((m: any, index: any) => (
             m.username === userAddress ?
-                <Ownmsg key={index}
+                <OwnMsg key={index}
                 >
                     <h1 style={{ fontSize: '11px' }}>
                         {m.content}
                     </h1>
-                </Ownmsg>
+                </OwnMsg>
                 :
                 <Messagediv key={index}>
                     <h1 style={{ fontSize: '11px' }}>
@@ -128,7 +125,7 @@ const LiveChat = (props: any) => {
                     <ChatTopdiv><div style={{ textAlign: 'left' }}> <h3 style={{ fontSize: '14px' }}>GLOBAL CHAT</h3>
                         <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 PLAYING</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
                     <ChatMiddlediv>
-                        {renderchat()}
+                        {renderChat()}
                     </ChatMiddlediv>
                     <InputParent>
                         <Input
@@ -137,7 +134,7 @@ const LiveChat = (props: any) => {
                             style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
                         <Button
                             onClick={() => { sendTOAPI() }}
-                            disabled={userAddress === '' || inputMessage === ''}
+                            disabled={userAddress === '' || userAddress === null || inputMessage === ''}
 
                         >
                         </Button>

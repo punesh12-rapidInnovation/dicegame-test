@@ -1,10 +1,11 @@
-import * as React from "react";
 import {
   ModalBody,
   ModalContent,
   ModelHead,
   Close,
 } from "./style";
+import Cross from 'assets/icons/Cross.svg';
+
 
 const CustomModal = (props: any) => {
   const { show, toggleModal, heading, styles } =
@@ -24,16 +25,16 @@ const CustomModal = (props: any) => {
     >
       <ModalContent>
         <ModelHead>
-          <h2>
-            {heading}
-          </h2>
+
+          <h2>{heading}</h2>
           <Close
+            src={Cross}
             onClick={() => toggleModal(!show)}
           />
         </ModelHead>
         {props.children}
       </ModalContent>
-    </ModalBody>
+    </ModalBody >
   );
 };
 export default CustomModal;

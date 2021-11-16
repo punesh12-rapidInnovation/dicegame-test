@@ -17,7 +17,8 @@ import {
   TransChance,
   PercentChance,
   BetResultPopup,
-  Crossimg
+  Crossimg,
+  BetResult
 } from "./style";
 import {
   MinBetAmount,
@@ -32,11 +33,13 @@ import { BETTING_ADDRESS } from "../../config";
 import { instanceType, selectInstances } from "../../utils/contracts";
 import { ROUTER_ADDRESS } from "../../config";
 import { setWalletBalance } from "logic/action/wallet.action";
+import CustomModal from "shared/custom-modal";
+import { PrimaryButton } from "shared/button/Button";
+import { colors } from "shared/styles/theme";
 
 
 const Betting = () => {
 
-  
   const [RangeValue, setRangeValue] = useState<number>(1);
   const [BetAmount, setBetAmount] = useState<number>(0);
   const [Profit, setProfit] = useState<number>(0);
@@ -45,6 +48,7 @@ const Betting = () => {
   const [PlacingBetId, setPlacingBetId] = useState();
   const [ResultObject, setResultObject] = useState<any>()
   const [ResultPopupDisplay, setResultPopupDisplay] = useState<string>("none")
+  const [showResultModal, setShowResultModal] = useState(false)
   const [ResultRoll, setResultRoll] = useState("0");
   const [WinLooseMsg, setWinLooseMsg] = useState("")
   const [PlayerRoll, setPlayerRoll] = useState("0")
@@ -96,14 +100,14 @@ const Betting = () => {
       setRangeValue(RangePercent);
     }
   };
-    
+
   const BetSetThroughInput = async (e: any) => {
-      setBetAmount(e.target.value);
+    setBetAmount(e.target.value);
   }
 
   const OutFocusSetBetamount = () => {
     //@ts-ignore
-    if (BetAmount == "") {
+    if (BetAmount === "") {
       setBetAmount(0)
       console.log("set 0")
     }
@@ -159,8 +163,6 @@ const Betting = () => {
 
   const HandleAllowance = async () => {
     if (userAddress) {
-      console.log('userAddress', userAddress);
-
       //create instance of an abi to call any blockChain function
       const lpInstance = await selectInstances(
         instanceType.ERC20TOKEN, // type of instance
@@ -203,7 +205,8 @@ const Betting = () => {
     Rollunder: number
   ) => {
     //create instance of an abi to call any blockChain function
-    const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
+    // const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
+    const Ethervalue = convertToEther(Amount);
 
     const lpInstance = await selectInstances(
       instanceType.BETTING, // type of instance
@@ -237,9 +240,9 @@ const Betting = () => {
     }
   };
 
-  
- 
-    useEffect(() => {
+
+
+  useEffect(() => {
     if (PlacingBetId === undefined) {
       return;
     }
@@ -249,12 +252,15 @@ const Betting = () => {
         setWinLooseMsg("You Lost The Bet,Better Luck Next Time");
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
+        setShowResultModal(true);
 
       } else if (ResultObject?.Status === '1') {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("Hurray,You Won The Bet");
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
+        setShowResultModal(true);
+
 
 
       } else {
@@ -318,8 +324,7 @@ const Betting = () => {
     setPlacingBet(false);
     setBetplacedLoading(false);
     setResultPopupDisplay('none');
-
-
+    setShowResultModal(false);
   }
 
 
@@ -330,10 +335,10 @@ const Betting = () => {
   });
 
   useEffect(() => {
-    
+
     OnLoadMaxBet();
     OnLoadMinBet();
-   
+
   }, [BetAmount]);
 
   useEffect(() => {
@@ -341,7 +346,7 @@ const Betting = () => {
       OnLoadMaxBet();
       OnLoadMinBet();
       console.log("ran")
-      
+
     }, 5000);
   }, [ResultObject])
 
@@ -350,8 +355,8 @@ const Betting = () => {
     OnLoadMaxBet();
     OnLoadMinBet();
   }
-   
-, []);
+
+    , []);
 
   return (
     <BetBox>
@@ -366,7 +371,7 @@ const Betting = () => {
               onChange={(e) => BetSetThroughInput(e)}
               onBlur={OutFocusSetBetamount}
               type="number"
-              
+
             />
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
@@ -435,12 +440,12 @@ const Betting = () => {
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
-          <RollDice onClick={CallingPlaceBet}>{ButtonText()}</RollDice>
+          <PrimaryButton onClick={CallingPlaceBet}>{ButtonText()}</PrimaryButton>
         ) : (
-          <RollDice onClick={HandleAllowance}>Approve</RollDice>
+          <PrimaryButton onClick={HandleAllowance}>Approve</PrimaryButton>
         )}
       </BetBottom>
-      <BetResultPopup style={{ display: `${ResultPopupDisplay}` }}>
+      {/* <BetResultPopup style={{ display: `${ResultPopupDisplay}` }}>
         <Crossimg onClick={ResultPopupCloser} src={Cross} alt="" />
         <H1 style={{ fontSize: '20px', color: 'white' }}>Your Roll</H1>
         <H2 style={{ fontSize: '20px', color: 'white', marginBottom: '16px' }}>{userAddress}</H2>
@@ -449,8 +454,34 @@ const Betting = () => {
         </PercentChance>
         <H1 style={{ fontSize: '20px', color: 'white' }}>{WinLooseMsg}</H1>
         <H2 style={{ fontSize: '18px', color: '#00EAFF' }}>Roll Under. {PlayerRoll}</H2>
-
       </BetResultPopup>
+
+ */}
+
+
+      <CustomModal
+        // show={true}
+        show={showResultModal}
+        toggleModal={() => ResultPopupCloser()}
+        heading="Your Roll"
+      >
+        <BetResult>
+          <H2
+            color={colors.white}
+          >{userAddress}</H2>
+          <PercentChance
+            fontSize='40px'
+            width="150px"
+            MarginBottom="30px"
+          >
+            {ResultRoll}
+          </PercentChance>
+          <H1
+            color={colors.white}
+          >{WinLooseMsg}</H1>
+          <H2>Roll Under. {PlayerRoll}</H2>
+        </BetResult>
+      </CustomModal>
     </BetBox>
   );
 };
