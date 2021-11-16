@@ -4,7 +4,7 @@ export const walletTestConnectId =
   "https://rpc-mumbai.maticvigil.com/";
 export const walletMainConnectId = "https://bsc-dataseed.binance.org/";
 
-export const networkTestChainId = "80001";
+export const networkTestChainId = 80001;
 export const networkMainChainId = "56";
 
 export const ROUTER_ADDRESS = "0x326C977E6efc84E512bB9C30f76E30c160eD06FB";
