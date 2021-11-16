@@ -91,8 +91,8 @@ const Betting = () => {
 
   const RangeValueChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
     const RangePercent = parseInt(e.currentTarget.value);
-    if (RangePercent > 99) {
-      setRangeValue(99);
+    if (RangePercent > 98) {
+      setRangeValue(98);
       console.log("greater");
     } else if (RangePercent < 1) {
       setRangeValue(1);
@@ -430,7 +430,7 @@ const Betting = () => {
         <Flex style={{ marginTop: "10px" }}>
           <H2 style={{ fontSize: '18px' }} >Roll Under </H2>
           <H1 FontSize="18px">
-            {RangeValue - 1}
+            {RangeValue + 1}
           </H1>
         </Flex>
         <Flex>
