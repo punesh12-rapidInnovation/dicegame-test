@@ -378,7 +378,7 @@ const Betting = () => {
           </Flex>
         </FlexColumn>
         <Flex style={{marginTop:"10px"}}>
-          <H2 >ROLL UNDER </H2>
+          <H2 >Roll Under </H2>
           <H1 FontSize="16px">
             {RangeValue + 1}
           </H1>
