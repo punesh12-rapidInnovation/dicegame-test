@@ -7,10 +7,12 @@ interface ModalBodyProps {
 export const ModelHead = styled.div`
 	color: ${colors.primary};
 	display: flex;
-	justify-content: space-between;
+	justify-content:space-between;
+	align-items:center;
+	background:red;
 	margin-bottom: 10px;
-
 	h2 {
+
 		font-weight: 600;
 		font-size: 16px;
 		line-height: 25px;

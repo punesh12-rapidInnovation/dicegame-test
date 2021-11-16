@@ -63,11 +63,11 @@ const Header = () => {
                     const address = walletAddress.toString()
                     const balance = await web3.eth.getBalance(address);
                     dispatch(setWalletBalance(convertToEther(balance)));
-
-                    const chainId = await web3.eth.getChainId();
-                    dispatch(setChainIdValue(chainId));
-
                 }
+                const chainId = await web3.eth.getChainId();
+                dispatch(setChainIdValue(chainId));
+
+
             } catch (error) {
                 console.log(error);
             }
@@ -76,7 +76,7 @@ const Header = () => {
     }, [walletAddress, dispatch, chainId])
 
     const disconnectWallet = async () => {
-        await web3.disconnect();
+        // await web3.disconnect();
         localStorage.clear();
         dispatch(walletConnectCheck(false));
         window.location.reload();

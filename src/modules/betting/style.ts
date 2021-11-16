@@ -230,14 +230,17 @@ export const RollDice = styled.button`
 `;
 
 export const H2 = styled.h2<any>`
-  font-size: ${props => props.FontSize || '15px'};
-  margin-bottom: ${props => props.MarginBottom || '14px'};
+  font-size: ${props => props.FontSize ? props.FontSize : '15px'};
+  margin-bottom: ${props => props.MarginBottom ? props.MarginBottom : '14px'};
   font-weight: 600;
+  color: ${props => props.color ? props.color : '#00eaff'};
+
 `;
 export const H1 = styled.h2<any>`
-  font-size: ${props => props.FontSize || '18px'};
+  font-size: ${props => props.FontSize ? props.FontSize : '18px'};
   margin-bottom: 14px;
-  color: #00eaff;
+
+
 `;
 
 export const FlexColumn = styled.div<any>`
@@ -280,19 +283,20 @@ export const Chance = styled.input`
   }
 `;
 export const PercentChance = styled.div<any>`
-  font-size: 18px;
+  font-size: ${props => props.FontSize ? props.FontSize : '18px'};
   background: white;
   padding: 10px;
   border-radius: 6px;
   color: rgba(112, 7, 255, 1);
-  width: 60px;
+  width: ${props => props.width ? props.width : '60px'};
+
   font-weight: 700;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-bottom: ${props => props.MarginBottom || '0'};;
+  margin-bottom: ${props => props.MarginBottom ? props.MarginBottom : '0'};;
 `;
 
 export const TransChance = styled.button`
@@ -334,12 +338,12 @@ export const Range = styled.input`
     margin-top: -10px;
   }
   &::-webkit-slider-runnable-track {
-    background: ${props =>  {
-      return parseFloat(`${props.value}`) >= 50 ? 
-      `linear-gradient(to right, #6FCF97 ${props.value}%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)` 
-      : 
+    background: ${props => {
+    return parseFloat(`${props.value}`) >= 50 ?
+      `linear-gradient(to right, #6FCF97 ${props.value}%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)`
+      :
       `linear-gradient(to left, #EB5757 ${100 - parseFloat(`${props.value}`)}%, #6FCF97 ${props.value}%)`
-    } };
+  }};
     height: 15px;
     border-radius: 10px;
     width: 100%;
@@ -396,4 +400,11 @@ position: absolute;
 top: 20px;
 right: 20px;
 cursor: pointer;
+`
+
+export const BetResult = styled.div`
+display:flex;
+flex-direction: column;
+justify-content:center;
+align-items: center;
 `
