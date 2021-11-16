@@ -45,6 +45,7 @@ background-image: url(${Chatsection});
 background-position: center;
 background-size: cover;
 height: 80vh;
+min-height: 700px;
 width: 100%;
 display: flex;
 justify-content:center;

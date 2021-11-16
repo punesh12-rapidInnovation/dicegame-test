@@ -127,13 +127,13 @@ const Betting = () => {
     const Houseedgeamount = parseInt(await HouseEdge());
     const Houseedgediviseramount = parseInt(await HouseEdgeDiviser());
 
-    const Profit =
-      (((BetAmount * (100 - RangeValue)) / RangeValue + BetAmount) *
-        Houseedgeamount) /
-        Houseedgediviseramount -
-      BetAmount;
-    const showingProfit = (Math.round(Profit * 100) / 100).toFixed(5);
-    setProfit(parseFloat(showingProfit));
+    const MultipliedBetAmount = BetAmount * 1e18;
+    const ProfitInWei =
+     ((((((MultipliedBetAmount * (100 - RangeValue)) /RangeValue +MultipliedBetAmount)) * Houseedgeamount ) / Houseedgediviseramount) - MultipliedBetAmount) ;
+    
+    const FinalProfit = ProfitInWei / 1e18;
+    setProfit(FinalProfit)
+    
     };
     
 

@@ -263,7 +263,7 @@ export const Chance = styled.input`
   padding: 10px;
   border-radius: 6px;
   color: rgba(112, 7, 255, 1);
-  width: 70px;
+  width: 90px;
   font-weight: 700;
   border: none;
   display: flex;
