@@ -9,7 +9,6 @@ export const ModelHead = styled.div`
 	display: flex;
 	justify-content:space-between;
 	align-items:center;
-	background:red;
 	margin-bottom: 10px;
 	h2 {
 

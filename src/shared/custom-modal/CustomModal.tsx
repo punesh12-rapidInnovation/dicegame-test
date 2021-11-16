@@ -25,18 +25,8 @@ const CustomModal = (props: any) => {
     >
       <ModalContent>
         <ModelHead>
-          <span
-            style={{ width: '100%' }}
-          >
-            <h2>{heading}</h2>
-          </span>
-          <span
-            style={{ width: '100%' }}
 
-          >
-            <h2>{heading}</h2>
-          </span>
-
+          <h2>{heading}</h2>
           <Close
             src={Cross}
             onClick={() => toggleModal(!show)}

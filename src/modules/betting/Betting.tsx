@@ -437,8 +437,8 @@ const Betting = () => {
 
 
       <CustomModal
-        show={true}
-        // show={showResultModal}
+        // show={true}
+        show={showResultModal}
         toggleModal={() => ResultPopupCloser()}
         heading="Your Roll"
       >
