@@ -146,7 +146,7 @@ const LiveChat = (props: any) => {
 
     return (
         <GlobalChatSection>
-            <Box style={{ height: '75%', width: '90%', maxWidth: '1500px',minWidth:'1000px',minHeight:'550px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Box style={{ height: '75%',minHeight:'500px', width: '90%', maxWidth: '1500px',minWidth:'1000px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Betting/>
                 <ChatBox style={{ height: '85%', width: '45%', position: 'relative' }}>
 

@@ -262,7 +262,7 @@ export const Chance = styled.input`
   padding: 10px;
   border-radius: 6px;
   color: rgba(112, 7, 255, 1);
-  width: 70px;
+  width: 90px;
   font-weight: 700;
   border: none;
   display: flex;
@@ -335,7 +335,6 @@ export const Range = styled.input`
   }
   &::-webkit-slider-runnable-track {
     background: ${props =>  {
-      console.log(props.value,100 - parseFloat(`${props.value}`));
       return parseFloat(`${props.value}`) >= 50 ? 
       `linear-gradient(to right, #6FCF97 ${props.value}%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)` 
       : 

@@ -49,6 +49,7 @@ const Betting = () => {
   const [OnLoadMin, setOnLoadMin] = useState<any>();
   const [OnLoadMax, setOnLoadMax] = useState<any>();
   const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
+  const [PlacingBet, setPlacingBet] = useState(false);
   
 
 
@@ -68,10 +69,12 @@ const Betting = () => {
   const OnLoadMinBet = async () => {
     const MinBet = convertToEther(await MinBetAmount());
     setOnLoadMin(MinBet);
+    console.log(MinBet);
   }
   const OnLoadMaxBet = async () => {
     const MaxBet = convertToEther(await MaxBetAmount());
     setOnLoadMax(MaxBet);
+    console.log(MaxBet);
   }
 
   useEffect(() => {
@@ -106,6 +109,8 @@ const Betting = () => {
   const CallingPlaceBet = async () => {
     if (BetplacedLoading) {
       return;
+    } else if (PlacingBet) {
+      return;
     } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
       alert ("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED")
     } else {
@@ -113,23 +118,22 @@ const Betting = () => {
       const RollUnder: any = RangeValue + 1
       const BetId = await PlaceBet(JSON.parse(myAddress), BetAmount, RollUnder);
       console.log(BetId);
-      setPlacingBetId(BetId.events.LogBet.returnValues.BetID);
+      setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
     }
   };
 
-  console.log(PlacingBetId);
 
   const ProfitCalculator = async () => {
     const Houseedgeamount = parseInt(await HouseEdge());
     const Houseedgediviseramount = parseInt(await HouseEdgeDiviser());
 
-    const Profit =
-      (((BetAmount * (100 - RangeValue)) / RangeValue + BetAmount) *
-        Houseedgeamount) /
-        Houseedgediviseramount -
-      BetAmount;
-    const showingProfit = (Math.round(Profit * 100) / 100).toFixed(5);
-    setProfit(parseFloat(showingProfit));
+    const MultipliedBetAmount = BetAmount * 1e18;
+    const ProfitInWei =
+     ((((((MultipliedBetAmount * (100 - RangeValue)) /RangeValue +MultipliedBetAmount)) * Houseedgeamount ) / Houseedgediviseramount) - MultipliedBetAmount) ;
+    
+    const FinalProfit = ProfitInWei / 1e18;
+    setProfit(FinalProfit)
+    
     };
     
 
@@ -183,7 +187,10 @@ const Betting = () => {
   const ButtonText = () => {
      if (BetplacedLoading) {
       return "Loading Result..."
-    } else {
+     } else if (PlacingBet) {
+       return "Placing Bet.."
+
+     }else {
       return "Roll Dice"
     }
 
@@ -202,26 +209,33 @@ const Betting = () => {
     BETTING_ADDRESS //contract address
   );
     if (true) {
-    const RollDice = await lpInstance.methods.playerRollDice(Rollunder).send({
-      from: myAccount,
-      value: Ethervalue,
-    }).once('confirmation',
-      function (receipt: any) {
-                          setBetplacedLoading(true);
+      try {
+        setPlacingBet(true);
+        const RollDice = await lpInstance.methods.playerRollDice(Rollunder).send({
+          from: myAccount,
+          value: Ethervalue,
+        }).once('confirmation',
+          function (receipt: any) {
+            setPlacingBet(false);
+            setBetplacedLoading(true);
                           
                   
-      });
-      console.log(RollDice);
-      return RollDice;
+          });
+        console.log(RollDice);
+        return RollDice;
         
 
 
 
-  }
+      } catch (error: any) {
+        console.log(error);
+        if (error.code === 4001) {
+          setPlacingBet(false); 
+        }
+      }
+    }
   };
 
-  console.log(ResultObject);
-  console.log(RollDice);
 
 
   useEffect(() => {
@@ -229,8 +243,6 @@ const Betting = () => {
       return;
     }
     else if (PlacingBetId === ResultObject?.Betid) {
-      console.log("result is ours")
-      console.log(typeof PlacingBetId, typeof ResultObject?.Betid)
       if (ResultObject?.Status === '0') {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("You Lost The Bet,Better Luck Next Time");
@@ -256,9 +268,6 @@ const Betting = () => {
 
     
   }, [ResultObject])
-
-  
-
   
   useEffect(() => {
         const socket = io('wss://diceroll.rapidinnovation.tech');
@@ -293,6 +302,7 @@ const Betting = () => {
   
 
   const ResultPopupCloser = () => {
+    setPlacingBet(false);
     setBetplacedLoading(false);
     setResultPopupDisplay('none');
     
@@ -305,11 +315,14 @@ const Betting = () => {
     CheckAllowanceStatus();
     
   });
+
   useEffect(() => {
-    OnLoadMaxBet();
-    OnLoadMinBet();
+    setTimeout(function () {
+      OnLoadMaxBet();
+      OnLoadMinBet();
+    }, 3000);
    
-  }, [])
+  }, [ResultObject])
 
   return (
     <BetBox>
@@ -342,7 +355,7 @@ const Betting = () => {
               <PercentChance MarginBottom="12px">
                 {RangeValue}%
               </PercentChance>
-              <H2 FontSize="14px">Min Chance</H2>
+              <H2 FontSize="14px" style={{fontWeight:'600'}}>Min Chance</H2>
             </FlexColumn>
             <Flex
               style={{
@@ -378,14 +391,14 @@ const Betting = () => {
           </Flex>
         </FlexColumn>
         <Flex style={{marginTop:"10px"}}>
-          <H2 >Roll Under </H2>
-          <H1 FontSize="16px">
+          <H2 style={{fontSize:'18px'}} >Roll Under </H2>
+          <H1 FontSize="18px">
             {RangeValue + 1}
           </H1>
         </Flex>
         <Flex>
-          <H2>Profit </H2>
-          <H1 FontSize="16px">+{Profit} PLS</H1>
+          <H2 style={{fontSize:'18px'}}>Profit </H2>
+          <H1 FontSize="18px">+{Profit} PLS</H1>
         </Flex>
       </BetMiddle>
       <BetBottom>
