@@ -205,8 +205,8 @@ const Betting = () => {
     Rollunder: number
   ) => {
     //create instance of an abi to call any blockChain function
-    // const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
-    const Ethervalue = convertToEther(Amount);
+    const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
+    // const Ethervalue = convertToEther(Amount);
 
     const lpInstance = await selectInstances(
       instanceType.BETTING, // type of instance
