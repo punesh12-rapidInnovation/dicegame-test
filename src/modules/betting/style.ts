@@ -209,7 +209,6 @@ export const BetBottom = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  margin-top: 30px;
 `;
 
 export const RollDice = styled.button`
