@@ -36,6 +36,7 @@ import { setWalletBalance } from "logic/action/wallet.action";
 import CustomModal from "shared/custom-modal";
 import { PrimaryButton } from "shared/button/Button";
 import { colors } from "shared/styles/theme";
+import { floatNumRegex } from "shared/helpers/regrexConstants";
 
 
 const Betting = () => {
@@ -105,8 +106,11 @@ const Betting = () => {
     }
   };
 
-  const BetSetThroughInput = async (e: any) => {
-    setBetAmount(e.target.value);
+  const BetSetThroughInput = (e: any) => {
+    const { value } = e.target
+    if (floatNumRegex.test(value.toString())) {
+      setBetAmount(e.target.value);
+    }
   }
 
   const OutFocusSetBetamount = () => {
@@ -120,7 +124,7 @@ const Betting = () => {
   const CallingPlaceBet = async () => {
     if (BetAmount === 0) {
       window.alert("BetAmount cannot be 0");
-    }else if (BetplacedLoading) {
+    } else if (BetplacedLoading) {
       return;
     } else if (PlacingBet) {
       return;
@@ -228,8 +232,6 @@ const Betting = () => {
           function (receipt: any) {
             setPlacingBet(false);
             setBetplacedLoading(true);
-
-
           });
         console.log(RollDice);
         return RollDice;
@@ -362,7 +364,7 @@ const Betting = () => {
   }, [ResultObject])
 
 
-  
+
   return (
     <BetBox>
       <BetMiddle>
@@ -373,10 +375,8 @@ const Betting = () => {
           <Flex>
             <Chance
               value={BetAmount}
-              onChange={(e) => BetSetThroughInput(e)}
+              onChange={BetSetThroughInput}
               onBlur={OutFocusSetBetamount}
-              type="number"
-
             />
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
@@ -465,8 +465,8 @@ const Betting = () => {
 
 
       <CustomModal
-        // show={true}
-        show={showResultModal}
+        show={true}
+        // show={showResultModal}
         toggleModal={() => ResultPopupCloser()}
         heading="Your Roll"
       >

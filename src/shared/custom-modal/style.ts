@@ -10,8 +10,11 @@ export const ModelHead = styled.div`
 	justify-content:space-between;
 	align-items:center;
 	margin-bottom: 10px;
-	h2 {
 
+	h2 {
+		flex-grow:1;
+		text-align:center;
+		padding-left:40px;
 		font-weight: 600;
 		font-size: 16px;
 		line-height: 25px;
