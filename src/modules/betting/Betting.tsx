@@ -42,7 +42,7 @@ import { floatNumRegex } from "shared/helpers/regrexConstants";
 const Betting = () => {
 
   const [RangeValue, setRangeValue] = useState<number>(1);
-  const [BetAmount, setBetAmount] = useState<number>(0);
+  const [BetAmount, setBetAmount] = useState<any>("");
   const [Profit, setProfit] = useState<number>(0);
   const [UserAllowance, setUserAllowance] = useState(false);
   const [BetplacedLoading, setBetplacedLoading] = useState(false);
@@ -61,10 +61,10 @@ const Betting = () => {
 
   window.onbeforeunload = function () {
     if (PlacingBet) {
-      return "Leaving this page will reset the wizard"; 
+      return "Leaving this page will reset the wizard";
     }
-    
-};
+
+  };
 
 
 
@@ -91,7 +91,7 @@ const Betting = () => {
     console.log(MaxBet);
   }
 
-  
+
 
   useEffect(() => {
     if (BetAmount === 0) {
@@ -121,6 +121,10 @@ const Betting = () => {
     if (floatNumRegex.test(value.toString())) {
       setBetAmount(e.target.value);
     }
+    else
+      setBetAmount("");
+
+
   }
 
   const OutFocusSetBetamount = () => {
@@ -131,13 +135,13 @@ const Betting = () => {
     }
   }
 
-  
+
   const CallingPlaceBet = async () => {
     if (localStorage.getItem("Loading") === 'true') {
       return;
     } else if (PlacingBet) {
       return;
-      
+
     } else if (BetAmount === 0) {
       window.alert("BetAmount cannot be 0");
       return;
@@ -148,7 +152,7 @@ const Betting = () => {
         console.log(BetId);
         setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
         localStorage.setItem('PlacingBetId', BetId?.events.LogBet.returnValues.BetID);
-        
+
 
       }
     }
@@ -191,7 +195,6 @@ const Betting = () => {
       const lpInstance = await selectInstances(
         instanceType.ERC20TOKEN, // type of instance
         ROUTER_ADDRESS //contract address
-
       );
 
       if (true) {
@@ -395,6 +398,7 @@ const Betting = () => {
   }, [ResultObject])
 
 
+  console.log('BetAmount', BetAmount);
 
   return (
     <BetBox>
@@ -405,6 +409,8 @@ const Betting = () => {
           </H2>
           <Flex>
             <Chance
+              // placeholder="0"
+              // value={!!BetAmount ? BetAmount : ""}
               value={BetAmount}
               onChange={BetSetThroughInput}
               onBlur={OutFocusSetBetamount}
