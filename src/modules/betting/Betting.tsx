@@ -135,7 +135,6 @@ const Betting = () => {
         console.log(BetId);
         setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
         localStorage.setItem('PlacingBetId', BetId?.events.LogBet.returnValues.BetID);
-        localStorage.setItem('Loading', 'true');
         
 
       }
