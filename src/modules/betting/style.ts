@@ -309,7 +309,7 @@ export const TransChance = styled.button`
   font-size: 14px;
   border-radius: 6px;
   color: rgba(0, 234, 255, 1);
-  /*width: 45px;*/
+  width: 45px;
   flex-grow:1;
   margin-right:10px;
   font-weight: 500;

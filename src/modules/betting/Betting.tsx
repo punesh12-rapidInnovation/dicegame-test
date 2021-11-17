@@ -59,14 +59,14 @@ const Betting = () => {
   const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
   const [PlacingBet, setPlacingBet] = useState(false);
 
+
+
   window.onbeforeunload = function () {
     if (PlacingBet) {
       return "Leaving this page will reset the wizard";
     }
 
   };
-
-
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch()
@@ -402,6 +402,7 @@ const Betting = () => {
   }, [ResultObject])
 
 
+
   return (
     <BetBox>
       <BetMiddle>
@@ -418,9 +419,21 @@ const Betting = () => {
             />
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
-              <TransChance onClick={() => setBetAmount(5)}>5</TransChance>
-              <TransChance onClick={() => setBetAmount(6)}>6</TransChance>
-              <TransChance onClick={() => setBetAmount(10)}>10</TransChance>
+              <TransChance onClick={() => setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 6)}>
+                {
+                  OnLoadMin && OnLoadMax ? (((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(4)) : "-"
+                }
+              </TransChance>
+              <TransChance onClick={() => setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 4)}>
+                {
+                  OnLoadMin && OnLoadMax ? (((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(4)) : "-"
+                }
+              </TransChance>
+              <TransChance onClick={() => setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 2)}>
+                {
+                  OnLoadMin && OnLoadMax ? (((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(4)) : "-"
+                }
+              </TransChance>
 
               <TransChance onClick={SetMaxBetAmount}>MAX</TransChance>
             </Flex>
@@ -484,7 +497,9 @@ const Betting = () => {
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
-          <PrimaryButton onClick={() => CallingPlaceBet()}>{ButtonText()}</PrimaryButton>
+          <PrimaryButton
+
+            onClick={() => CallingPlaceBet()}>{ButtonText()}</PrimaryButton>
         ) : (
           <PrimaryButton onClick={HandleAllowance}>Approve</PrimaryButton>
         )}
