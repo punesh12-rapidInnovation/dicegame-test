@@ -61,6 +61,7 @@ border-radius: 0px 0px 20px 20px;
 box-shadow: 0px 3px 5px rgba(23, 15, 24, 0.5), inset 0px 0px 14px rgba(202, 26, 231, 0.6);
 border: none;
 padding-left: 20px;
+padding-right: 70px;
 display: flex;
 justify-content: space-between;
 align-items: center;

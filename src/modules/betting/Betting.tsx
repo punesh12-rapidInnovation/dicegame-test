@@ -106,7 +106,9 @@ const Betting = () => {
   };
 
   const BetSetThroughInput = async (e: any) => {
-    setBetAmount(e.target.value);
+   
+      setBetAmount(e.target.value);
+    
   }
 
   const OutFocusSetBetamount = () => {
