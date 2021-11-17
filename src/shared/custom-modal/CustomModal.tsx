@@ -25,7 +25,6 @@ const CustomModal = (props: any) => {
     >
       <ModalContent>
         <ModelHead>
-
           <h2>{heading}</h2>
           <Close
             src={Cross}

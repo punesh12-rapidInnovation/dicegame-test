@@ -36,6 +36,7 @@ import { setWalletBalance } from "logic/action/wallet.action";
 import CustomModal from "shared/custom-modal";
 import { PrimaryButton } from "shared/button/Button";
 import { colors } from "shared/styles/theme";
+import { floatNumRegex } from "shared/helpers/regrexConstants";
 
 
 const Betting = () => {
@@ -107,10 +108,11 @@ const Betting = () => {
     }
   };
 
-  const BetSetThroughInput = async (e: any) => {
-   
+  const BetSetThroughInput = (e: any) => {
+    const { value } = e.target
+    if (floatNumRegex.test(value.toString())) {
       setBetAmount(e.target.value);
-    
+    }
   }
 
   const OutFocusSetBetamount = () => {
@@ -124,11 +126,7 @@ const Betting = () => {
   const CallingPlaceBet = async () => {
     if (BetAmount === 0) {
       window.alert("BetAmount cannot be 0");
-    }else if (localStorage.getItem("Loading") === 'true') {
       return;
-    } else if (PlacingBet) {
-      return;
-    } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
       alert("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED")
     } else {
       if (userAddress) {
@@ -216,11 +214,11 @@ const Betting = () => {
   const SliderFollower = () => {
     if (RangeValue > 90) {
       return RangeValue - 10;
-      
+
     } else {
       return RangeValue;
-      
-    } 
+
+    }
   }
 
   const PlaceBet = async (
@@ -385,7 +383,7 @@ const Betting = () => {
   }, [ResultObject])
 
 
-  
+
   return (
     <BetBox>
       <BetMiddle>
@@ -396,10 +394,8 @@ const Betting = () => {
           <Flex>
             <Chance
               value={BetAmount}
-              onChange={(e) => BetSetThroughInput(e)}
+              onChange={BetSetThroughInput}
               onBlur={OutFocusSetBetamount}
-              type="number"
-
             />
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
@@ -440,7 +436,8 @@ const Betting = () => {
               ></Range>
               <div style={{
                 position: "absolute",
-                width: "100px",
+                textAlign: "center",
+                width: "150px",
                 background: "#533964",
                 bottom: "-100px",
                 left: `${SliderFollower()}%`,
@@ -449,7 +446,8 @@ const Betting = () => {
                 boxShadow: "inset 0px -3px 11px #00eaff",
                 clipPath: "polygon(60% 15%, 100% 15%, 100% 100%, 0 100%, 0 15%, 40% 15%, 50% 0)",
               }}>
-                Roll under {RangeValue + 1} to get profit of +{Profit.toFixed(6)} PLS
+                Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span> to get profit
+                of <span style={{ color: colors.primary }}>+{Profit.toFixed(8)} PLS</span>
               </div>
             </Flex>
           </Flex>
@@ -467,9 +465,9 @@ const Betting = () => {
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
-          <RollDice onClick={() => CallingPlaceBet()}>{ButtonText()}</RollDice>
+          <PrimaryButton onClick={() => CallingPlaceBet()}>{ButtonText()}</PrimaryButton>
         ) : (
-          <RollDice onClick={HandleAllowance}>Approve</RollDice>
+          <PrimaryButton onClick={HandleAllowance}>Approve</PrimaryButton>
         )}
       </BetBottom>
       {/* <BetResultPopup style={{ display: `${ResultPopupDisplay}` }}>
