@@ -436,7 +436,7 @@ const Betting = () => {
                 boxShadow: "inset 0px -3px 11px #00eaff",
                 clipPath: "polygon(60% 15%, 100% 15%, 100% 100%, 0 100%, 0 15%, 40% 15%, 50% 0)",
               }}>
-                Roll under {RangeValue + 1} to get profit of +{Profit.toFixed(8)} PLS
+                Roll under {RangeValue + 1} to get profit of +{Profit.toFixed(6)} PLS
               </div>
             </Flex>
           </Flex>
