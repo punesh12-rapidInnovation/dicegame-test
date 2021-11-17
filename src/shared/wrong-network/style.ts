@@ -7,7 +7,7 @@ interface ModalBodyProps {
 export const ModelHead = styled.div`
 	color: ${colors.primary};
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	margin-bottom: 10px;
 
 	h2 {
@@ -113,6 +113,7 @@ export const InnerContent = styled.div`
 display: flex;
 justify-content:center;
 align-items: center;
+margin:60px 0 0 0;
 
 p{
 color: ${colors.white};

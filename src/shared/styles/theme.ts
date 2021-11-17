@@ -6,6 +6,8 @@ export interface Colors {
 	themeBackground: string;
 	black: string;
 	white: string;
+	green: string;
+	red: string;
 	primary: string;
 
 }
@@ -14,6 +16,8 @@ export const colors: Colors = {
 	themeBackground: '#000',
 	black: '#000000',
 	white: '#ffffff',
+	green: '#6FCF97',
+	red: '#EB5757',
 	primary: '#00EAFF',
 };
 
@@ -27,6 +31,8 @@ export interface ThemeStarter {
 export const theme: ThemeStarter = {
 	black: colors.black,
 	white: colors.white,
+	green: colors.green,
+	red: colors.red,
 	themeBackground: colors.themeBackground,
 };
 

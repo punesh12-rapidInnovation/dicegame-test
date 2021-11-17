@@ -7,6 +7,7 @@ import {
   InnerContent,
 } from "./style";
 import Cross from 'assets/icons/Cross.svg';
+import { PrimaryButton } from "shared/button/Button";
 
 
 const WrongNetwork = (props: any) => {
@@ -46,9 +47,9 @@ const WrongNetwork = (props: any) => {
         </ModelHead>
 
         <InnerContent>
-          <p
+          <PrimaryButton
             onClick={() => handleSwitchNetwork()}
-          >Change network</p>
+          >Change network</PrimaryButton>
         </InnerContent>
       </ModalContent>
     </ModalBody>

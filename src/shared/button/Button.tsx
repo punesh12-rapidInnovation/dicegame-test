@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const RollDice = styled.button`
+export const PrimaryButton = styled.button`
   width: 100%;
   padding: 17px;
   cursor: pointer;
@@ -18,11 +18,4 @@ const RollDice = styled.button`
   border: none;
 `;
 
-export const PrimaryButton = (props: any) => {
-    return (
-        <RollDice>
-            {props.children}
-        </RollDice>
-    )
-}
 
