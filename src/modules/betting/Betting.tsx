@@ -82,7 +82,10 @@ const Betting = () => {
   }
 
   useEffect(() => {
-    if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
+    if (BetAmount === 0) {
+      setBetRightOrNotAlert(false);
+    }
+    else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
       setBetRightOrNotAlert(true);
     } else {
       setBetRightOrNotAlert(false);
@@ -114,7 +117,9 @@ const Betting = () => {
   }
 
   const CallingPlaceBet = async () => {
-    if (BetplacedLoading) {
+    if (BetAmount === 0) {
+      window.alert("BetAmount cannot be 0");
+    }else if (BetplacedLoading) {
       return;
     } else if (PlacingBet) {
       return;
@@ -351,13 +356,7 @@ const Betting = () => {
   }, [ResultObject])
 
 
-  useEffect(() => {
-    OnLoadMaxBet();
-    OnLoadMinBet();
-  }
-
-    , []);
-
+  
   return (
     <BetBox>
       <BetMiddle>
