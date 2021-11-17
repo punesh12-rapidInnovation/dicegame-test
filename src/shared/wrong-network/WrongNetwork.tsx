@@ -25,7 +25,7 @@ const WrongNetwork = (props: any) => {
     const walletType = localStorage.getItem('walletType');
     // const web3 = await getWeb3Instance(walletType)
     await setupNetwork(dispatch, walletType)
-    // window.location.reload()
+    window.location.reload()
   }
 
   return (

@@ -440,9 +440,9 @@ const Betting = () => {
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
-          <PrimaryButton onClick={CallingPlaceBet}>{ButtonText()}</PrimaryButton>
+          <RollDice onClick={() => CallingPlaceBet()}>{ButtonText()}</RollDice>
         ) : (
-          <PrimaryButton onClick={HandleAllowance}>Approve</PrimaryButton>
+          <RollDice onClick={HandleAllowance}>Approve</RollDice>
         )}
       </BetBottom>
       {/* <BetResultPopup style={{ display: `${ResultPopupDisplay}` }}>
