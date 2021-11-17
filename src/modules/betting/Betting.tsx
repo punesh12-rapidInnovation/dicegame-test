@@ -437,7 +437,7 @@ const Betting = () => {
               <div style={{
                 position: "absolute",
                 textAlign: "center",
-                width: "150px",
+                width: "120px",
                 background: "#533964",
                 bottom: "-100px",
                 left: `${SliderFollower()}%`,
