@@ -82,6 +82,8 @@ const Betting = () => {
     console.log(MaxBet);
   }
 
+  
+
   useEffect(() => {
     if (BetAmount === 0) {
       setBetRightOrNotAlert(false);
@@ -122,7 +124,7 @@ const Betting = () => {
   const CallingPlaceBet = async () => {
     if (BetAmount === 0) {
       window.alert("BetAmount cannot be 0");
-    }else if (BetplacedLoading) {
+    }else if (localStorage.getItem("Loading") === 'true') {
       return;
     } else if (PlacingBet) {
       return;
@@ -134,6 +136,10 @@ const Betting = () => {
         const BetId = await PlaceBet(userAddress, BetAmount, RollUnder);
         console.log(BetId);
         setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
+        localStorage.setItem('PlacingBetId', BetId?.events.LogBet.returnValues.BetID);
+        localStorage.setItem('Loading', 'true');
+        
+
       }
     }
   };
@@ -196,7 +202,7 @@ const Betting = () => {
   };
 
   const ButtonText = () => {
-    if (BetplacedLoading) {
+    if (localStorage.getItem("Loading") === 'true') {
       return "Loading Result..."
     } else if (PlacingBet) {
       return "Placing Bet.."
@@ -240,6 +246,7 @@ const Betting = () => {
           function (receipt: any) {
             setPlacingBet(false);
             setBetplacedLoading(true);
+            localStorage.setItem("Loading", 'true');
 
 
           });
@@ -253,7 +260,7 @@ const Betting = () => {
         if (error.code === 4001) {
           setPlacingBet(false);
         } else {
-          setBetplacedLoading(false);
+          localStorage.setItem("Loading", 'false');
         }
       }
     }
@@ -262,10 +269,12 @@ const Betting = () => {
 
 
   useEffect(() => {
-    if (PlacingBetId === undefined) {
+    const LocalBetIt = localStorage.getItem("PlacingBetId");
+    console.log(LocalBetIt);
+    if (LocalBetIt === undefined) {
       return;
     }
-    else if (PlacingBetId === ResultObject?.Betid) {
+    else if (LocalBetIt === ResultObject?.Betid) {
       if (ResultObject?.Status === '0') {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("You Lost The Bet,Better Luck Next Time");
@@ -273,6 +282,7 @@ const Betting = () => {
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
         setShowResultModal(true);
+        localStorage.setItem('Loading', 'false');
 
       } else if (ResultObject?.Status === '1') {
         setResultRoll(ResultObject?.Diceresult);
@@ -282,6 +292,7 @@ const Betting = () => {
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
         setShowResultModal(true);
+        localStorage.setItem('Loading', 'false');
 
 
 
@@ -344,7 +355,7 @@ const Betting = () => {
 
   const ResultPopupCloser = () => {
     setPlacingBet(false);
-    setBetplacedLoading(false);
+    localStorage.setItem("Loading", 'false');
     setResultPopupDisplay('none');
     setShowResultModal(false);
     setwin(false)
