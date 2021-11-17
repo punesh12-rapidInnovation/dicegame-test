@@ -59,6 +59,14 @@ const Betting = () => {
   const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
   const [PlacingBet, setPlacingBet] = useState(false);
 
+  window.onbeforeunload = function () {
+    if (PlacingBet) {
+      return "Leaving this page will reset the wizard"; 
+    }
+    
+};
+
+
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch()
@@ -123,15 +131,15 @@ const Betting = () => {
     }
   }
 
+  
   const CallingPlaceBet = async () => {
-    if (BetAmount === 0) {
-      window.alert("BetAmount cannot be 0");
+    if (localStorage.getItem("Loading") === 'true') {
       return;
-      alert("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED")
     } else if (PlacingBet) {
       return;
       
-    } else if (localStorage.getItem("Loading") === 'true') {
+    } else if (BetAmount === 0) {
+      window.alert("BetAmount cannot be 0");
       return;
     } else {
       if (userAddress) {
