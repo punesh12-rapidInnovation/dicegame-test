@@ -128,6 +128,11 @@ const Betting = () => {
       window.alert("BetAmount cannot be 0");
       return;
       alert("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED")
+    } else if (PlacingBet) {
+      return;
+      
+    } else if (localStorage.getItem("Loading") === 'true') {
+      return;
     } else {
       if (userAddress) {
         const RollUnder: any = RangeValue + 1
