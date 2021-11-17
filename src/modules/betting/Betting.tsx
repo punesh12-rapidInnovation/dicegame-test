@@ -83,7 +83,10 @@ const Betting = () => {
   }
 
   useEffect(() => {
-    if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
+    if (BetAmount === 0) {
+      setBetRightOrNotAlert(false);
+    }
+    else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
       setBetRightOrNotAlert(true);
     } else {
       setBetRightOrNotAlert(false);
@@ -115,7 +118,9 @@ const Betting = () => {
   }
 
   const CallingPlaceBet = async () => {
-    if (BetplacedLoading) {
+    if (BetAmount === 0) {
+      window.alert("BetAmount cannot be 0");
+    }else if (BetplacedLoading) {
       return;
     } else if (PlacingBet) {
       return;
@@ -233,9 +238,10 @@ const Betting = () => {
 
 
       } catch (error: any) {
-        console.log(error);
         if (error.code === 4001) {
           setPlacingBet(false);
+        } else {
+          setBetplacedLoading(false);
         }
       }
     }
@@ -356,13 +362,7 @@ const Betting = () => {
   }, [ResultObject])
 
 
-  useEffect(() => {
-    OnLoadMaxBet();
-    OnLoadMinBet();
-  }
-
-    , []);
-
+  
   return (
     <BetBox>
       <BetMiddle>
@@ -417,7 +417,7 @@ const Betting = () => {
               ></Range>
               <div style={{
                 position: "absolute",
-                width: "100px",
+                width: "150px",
                 background: "#533964",
                 top: "-40px",
                 left: `${RangeValue}%`,
@@ -427,7 +427,7 @@ const Betting = () => {
 
                 clipPath: "polygon(0% 0%, 100% 0%, 100% 85%, 55px 85%, 50% 100%, 45px 85%, 0px 85%)",
               }}>
-                Roll under {RangeValue} to get profit of +{Profit.toFixed(8)} PLS
+                Roll under {RangeValue + 1} to get profit of +{Profit.toFixed(8)} PLS
               </div>
             </Flex>
           </Flex>
