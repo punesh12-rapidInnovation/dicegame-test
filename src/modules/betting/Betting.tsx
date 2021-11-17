@@ -204,6 +204,16 @@ const Betting = () => {
 
   }
 
+  const SliderFollower = () => {
+    if (RangeValue > 90) {
+      return RangeValue - 10;
+      
+    } else {
+      return RangeValue;
+      
+    } 
+  }
+
   const PlaceBet = async (
     myAccount: string | null,
     Amount: any,
@@ -412,15 +422,14 @@ const Betting = () => {
               ></Range>
               <div style={{
                 position: "absolute",
-                width: "150px",
+                width: "100px",
                 background: "#533964",
-                top: "-40px",
-                left: `${RangeValue}%`,
+                bottom: "-100px",
+                left: `${SliderFollower()}%`,
                 transform: 'translate(-50%,-50%)',
-                padding: "5px 5px 15px",
+                padding: "10px",
                 boxShadow: "inset 0px -3px 11px #00eaff",
-
-                clipPath: "polygon(0% 0%, 100% 0%, 100% 85%, 55px 85%, 50% 100%, 45px 85%, 0px 85%)",
+                clipPath: "polygon(60% 15%, 100% 15%, 100% 100%, 0 100%, 0 15%, 40% 15%, 50% 0)",
               }}>
                 Roll under {RangeValue + 1} to get profit of +{Profit.toFixed(8)} PLS
               </div>
