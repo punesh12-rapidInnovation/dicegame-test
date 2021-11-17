@@ -417,6 +417,7 @@ const Betting = () => {
               ></Range>
               <div style={{
                 position: "absolute",
+                textAlign: "center",
                 width: "150px",
                 background: "#533964",
                 top: "-40px",
@@ -427,7 +428,8 @@ const Betting = () => {
 
                 clipPath: "polygon(0% 0%, 100% 0%, 100% 85%, 55px 85%, 50% 100%, 45px 85%, 0px 85%)",
               }}>
-                Roll under {RangeValue + 1} to get profit of +{Profit.toFixed(8)} PLS
+                Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span> to get profit
+                of <span style={{ color: colors.primary }}>+{Profit.toFixed(8)} PLS</span>
               </div>
             </Flex>
           </Flex>
@@ -445,9 +447,9 @@ const Betting = () => {
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
-          <RollDice onClick={() => CallingPlaceBet()}>{ButtonText()}</RollDice>
+          <PrimaryButton onClick={() => CallingPlaceBet()}>{ButtonText()}</PrimaryButton>
         ) : (
-          <RollDice onClick={HandleAllowance}>Approve</RollDice>
+          <PrimaryButton onClick={HandleAllowance}>Approve</PrimaryButton>
         )}
       </BetBottom>
       {/* <BetResultPopup style={{ display: `${ResultPopupDisplay}` }}>
@@ -465,8 +467,8 @@ const Betting = () => {
 
 
       <CustomModal
-        show={true}
-        // show={showResultModal}
+        // show={true}
+        show={showResultModal}
         toggleModal={() => ResultPopupCloser()}
         heading="Your Roll"
       >
