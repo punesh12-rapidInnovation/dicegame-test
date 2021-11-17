@@ -411,8 +411,6 @@ const Betting = () => {
           </H2>
           <Flex>
             <Chance
-              // placeholder="0"
-              // value={!!BetAmount ? BetAmount : ""}
               value={BetAmount}
               onChange={BetSetThroughInput}
               onBlur={OutFocusSetBetamount}
