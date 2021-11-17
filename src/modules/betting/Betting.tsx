@@ -412,7 +412,7 @@ const Betting = () => {
               ></Range>
               <div style={{
                 position: "absolute",
-                width: "100px",
+                width: "150px",
                 background: "#533964",
                 top: "-40px",
                 left: `${RangeValue}%`,
@@ -422,7 +422,7 @@ const Betting = () => {
 
                 clipPath: "polygon(0% 0%, 100% 0%, 100% 85%, 55px 85%, 50% 100%, 45px 85%, 0px 85%)",
               }}>
-                Roll under {RangeValue} to get profit of +{Profit.toFixed(8)} PLS
+                Roll under {RangeValue + 1} to get profit of +{Profit.toFixed(8)} PLS
               </div>
             </Flex>
           </Flex>
