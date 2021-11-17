@@ -51,6 +51,7 @@ const Betting = () => {
   const [showResultModal, setShowResultModal] = useState(false)
   const [ResultRoll, setResultRoll] = useState("0");
   const [WinLooseMsg, setWinLooseMsg] = useState("")
+  const [win, setwin] = useState(false)
   const [PlayerRoll, setPlayerRoll] = useState("0")
   const [OnLoadMin, setOnLoadMin] = useState<any>();
   const [OnLoadMax, setOnLoadMax] = useState<any>();
@@ -250,6 +251,7 @@ const Betting = () => {
       if (ResultObject?.Status === '0') {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("You Lost The Bet,Better Luck Next Time");
+        setwin(false)
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
         setShowResultModal(true);
@@ -257,6 +259,8 @@ const Betting = () => {
       } else if (ResultObject?.Status === '1') {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("Hurray,You Won The Bet");
+        setwin(true)
+
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
         setShowResultModal(true);
@@ -285,7 +289,7 @@ const Betting = () => {
       }
     }
     getWalletBalance()
-  }, [userAddress, ResultPopupDisplay])
+  }, [userAddress, showResultModal])
 
 
   useEffect(() => {
@@ -325,6 +329,7 @@ const Betting = () => {
     setBetplacedLoading(false);
     setResultPopupDisplay('none');
     setShowResultModal(false);
+    setwin(false)
   }
 
 
@@ -477,7 +482,7 @@ const Betting = () => {
             {ResultRoll}
           </PercentChance>
           <H1
-            color={colors.white}
+            color={win ? colors.green : colors.red}
           >{WinLooseMsg}</H1>
           <H2>Roll Under. {PlayerRoll}</H2>
         </BetResult>

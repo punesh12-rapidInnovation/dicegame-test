@@ -9,6 +9,7 @@ import walletLogo from 'assets/icons/walleticon.png';
 import { convertToEther } from 'utils/helper';
 import { networkTestChainId } from 'config';
 import WrongNetwork from 'shared/wrong-network';
+import wallet from 'utils/wallet';
 
 const Header = () => {
     const dispatch = useDispatch()
@@ -76,6 +77,7 @@ const Header = () => {
 
     const disconnectWallet = async () => {
         // await web3.disconnect();
+        await wallet.disconnect();
         localStorage.clear();
         dispatch(walletConnectCheck(false));
         window.location.reload();
@@ -104,6 +106,7 @@ const Header = () => {
             </HeaderContainer >
             <WrongNetwork
                 show={showWrongNetwork}
+                // show={true}
                 toggleModal={() => disconnectWallet()}
             >
             </WrongNetwork>

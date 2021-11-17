@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Chatsection from "../../assets/images/Chatsection.png";
 import sendimage from "../../assets/images/send-icon.svg";
 import ModalBackground from '../../assets/images/ModalBackground.png';
+import { colors } from "shared/styles/theme";
 
 export const Box = styled.div`
   background: linear-gradient(
@@ -238,6 +239,8 @@ export const H2 = styled.h2<any>`
 `;
 export const H1 = styled.h2<any>`
   font-size: ${props => props.FontSize ? props.FontSize : '18px'};
+  color: ${props => props.color ? props.color : colors.white};
+
   margin-bottom: 14px;
 
 
