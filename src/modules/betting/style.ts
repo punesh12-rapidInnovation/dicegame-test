@@ -284,6 +284,9 @@ export const Chance = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
+  ::placeholder{
+    color: rgba(112, 7, 255, 1);
+	}
 `;
 export const PercentChance = styled.div<any>`
   font-size: ${props => props.FontSize ? props.FontSize : '18px'};

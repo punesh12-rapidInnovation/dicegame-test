@@ -94,7 +94,7 @@ const Betting = () => {
 
 
   useEffect(() => {
-    if (BetAmount === 0) {
+    if (BetAmount === 0 || BetAmount === "") {
       setBetRightOrNotAlert(false);
     }
     else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
@@ -170,6 +170,8 @@ const Betting = () => {
       ((((((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount)) * Houseedgeamount) / Houseedgediviseramount) - MultipliedBetAmount);
 
     const FinalProfit = ProfitInWei / 1e18;
+    // const finP = new BigNumber(FinalProfit, 18)
+
     setProfit(FinalProfit)
 
   };
@@ -400,8 +402,6 @@ const Betting = () => {
   }, [ResultObject])
 
 
-  console.log('BetAmount', BetAmount);
-
   return (
     <BetBox>
       <BetMiddle>
@@ -414,6 +414,7 @@ const Betting = () => {
               value={BetAmount}
               onChange={BetSetThroughInput}
               onBlur={OutFocusSetBetamount}
+              placeholder="0"
             />
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
@@ -478,7 +479,7 @@ const Betting = () => {
         </Flex>
         <Flex>
           <H2 style={{ fontSize: '18px' }}>Profit </H2>
-          <H1 FontSize="18px">+{Profit.toFixed(8)} PLS</H1>
+          <H1 FontSize="18px">+{(Profit)} PLS</H1>
         </Flex>
       </BetMiddle>
       <BetBottom>
