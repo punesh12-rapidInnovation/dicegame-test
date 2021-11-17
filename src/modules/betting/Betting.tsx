@@ -237,9 +237,10 @@ const Betting = () => {
 
 
       } catch (error: any) {
-        console.log(error);
         if (error.code === 4001) {
           setPlacingBet(false);
+        } else {
+          setBetplacedLoading(false);
         }
       }
     }
