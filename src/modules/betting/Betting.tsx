@@ -145,6 +145,8 @@ const Betting = () => {
     } else if (BetAmount === 0) {
       window.alert("BetAmount cannot be 0");
       return;
+    } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
+      alert("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED")
     } else {
       if (userAddress) {
         const RollUnder: any = RangeValue + 1
