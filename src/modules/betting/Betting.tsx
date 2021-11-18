@@ -139,7 +139,7 @@ const Betting = () => {
   const CallingPlaceBet = async () => {
     if (localStorage.getItem("Loading") === 'true') {
       return;
-    } else if (localStorage.getItem("PlacingBet") === 'true') {
+    } else if (PlacingBet) {
       return;
 
     } else if (BetAmount === 0) {
