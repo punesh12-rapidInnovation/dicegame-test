@@ -118,7 +118,7 @@ const Betting = () => {
 
   const BetSetThroughInput = (e: any) => {
     const { value } = e.target
-    if (floatNumRegex.test(value.toString()) ) {
+    if (floatNumRegex.test(value.toString()) && value < 20) {
       setBetAmount(e.target.value);
     }
     else
@@ -139,7 +139,7 @@ const Betting = () => {
   const CallingPlaceBet = async () => {
     if (localStorage.getItem("Loading") === 'true') {
       return;
-    } else if (PlacingBet) {
+    } else if (localStorage.getItem("PlacingBet") === 'true') {
       return;
 
     } else if (BetAmount === 0) {
@@ -264,6 +264,8 @@ const Betting = () => {
             setPlacingBet(false);
             setBetplacedLoading(true);
             localStorage.setItem("Loading", 'true');
+            location.reload();
+
 
 
           });
