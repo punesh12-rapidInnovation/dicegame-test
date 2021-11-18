@@ -420,17 +420,17 @@ const Betting = () => {
             />
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
-              <TransChance onClick={() => setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 6)}>
+              <TransChance onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(4))}>
                 {
                   OnLoadMin && OnLoadMax ? (((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(4)) : "-"
                 }
               </TransChance>
-              <TransChance onClick={() => setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 4)}>
+              <TransChance onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(4))}>
                 {
                   OnLoadMin && OnLoadMax ? (((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(4)) : "-"
                 }
               </TransChance>
-              <TransChance onClick={() => setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 2)}>
+              <TransChance onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(4))}>
                 {
                   OnLoadMin && OnLoadMax ? (((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(4)) : "-"
                 }
