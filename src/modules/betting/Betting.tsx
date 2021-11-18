@@ -42,7 +42,7 @@ import { floatNumRegex } from "shared/helpers/regrexConstants";
 const Betting = () => {
 
   const [RangeValue, setRangeValue] = useState<number>(1);
-  const [BetAmount, setBetAmount] = useState<number>(0);
+  const [BetAmount, setBetAmount] = useState<any>("");
   const [Profit, setProfit] = useState<number>(0);
   const [UserAllowance, setUserAllowance] = useState(false);
   const [BetplacedLoading, setBetplacedLoading] = useState(false);
@@ -59,14 +59,14 @@ const Betting = () => {
   const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
   const [PlacingBet, setPlacingBet] = useState(false);
 
+
+
   window.onbeforeunload = function () {
     if (PlacingBet) {
-      return "Leaving this page will reset the wizard"; 
+      return "Leaving this page will reset the wizard";
     }
-    
-};
 
-
+  };
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch()
@@ -91,10 +91,10 @@ const Betting = () => {
     console.log(MaxBet);
   }
 
-  
+
 
   useEffect(() => {
-    if (BetAmount === 0) {
+    if (BetAmount === 0 || BetAmount === "") {
       setBetRightOrNotAlert(false);
     }
     else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
@@ -121,6 +121,10 @@ const Betting = () => {
     if (floatNumRegex.test(value.toString()) ) {
       setBetAmount(e.target.value);
     }
+    else
+      setBetAmount("");
+
+
   }
 
   const OutFocusSetBetamount = () => {
@@ -131,13 +135,13 @@ const Betting = () => {
     }
   }
 
-  
+
   const CallingPlaceBet = async () => {
     if (localStorage.getItem("Loading") === 'true') {
       return;
     } else if (PlacingBet) {
       return;
-      
+
     } else if (BetAmount === 0) {
       window.alert("BetAmount cannot be 0");
       return;
@@ -150,7 +154,7 @@ const Betting = () => {
         console.log(BetId);
         setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
         localStorage.setItem('PlacingBetId', BetId?.events.LogBet.returnValues.BetID);
-        
+
 
       }
     }
@@ -166,6 +170,8 @@ const Betting = () => {
       ((((((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount)) * Houseedgeamount) / Houseedgediviseramount) - MultipliedBetAmount);
 
     const FinalProfit = ProfitInWei / 1e18;
+    // const finP = new BigNumber(FinalProfit, 18)
+
     setProfit(FinalProfit)
 
   };
@@ -193,7 +199,6 @@ const Betting = () => {
       const lpInstance = await selectInstances(
         instanceType.ERC20TOKEN, // type of instance
         ROUTER_ADDRESS //contract address
-
       );
 
       if (true) {
@@ -409,12 +414,25 @@ const Betting = () => {
               value={BetAmount}
               onChange={BetSetThroughInput}
               onBlur={OutFocusSetBetamount}
+              placeholder="0"
             />
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
-              <TransChance onClick={() => setBetAmount(5)}>5</TransChance>
-              <TransChance onClick={() => setBetAmount(6)}>6</TransChance>
-              <TransChance onClick={() => setBetAmount(10)}>10</TransChance>
+              <TransChance onClick={() => setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 6)}>
+                {
+                  OnLoadMin && OnLoadMax ? (((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(4)) : "-"
+                }
+              </TransChance>
+              <TransChance onClick={() => setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 4)}>
+                {
+                  OnLoadMin && OnLoadMax ? (((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(4)) : "-"
+                }
+              </TransChance>
+              <TransChance onClick={() => setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 2)}>
+                {
+                  OnLoadMin && OnLoadMax ? (((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(4)) : "-"
+                }
+              </TransChance>
 
               <TransChance onClick={SetMaxBetAmount}>MAX</TransChance>
             </Flex>
@@ -473,12 +491,14 @@ const Betting = () => {
         </Flex>
         <Flex>
           <H2 style={{ fontSize: '18px' }}>Profit </H2>
-          <H1 FontSize="18px">+{Profit.toFixed(8)} PLS</H1>
+          <H1 FontSize="18px">+{(Profit)} PLS</H1>
         </Flex>
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
-          <PrimaryButton onClick={() => CallingPlaceBet()}>{ButtonText()}</PrimaryButton>
+          <PrimaryButton
+
+            onClick={() => CallingPlaceBet()}>{ButtonText()}</PrimaryButton>
         ) : (
           <PrimaryButton onClick={HandleAllowance}>Approve</PrimaryButton>
         )}
