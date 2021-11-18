@@ -118,7 +118,7 @@ const Betting = () => {
 
   const BetSetThroughInput = (e: any) => {
     const { value } = e.target
-    if (floatNumRegex.test(value.toString())) {
+    if (floatNumRegex.test(value.toString()) ) {
       setBetAmount(e.target.value);
     }
   }
@@ -283,10 +283,8 @@ const Betting = () => {
   useEffect(() => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
     console.log(LocalBetIt);
-    if (LocalBetIt === undefined) {
-      return;
-    }
-    else if (LocalBetIt === ResultObject?.Betid) {
+    
+    if (userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase()) {
       if (ResultObject?.Status === '0') {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("You Lost The Bet,Better Luck Next Time");
@@ -313,7 +311,8 @@ const Betting = () => {
       }
     } else {
       console.log("not our result")
-      console.log(ResultObject?.Betid)
+      console.log(ResultObject?.Playeraddress.toUpperCase())
+      console.log(userAddress.toUpperCase());
     }
   }, [ResultObject])
 
