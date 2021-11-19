@@ -3,6 +3,7 @@ import Chatsection from "../../assets/images/Chatsection.png";
 import sendimage from "../../assets/images/send-icon.svg";
 import ModalBackground from '../../assets/images/ModalBackground.png';
 import { colors } from "shared/styles/theme";
+import Sliderthumb from "../../assets/icons/sliderthumb.svg";
 
 export const Box = styled.div`
   background: linear-gradient(
@@ -14,6 +15,8 @@ export const Box = styled.div`
   box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6),
     inset 0px 0px 20px rgba(202, 26, 231, 0.9);
   border-radius: 20px;
+
+  
 `;
 
 export const PopupModal = styled.button`
@@ -178,6 +181,7 @@ export const BetBox = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  
 `;
 
 export const BetTop = styled.div`
@@ -334,11 +338,12 @@ export const Range = styled.input`
   transition: opacity 0.2s;
   cursor: pointer;
   &::-webkit-slider-thumb {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-	  background: linear-gradient(#513D64, #513D64) padding-box, linear-gradient(90deg, #EF0896 -6.9%, #7007FF 55.31%, #00C8FF 107.28%) border-box;
-	  border: 4px solid transparent;
+    width: 50px;
+    height: 50px;
+	  background: url(${Sliderthumb});
+    background-repeat: no-repeat;
+    background-size: contain;
+	  border: none;
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -10px;
@@ -346,11 +351,11 @@ export const Range = styled.input`
   &::-webkit-slider-runnable-track {
     background: ${props => {
     return parseFloat(`${props.value}`) >= 50 ?
-      `linear-gradient(to right, #6FCF97 ${props.value}%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)`
+      `linear-gradient(to left, #6FCF97 ${100 - parseFloat(`${props.value}`)}%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)`
       :
-      `linear-gradient(to left, #EB5757 ${100 - parseFloat(`${props.value}`)}%, #6FCF97 ${props.value}%)`
+      `linear-gradient(to right, #EB5757 ${props.value}%, #6FCF97 ${props.value}%)`
   }};
-    height: 15px;
+    height: 12px;
     border-radius: 10px;
     width: 100%;
     border: none;
@@ -413,4 +418,15 @@ display:flex;
 flex-direction: column;
 justify-content:center;
 align-items: center;
+`
+export const OddEvenDiv = styled.div`
+display:flex;
+flex-direction: column;
+justify-content:center;
+align-items: center;
+margin-top: 20px;
+padding: 20px;
+width: 100%;
+border-radius: 10px;
+background: rgba(0,0,0,0.5);
 `

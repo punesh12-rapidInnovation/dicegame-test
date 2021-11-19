@@ -18,7 +18,8 @@ import {
   PercentChance,
   BetResultPopup,
   Crossimg,
-  BetResult
+  BetResult,
+  OddEvenDiv,
 } from "./style";
 import {
   MinBetAmount,
@@ -232,7 +233,10 @@ const Betting = () => {
     if (RangeValue > 90) {
       return RangeValue - 10;
 
-    } else {
+    } else if (RangeValue < 20) {
+      return RangeValue + 10;
+      
+    } else{
       return RangeValue;
 
     }
@@ -405,11 +409,11 @@ const Betting = () => {
   return (
     <BetBox>
       <BetMiddle>
-        <FlexColumn>
+        <FlexColumn style={{ position: 'relative' }}>
           <H2 MarginBottom='16px'>
             BET AMOUNT | AVL BL  :  {walletBalance ? walletBalance : 0} PLS
           </H2>
-          <Flex>
+          <Flex >
             <Chance
               value={BetAmount}
               onChange={BetSetThroughInput}
@@ -437,25 +441,21 @@ const Betting = () => {
               <TransChance onClick={SetMaxBetAmount}>MAX</TransChance>
             </Flex>
           </Flex>
+          {BetRightOrNotAlert ?
+          <H2 style={{ color: 'red', padding: '0', margin: '0', fontSize: '12px',position:'absolute',bottom:'-20px' }}>Bet Amount Not Between The Minimum And Maximum Allowed</H2> : <H2 style={{ zIndex: '-2', padding: '0', margin: '0', fontSize: '12px',position:'absolute',bottom:'-20px' }}>zzz</H2>}
         </FlexColumn>
-        {BetRightOrNotAlert ?
-          <H2 style={{ color: 'red', padding: '0', margin: '0', fontSize: '12px' }}>Bet Amount Not Between The Minimum And Maximum Allowed</H2> : <H2 style={{ zIndex: '-2', padding: '0', margin: '0', fontSize: '12px' }}>zzz</H2>}
+        
         <FlexColumn>
-          <H2 FontSize="16px">CHANCE OF WINNING</H2>
+          <H2 FontSize="16px" style={{marginBottom:'40px'}}>CHANCE OF WINNING</H2>
           <Flex>
-            <FlexColumn style={{ width: "30%" }}>
-              <PercentChance MarginBottom="12px">
-                {RangeValue}%
-              </PercentChance>
-              <H2 FontSize="14px" style={{ fontWeight: '600' }}>Min Chance</H2>
-            </FlexColumn>
+            
             <Flex
               style={{
                 justifyContent: "center",
                 alignItems: "center",
-                width: "70%",
+                width: "95%",
                 alignSelf: "flex-start",
-                marginTop: "20px",
+                marginTop: "15px",
 
                 position: "relative"
               }}
@@ -468,21 +468,27 @@ const Betting = () => {
               <div style={{
                 position: "absolute",
                 textAlign: "center",
-                width: "120px",
-                background: "#533964",
-                bottom: "-100px",
+                width: "100px",
+                background: "rgba(0,0,0,0.3)",
+                top: "-35px",
                 left: `${SliderFollower()}%`,
                 transform: 'translate(-50%,-50%)',
-                padding: "10px",
-                boxShadow: "inset 0px -3px 11px #00eaff",
-                clipPath: "polygon(60% 15%, 100% 15%, 100% 100%, 0 100%, 0 15%, 40% 15%, 50% 0)",
+                padding: "6px",
+                fontSize: '9px',
+                borderRadius: '22px',
+                border:'1px solid #EF0896' ,
               }}>
-                Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span> to get profit
-                of <span style={{ color: colors.primary }}>+{Profit.toFixed(8)} PLS</span>
+                Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span>,<br/>
+                Profit<span style={{ color: colors.primary }}>+{Profit.toFixed(6)} PLS</span>
               </div>
             </Flex>
           </Flex>
         </FlexColumn>
+        <OddEvenDiv style={{width:'100%'}}>
+          <Flex><H2>Select</H2><input type="checkbox" /><input type="checkbox" /></Flex>
+          <Flex><H2>Select Range</H2><input type="checkbox" /><input type="checkbox" /></Flex>
+          
+        </OddEvenDiv>
         <Flex style={{ marginTop: "10px" }}>
           <H2 style={{ fontSize: '18px' }} >Roll Under </H2>
           <H1 FontSize="18px">
