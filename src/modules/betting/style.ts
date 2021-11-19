@@ -344,6 +344,7 @@ export const Range = styled.input`
     margin-top: -10px;
   }
   &::-webkit-slider-runnable-track {
+
     background: ${props => {
     return parseFloat(`${props.value}`) >= 50 ?
       `linear-gradient(to right, #6FCF97 ${props.value}%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)`
