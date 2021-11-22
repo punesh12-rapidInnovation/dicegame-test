@@ -11,7 +11,7 @@ import { PrimaryButton } from "shared/button/Button";
 
 
 const WrongNetwork = (props: any) => {
-  const { show, toggleModal, heading, styles } = props;
+  const { show, toggleModal, styles } = props;
 
   const dispatch = useDispatch()
 

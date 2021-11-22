@@ -37,6 +37,11 @@ import CustomModal from "shared/custom-modal";
 import { PrimaryButton } from "shared/button/Button";
 import { colors } from "shared/styles/theme";
 import { floatNumRegex } from "shared/helpers/regrexConstants";
+import { Sound } from "./Sound";
+import WaitingModal from "./modals/WaitingModal";
+import WinModal from "./modals/WinModal";
+import LooseModal from "./modals/LooseModal";
+// import heart from "assets/sound/HumanHeart.wav";
 
 
 const Betting = () => {
@@ -58,6 +63,10 @@ const Betting = () => {
   const [OnLoadMax, setOnLoadMax] = useState<any>();
   const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
   const [PlacingBet, setPlacingBet] = useState(false);
+
+
+  // const audio = new Audio(require('../../assets/sound/futuristic-heartbeat-60-bpm-7074.mp3'));
+  // audio.crossOrigin = 'anonymous';
 
 
 
@@ -288,7 +297,7 @@ const Betting = () => {
   useEffect(() => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
     console.log(LocalBetIt);
-    
+
     if (userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase()) {
       if (ResultObject?.Status === '0') {
         setResultRoll(ResultObject?.Diceresult);
@@ -401,6 +410,16 @@ const Betting = () => {
   }, [ResultObject])
 
 
+  // useEffect(() => {
+  //   let speed = (Number(RangeValue) / 100)
+  //   console.log('speed: ', speed);
+
+  //   setTimeout(() => {
+  //     Sound(true, speed.toFixed(1), true)
+
+  //   }, 100)
+
+  // }, [RangeValue])
 
   return (
     <BetBox>
@@ -540,6 +559,18 @@ const Betting = () => {
           <H2>Roll Under. {PlayerRoll}</H2>
         </BetResult>
       </CustomModal>
+
+
+      {/* <WaitingModal
+        show={true}
+      /> */}
+      {/* <WinModal
+        show={true}
+      /> */}
+      {/* <LooseModal
+        show={true}
+      /> */}
+
     </BetBox>
   );
 };

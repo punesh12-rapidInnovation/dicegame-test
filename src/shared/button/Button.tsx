@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
-export const PrimaryButton = styled.button`
-  width: 100%;
+export const PrimaryButton = styled.button<any>`
+  width: ${(props) => props.width ? props.width : '100%'};
+
   padding: 17px;
   cursor: pointer;
   background: linear-gradient(
