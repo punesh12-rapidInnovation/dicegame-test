@@ -170,10 +170,10 @@ export const BetBox = styled.div`
   box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6),
     inset 0px 0px 20px rgba(202, 26, 231, 0.9);
   border-radius: 20px;
-  width: 45%;
+  width: 100%;
   max-width: 700px;
-  height: 85%;
-  margin-right: 20px;
+  /*height: 85%;*/
+  margin-left: auto;
   display: flex;
   align-items: center;
   flex-direction: column;
