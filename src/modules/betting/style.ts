@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Chatsection from "../../assets/images/Chatsection.png";
 import sendimage from "../../assets/images/send-icon.svg";
-import ModalBackground from '../../assets/images/ModalBackground.png';
+import ModalBackground from "../../assets/images/ModalBackground.png";
 import { colors } from "shared/styles/theme";
 import Sliderthumb from "../../assets/icons/sliderthumb.svg";
 
@@ -15,8 +15,6 @@ export const Box = styled.div`
   box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6),
     inset 0px 0px 20px rgba(202, 26, 231, 0.9);
   border-radius: 20px;
-
-  
 `;
 
 export const PopupModal = styled.button`
@@ -180,8 +178,8 @@ export const BetBox = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
-  
+  justify-content: space-around;
+  padding: 10px 0;
 `;
 
 export const BetTop = styled.div`
@@ -235,19 +233,17 @@ export const RollDice = styled.button`
 `;
 
 export const H2 = styled.h2<any>`
-  font-size: ${props => props.FontSize ? props.FontSize : '15px'};
-  margin-bottom: ${props => props.MarginBottom ? props.MarginBottom : '14px'};
+  font-size: ${(props) => (props.FontSize ? props.FontSize : "15px")};
+  margin-bottom: ${(props) =>
+    props.MarginBottom ? props.MarginBottom : "14px"};
   font-weight: 600;
-  color: ${props => props.color ? props.color : '#00eaff'};
-
+  color: ${(props) => (props.color ? props.color : "#00eaff")};
 `;
 export const H1 = styled.h2<any>`
-  font-size: ${props => props.FontSize ? props.FontSize : '18px'};
-  color: ${props => props.color ? props.color : colors.white};
+  font-size: ${(props) => (props.FontSize ? props.FontSize : "18px")};
+  color: ${(props) => (props.color ? props.color : colors.white)};
 
   margin-bottom: 14px;
-
-
 `;
 
 export const FlexColumn = styled.div<any>`
@@ -255,15 +251,15 @@ export const FlexColumn = styled.div<any>`
   flex-direction: column;
   justify-content: center;
   align-content: space-between;
-  width: ${props => props.width || "100%"};
+  width: ${(props) => props.width || "100%"};
 `;
 
 export const Flex = styled.div<any>`
   display: flex;
-  justify-content: ${props => props.JustifyContent || 'space-between'};
+  justify-content: ${(props) => props.JustifyContent || "space-between"};
   align-content: center;
-  width:${props => props.Width || '100%'};
-  margin-bottom: ${props => props.MarginBottom || '0'};;
+  width: ${(props) => props.Width || "100%"};
+  margin-bottom: ${(props) => props.MarginBottom || "0"}; ;
 `;
 
 export const Chance = styled.input`
@@ -288,17 +284,17 @@ export const Chance = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
-  ::placeholder{
+  ::placeholder {
     color: rgba(112, 7, 255, 1);
-	}
+  }
 `;
 export const PercentChance = styled.div<any>`
-  font-size: ${props => props.FontSize ? props.FontSize : '18px'};
+  font-size: ${(props) => (props.FontSize ? props.FontSize : "18px")};
   background: white;
   padding: 10px;
   border-radius: 6px;
   color: rgba(112, 7, 255, 1);
-  width: ${props => props.width ? props.width : '60px'};
+  width: ${(props) => (props.width ? props.width : "60px")};
 
   font-weight: 700;
   border: none;
@@ -306,7 +302,8 @@ export const PercentChance = styled.div<any>`
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-bottom: ${props => props.MarginBottom ? props.MarginBottom : '0'};;
+  margin-bottom: ${(props) =>
+    props.MarginBottom ? props.MarginBottom : "0"}; ;
 `;
 
 export const TransChance = styled.button`
@@ -314,16 +311,15 @@ export const TransChance = styled.button`
   border-radius: 6px;
   color: rgba(0, 234, 255, 1);
   width: 45px;
-  flex-grow:1;
-  margin-right:10px;
+  flex-grow: 1;
+  margin-right: 10px;
   font-weight: 500;
   background-color: rgba(255, 255, 255, 0.2);
   border: none;
   cursor: pointer;
 
-  :hover{
-    background-color: rgba(0,0,0,0.2);
-
+  :hover {
+    background-color: rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -332,6 +328,7 @@ export const Range = styled.input`
   -moz-appearance: none !important;
   width: 100%;
   height: 4px;
+  margin-bottom: 10px;
   /*background: green;*/
   outline: none;
   -webkit-transition: 0.2s;
@@ -340,21 +337,22 @@ export const Range = styled.input`
   &::-webkit-slider-thumb {
     width: 50px;
     height: 50px;
-	  background: url(${Sliderthumb});
+    background: url(${Sliderthumb});
     background-repeat: no-repeat;
     background-size: contain;
-	  border: none;
+    border: none;
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -10px;
   }
   &::-webkit-slider-runnable-track {
-    background: ${props => {
-    return parseFloat(`${props.value}`) >= 50 ?
-      `linear-gradient(to left, #6FCF97 ${100 - parseFloat(`${props.value}`)}%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)`
-      :
-      `linear-gradient(to right, #EB5757 ${props.value}%, #6FCF97 ${props.value}%)`
-  }};
+    background: ${(props) => {
+      return parseFloat(`${props.value}`) >= 50
+        ? `linear-gradient(to left, #6FCF97 ${
+            100 - parseFloat(`${props.value}`)
+          }%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)`
+        : `linear-gradient(to right, #EB5757 ${props.value}%, #6FCF97 ${props.value}%)`;
+    }};
     height: 12px;
     border-radius: 10px;
     width: 100%;
@@ -386,47 +384,48 @@ export const Range = styled.input`
 `;
 
 export const BetResultPopup = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-padding: 30px;
-position: absolute;
-top:50%;
-left: 50%;
-transform: translate(-50%,10%);
-width: 550px;
-height: 360px;
-z-index: 2;
-background: url(${ModalBackground});
-background-color: #2A1966;
-box-shadow: 0px 3px 5px #2A1966, inset 0px 0px 24px #CA1AE7;
-border-radius: 10px;
-background-size: cover;
-`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 10%);
+  width: 550px;
+  height: 360px;
+  z-index: 2;
+  background: url(${ModalBackground});
+  background-color: #2a1966;
+  box-shadow: 0px 3px 5px #2a1966, inset 0px 0px 24px #ca1ae7;
+  border-radius: 10px;
+  background-size: cover;
+`;
 export const Crossimg = styled.img`
-width: 40px;
-height: 40px;
-position: absolute;
-top: 20px;
-right: 20px;
-cursor: pointer;
-`
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+`;
 
 export const BetResult = styled.div`
-display:flex;
-flex-direction: column;
-justify-content:center;
-align-items: center;
-`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 export const OddEvenDiv = styled.div`
-display:flex;
-flex-direction: column;
-justify-content:center;
-align-items: center;
-margin-top: 20px;
-padding: 20px;
-width: 100%;
-border-radius: 10px;
-background: rgba(0,0,0,0.5);
-`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
+  width: 100%;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  margin-bottom: 10px;
+`;
