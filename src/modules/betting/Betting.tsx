@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { ethers } from "ethers";
 import web3 from "../../utils/web3";
 import { io } from "socket.io-client";
+import Select from 'react-select';
+import "./Checkbox.css";
 import {
   BetBox,
   BetMiddle,
@@ -20,6 +22,7 @@ import {
   Crossimg,
   BetResult,
   OddEvenDiv,
+  SliderThumb
 } from "./style";
 import {
   MinBetAmount,
@@ -38,6 +41,8 @@ import CustomModal from "shared/custom-modal";
 import { PrimaryButton } from "shared/button/Button";
 import { colors } from "shared/styles/theme";
 import { floatNumRegex } from "shared/helpers/regrexConstants";
+import Sliderthumb from "../../assets/icons/sliderthumb.svg";
+
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(1);
@@ -57,6 +62,7 @@ const Betting = () => {
   const [OnLoadMax, setOnLoadMax] = useState<any>();
   const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
   const [PlacingBet, setPlacingBet] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   window.onbeforeunload = function () {
     if (PlacingBet) {
@@ -227,6 +233,18 @@ const Betting = () => {
     }
   };
 
+  const HeartBeatSpeed = () => {
+     if (RangeValue > 75) {
+      return "1.6s";
+    } else if (RangeValue > 50) {
+      return "1.2s"
+     } else if (RangeValue > 25) {
+       return "0.8s"
+     }else {
+      return "0.5s"
+    }
+  }
+
   const PlaceBet = async (
     myAccount: string | null,
     Amount: any,
@@ -338,6 +356,7 @@ const Betting = () => {
     }
   }, []);
 
+
   const ResultPopupCloser = () => {
     setPlacingBet(false);
     localStorage.setItem("Loading", "false");
@@ -363,6 +382,8 @@ const Betting = () => {
       console.log("ran");
     }, 5000);
   }, [ResultObject]);
+
+ 
 
   return (
     <BetBox>
@@ -493,6 +514,12 @@ const Betting = () => {
                   +{Profit.toFixed(6)} PLS
                 </span>
               </div>
+              <SliderThumb style={{ position: "absolute",
+                  top: "-20px",
+                  left: `${RangeValue - 3}%`,
+                  transform: "translate(-50%,-50%)",
+                  }} duration = {HeartBeatSpeed} > </SliderThumb> 
+
             </Flex>
           </Flex>
         </FlexColumn>
@@ -500,24 +527,24 @@ const Betting = () => {
           <Flex>
             <H2>Select</H2>
             <Flex style={{ width: "40%", justifyContent: "center" }}>
-              <Flex style={{ justifyContent: "center" }}>
-                <input
-                  type="checkbox"
-                  style={{ marginRight: "10px", marginTop: "4px" }}
-                />
-                <H2>Odd</H2>
+              <Flex style={{ justifyContent: "center",marginRight:'16px' }}>
+                 <label className="container">Odd
+                 <input type="checkbox" />
+                <span className="checkmark"></span>
+                </label>
+                
               </Flex>
               <Flex style={{ justifyContent: "center" }}>
-                <input
-                  type="checkbox"
-                  style={{ marginRight: "10px", marginTop: "4px" }}
-                />
-                <H2>Even</H2>
+                <label className="container">Even
+                <input type="checkbox"  />
+                <span className="checkmark"></span>
+                </label>
               </Flex>
             </Flex>
           </Flex>
           <Flex>
             <H2>Select Range</H2>
+              
           </Flex>
         </OddEvenDiv>
         <Flex style={{ marginTop: "10px" }}>

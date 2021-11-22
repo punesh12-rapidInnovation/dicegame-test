@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Chatsection from "../../assets/images/Chatsection.png";
 import sendimage from "../../assets/images/send-icon.svg";
 import ModalBackground from "../../assets/images/ModalBackground.png";
@@ -205,6 +205,34 @@ export const BetMiddle = styled.div`
   align-items: flex-start;
 `;
 
+const animateHeart = keyframes`
+  0%
+  {
+    transform: scale( .80 );
+  }
+  20%
+  {
+    transform: scale( 1 );
+  }
+  40%
+  {
+    transform: scale( .80 );
+  }
+  60%
+  {
+    transform: scale( 1 );
+  }
+  80%
+  {
+    transform: scale( .80 );
+  }
+  100%
+  {
+    transform: scale( .80 );
+  }
+`;
+
+
 export const BetBottom = styled.div`
   width: 85%;
   height: 15%;
@@ -212,6 +240,7 @@ export const BetBottom = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  
 `;
 
 export const RollDice = styled.button`
@@ -303,7 +332,8 @@ export const PercentChance = styled.div<any>`
   justify-content: center;
   text-align: center;
   margin-bottom: ${(props) =>
-    props.MarginBottom ? props.MarginBottom : "0"}; ;
+  props.MarginBottom ? props.MarginBottom : "0"}; ;
+    
 `;
 
 export const TransChance = styled.button`
@@ -323,35 +353,40 @@ export const TransChance = styled.button`
   }
 `;
 
+
+
 export const Range = styled.input`
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   width: 100%;
   height: 4px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   /*background: green;*/
   outline: none;
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
   cursor: pointer;
   &::-webkit-slider-thumb {
-    width: 50px;
-    height: 50px;
-    background: url(${Sliderthumb});
+    width: 40px;
+    height: 40px;
     background-repeat: no-repeat;
     background-size: contain;
     border: none;
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -10px;
+    animation-name: ${animateHeart};
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
   }
+  
   &::-webkit-slider-runnable-track {
     background: ${(props) => {
       return parseFloat(`${props.value}`) >= 50
-        ? `linear-gradient(to left, #6FCF97 ${
+        ? `linear-gradient(to left, #EB5757 ${
             100 - parseFloat(`${props.value}`)
-          }%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)`
-        : `linear-gradient(to right, #EB5757 ${props.value}%, #6FCF97 ${props.value}%)`;
+          }%, #6FCF97 ${100 - parseFloat(`${props.value}`)}%)`
+        : `linear-gradient(to right, #6FCF97 ${props.value}%, #EB5757 ${props.value}%)`;
     }};
     height: 12px;
     border-radius: 10px;
@@ -382,6 +417,20 @@ export const Range = styled.input`
     transition: opacity 0.2s;
   }
 `;
+
+export const SliderThumb = styled.div<any>`
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    background: url(${Sliderthumb});
+    background-repeat: no-repeat;
+    background-size: contain;
+    animation-name: ${animateHeart};
+    animation-duration: ${(props) => (props.duration ? props.duration : '5s')};
+    animation-iteration-count: infinite;
+    pointer-events: none;
+`
+
 
 export const BetResultPopup = styled.div`
   display: flex;
@@ -429,3 +478,5 @@ export const OddEvenDiv = styled.div`
   background: rgba(0, 0, 0, 0.4);
   margin-bottom: 10px;
 `;
+
+
