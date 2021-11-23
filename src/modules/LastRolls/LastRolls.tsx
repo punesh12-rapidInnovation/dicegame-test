@@ -4,10 +4,12 @@ import { PrimaryButton } from 'shared/button/Button';
 import Diceicon from '../../assets/icons/Diceicon.svg';
 
 function LastRolls() {
+    const LastRolls = JSON.parse(localStorage.getItem("LastRolls") || "[]");
+    console.log(LastRolls);
     return (
         <Box style={{width: '45%',maxWidth:'700px',height:'400px',marginRight:'20px',marginTop:'30px',padding:"20px",background:"#2A1966",display:'flex',justifyContent:'space-between',alignItems:'center',flexDirection:'column'}}>
             <BoxTitle>YOUR LAST ROLLS <img src={Diceicon} alt="" style={{ marginLeft: '10px' }}/></BoxTitle>
-                        <div style={{width: '100%', boxShadow: "inset 0px 0px 24px #ca1ae733", borderRadius: "20px",color:"#fff",padding:"20px 30px",height:'250px',marginTop:'40px',paddingBottom:'40px'}}>
+                        <div style={{width: '100%', boxShadow: "inset 0px 0px 24px #ca1ae733", borderRadius: "20px",color:"#fff",padding:"20px 30px",height:'250px',marginTop:'30px',paddingBottom:'40px'}}>
                             <table style={{width:"100%"}}>
                                 <TR style={{height:'40px'}}>
                                     <TD style={{textAlign:'left'}}># DATE AND TIME</TD>

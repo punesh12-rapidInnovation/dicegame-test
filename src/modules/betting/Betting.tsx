@@ -308,6 +308,7 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
+        StoringLastRolls();
       } else if (ResultObject?.Status === "1") {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("Hurray,You Won The Bet");
@@ -317,6 +318,7 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
+        StoringLastRolls();
       } else {
         console.log("unhandled result");
       }
@@ -326,6 +328,20 @@ const Betting = () => {
       console.log(userAddress.toUpperCase());
     }
   }, [ResultObject]);
+
+  const StoringLastRolls = () => {
+    if (localStorage.getItem("LastRolls") === null) {
+      localStorage.setItem('LastRolls', JSON.stringify([ResultObject]));
+          console.log('not exist ran')
+    }else{
+          console.log('exist ran')
+          const PreviousResults = JSON.parse(localStorage.getItem("LastRolls") || "[]");
+          PreviousResults.unshift(ResultObject);
+      localStorage.setItem('LastRolls', JSON.stringify(PreviousResults));
+          
+        }
+
+  }
 
   useEffect(() => {
     const getWalletBalance = async () => {
@@ -349,7 +365,6 @@ const Betting = () => {
         console.log("websocket connected");
       });
       socket.on("betting", (data) => {
-        console.log(data);
         setResultObject({
           Betid: data.BetID,
           Diceresult: data.DiceResult,
