@@ -25,13 +25,16 @@ import {
     Chance,
     Range,
     Transchance,
-    OwnMsg
+    OwnMsg,
+    BoxTitle
 
 
 } from './style'
 import threedot from '../../assets/images/threedot.svg';
 import historyicon from '../../assets/icons/history.svg';
 import { useSelector } from 'react-redux';
+import BarChart from 'modules/app/components/barChart/BarChart';
+import { dateFromTimestamp } from 'utils/helper';
 
 
 const LiveChat = (props: any) => {
@@ -41,6 +44,8 @@ const LiveChat = (props: any) => {
 
     const [messages, setMessages] = useState<any>([])
     const [inputMessage, setInputMessage] = useState('')
+    const [hoverVolumeChartValue, setHoverVolumeChartValue] = React.useState<any>("")
+    const [hoverVolumeChartDate, setHoverVolumeChartDate] = React.useState<any>("")
 
     const BASE_URL = 'https://diceroll.rapidinnovation.tech/api/message'
 
@@ -118,29 +123,100 @@ const LiveChat = (props: any) => {
 
     return (
         <GlobalChatSection>
-            <Box style={{ height: '75%', minHeight: '550px', width: '90%', maxWidth: '1500px', minWidth: '1000px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Betting />
-                <ChatBox style={{ height: '85%', width: '45%', position: 'relative' }}>
+        <>
+            <Box style={{
+                    // display: 'grid',
+                    // gridTemplateColumns: 'repeat(auto-fill, minmax(370px, 1fr))',
+                    // gridColumnGap: '10px',
+                    // gridRowGap: '10px',
+               maxWidth: '1300px', padding:"40px"
+                // display: 'flex', justifyContent: 'center', alignItems: 'center' 
+                }}>
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, minmax(370px, 1fr))',
+                    gridColumnGap: '20px',
+                    gridRowGap: '30px',
+                }}>
+                    <Betting />
+                    <ChatBox style={{ width: '100%', position: 'relative' }}>
 
-                    <ChatTopdiv><div style={{ textAlign: 'left' }}> <h3 style={{ fontSize: '14px' }}>GLOBAL CHAT</h3>
-                        <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 PLAYING</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
-                    <ChatMiddlediv>
-                        {renderChat()}
-                    </ChatMiddlediv>
-                    <InputParent>
-                        <Input
-                            onChange={handleInputMessage}
-                            value={inputMessage}
-                            style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
-                        <Button
-                            onClick={() => { sendTOAPI() }}
-                            disabled={userAddress === '' || userAddress === null || inputMessage === ''}
+                        <ChatTopdiv><div style={{ textAlign: 'left' }}> <h3 style={{ fontSize: '14px' }}>GLOBAL CHAT</h3>
+                            <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 PLAYING</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
+                        <ChatMiddlediv>
+                            {renderChat()}
+                        </ChatMiddlediv>
+                        <InputParent>
+                            <Input
+                                onChange={handleInputMessage}
+                                value={inputMessage}
+                                style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
+                            <Button
+                                onClick={() => { sendTOAPI() }}
+                                disabled={userAddress === '' || userAddress === null || inputMessage === ''}
 
-                        >
-                        </Button>
-                    </InputParent>
-                </ChatBox>
+                            >
+                            </Button>
+                        </InputParent>
+                    </ChatBox>
+                    {/* <div style={{display:"flex",width: '100%'}}> */}
+                    <Box style={{width: '100%',padding:"20px",background:"#2A1966"}}>
+                        <BoxTitle>Your LAST 4 rolls</BoxTitle>
+                        <div style={{width: '100%', boxShadow: "inset 0px 0px 24px #ca1ae733", borderRadius: "20px",color:"#fff",padding:"20px"}}>
+                            <table style={{width:"100%"}}>
+                                <tr>
+                                    <td># Date & time</td>
+                                    <td>Bet Amount</td>
+                                    <td>Min Chance</td>
+                                    <td>Gain/Loss</td>
+                                </tr>
+                                <tr>
+                                    <td>#1 - 23|Oct|2022 - 19:11</td>
+                                    <td>23.36 PLS</td>
+                                    <td>26%</td>
+                                    <td>40 PLS</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </Box>
+                    <Box style={{width: '100%',padding:"20px"}}>
+                        <BoxTitle>House Pool Size 24 H</BoxTitle>
+                        <div style={{color:"#fff"}}>
+                            <span>$ {hoverVolumeChartValue}</span> <span>{dateFromTimestamp(hoverVolumeChartDate)}</span>
+                        </div>
+                        <div style={{width: '100%',height:"300px"}}>
+                            <BarChart chartData={[{created_at:1637193614306,volume_24:987},{created_at:1637280014325,volume_24:387},{created_at:1637366414343,volume_24:687}]} setHoverValue={setHoverVolumeChartValue} setHoverDate={setHoverVolumeChartDate} />
+                        </div>
+                    </Box>
+                    {/* </div> */}
+                    {/* <div style={{display:"flex",width: '100%'}}>
+                        <Box style={{width: '100%',minHeight: "50vh",display: "flex",justifyContent: "center",alignItems: "center"}}>
+                            <BarChart chartData={[{created_at:19,volume_24:987},{created_at:20,volume_24:387},{created_at:21,volume_24:687}]} setHoverValue={() => {}} setHoverDate={() => {}} />
+                        </Box>
+                    </div> */}
+                </div>
+                {/* <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(370px, 1fr))',
+                    gridColumnGap: '10px',
+                    gridRowGap: '10px',
+                }}>
+
+                    <div style={{display:"flex",width: '100%'}}>
+                        <Box style={{width: '100%',minHeight: "50vh",display: "flex",justifyContent: "center",alignItems: "center"}}>
+                            <BarChart chartData={[{created_at:19,volume_24:987},{created_at:20,volume_24:387},{created_at:21,volume_24:687}]} setHoverValue={() => {}} setHoverDate={() => {}} />
+                        </Box>
+                    </div>
+                    <div style={{display:"flex",width: '100%'}}>
+                        <Box style={{width: '100%',minHeight: "50vh",display: "flex",justifyContent: "center",alignItems: "center"}}>
+                            <BarChart chartData={[{created_at:19,volume_24:987},{created_at:20,volume_24:387},{created_at:21,volume_24:687}]} setHoverValue={() => {}} setHoverDate={() => {}} />
+                        </Box>
+                    </div>
+                </div> */}
             </Box>
+
+
+            {/* //////////////// */}
             <PopupModal
                 style={{
                     display: toggleModal ? "block" : "none"
@@ -163,6 +239,7 @@ const LiveChat = (props: any) => {
 
                 />
             </PopupModal>
+        </>
         </GlobalChatSection >
     )
 };
