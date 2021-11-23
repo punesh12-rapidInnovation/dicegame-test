@@ -1,4 +1,5 @@
 
+import { useEffect } from 'react'
 import PulseRoll from "assets/icons/loadingPulseroll.svg";
 import Dice from "assets/icons/Vectordice.svg";
 import CopyClipboard from "assets/icons/copyClipboard.svg";
@@ -22,6 +23,11 @@ import {
 } from "./style";
 import { PrimaryButton } from "shared/button/Button";
 
+import win from 'assets/sound/bigWin.wav';
+import { Sound } from '../Sound';
+
+
+
 
 const WinModal = (props: any) => {
     const { show, toggleModal, styles } = props;
@@ -33,6 +39,9 @@ const WinModal = (props: any) => {
         }
     };
 
+    useEffect(() => {
+        Sound(win, true, false)
+    }, [])
 
     return (
         <ModalBody

@@ -1,8 +1,8 @@
 import heart from 'assets/sound/heartbeat-regular-single-loop.wav';
-// import heart from 'assets/sound/futuristic-heartbeat-60-bpm-7074.mp3';
+// import win from 'assets/sound/bigWin.wav';
 
-export const Sound = (imageSource, play, loop) => {
-	const audio = new Audio(imageSource);
+export const Sound = (audioSource, play, loop) => {
+	const audio = new Audio(audioSource);
 	audio.loop = loop;
 
 	if (play) {

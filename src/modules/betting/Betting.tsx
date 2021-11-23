@@ -267,10 +267,7 @@ const Betting = () => {
             setPlacingBet(false);
             setBetplacedLoading(true);
             localStorage.setItem("Loading", 'true');
-            window.location.reload();
-
-
-
+            // window.location.reload();
           });
         console.log(RollDice);
         return RollDice;
@@ -303,6 +300,8 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem('Loading', 'false');
+        rangeSliderSound(1, false, soundFlag, setSoundFlag)
+
 
       } else if (ResultObject?.Status === '1') {
         setResultRoll(ResultObject?.Diceresult);
@@ -313,6 +312,8 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem('Loading', 'false');
+        rangeSliderSound(1, false, soundFlag, setSoundFlag)
+
 
 
 
@@ -528,7 +529,7 @@ const Betting = () => {
  */}
 
 
-      <CustomModal
+      {/* <CustomModal
         // show={true}
         show={showResultModal}
         toggleModal={() => ResultPopupCloser()}
@@ -550,15 +551,18 @@ const Betting = () => {
           >{WinLooseMsg}</H1>
           <H2>Roll Under. {PlayerRoll}</H2>
         </BetResult>
-      </CustomModal>
+      </CustomModal> */}
 
 
       {/* <WaitingModal
         show={true}
       /> */}
-      {/* <WinModal
-        show={true}
-      /> */}
+      <WinModal
+        // show={win}
+        show={showResultModal}
+
+        toggleModal={() => ResultPopupCloser()}
+      />
       {/* <LooseModal
         show={true}
       /> */}
