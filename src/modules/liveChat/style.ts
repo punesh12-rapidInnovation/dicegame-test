@@ -36,8 +36,9 @@ flex-direction:column;
 justify-content:space-between;
 align-items: flex-start;
 display: relative;
+width: 45%;
 max-width: 700px;
-margin-right:auto;
+height: 580px;
 /*height: 85%;*/
 
 >*{
@@ -51,8 +52,7 @@ background-image: url(${Chatsection});
 background-position: center;
 background-size: cover;
 width: 100%;
-min-height: 700px;
-/*height: 80vh;
+height: 1200px;
 display: flex;
 justify-content:center;
 align-items: center;*/
