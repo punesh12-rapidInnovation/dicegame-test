@@ -175,13 +175,13 @@ export const BetBox = styled.div`
   border-radius: 20px;
   width: 45%;
   max-width: 700px;
-  height: 85%;
+  height: 580px;
   margin-right: 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
-  
+  justify-content: space-around;
+  padding: 10px 0;
 `;
 
 export const BetTop = styled.div`
@@ -349,6 +349,7 @@ export const Range = styled.input`
     margin-top: -10px;
   }
   &::-webkit-slider-runnable-track {
+
     background: ${props => {
     return parseFloat(`${props.value}`) >= 50 ?
       `linear-gradient(to left, #6FCF97 ${100 - parseFloat(`${props.value}`)}%, #EB5757 ${100 - parseFloat(`${props.value}`)}%)`

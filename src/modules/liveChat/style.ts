@@ -10,6 +10,11 @@ box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 
 border-radius: 20px;
 `
 
+export const BoxTitle = styled.div`
+color: #fff;
+padding-left:10px;
+`
+
 export const PopupModal = styled.button`
 height:50vh;
 width:50vh;
@@ -31,8 +36,10 @@ flex-direction:column;
 justify-content:space-between;
 align-items: flex-start;
 display: relative;
+width: 45%;
 max-width: 700px;
-height: 85%;
+height: 580px;
+/*height: 85%;*/
 
 >*{
     color: white;
@@ -44,12 +51,11 @@ background: rgba(0,0,0,1);
 background-image: url(${Chatsection});
 background-position: center;
 background-size: cover;
-height: 900px;
-min-height: 900px;
 width: 100%;
+height: 1200px;
 display: flex;
 justify-content:center;
-align-items: center;
+align-items: center;*/
 *{
 }
 
