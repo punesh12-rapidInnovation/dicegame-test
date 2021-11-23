@@ -1,17 +1,33 @@
-import heart from 'assets/sound/HumanHeart.wav';
+import heart from 'assets/sound/heartbeat-regular-single-loop.wav';
 // import heart from 'assets/sound/futuristic-heartbeat-60-bpm-7074.mp3';
 
-export const Sound = (loop, playbackRate, play) => {
-	const audio = new Audio(heart);
+export const Sound = (imageSource, play, loop) => {
+	const audio = new Audio(imageSource);
 	audio.loop = loop;
-	// audio.playbackRate = playbackRate;
-	// audio.volume = playbackRate;
+
 	if (play) {
+		audio.play();
+	}
+};
+
+export const rangeSliderSound = (
+	playbackRate,
+	play,
+	soundFlag?,
+	setSoundFlag?
+) => {
+	const audio = new Audio(heart);
+
+	if (play) {
+		if (soundFlag === 0) {
+			audio.play();
+			setSoundFlag(1);
+		}
 		audio.addEventListener('ended', function () {
-			// audio.pause();
-			// audio.currentTime = 0;
+			// console.log('playbackRate', playbackRate);
+			// audio.playbackRate = playbackRate;
+			// audio.volume = playbackRate;
 			audio.play();
 		});
-		audio.play();
 	}
 };
