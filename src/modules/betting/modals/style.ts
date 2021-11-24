@@ -180,7 +180,7 @@ export const InfoText = styled.p<any>`
 `;
 export const InfoTextSecondary = styled.p`
 	font-size: 24px;
-    font-family AvenirLTStd;
+    font-family:AvenirLTStd;
     // font-weight :900;
     text-transform: uppercase;
 	// margin: 10px;

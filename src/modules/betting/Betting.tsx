@@ -97,12 +97,10 @@ const Betting = () => {
   const OnLoadMinBet = async () => {
     const MinBet = convertToEther(await MinBetAmount());
     setOnLoadMin(MinBet);
-    console.log(MinBet);
   };
   const OnLoadMaxBet = async () => {
     const MaxBet = convertToEther(await MaxBetAmount());
     setOnLoadMax(MaxBet);
-    console.log(MaxBet);
   };
 
   useEffect(() => {
@@ -367,6 +365,7 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
+        StoringLastRolls();
       } else if (ResultObject?.Status === "1") {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("Hurray,You Won The Bet");
@@ -376,6 +375,7 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
+        StoringLastRolls();
       } else {
         console.log("unhandled result");
       }
@@ -385,6 +385,31 @@ const Betting = () => {
       console.log(userAddress.toUpperCase());
     }
   }, [ResultObject]);
+
+
+
+
+
+  const StoringLastRolls = () => {
+
+    if (localStorage.getItem("LastRolls") === null) {
+      localStorage.setItem('LastRolls', JSON.stringify([ResultObject]));
+      console.log('not exist ran')
+    } else {
+      console.log('exist ran')
+      const Resulttillnow = JSON.parse(localStorage.getItem("LastRolls") || "[]");
+      if (Resulttillnow.length === 10) {
+        Resulttillnow.splice(-1)
+        console.log(Resulttillnow);
+        localStorage.setItem('LastRolls', JSON.stringify(Resulttillnow));
+      }
+      const PreviousResults = JSON.parse(localStorage.getItem("LastRolls") || "[]");
+      PreviousResults.unshift(ResultObject);
+      localStorage.setItem('LastRolls', JSON.stringify(PreviousResults));
+
+    }
+
+  }
 
   useEffect(() => {
     const getWalletBalance = async () => {
@@ -400,28 +425,30 @@ const Betting = () => {
     getWalletBalance();
   }, [userAddress, showResultModal]);
 
-  // useEffect(() => {
-  //   const socket = io("wss://diceroll.rapidinnovation.tech");
-  //   try {
-  //     socket.on("connection", () => {
-  //       // Replace event name with connection event name
-  //       console.log("websocket connected");
-  //     });
-  //     socket.on("betting", (data) => {
-  //       console.log(data);
-  //       setResultObject({
-  //         Betid: data.BetID,
-  //         Diceresult: data.DiceResult,
-  //         Playeraddress: data.PlayerAddress,
-  //         Playernumber: data.PlayerNumber,
-  //         Status: data.Status,
-  //         Value: data.Value,
-  //       });
-  //     });
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
-  // }, []);
+
+  useEffect(() => {
+    const socket = io("wss://diceroll.rapidinnovation.tech");
+    try {
+      socket.on("connection", () => {
+        // Replace event name with connection event name
+        console.log("websocket connected");
+      });
+      socket.on("betevent", (data) => {
+        console.log(data);
+        setResultObject({
+          Betid: data.BetID,
+          Diceresult: data.DiceResult,
+          Playeraddress: data.PlayerAddress,
+          Playernumber: data.PlayerNumber,
+          Status: data.Status,
+          Date: new Date().toLocaleString(),
+          Value: data.Value,
+        });
+      });
+    } catch (err) {
+      console.log("err", err);
+    }
+  }, []);
 
 
   const ResultPopupCloser = () => {
@@ -446,7 +473,6 @@ const Betting = () => {
     setTimeout(() => {
       OnLoadMaxBet();
       OnLoadMinBet();
-      console.log("ran");
     }, 5000);
   }, [ResultObject]);
 

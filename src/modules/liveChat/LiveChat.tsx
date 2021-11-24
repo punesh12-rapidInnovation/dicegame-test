@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { io } from "socket.io-client";
 import axios from 'axios';
 import Betting from '../betting';
+import LastRolls from 'modules/LastRolls/LastRolls';
 import {
     GlobalChatSection,
     Box,
@@ -158,27 +159,8 @@ const LiveChat = (props: any) => {
                             </Button>
                         </InputParent>
                     </ChatBox>
-                    {/* <div style={{display:"flex",width: '100%'}}> */}
-                    <Box style={{ width: '45%', maxWidth: '700px', height: '350px', marginRight: '20px', marginTop: '30px', padding: "20px", background: "#2A1966" }}>
-                        <BoxTitle>Your LAST 4 rolls</BoxTitle>
-                        <div style={{ width: '100%', boxShadow: "inset 0px 0px 24px #ca1ae733", borderRadius: "20px", color: "#fff", padding: "20px" }}>
-                            <table style={{ width: "100%" }}>
-                                <tr>
-                                    <td># Date & time</td>
-                                    <td>Bet Amount</td>
-                                    <td>Min Chance</td>
-                                    <td>Gain/Loss</td>
-                                </tr>
-                                <tr>
-                                    <td>#1 - 23|Oct|2022 - 19:11</td>
-                                    <td>23.36 PLS</td>
-                                    <td>26%</td>
-                                    <td>40 PLS</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </Box>
-                    <Box style={{ width: '45%', marginTop: '30px', maxWidth: '700px', height: '350px', padding: "20px" }}>
+                    <LastRolls />
+                    <Box style={{ width: '45%', marginTop: '30px', maxWidth: '700px', height: '400px', padding: "20px" }}>
                         <BoxTitle>House Pool Size 24 H</BoxTitle>
                         <div style={{ color: "#fff" }}>
                             <span>$ {hoverVolumeChartValue}</span> <span>{dateFromTimestamp(hoverVolumeChartDate)}</span>
