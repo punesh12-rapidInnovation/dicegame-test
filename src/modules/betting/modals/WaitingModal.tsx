@@ -1,15 +1,18 @@
 
 import PulseRoll from "assets/icons/loadingPulseroll.svg";
-import Dice from "assets/icons/loadingDice.svg";
+import RollingDice from "assets/icons/twoRollingDice.gif";
+
+import { useEffect } from "react";
+import { rollingDiceSound } from '../Sound';
 
 
-import { useDispatch } from "react-redux";
 import {
     ModalBody,
     ModalContent,
     Image,
     InfoText,
 } from "./style";
+
 
 
 const WaitingModal = (props: any) => {
@@ -22,7 +25,6 @@ const WaitingModal = (props: any) => {
         }
     };
 
-
     return (
         <ModalBody
             show={show}
@@ -31,10 +33,13 @@ const WaitingModal = (props: any) => {
         >
             <ModalContent>
                 <Image
-                    style={{ marginBottom: "20px" }}
-                    height={"60px"}
+                    style={{ marginBottom: "10px" }}
                     src={PulseRoll} />
-                <Image src={Dice} />
+                <Image
+                    height={"200px"}
+                    style={{ margin: "-30px", marginBottom: "5px" }}
+
+                    src={RollingDice} />
 
                 <InfoText>
                     Result is loading...

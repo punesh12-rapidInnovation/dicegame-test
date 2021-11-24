@@ -30,7 +30,7 @@ import {
   HouseEdgeDiviser,
 } from "../blockChain/bettingMethods";
 import Cross from "../../assets/icons/Cross.svg";
-import { convertToEther } from "../../utils/helper";
+import { convertToEther, convertToWei } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
 import { instanceType, selectInstances } from "../../utils/contracts";
@@ -40,11 +40,10 @@ import CustomModal from "shared/custom-modal";
 import { PrimaryButton } from "shared/button/Button";
 import { colors } from "shared/styles/theme";
 import { floatNumRegex } from "shared/helpers/regrexConstants";
-import { rangeSliderSound, Sound } from "./Sound";
+import { rangeSliderSound, rollingDiceSound, Sound } from "./Sound";
 import WaitingModal from "./modals/WaitingModal";
 import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
-// import heart from "assets/sound/HumanHeart.wav";
 import Sliderthumb from "../../assets/icons/sliderthumb.svg";
 
 
@@ -67,6 +66,10 @@ const Betting = () => {
   const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
   const [PlacingBet, setPlacingBet] = useState(false);
   const [soundFlag, setSoundFlag] = useState(0);
+
+  const [loader, setLoader] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
 
 
   const [selectedOption, setSelectedOption] = useState(null);
@@ -252,6 +255,65 @@ const Betting = () => {
     }
   }
 
+
+  const handlePlaceBet = async (walletAddress: string, betAmount: number, rollUnder: number) => {
+    setLoader(true)
+    try {
+      const lpInstance = await selectInstances(
+        instanceType.BETTING, // type of instance
+        BETTING_ADDRESS //contract address
+      );
+      const RollDice = await lpInstance.methods
+        .playerRollDice(rollUnder)
+        .send({
+          from: walletAddress,
+          value: convertToWei(betAmount),
+        })
+        .once("confirmation", function (receipt: any) {
+          // setSuccess(true)
+        });
+    } catch (error) {
+      console.log('error', error);
+      setLoader(false);
+      setSuccess(false)
+      setError(true);
+    }
+  }
+
+  const toggleModal = () => {
+    setLoader(false);
+    setSuccess(false);
+    setError(false);
+  }
+
+
+  useEffect(() => {
+    const socket = io("wss://diceroll.rapidinnovation.tech");
+    try {
+      socket.on("connection", () => {
+        // Replace event name with connection event name
+        console.log("websocket connected");
+      });
+      socket.on("betting", (data) => {
+        console.log(data);
+        setResultObject({
+          Betid: data.BetID,
+          Diceresult: data.DiceResult,
+          Playeraddress: data.PlayerAddress,
+          Playernumber: data.PlayerNumber,
+          Status: data.Status,
+          Value: data.Value,
+        });
+        setLoader(false)
+        setSuccess(true)
+      });
+    } catch (err) {
+      console.log("err", err);
+      setSuccess(false);
+      setError(true);
+    }
+  }, []);
+
   const PlaceBet = async (
     myAccount: string | null,
     Amount: any,
@@ -338,28 +400,28 @@ const Betting = () => {
     getWalletBalance();
   }, [userAddress, showResultModal]);
 
-  useEffect(() => {
-    const socket = io("wss://diceroll.rapidinnovation.tech");
-    try {
-      socket.on("connection", () => {
-        // Replace event name with connection event name
-        console.log("websocket connected");
-      });
-      socket.on("betting", (data) => {
-        console.log(data);
-        setResultObject({
-          Betid: data.BetID,
-          Diceresult: data.DiceResult,
-          Playeraddress: data.PlayerAddress,
-          Playernumber: data.PlayerNumber,
-          Status: data.Status,
-          Value: data.Value,
-        });
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const socket = io("wss://diceroll.rapidinnovation.tech");
+  //   try {
+  //     socket.on("connection", () => {
+  //       // Replace event name with connection event name
+  //       console.log("websocket connected");
+  //     });
+  //     socket.on("betting", (data) => {
+  //       console.log(data);
+  //       setResultObject({
+  //         Betid: data.BetID,
+  //         Diceresult: data.DiceResult,
+  //         Playeraddress: data.PlayerAddress,
+  //         Playernumber: data.PlayerNumber,
+  //         Status: data.Status,
+  //         Value: data.Value,
+  //       });
+  //     });
+  //   } catch (err) {
+  //     console.log("err", err);
+  //   }
+  // }, []);
 
 
   const ResultPopupCloser = () => {
@@ -390,10 +452,15 @@ const Betting = () => {
 
   useEffect(() => {
     let speed = (Number(RangeValue) / 100)
-    if (RangeValue !== 1)
+    if (RangeValue !== 1 && !loader)
       rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
 
-  }, [RangeValue])
+    if (loader && !success && !error) {
+      rollingDiceSound(true, true)
+      rangeSliderSound(speed.toFixed(2), false, soundFlag, setSoundFlag)
+    }
+
+  }, [RangeValue, loader])
 
   return (
     <BetBox>
@@ -569,13 +636,15 @@ const Betting = () => {
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
-          <PrimaryButton onClick={() => CallingPlaceBet()}>
+          // <PrimaryButton onClick={() => CallingPlaceBet()}>
+          <PrimaryButton onClick={() => handlePlaceBet(userAddress, BetAmount, RangeValue + 1)}>
             {ButtonText()}
           </PrimaryButton>
         ) : (
           <PrimaryButton onClick={HandleAllowance}>Approve</PrimaryButton>
         )}
       </BetBottom>
+
       {/* <BetResultPopup style={{ display: `${ResultPopupDisplay}` }}>
         <Crossimg onClick={ResultPopupCloser} src={Cross} alt="" />
         <H1 style={{ fontSize: '20px', color: 'white' }}>Your Roll</H1>
@@ -589,7 +658,7 @@ const Betting = () => {
 
  */}
 
-      {/* <CustomModal
+      <CustomModal
         // show={true}
         show={showResultModal}
         toggleModal={() => ResultPopupCloser()}
@@ -603,18 +672,21 @@ const Betting = () => {
           <H1 color={win ? colors.green : colors.red}>{WinLooseMsg}</H1>
           <H2>Roll Under. {PlayerRoll}</H2>
         </BetResult>
-      </CustomModal> */}
+      </CustomModal>
 
 
       {/* <WaitingModal
         show={true}
+        // show={loader && !success && !error}
+        toggleModal={() => toggleModal()}
       /> */}
-      <WinModal
-        // show={win}
-        show={showResultModal}
 
-        toggleModal={() => ResultPopupCloser()}
-      />
+      {/* <WinModal
+        show={true}
+        // show={!loader && success && !error}
+        toggleModal={() => toggleModal()}
+      /> */}
+
       {/* <LooseModal
         show={true}
       /> */}

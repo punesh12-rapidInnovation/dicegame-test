@@ -15,7 +15,7 @@ import {
     InfoText,
     InfoTextSecondary,
     DiceCont,
-    UserAddress,
+    Text,
     WinAmountContainer,
     FrontDice,
     RearDice,
@@ -48,13 +48,13 @@ const LooseModal = (props: any) => {
                     src={PulseRoll} />
 
                 <InfoText color={colors.vibrantRed}>Sorry!</InfoText>
-                <InfoTextSecondary>you lose!</InfoTextSecondary>
+                <InfoTextSecondary color={colors.vibrantRed} >you lose!</InfoTextSecondary>
                 <WinAmountContainer>
                     <img src={Coins} alt="coins" />
                     <p>You’ve lost 190 pulse coins</p>
                     <img src={sadFace} alt="coins" />
                     <img
-                        style={{ marginTop: "-20%", height: '60px' }}
+                        style={{ marginTop: "-20%", height: '65px', }}
                         src={CloseTreasureBox} alt="coins" />
                 </WinAmountContainer>
 
@@ -68,10 +68,9 @@ const LooseModal = (props: any) => {
                     </FrontDice>
                 </DiceCont>
 
-                <UserAddress>
-                    0x5f0dad0bed...4e9da
-                    <img src={CopyClipboard} alt="copy" />
-                </UserAddress>
+                <Text>
+                    Better Luck Next Time!!!
+                </Text>
 
 
                 <PrimaryButton
