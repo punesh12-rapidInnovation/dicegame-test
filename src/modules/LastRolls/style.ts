@@ -22,7 +22,7 @@ margin-top: 10px;
 `
 
 export const TD = styled.td`
-font-size: 13px;
+font-size: 12px;
 font-weight: 500;
 text-align: center;
 `
