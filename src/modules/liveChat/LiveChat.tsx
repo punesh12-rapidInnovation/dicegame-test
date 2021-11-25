@@ -45,8 +45,9 @@ const LiveChat = (props: any) => {
 
     const [messages, setMessages] = useState<any>([])
     const [inputMessage, setInputMessage] = useState('')
-    const [hoverVolumeChartValue, setHoverVolumeChartValue] = React.useState<any>("")
-    const [hoverVolumeChartDate, setHoverVolumeChartDate] = React.useState<any>("")
+    const [liquidityChartData, setLiquidityChartData] = useState<any>([])
+    const [hoverLiquidityChartValue, setHoverLiquidityChartValue] = React.useState<any>("")
+    const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("")
 
     const BASE_URL = 'https://diceroll.rapidinnovation.tech/api/message'
 
@@ -70,6 +71,18 @@ const LiveChat = (props: any) => {
             socket.disconnect();
         };
     }, [messages]);
+
+    useEffect(() => {
+        const axiosInstance = axios.create({
+            baseURL: "https://diceroll.rapidinnovation.tech/pool",
+        });
+        const getdata = async () => {
+            const res = await axiosInstance.get('/allLiquidity')
+            console.log("dataaaa", res);
+            setLiquidityChartData(res.data);
+        } //
+        getdata();
+    }, [])
 
     const sendTOAPI = async () => {
         const data: any =
@@ -160,13 +173,30 @@ const LiveChat = (props: any) => {
                         </InputParent>
                     </ChatBox>
                     <LastRolls />
-                    <Box style={{ width: '45%', marginTop: '30px', maxWidth: '700px', height: '400px', padding: "20px" }}>
+                    <Box style={{ width: '45%', marginTop: '30px', maxWidth: '700plax', height: '400px', padding: "20px" }}>
                         <BoxTitle>House Pool Size 24 H</BoxTitle>
-                        <div style={{ color: "#fff" }}>
-                            <span>$ {hoverVolumeChartValue}</span> <span>{dateFromTimestamp(hoverVolumeChartDate)}</span>
-                        </div>
+                        {
+                            !hoverLiquidityChartValue && !hoverLiquidityChartDate && liquidityChartData.length ?
+                                <div style={{ color: "#fff" }}>
+                                    <span>$ {liquidityChartData[liquidityChartData.length - 1].liquidity}</span> <span>{dateFromTimestamp(liquidityChartData[liquidityChartData.length - 1].created_at)}</span>
+                                    {/* <InfoText paddingLeft="0px">$ { liquidityChartData[liquidityChartData.length-1].total_liquidity_in_usd}</InfoText>
+                            <p style={{color:"#fff"}}>{dateFromTimestamp(liquidityChartData[liquidityChartData.length-1].created_at)}</p>  */}
+                                </div>
+                                : !liquidityChartData.length ?
+                                    null
+                                    : hoverLiquidityChartDate ?
+                                        <div style={{ color: "#fff" }}>
+                                            <span>$ {hoverLiquidityChartValue}</span> <span>{dateFromTimestamp(hoverLiquidityChartDate)}</span>
+                                            {/* <InfoText paddingLeft="0px">$ { hoverLiquidityChartValue}</InfoText>
+                            <p style={{color:"#fff"}}>{dateFromTimestamp(hoverLiquidityChartDate)}</p>  */}
+                                        </div>
+                                        : null
+                        }
+
+
+
                         <div style={{ width: '100%', height: "300px" }}>
-                            <BarChart chartData={[{ created_at: 1637193614306, volume_24: 987 }, { created_at: 1637280014325, volume_24: 387 }, { created_at: 1637366414343, volume_24: 687 }]} setHoverValue={setHoverVolumeChartValue} setHoverDate={setHoverVolumeChartDate} />
+                            <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
                         </div>
                     </Box>
                     {/* </div> */}

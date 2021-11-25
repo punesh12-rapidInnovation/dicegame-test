@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { Box, BoxTitle, TR, TD } from './style';
+import { Box, BoxTitle, TR, TD ,TableBox,H1} from './style';
 import { PrimaryButton } from 'shared/button/Button';
 import Diceicon from '../../assets/icons/Diceicon.svg';
 import { convertToEther } from 'utils/helper';
@@ -15,19 +15,31 @@ import Winicon from '../../assets/icons/Winicon.svg';
 function LastRolls() {
     const [resultsmodal, setresultsmodal] = useState(false)
     const LastRolls = JSON.parse(localStorage.getItem("LastRolls") || "[]");
-    console.log(LastRolls[5]?.Status);
-    console.log('0');
+
+
+    const NoResultMessage = () => {
+       if (localStorage.getItem("LastRolls") === null) {
+        return <H1>No Previous Result Was Found</H1>
+
+    } else {
+       return
+     }
+    }
+
+
     return (
         <Box style={{width: '45%',maxWidth:'700px',height:'400px',marginRight:'20px',marginTop:'30px',padding:"20px",background:"#2A1966",display:'flex',justifyContent:'space-between',alignItems:'center',flexDirection:'column'}}>
             <BoxTitle>YOUR LAST ROLLS <img src={Diceicon} alt="" style={{ marginLeft: '10px' }}/></BoxTitle>
-                        <div style={{width: '100%', boxShadow: "inset 0px 0px 24px #ca1ae733", borderRadius: "20px",color:"#fff",padding:"20px 10px",height:'250px',marginTop:'30px',paddingBottom:'40px'}}>
+                        <TableBox >
                             <table style={{width:"100%"}}>
                                 <TR style={{height:'40px'}}>
                                     <TD style={{textAlign:'left'}}># DATE AND TIME</TD>
                                     <TD>BET AMOUNT</TD>
                                     <TD>MIN CHANCE</TD>
                                     <TD>GAIN/LOSS</TD>
-                                </TR>
+                    </TR>
+                    
+                    {NoResultMessage()}
                         {
                         LastRolls.slice(0,4).map((Roll: any,index:any) => (
                                 <TR>
@@ -43,7 +55,7 @@ function LastRolls() {
                         
                                 }
                             </table>
-                        </div>
+                        </TableBox>
             <PrimaryButton style={{ width: '50%', transform: 'translatey(-25px)' }} onClick={() => setresultsmodal(true)}>SHOW MORE</PrimaryButton>
             
 

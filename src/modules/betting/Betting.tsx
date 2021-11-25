@@ -366,7 +366,7 @@ const Betting = () => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
     console.log(LocalBetIt);
 
-    if (userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase()) {
+    if (userAddress && userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase()) {
       if (ResultObject?.Status === '0') {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("You Lost The Bet,Better Luck Next Time");
@@ -392,7 +392,7 @@ const Betting = () => {
     } else {
       console.log("not our result");
       console.log(ResultObject?.Playeraddress.toUpperCase());
-      console.log(userAddress.toUpperCase());
+      // console.log(userAddress.toUpperCase());
     }
   }, [ResultObject]);
 
