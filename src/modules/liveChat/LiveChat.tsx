@@ -70,6 +70,17 @@ const LiveChat = (props: any) => {
         };
     }, [messages]);
 
+    useEffect(() => {
+        const axiosInstance = axios.create({
+            baseURL: "https://diceroll.rapidinnovation.tech/pool",
+        });
+       const getdata = async() => {
+        const x = await axiosInstance.get('/allLiquidity')
+        console.log("dataaaa",x);
+       } //
+       getdata();
+    },[])
+
     const sendTOAPI = async () => {
         const data: any =
         {
@@ -184,7 +195,7 @@ const LiveChat = (props: any) => {
                             <span>$ {hoverVolumeChartValue}</span> <span>{dateFromTimestamp(hoverVolumeChartDate)}</span>
                         </div>
                         <div style={{width: '100%',height:"300px"}}>
-                            <BarChart chartData={[{created_at:1637193614306,volume_24:987},{created_at:1637280014325,volume_24:387},{created_at:1637366414343,volume_24:687}]} setHoverValue={setHoverVolumeChartValue} setHoverDate={setHoverVolumeChartDate} />
+                            <BarChart chartData={[{liquidity:"3.999898734177215191",created_at:1637751430439}]} setHoverValue={setHoverVolumeChartValue} setHoverDate={setHoverVolumeChartDate} />
                         </div>
                     </Box>
                     {/* </div> */}

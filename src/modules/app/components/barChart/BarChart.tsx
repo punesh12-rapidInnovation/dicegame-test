@@ -40,9 +40,9 @@ const CustomBar = ({
 // Note: this NEEDs to be wrapped inside component and useEffect, if you plug it as is it will create big render problems (try and see console)
 const HoverUpdater = ({ payload, setHoverValue, setHoverDate }: { payload: any, setHoverValue: any, setHoverDate: any }) => {
   useEffect(() => {
-    setHoverValue(payload.volume_24)
+    setHoverValue(payload.liquidity)
     setHoverDate(payload.created_at)
-  }, [payload.volume_24, payload.created_at, setHoverValue, setHoverDate])
+  }, [payload.liquidity, payload.created_at, setHoverValue, setHoverDate])
 
   return null
 }
@@ -77,7 +77,7 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
           minTickGap={10}
         />
         <YAxis
-          dataKey="volume_24"
+          dataKey="liquidity"
           tickCount={6}
           scale="linear"
           axisLine={false}
@@ -89,14 +89,14 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
           tick={{ dx: 10 }}
         />
         <Tooltip
-          cursor={{ fill: "blue" }}
+          cursor={{ fill: "#ffffff1c" }}
           // contentStyle={{ display: 'none' }}
           formatter={(tooltipValue: any, name: any, props: any) => (
             <HoverUpdater payload={props.payload} setHoverValue={setHoverValue} setHoverDate={setHoverDate} />
           )}
         />
         <Bar
-          dataKey="volume_24"
+          dataKey="liquidity"
           fill={"#56CCF2"}
           shape={(props: any) => (
             <CustomBar height={props.height} width={props.width} x={props.x} y={props.y} fill={"#56CCF2"} />
