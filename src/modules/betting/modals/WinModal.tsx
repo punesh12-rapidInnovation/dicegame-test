@@ -22,6 +22,7 @@ import {
 } from "./style";
 import { PrimaryButton } from "shared/button/Button";
 import AnimatedTreasureChest from './AnimatedTreasureChest';
+import { betWinSound } from '../Sound';
 
 const WinModal = (props: any) => {
     const { show, toggleModal, styles, ResultObject, Profit } = props;
@@ -31,6 +32,17 @@ const WinModal = (props: any) => {
             toggleModal();
         }
     };
+
+
+    useEffect(() => {
+        if (show)
+            betWinSound.play();
+        else
+            betWinSound.removeEventListener('ended', () => {
+                betWinSound.pause();
+                betWinSound.currentTime = 0;
+            });
+    }, [show])
 
     return (
         <ModalBody

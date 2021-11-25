@@ -1,8 +1,7 @@
 
 import PulseRoll from "assets/icons/loadingPulseroll.svg";
 import RollingDice from "assets/icons/twoRollingDice.gif";
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { rollingDiceSound } from '../Sound';
 
 
@@ -15,6 +14,29 @@ import {
 
 
 
+// const useAudio = url => {
+//     const [audio] = useState(new Audio(url));
+//     const [playing, setPlaying] = useState(false);
+
+//     const play = () => setPlaying(true);
+//     const stop = () => setPlaying(false);
+
+//     useEffect(() => {
+//         playing ? audio.play() : audio.pause();
+//     },
+//         [playing]
+//     );
+
+//     useEffect(() => {
+//         audio.addEventListener('ended', () => setPlaying(false));
+//         return () => {
+//             audio.removeEventListener('ended', () => setPlaying(false));
+//         };
+//     }, []);
+
+//     return [playing, play, stop];
+// };
+
 const WaitingModal = (props: any) => {
     const { show, toggleModal, styles } = props;
 
@@ -24,6 +46,19 @@ const WaitingModal = (props: any) => {
             toggleModal();
         }
     };
+
+    // useEffect(() => {
+    //     if (show) {
+    //         rollingDiceSound.play();
+    //         // rollingDiceSound.loop = true;
+    //     }
+    //     else
+    //         rollingDiceSound.removeEventListener('ended', () => {
+    //             rollingDiceSound.pause();
+    //             rollingDiceSound.currentTime = 0;
+    //             rollingDiceSound.src = ""
+    //         });
+    // })
 
     return (
         <ModalBody
@@ -40,6 +75,7 @@ const WaitingModal = (props: any) => {
                     style={{ margin: "-30px", marginBottom: "5px" }}
 
                     src={RollingDice} />
+                {/* <button onClick={toggle}>{playing ? "Pause" : "Play"}</button> */}
 
                 <InfoText>
                     Result is loading...

@@ -22,6 +22,8 @@ import {
 } from "./style";
 import { PrimaryButton } from "shared/button/Button";
 import { colors } from "shared/styles/theme";
+import { betLooseSound } from "../Sound";
+import { useEffect } from "react";
 
 
 const LooseModal = (props: any) => {
@@ -33,6 +35,17 @@ const LooseModal = (props: any) => {
             toggleModal();
         }
     };
+
+
+    useEffect(() => {
+        if (show)
+            betLooseSound.play();
+        else
+            betLooseSound.removeEventListener('ended', () => {
+                betLooseSound.pause();
+                betLooseSound.currentTime = 0;
+            });
+    }, [show])
 
 
     return (

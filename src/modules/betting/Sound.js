@@ -1,6 +1,8 @@
 import heart from 'assets/sound/heartbeat-regular-single-loop.wav';
 // import win from 'assets/sound/bigWin.wav';
 import RollingDice from 'assets/sound/Dice2.wav';
+import bigWin from 'assets/sound/bigWin.wav';
+import bigLoose from 'assets/sound/bigLoose.wav';
 
 export const Sound = (audioSource, play, loop) => {
 	const audio = new Audio(audioSource);
@@ -12,14 +14,9 @@ export const Sound = (audioSource, play, loop) => {
 	}
 };
 
-export const rollingDiceSound = (play, loop) => {
-	const audio = new Audio(RollingDice);
-	console.log('audio', audio);
-
-	audio.loop = loop;
-
-	audio.play();
-};
+export const rollingDiceSound = new Audio(RollingDice);
+export const betWinSound = new Audio(bigWin);
+export const betLooseSound = new Audio(bigLoose);
 
 export const rangeSliderSound = (
 	playbackRate,

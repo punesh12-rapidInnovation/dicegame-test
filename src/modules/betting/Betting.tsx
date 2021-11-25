@@ -71,7 +71,6 @@ const Betting = () => {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
 
-  console.log('ResultObject', ResultObject);
 
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -118,7 +117,6 @@ const Betting = () => {
     const RangePercent = parseInt(e.currentTarget.value);
     if (RangePercent > 98) {
       setRangeValue(98);
-      console.log("greater");
     } else if (RangePercent < 1) {
       setRangeValue(1);
     } else {
@@ -436,15 +434,6 @@ const Betting = () => {
 
 
 
-
-  // const ResultPopupCloser = () => {
-  //   setPlacingBet(false);
-  //   localStorage.setItem("Loading", "false");
-  //   setResultPopupDisplay("none");
-  //   setShowResultModal(false);
-  //   setwin(false);
-  // };
-
   useEffect(() => {
     ProfitCalculator();
     CheckAllowanceStatus();
@@ -462,17 +451,11 @@ const Betting = () => {
     }, 5000);
   }, [ResultObject]);
 
-  // useEffect(() => {
-  //   let speed = (Number(RangeValue) / 100)
-  //   if (RangeValue !== 1 && !loader)
-  //     rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
-
-  //   // if (loader && !success && !error) {
-  //   //   rollingDiceSound(true, true)
-  //   //   rangeSliderSound(speed.toFixed(2), false, soundFlag, setSoundFlag)
-  //   // }
-
-  // }, [RangeValue, loader])
+  useEffect(() => {
+    let speed = (Number(RangeValue) / 100)
+    if (RangeValue !== 1 && !loader)
+      rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
+  }, [RangeValue, loader])
 
   return (
     <BetBox>
@@ -688,15 +671,10 @@ const Betting = () => {
 
 
       <WaitingModal
-        // show={true}
         show={loader && !success && !error}
         toggleModal={() => toggleModal()}
       />
-
-      {console.log('check', loader, success, error, win)
-      }
       <WinModal
-        // show={showResultModal}
         show={!loader && success && win && !error}
         toggleModal={() => toggleModal()}
 
@@ -707,7 +685,6 @@ const Betting = () => {
       <LooseModal
         show={!loader && success && !win && !error}
         toggleModal={() => toggleModal()}
-
         ResultObject={ResultObject}
         Profit={Profit.toFixed(6)}
 
