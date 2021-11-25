@@ -679,14 +679,14 @@ const Betting = () => {
         toggleModal={() => toggleModal()}
 
         ResultObject={ResultObject}
-        Profit={Profit.toFixed(6)}
+        Profit={Profit.toFixed(10)}
       />
 
       <LooseModal
         show={!loader && success && !win && !error}
         toggleModal={() => toggleModal()}
         ResultObject={ResultObject}
-        Profit={Profit.toFixed(6)}
+        LossAmount={BetAmount}
 
       />
 

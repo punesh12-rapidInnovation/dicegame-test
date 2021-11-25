@@ -27,7 +27,7 @@ import { useEffect } from "react";
 
 
 const LooseModal = (props: any) => {
-    const { show, toggleModal, styles, ResultObject, Profit } = props;
+    const { show, toggleModal, styles, ResultObject, LossAmount } = props;
 
 
     const handleClickOutside = (e: any) => {
@@ -64,7 +64,7 @@ const LooseModal = (props: any) => {
                 <InfoTextSecondary color={colors.vibrantRed} >you lose!</InfoTextSecondary>
                 <WinAmountContainer>
                     <img src={Coins} alt="coins" />
-                    <p>You’ve lost {Profit} pulse coins</p>
+                    <p>You’ve lost {LossAmount} pulse coins</p>
                     <img src={sadFace} alt="coins" />
                     <img
                         style={{ marginTop: "-20%", height: '65px', }}
