@@ -1,5 +1,5 @@
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import PulseRoll from "assets/icons/loadingPulseroll.svg";
 import CopyClipboard from "assets/icons/copyClipboard.svg";
 import PulseCoin from "assets/icons/pulseGoldCoin.svg";
@@ -24,19 +24,18 @@ import { PrimaryButton } from "shared/button/Button";
 import AnimatedTreasureChest from './AnimatedTreasureChest';
 
 const WinModal = (props: any) => {
-    const { show, toggleModal, styles } = props;
+    const { show, toggleModal, styles, ResultObject, Profit } = props;
 
-
-    // const handleClickOutside = (e: any) => {
-    //     if (e.target === e.currentTarget) {
-    //         toggleModal();
-    //     }
-    // };
+    const handleClickOutside = (e: any) => {
+        if (e.target === e.currentTarget) {
+            toggleModal();
+        }
+    };
 
     return (
         <ModalBody
             show={show}
-            // onMouseDown={handleClickOutside}
+            onMouseDown={handleClickOutside}
             style={{ ...styles }}
         >
             <ModalContent>
@@ -49,7 +48,7 @@ const WinModal = (props: any) => {
                 <InfoTextSecondary>you win!</InfoTextSecondary>
                 <WinAmountContainer>
                     <img src={Coins} alt="coins" />
-                    <p>You’ve won 190 pulse coins</p>
+                    <p>You’ve won {Profit} pulse coins</p>
                     <img src={HappyFace} alt="coins"
                         style={{ marginRight: "20px" }}
                     />
@@ -61,7 +60,7 @@ const WinModal = (props: any) => {
                         <img src={Diceback} alt="" />
                     </RearDice>
                     <FrontDice>
-                        <p>99</p>
+                        <p>{!!ResultObject && ResultObject.Diceresult}</p>
                         <img src={DiceFront} alt="" />
                     </FrontDice>
                 </DiceCont>
@@ -72,6 +71,7 @@ const WinModal = (props: any) => {
                 </UserAddress>
                 <PrimaryButton
                     width="50%"
+                    onClick={() => toggleModal()}
                 >DONE</PrimaryButton>
             </ModalContent>
 
