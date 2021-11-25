@@ -88,6 +88,7 @@ const LooseModal = (props: any) => {
 
                 <PrimaryButton
                     width="50%"
+                    onClick={() => toggleModal()}
                 >REPLAY</PrimaryButton>
 
             </ModalContent>

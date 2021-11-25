@@ -58,7 +58,7 @@ const ResultsModal = (props: any) => {
                         {NoResultMessage()}
 
 
-                        {/* {
+                        {
                             LastRolls.slice(0, 10).map((Roll: any, index: any) => (
                                 <TR>
                                     <TD style={{ textAlign: 'left' }}>#{index + 1} - {Roll.Date}</TD>
@@ -70,7 +70,7 @@ const ResultsModal = (props: any) => {
 
                                 </TR>
                             ))
-                        } */}
+                        }
                     </table>
                 </TableBox>
 

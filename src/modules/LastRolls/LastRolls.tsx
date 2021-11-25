@@ -40,7 +40,7 @@ function LastRolls() {
                     </TR>
 
                     {NoResultMessage()}
-                    {/* {
+                    {
                         LastRolls.slice(0, 4).map((Roll: any, index: any) => (
                             <TR>
                                 <TD style={{ textAlign: 'left' }}>#{index + 1} - {Roll.Date}</TD>
@@ -52,7 +52,7 @@ function LastRolls() {
 
                             </TR>
                         ))
-                    } */}
+                    }
                 </table>
             </TableBox>
             <PrimaryButton style={{ width: '50%', transform: 'translatey(-25px)' }} onClick={() => setresultsmodal(true)}>SHOW MORE</PrimaryButton>

@@ -139,29 +139,29 @@ const Betting = () => {
     }
   };
 
-  // const CallingPlaceBet = async () => {
-  //   if (localStorage.getItem("Loading") === "true") {
-  //     return;
-  //   } else if (PlacingBet) {
-  //     return;
-  //   } else if (BetAmount === 0) {
-  //     window.alert("BetAmount cannot be 0");
-  //     return;
-  //   } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
-  //     alert("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED");
-  //   } else {
-  //     if (userAddress) {
-  //       const RollUnder: any = RangeValue + 1;
-  //       // const BetId = await PlaceBet(userAddress, BetAmount, RollUnder);
-  //       console.log(BetId);
-  //       setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
-  //       localStorage.setItem(
-  //         "PlacingBetId",
-  //         BetId?.events.LogBet.returnValues.BetID
-  //       );
-  //     }
-  //   }
-  // };
+  const CallingPlaceBet = async () => {
+    if (localStorage.getItem("Loading") === "true") {
+      return;
+    } else if (PlacingBet) {
+      return;
+    } else if (BetAmount === 0) {
+      window.alert("BetAmount cannot be 0");
+      return;
+    } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
+      alert("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED");
+    } else {
+      if (userAddress) {
+        const RollUnder: any = RangeValue + 1;
+        const BetId = await PlaceBet(userAddress, BetAmount, RollUnder);
+        console.log(BetId);
+        setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
+        localStorage.setItem(
+          "PlacingBetId",
+          BetId?.events.LogBet.returnValues.BetID
+        );
+      }
+    }
+  };
 
   const ProfitCalculator = async () => {
     const Houseedgeamount = parseInt(await HouseEdge());
@@ -254,7 +254,6 @@ const Betting = () => {
 
 
   const handlePlaceBet = async (walletAddress: string, betAmount: number, rollUnder: number) => {
-    setLoader(true)
     try {
       const lpInstance = await selectInstances(
         instanceType.BETTING, // type of instance
@@ -265,6 +264,9 @@ const Betting = () => {
         .send({
           from: walletAddress,
           value: convertToWei(betAmount),
+        })
+        .once('transactionHash', function (res: any) {
+          setLoader(true)
         })
         .once("confirmation", function (receipt: any) {
           // setSuccess(true)
@@ -341,6 +343,9 @@ const Betting = () => {
           .send({
             from: myAccount,
             value: Ethervalue,
+          })
+          .once('transactionHash', function (res: any) {
+            setLoader(true)
           })
           .once("confirmation", function (receipt: any) {
             setPlacingBet(false);
@@ -631,8 +636,8 @@ const Betting = () => {
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
-          // <PrimaryButton onClick={() => CallingPlaceBet()}>
-          <PrimaryButton onClick={() => handlePlaceBet(userAddress, BetAmount, RangeValue + 1)}>
+          <PrimaryButton onClick={() => CallingPlaceBet()}>
+            {/* // <PrimaryButton onClick={() => handlePlaceBet(userAddress, BetAmount, RangeValue + 1)}> */}
             {ButtonText()}
           </PrimaryButton>
         ) : (
@@ -679,7 +684,7 @@ const Betting = () => {
         toggleModal={() => toggleModal()}
 
         ResultObject={ResultObject}
-        Profit={Profit.toFixed(10)}
+        Profit={Profit.toFixed(6)}
       />
 
       <LooseModal
