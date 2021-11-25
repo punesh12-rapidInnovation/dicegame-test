@@ -299,23 +299,24 @@ const Betting = () => {
       socket.on("betevent", (data) => {
 
         console.log(data);
-        if (data.PlayerAddress === userAddress) {
-          setResultObject({
-            Betid: data.BetID,
-            Diceresult: data.DiceResult,
-            Playeraddress: data.PlayerAddress,
-            Playernumber: data.PlayerNumber,
-            Status: data.Status,
-            Value: data.Value,
-          });
+        setResultObject({
+          Betid: data.BetID,
+          Diceresult: data.DiceResult,
+          Playeraddress: data.PlayerAddress,
+          Playernumber: data.PlayerNumber,
+          Status: data.Status,
+          Value: data.Value,
+        });
+        // console.log("wallet", data.PlayerAddress === userAddress);
 
-          if (data.Status === "1")
-            setwin(true);
-          setLoader(false)
-          setSuccess(true)
-          // StoringLastRolls();
-          // setShowResultModal(true)
-        }
+        // if (data.PlayerAddress === userAddress) {
+        if (data.Status === "1")
+          setwin(true);
+        setLoader(false)
+        setSuccess(true)
+        // StoringLastRolls();
+        // setShowResultModal(true)
+        // }
       });
     } catch (err) {
       console.log("err", err);
