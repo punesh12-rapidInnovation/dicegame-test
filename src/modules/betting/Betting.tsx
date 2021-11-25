@@ -297,23 +297,25 @@ const Betting = () => {
         console.log("websocket connected");
       });
       socket.on("betevent", (data) => {
+
         console.log(data);
-        setResultObject({
-          Betid: data.BetID,
-          Diceresult: data.DiceResult,
-          Playeraddress: data.PlayerAddress,
-          Playernumber: data.PlayerNumber,
-          Status: data.Status,
-          Value: data.Value,
-        });
+        if (data.PlayerAddress === userAddress) {
+          setResultObject({
+            Betid: data.BetID,
+            Diceresult: data.DiceResult,
+            Playeraddress: data.PlayerAddress,
+            Playernumber: data.PlayerNumber,
+            Status: data.Status,
+            Value: data.Value,
+          });
 
-        if (data.Status === "1")
-          setwin(true);
-
-        setLoader(false)
-        setSuccess(true)
-        // StoringLastRolls();
-        // setShowResultModal(true)
+          if (data.Status === "1")
+            setwin(true);
+          setLoader(false)
+          setSuccess(true)
+          // StoringLastRolls();
+          // setShowResultModal(true)
+        }
       });
     } catch (err) {
       console.log("err", err);

@@ -84,8 +84,6 @@ const LooseModal = (props: any) => {
                 <Text>
                     Better Luck Next Time!!!
                 </Text>
-
-
                 <PrimaryButton
                     width="50%"
                     onClick={() => toggleModal()}
