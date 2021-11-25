@@ -32,3 +32,23 @@ height: 35px;
 
 `
 
+export const TableBox = styled.div`
+position: relative;
+width: 100%;
+box-shadow: inset 0px 0px 24px #ca1ae733;
+border-radius: 20px;
+color:#fff;
+padding:20px 10px;
+height:250px;
+margin-top:30px;
+padding-bottom:40px;
+`
+
+export const H1 = styled.h1`
+font-size: 15px;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%,-50%);
+`
+
