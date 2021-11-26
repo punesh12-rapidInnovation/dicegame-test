@@ -332,7 +332,7 @@ export const PercentChance = styled.div<any>`
   justify-content: center;
   text-align: center;
   margin-bottom: ${(props) =>
-  props.MarginBottom ? props.MarginBottom : "0"}; ;
+    props.MarginBottom ? props.MarginBottom : "0"}; ;
     
 `;
 
@@ -382,12 +382,11 @@ export const Range = styled.input`
   
   &::-webkit-slider-runnable-track {
     background: ${(props) => {
-      return parseFloat(`${props.value}`) >= 50
-        ? `linear-gradient(to left, #EB5757 ${
-            100 - parseFloat(`${props.value}`)
-          }%, #6FCF97 ${100 - parseFloat(`${props.value}`)}%)`
-        : `linear-gradient(to right, #6FCF97 ${props.value}%, #EB5757 ${props.value}%)`;
-    }};
+    return parseFloat(`${props.value}`) >= 50
+      ? `linear-gradient(to left, #EB5757 ${100 - parseFloat(`${props.value}`)
+      }%, #6FCF97 ${100 - parseFloat(`${props.value}`)}%)`
+      : `linear-gradient(to right, #6FCF97 ${props.value}%, #EB5757 ${props.value}%)`;
+  }};
     height: 12px;
     border-radius: 10px;
     width: 100%;
@@ -479,4 +478,35 @@ export const OddEvenDiv = styled.div`
   margin-bottom: 10px;
 `;
 
+export const Select = styled.select`
+
+width: 65px;
+height: 32px;
+color:${colors.white};
+margin:0 5px;
+background: linear-gradient(90deg, rgba(239, 8, 150, 0.2) -6.9%, rgba(112, 7, 255, 0.2) 55.31%, rgba(0, 200, 255, 0.2) 107.28%);
+// border: 2px solid linear-gradient(#53084d , #7007FF, #00C8FF);
+border: 2px solid #53084d;
+box-shadow: 0px 3px 5px rgba(23, 15, 24, 0.5), inset 0px 0px 14px rgba(202, 26, 231, 0.6);
+border-radius: 5px;
+
+
+
+
+
+ Option{
+  width: 100px;
+  height: 32px;
+  border-radius: 10px;
+  padding:20px;
+  background:#53084d;
+  background-color: linear-gradient(lett,#53084d , #7007FF, #00C8FF);
+  border: 2px solid #53084d;
+ }
+}
+`
+
+export const Option = styled.option`
+
+  `
 

@@ -15,17 +15,19 @@ import {
     InfoText,
     InfoTextSecondary,
     DiceCont,
-    UserAddress,
+    Text,
     WinAmountContainer,
     FrontDice,
     RearDice,
 } from "./style";
 import { PrimaryButton } from "shared/button/Button";
 import { colors } from "shared/styles/theme";
+import { betLooseSound } from "../Sound";
+import { useEffect } from "react";
 
 
 const LooseModal = (props: any) => {
-    const { show, toggleModal, styles } = props;
+    const { show, toggleModal, styles, ResultObject, LossAmount } = props;
 
 
     const handleClickOutside = (e: any) => {
@@ -33,6 +35,17 @@ const LooseModal = (props: any) => {
             toggleModal();
         }
     };
+
+
+    // useEffect(() => {
+    //     if (show)
+    //         betLooseSound.play();
+    //     else
+    //         betLooseSound.removeEventListener('ended', () => {
+    //             betLooseSound.pause();
+    //             betLooseSound.currentTime = 0;
+    //         });
+    // }, [show])
 
 
     return (
@@ -48,13 +61,13 @@ const LooseModal = (props: any) => {
                     src={PulseRoll} />
 
                 <InfoText color={colors.vibrantRed}>Sorry!</InfoText>
-                <InfoTextSecondary>you lose!</InfoTextSecondary>
+                <InfoTextSecondary color={colors.vibrantRed} >you lose!</InfoTextSecondary>
                 <WinAmountContainer>
                     <img src={Coins} alt="coins" />
-                    <p>You’ve lost 190 pulse coins</p>
+                    <p>You’ve lost {LossAmount} pulse coins</p>
                     <img src={sadFace} alt="coins" />
                     <img
-                        style={{ marginTop: "-20%", height: '60px' }}
+                        style={{ marginTop: "-20%", height: '65px', }}
                         src={CloseTreasureBox} alt="coins" />
                 </WinAmountContainer>
 
@@ -63,19 +76,17 @@ const LooseModal = (props: any) => {
                         <img src={Diceback} alt="" />
                     </RearDice>
                     <FrontDice>
-                        <p>99</p>
+                        <p>{!!ResultObject && ResultObject.Diceresult}</p>
                         <img src={DiceFront} alt="" />
                     </FrontDice>
                 </DiceCont>
 
-                <UserAddress>
-                    0x5f0dad0bed...4e9da
-                    <img src={CopyClipboard} alt="copy" />
-                </UserAddress>
-
-
+                <Text>
+                    Better Luck Next Time!!!
+                </Text>
                 <PrimaryButton
                     width="50%"
+                    onClick={() => toggleModal()}
                 >REPLAY</PrimaryButton>
 
             </ModalContent>

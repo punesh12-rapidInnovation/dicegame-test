@@ -77,13 +77,13 @@ const LiveChat = (props: any) => {
         const axiosInstance = axios.create({
             baseURL: "https://diceroll.rapidinnovation.tech/pool",
         });
-       const getdata = async() => {
-        const res = await axiosInstance.get('/allLiquidity')
-        console.log("dataaaa",res);
-        setLiquidityChartData(res.data);
-       } //
-       getdata();
-    },[])
+        const getdata = async () => {
+            const res = await axiosInstance.get('/allLiquidity')
+            console.log("dataaaa", res);
+            setLiquidityChartData(res.data);
+        } //
+        getdata();
+    }, [])
 
     const sendTOAPI = async () => {
         const data: any =
@@ -138,20 +138,20 @@ const LiveChat = (props: any) => {
 
     return (
         <GlobalChatSection>
-        <>
-            <Box style={{
+            <>
+                <Box style={{
                     // display: 'grid',
                     // gridTemplateColumns: 'repeat(auto-fill, minmax(370px, 1fr))',
                     // gridColumnGap: '10px',
                     // gridRowGap: '10px',
                     width: '85%',
                     maxWidth: '1300px',
-                    minWidth:'1100px',
-                
-                padding:"40px 10px",
-                display: 'flex', justifyContent: 'center', alignItems: 'center',flexWrap:'wrap' 
+                    minWidth: '1100px',
+
+                    padding: "40px 10px",
+                    display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap'
                 }}>
-                
+
                     <Betting />
                     <ChatBox style={{ position: 'relative' }}>
 
@@ -173,8 +173,8 @@ const LiveChat = (props: any) => {
                             </Button>
                         </InputParent>
                     </ChatBox>
-                    <LastRolls/>
-                    <Box style={{width: '45%',marginTop:'30px',maxWidth:'700px',height:'400px',padding:"20px"}}>
+                    <LastRolls />
+                    <Box style={{ width: '45%', marginTop: '30px', maxWidth: '700plax', height: '400px', padding: "20px" }}>
                         <BoxTitle>House Pool Size 24 H</BoxTitle>
                         {
                             !hoverLiquidityChartValue && !hoverLiquidityChartDate && liquidityChartData.length ? 
@@ -196,10 +196,10 @@ const LiveChat = (props: any) => {
                             </>
                             : null
                         }
-                        
-                            
-                        
-                        <div style={{width: '100%',height:"300px"}}>
+
+
+
+                        <div style={{ width: '100%', height: "300px" }}>
                             <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
                         </div>
                     </Box>
@@ -209,7 +209,7 @@ const LiveChat = (props: any) => {
                             <BarChart chartData={[{created_at:19,volume_24:987},{created_at:20,volume_24:387},{created_at:21,volume_24:687}]} setHoverValue={() => {}} setHoverDate={() => {}} />
                         </Box>
                     </div> */}
-                {/* <div style={{
+                    {/* <div style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fill, minmax(370px, 1fr))',
                     gridColumnGap: '10px',
@@ -227,33 +227,33 @@ const LiveChat = (props: any) => {
                         </Box>
                     </div>
                 </div> */}
-            </Box>
+                </Box>
 
 
-            {/* //////////////// */}
-            <PopupModal
-                style={{
-                    display: toggleModal ? "block" : "none"
-                }}
-            >
-                <div>
+                {/* //////////////// */}
+                <PopupModal
+                    style={{
+                        display: toggleModal ? "block" : "none"
+                    }}
+                >
                     <div>
-                        <input type="submit"
-                            value="Metamask"
-                            className="popup-button"
-                            onClick={() => { connectWallet(); setToggleModal(false) }}
-                        />
+                        <div>
+                            <input type="submit"
+                                value="Metamask"
+                                className="popup-button"
+                                onClick={() => { connectWallet(); setToggleModal(false) }}
+                            />
+                        </div>
                     </div>
-                </div>
 
-                <input
-                    onClick={() => setToggleModal(false)}
-                    className="close"
-                    type="button" value="Close"
+                    <input
+                        onClick={() => setToggleModal(false)}
+                        className="close"
+                        type="button" value="Close"
 
-                />
-            </PopupModal>
-        </>
+                    />
+                </PopupModal>
+            </>
         </GlobalChatSection >
     )
 };

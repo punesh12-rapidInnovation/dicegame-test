@@ -1,4 +1,3 @@
-import React from 'react';
 import LiveChat from '../../modules/liveChat';
 import { Landingdiv, Beonediv, Flexcol, Beoneimagediv, Beoneimg, H1, H2, H3, Playerrank, Rankimg } from './style';
 import { Flex, FlexColumn } from '../../modules/betting/style';
@@ -6,7 +5,7 @@ import Beoneimage from '../../assets/images/beoneimage.png'
 import rectangle from '../../assets/images/rectangle.png'
 import playerrank from '../../assets/icons/playerrank.svg'
 import PlayersImage from '../../assets/images/PlayersImage.png';
-import { RollDice } from '../../modules/betting/style';
+import { PrimaryButton } from 'shared/button/Button';
 
 const LandingPage = () => {
     return (
@@ -29,7 +28,7 @@ const LandingPage = () => {
                 </FlexColumn>
                 <Flex style={{ width: '60%', justifyContent: 'flex-end' }}>
                     <img src={PlayersImage} alt="" style={{ height: '65px', marginRight: "50px" }} />
-                    <RollDice style={{ width: '230px', fontSize: '20px', textTransform: 'uppercase', }}>DEPOSIT FUNDS</RollDice>
+                    <PrimaryButton>DEPOSIT FUNDS</PrimaryButton>
                 </Flex>
 
             </Playerrank>
