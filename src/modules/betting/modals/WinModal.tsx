@@ -22,16 +22,29 @@ import {
 } from "./style";
 import { PrimaryButton } from "shared/button/Button";
 import AnimatedTreasureChest from './AnimatedTreasureChest';
+import OpenTreasureBox from "assets/icons/openTreasureBox.svg";
+
 import { betWinSound } from '../Sound';
 
 const WinModal = (props: any) => {
     const { show, toggleModal, styles, ResultObject, Profit } = props;
+
+    const [Numbers, setNumbers] = useState([])
 
     const handleClickOutside = (e: any) => {
         if (e.target === e.currentTarget) {
             toggleModal();
         }
     };
+
+
+    useEffect(() => {
+        for (let index = 0; index < 15; index++) {
+            setNumbers((prev: any) => [...prev, { src: PulseCoin }])
+        }
+    }, [])
+
+    // console.log('number', Numbers);
 
 
     // useEffect(() => {
@@ -51,10 +64,7 @@ const WinModal = (props: any) => {
             style={{ ...styles }}
         >
             <ModalContent>
-                <Image
-                    // style={{ marginBottom: "20px" }}
-                    // height={"60px"}
-                    src={PulseRoll} />
+                <Image src={PulseRoll} />
 
                 <InfoText>Congratulations!</InfoText>
                 <InfoTextSecondary>you win!</InfoTextSecondary>
@@ -64,7 +74,10 @@ const WinModal = (props: any) => {
                     <img src={HappyFace} alt="coins"
                         style={{ marginRight: "20px" }}
                     />
-                    <AnimatedTreasureChest />
+                    <img
+                        style={{ marginTop: "-25%", height: '80px' }}
+                        src={OpenTreasureBox} alt="treasureBox" />
+                    {/* <AnimatedTreasureChest /> */}
                 </WinAmountContainer>
 
                 <DiceCont>
@@ -87,22 +100,12 @@ const WinModal = (props: any) => {
                 >DONE</PrimaryButton>
             </ModalContent>
 
-            <div
-                className="coinShower"
-            >
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
-                <img src={PulseCoin} alt="" />
+            <div className="coinShower">
+                {
+                    Numbers.map((data: any) => {
+                        return <img src={data.src} alt="" />
+                    })
+                }
             </div>
         </ModalBody>
     );

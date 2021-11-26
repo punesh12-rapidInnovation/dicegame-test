@@ -74,6 +74,19 @@ const Betting = () => {
   const [error, setError] = useState(false)
   const [selectedOption, setSelectedOption] = useState(null);
 
+  const [Numbers, setNumbers] = useState([])
+
+
+
+  useEffect(() => {
+    for (let index = 0; index < 100; index++) {
+      setNumbers((prev: any) => [...prev, index])
+    }
+  }, [])
+
+
+
+
   window.onbeforeunload = function () {
     if (PlacingBet) {
       return "Leaving this page will reset the wizard";
@@ -627,18 +640,21 @@ const Betting = () => {
             <H2>Select Range</H2>
             <Flex style={{ width: "40%", justifyContent: "space-between", alignItems: "center" }}>
               <p style={{ fontSize: "12px" }}>From</p>
-              <Select id="country" name="country">
-                <Option value="0">0</Option>
-                <Option value="1">1</Option>
-                <Option value="2">2</Option>
-                <Option value="3">3</Option>
+              <Select id="rangeFrom" name="">
+                {
+                  Numbers.map((data, index) => {
+                    return <Option value={index + 1}>{index + 1}</Option>
+                  })
+                }
               </Select>
               <p style={{ fontSize: "12px" }}>To</p>
-              <Select id="country" name="country">
-                <Option value="50">50</Option>
-                <Option value="51">51</Option>
-                <Option value="52">52</Option>
-                <Option value="53">53</Option>
+              <Select id="rangeTo" name="">
+                {
+                  Numbers.map((data, index) => {
+                    return <Option value={index + 2}>{index + 2}</Option>
+                  })
+                }
+
               </Select>
 
             </Flex>
@@ -700,6 +716,7 @@ const Betting = () => {
         toggleModal={() => toggleModal()}
       />
       <WinModal
+        // show={true}
         show={!loader && success && win && !error}
         toggleModal={() => toggleModal()}
 

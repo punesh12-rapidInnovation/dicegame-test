@@ -18,22 +18,28 @@ export const ModalBody = styled.div<ModalBodyProps>`
 	width: 100%;
 	height: 100%;
 	overflow: auto;
-	backdrop-filter: blur(5px);
-
-
+	-webkit-backdrop-filter: blur(5px);
+	      -moz-backdrop-filter: blur(5px);
+	        backdrop-filter: blur(5px);
 	
 .coinShower{
 	width:100%;
+	display:-webkit-box;
+	display:-ms-flexbox;
 	display:flex;
-	justify-content:space-around;
-	align-items: center;
+	-ms-flex-pack:distribute;
+	    justify-content:space-around;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	        align-items: center;
 	position: absolute;
 	top:-70px;
 }
 
 .coinShower img{
 	width:30px;
-	animation: pulseCoinShower 3s infinite;
+	-webkit-animation: pulseCoinShower 3s infinite;
+	        animation: pulseCoinShower 3s infinite;
 }
 
 @keyframes pulseCoinShower{
@@ -57,15 +63,19 @@ export const ModalBody = styled.div<ModalBodyProps>`
 
 .coinShower img: nth-child(1){
 animation-delay:2s;
+width:15px;
 }
 .coinShower img: nth-child(2){
 animation-delay:1.5s;
+width:25px;
 }
 .coinShower img: nth-child(3){
 animation-delay:3s;
+width:40px;
 }
 .coinShower img: nth-child(4){
 animation-delay:2.5s;
+width:15px;
 }
 .coinShower img: nth-child(5){
 animation-delay:0.5s;
@@ -81,37 +91,49 @@ animation-delay:0.8s;
 }
 .coinShower img: nth-child(9){
 	animation-delay:4s;
+	width:15px;
 }
 .coinShower img: nth-child(10){
 	animation-delay:1s;
 }
 .coinShower img: nth-child(11){
 	animation-delay:4s;
+	width:45px;
 }
 .coinShower img: nth-child(11){
 	animation-delay:0.6s;
 }
 .coinShower img: nth-child(12){
 	animation-delay:2s;
+	width:20px;
 }
 .coinShower img: nth-child(13){
 	animation-delay:0.4s;
+	width:15px;
+}
+.coinShower img: nth-child(14){
+	animation-delay:4s;
+}
+.coinShower img: nth-child(15){
+	animation-delay:1s;
+	width:50px;
 }
  `;
 
-// function getAnimations(items: any, duration: any) {
-// 	let str = ''
+// function getAnimations(items: any) {
+// 	let str = '.coinShower img'
 // 	for (let i = 0; i < items; i += 1) {
-// 		str += template(i, items, duration)
+// 		str += template(i)
 // 	}
+// 	console.log('str: ', str);
+
 // 	return str
 // }
 
-// function template(i, items, duration) {
-// 	const dur = Math.floor(Math.random() * 11);
-
+// function template(i: any) {
+// 	const dur = Math.floor(Math.random() * 11 / 10);
 // 	return `
-// 		&:nth-child(${i + 1}) {
+// 		:nth-child(${i + 1}) {
 // 		  animation-delay: ${`${dur}s`};
 // 		 }
 // 	  `
@@ -119,26 +141,47 @@ animation-delay:0.8s;
 
 
 export const ModalContent = styled.div<any>`
-	padding: 40px;
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.3.6,
+* Autoprefixer: v10.3.1
+* Browsers: last 4 version
+*/
+
+padding: 40px;
     background: url(${ModalBackground});
     background-color: #2A1966;
-    box-shadow: 0px 3px 5px #2A1966, inset 0px 0px 24px #CA1AE7;
+    -webkit-box-shadow: 0px 3px 5px #2A1966, inset 0px 0px 24px #CA1AE7;
+            box-shadow: 0px 3px 5px #2A1966, inset 0px 0px 24px #CA1AE7;
     border-radius: 10px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     
+	display: -webkit-box;
+    
+	display: -ms-flexbox;
+    
 	display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+            align-items: center;
 	margin: 0 auto;
 	border: none;
 	overflow: auto;
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	        transform: translate(-50%, -50%);
 	max-height: 100%;
 	max-width: 100%;
 	::-webkit-scrollbar {
@@ -181,9 +224,7 @@ export const InfoText = styled.p<any>`
 export const InfoTextSecondary = styled.p`
 	font-size: 24px;
     font-family:AvenirLTStd;
-    // font-weight :900;
     text-transform: uppercase;
-	// margin: 10px;
     letter-spacing: 2px;
 	color: ${(props) => props.color ? props.color : colors.yellow};
 
