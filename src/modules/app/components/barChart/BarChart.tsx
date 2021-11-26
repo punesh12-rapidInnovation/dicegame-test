@@ -75,6 +75,7 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
           tickLine={false}
           tickFormatter={(timestamp:any) => `${dayFromTimestamp(timestamp)}`}
           minTickGap={10}
+          tick={{ stroke: '#fff', strokeWidth: 0.2 }}
         />
         <YAxis
           dataKey="liquidity"
@@ -82,15 +83,15 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
           scale="linear"
           axisLine={false}
           tickLine={false}
-          // color={theme.colors.textSubtle}
+          // color="red"
           // fontSize="12px"
           tickFormatter={(vol) => `$${vol}`}
           orientation="right"
-          tick={{ dx: 10 }}
+          tick={{ dx: 10, stroke: '#fff', strokeWidth: 0.2 }}
         />
         <Tooltip
           cursor={{ fill: "#ffffff1c" }}
-          // contentStyle={{ display: 'none' }}
+          contentStyle={{ display: 'none' }}
           formatter={(tooltipValue: any, name: any, props: any) => (
             <HoverUpdater payload={props.payload} setHoverValue={setHoverValue} setHoverDate={setHoverDate} />
           )}
