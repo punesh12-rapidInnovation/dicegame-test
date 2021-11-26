@@ -34,15 +34,15 @@ const WinModal = (props: any) => {
     };
 
 
-    useEffect(() => {
-        if (show)
-            betWinSound.play();
-        else
-            betWinSound.removeEventListener('ended', () => {
-                betWinSound.pause();
-                betWinSound.currentTime = 0;
-            });
-    }, [show])
+    // useEffect(() => {
+    //     if (show)
+    //         betWinSound.play();
+    //     else
+    //         betWinSound.removeEventListener('ended', () => {
+    //             betWinSound.pause();
+    //             betWinSound.currentTime = 0;
+    //         });
+    // }, [show])
 
     return (
         <ModalBody

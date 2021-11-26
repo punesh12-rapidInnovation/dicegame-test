@@ -21,7 +21,9 @@ import {
   Crossimg,
   BetResult,
   OddEvenDiv,
-  SliderThumb
+  SliderThumb,
+  Select,
+  Option
 } from "./style";
 import {
   MinBetAmount,
@@ -70,8 +72,6 @@ const Betting = () => {
   const [loader, setLoader] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
-
-
   const [selectedOption, setSelectedOption] = useState(null);
 
   window.onbeforeunload = function () {
@@ -459,11 +459,11 @@ const Betting = () => {
     }, 5000);
   }, [ResultObject]);
 
-  useEffect(() => {
-    let speed = (Number(RangeValue) / 100)
-    if (RangeValue !== 1 && !loader)
-      rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
-  }, [RangeValue, loader])
+  // useEffect(() => {
+  //   let speed = (Number(RangeValue) / 100)
+  //   if (RangeValue !== 1 && !loader)
+  //     rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
+  // }, [RangeValue, loader])
 
   return (
     <BetBox>
@@ -625,6 +625,23 @@ const Betting = () => {
           </Flex>
           <Flex>
             <H2>Select Range</H2>
+            <Flex style={{ width: "40%", justifyContent: "space-between", alignItems: "center" }}>
+              <p style={{ fontSize: "12px" }}>From</p>
+              <Select id="country" name="country">
+                <Option value="0">0</Option>
+                <Option value="1">1</Option>
+                <Option value="2">2</Option>
+                <Option value="3">3</Option>
+              </Select>
+              <p style={{ fontSize: "12px" }}>To</p>
+              <Select id="country" name="country">
+                <Option value="50">50</Option>
+                <Option value="51">51</Option>
+                <Option value="52">52</Option>
+                <Option value="53">53</Option>
+              </Select>
+
+            </Flex>
 
           </Flex>
         </OddEvenDiv>

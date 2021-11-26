@@ -49,7 +49,6 @@ function LastRolls() {
                                 {
                                     Roll.Status === "1" ? <TD> <img src={Winicon} style={{ marginRight: '5px' }} />{convertToEther(Roll.Value).substring(0, 6)}</TD> : <TD><img src={Lossicon} style={{ marginRight: '5px' }} />{convertToEther(Roll.Value).substring(0, 6)}</TD>
                                 }
-
                             </TR>
                         ))
                     }

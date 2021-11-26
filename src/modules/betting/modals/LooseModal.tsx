@@ -37,15 +37,15 @@ const LooseModal = (props: any) => {
     };
 
 
-    useEffect(() => {
-        if (show)
-            betLooseSound.play();
-        else
-            betLooseSound.removeEventListener('ended', () => {
-                betLooseSound.pause();
-                betLooseSound.currentTime = 0;
-            });
-    }, [show])
+    // useEffect(() => {
+    //     if (show)
+    //         betLooseSound.play();
+    //     else
+    //         betLooseSound.removeEventListener('ended', () => {
+    //             betLooseSound.pause();
+    //             betLooseSound.currentTime = 0;
+    //         });
+    // }, [show])
 
 
     return (
