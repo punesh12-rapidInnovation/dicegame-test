@@ -6,14 +6,18 @@ import { TreasureCont } from './treasureChestStyle';
 
 const AnimatedTreasureChest = () => {
     return (
-        <TreasureCont>
+        <TreasureCont
+            style={{ position: "absolute", right: "-5%" }}
+
+        >
             <img
+                className="treasureBox"
                 style={{ marginTop: "-25%", height: '80px' }}
                 src={OpenTreasureBox} alt="coins" />
             <img
                 className="pulsecoin" id='middle'
                 src={PulseCoin} alt="coins" />
-            <img
+            {/* <img
                 className="pulsecoin2" id='left1'
                 src={PulseCoin} alt="coins" />
             <img
@@ -39,7 +43,7 @@ const AnimatedTreasureChest = () => {
                 src={PulseCoin} alt="coins" />
             <img
                 className="pulsecoin10"
-                src={PulseCoin} alt="coins" />
+                src={PulseCoin} alt="coins" /> */}
         </TreasureCont>
     );
 };

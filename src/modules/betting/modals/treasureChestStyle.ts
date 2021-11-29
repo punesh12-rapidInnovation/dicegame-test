@@ -145,22 +145,22 @@ position: relative;
 
 		}
  	70%  { 
-		 top:0%; 
+		 top:-20%; 
 		transform: scale(1);
 
 		}
  	80% { 
-		 top:10%; 
+		 top:-30%; 
 		transform: scale(1.2);
 		}
 		
 	90%   {
-		top:15%; 
+		top:-40%; 
 		transform: scale(1.4);
 	  }
 	  
 	100%   {
-		top:20%; 
+		top:-50%; 
 		transform: scale(1.6);
 	  }
  }

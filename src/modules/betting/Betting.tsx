@@ -296,9 +296,9 @@ const Betting = () => {
     setLoader(false);
     setSuccess(false);
     setError(false);
-
     setBetAmount("");
     setRangeValue(1);
+    window.location.reload();
   }
 
 
@@ -472,11 +472,11 @@ const Betting = () => {
     }, 5000);
   }, [ResultObject]);
 
-  // useEffect(() => {
-  //   let speed = (Number(RangeValue) / 100)
-  //   if (RangeValue !== 1 && !loader)
-  //     rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
-  // }, [RangeValue, loader])
+  useEffect(() => {
+    let speed = (Number(RangeValue) / 100)
+    if (RangeValue !== 1 && !loader)
+      rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
+  }, [RangeValue, loader])
 
   return (
     <BetBox>
@@ -725,6 +725,7 @@ const Betting = () => {
       />
 
       <LooseModal
+        // show={true}
         show={!loader && success && !win && !error}
         toggleModal={() => toggleModal()}
         ResultObject={ResultObject}

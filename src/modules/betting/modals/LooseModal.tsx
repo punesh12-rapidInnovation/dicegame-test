@@ -37,15 +37,17 @@ const LooseModal = (props: any) => {
     };
 
 
-    // useEffect(() => {
-    //     if (show)
-    //         betLooseSound.play();
-    //     else
-    //         betLooseSound.removeEventListener('ended', () => {
-    //             betLooseSound.pause();
-    //             betLooseSound.currentTime = 0;
-    //         });
-    // }, [show])
+    useEffect(() => {
+        if (show)
+            betLooseSound.play();
+        else
+            betLooseSound.removeEventListener('ended', () => {
+                betLooseSound.pause();
+                betLooseSound.currentTime = 0;
+            });
+
+
+    }, [show])
 
 
     return (
@@ -64,9 +66,10 @@ const LooseModal = (props: any) => {
                 <InfoTextSecondary color={colors.vibrantRed} >you lose!</InfoTextSecondary>
                 <WinAmountContainer>
                     <img src={Coins} alt="coins" />
-                    <p>You’ve lost {LossAmount} pulse coins</p>
+                    <p>You’ve lost {Number(LossAmount).toFixed(6)} pulse coins</p>
                     <img src={sadFace} alt="coins" />
                     <img
+                        className="treasureBox"
                         style={{ marginTop: "-20%", height: '65px', }}
                         src={CloseTreasureBox} alt="coins" />
                 </WinAmountContainer>
