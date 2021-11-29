@@ -17,7 +17,7 @@ export const ModalBody = styled.div<ModalBodyProps>`
 	top: 0;
 	width: 100%;
 	height: 100%;
-	overflow: auto;
+	overflow: hidden;
 	-webkit-backdrop-filter: blur(5px);
 	      -moz-backdrop-filter: blur(5px);
 	        backdrop-filter: blur(5px);
@@ -141,12 +141,6 @@ animation-delay:0.8s;
 
 
 export const ModalContent = styled.div<any>`
-/*
-* Prefixed by https://autoprefixer.github.io
-* PostCSS: v8.3.6,
-* Autoprefixer: v10.3.1
-* Browsers: last 4 version
-*/
 
 padding: 40px;
     background: url(${ModalBackground});

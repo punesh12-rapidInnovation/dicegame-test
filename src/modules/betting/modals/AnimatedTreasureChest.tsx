@@ -7,7 +7,7 @@ import { TreasureCont } from './treasureChestStyle';
 const AnimatedTreasureChest = () => {
     return (
         <TreasureCont
-            style={{ position: "absolute", right: "-5%" }}
+            style={{ position: "absolute", right: "-1%" }}
 
         >
             <img

@@ -4,9 +4,10 @@ import NotFound from './NotFound';
 import { Paths } from './types';
 import { Redirect, Switch } from "react-router";
 import { Router, Route } from 'react-router-dom'
-import history from '../history'
-import LandingPage from '../../../../pages/landingPage/LandingPage';
 import LiveChat from '../../../liveChat/LiveChat';
+import HousePool from 'pages/housePool';
+import LandingPage from 'pages/landingPage/LandingPage';
+import history from 'shared/helpers/history';
 
 
 
@@ -31,6 +32,12 @@ export const routes: RouteDefinition[] = [
         component: LiveChat,
         protected: false,
         redirect: Paths.liveChat,
+    },
+    {
+        path: Paths.housePool,
+        component: HousePool,
+        protected: false,
+        redirect: Paths.landing,
     },
 ].concat(notFoundRoute as any) // Ensure that notFound is the last route
 

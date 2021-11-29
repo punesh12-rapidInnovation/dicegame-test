@@ -320,9 +320,7 @@ const Betting = () => {
           Status: data.Status,
           Value: data.Value,
         });
-        // console.log("wallet", data.PlayerAddress === userAddress);
-
-        // if (data.PlayerAddress === userAddress) {
+        // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
         if (data.Status === "1")
           setwin(true);
         setLoader(false)
@@ -330,6 +328,7 @@ const Betting = () => {
         // StoringLastRolls();
         // setShowResultModal(true)
         // }
+
       });
     } catch (err) {
       console.log("err", err);

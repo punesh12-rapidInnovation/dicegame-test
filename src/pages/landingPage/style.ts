@@ -68,7 +68,6 @@ background: linear-gradient(
              rgba(0, 200, 255, 1));
 -webkit-text-fill-color: transparent;
 -webkit-background-clip: text;
-
 `
 export const H2 = styled.h1`
 font-size: 17px;

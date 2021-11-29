@@ -6,6 +6,9 @@ import rectangle from '../../assets/images/rectangle.png'
 import playerrank from '../../assets/icons/playerrank.svg'
 import PlayersImage from '../../assets/images/PlayersImage.png';
 import { PrimaryButton } from 'shared/button/Button';
+import history from 'shared/helpers/history'
+import { Paths } from 'modules/app/components/routes/types';
+
 
 const LandingPage = () => {
     return (
@@ -28,7 +31,10 @@ const LandingPage = () => {
                 </FlexColumn>
                 <Flex style={{ width: '60%', justifyContent: 'flex-end' }}>
                     <img src={PlayersImage} alt="" style={{ height: '65px', marginRight: "50px" }} />
-                    <PrimaryButton>DEPOSIT FUNDS</PrimaryButton>
+                    <PrimaryButton
+                        onClick={() => history.push(`${Paths.housePool}`)
+                        }
+                    >DEPOSIT FUNDS</PrimaryButton>
                 </Flex>
 
             </Playerrank>
