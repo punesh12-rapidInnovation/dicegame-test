@@ -47,18 +47,20 @@ const WaitingModal = (props: any) => {
         }
     };
 
-    // useEffect(() => {
-    //     if (show) {
-    //         rollingDiceSound.play();
-    //         // rollingDiceSound.loop = true;
-    //     }
-    //     else
-    //         rollingDiceSound.removeEventListener('ended', () => {
-    //             rollingDiceSound.pause();
-    //             rollingDiceSound.currentTime = 0;
-    //             rollingDiceSound.src = ""
-    //         });
-    // })
+    useEffect(() => {
+        if (show) {
+            rollingDiceSound.play();
+            rollingDiceSound.loop = true;
+        }
+        else {
+            rollingDiceSound.loop = false;
+            rollingDiceSound.removeEventListener('ended', () => {
+                rollingDiceSound.pause();
+                rollingDiceSound.currentTime = 0;
+                rollingDiceSound.src = ""
+            });
+        }
+    })
 
     return (
         <ModalBody

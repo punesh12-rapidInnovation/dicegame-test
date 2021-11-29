@@ -268,6 +268,10 @@ border-radius:15px;
 margin-top:40px ;
 position:relative;
 
+.treasureBox{
+	position: absolute;
+	right:-5%;
+}
 p{
     color: ${colors.white};
     font-family: AvenirLTStd;

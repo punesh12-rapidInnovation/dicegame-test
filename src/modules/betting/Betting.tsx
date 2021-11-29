@@ -296,9 +296,9 @@ const Betting = () => {
     setLoader(false);
     setSuccess(false);
     setError(false);
-
     setBetAmount("");
     setRangeValue(1);
+    window.location.reload();
   }
 
 
@@ -725,6 +725,7 @@ const Betting = () => {
       />
 
       <LooseModal
+        // show={true}
         show={!loader && success && !win && !error}
         toggleModal={() => toggleModal()}
         ResultObject={ResultObject}

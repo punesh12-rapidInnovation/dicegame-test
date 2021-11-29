@@ -6,8 +6,12 @@ import { TreasureCont } from './treasureChestStyle';
 
 const AnimatedTreasureChest = () => {
     return (
-        <TreasureCont>
+        <TreasureCont
+            style={{ position: "absolute", right: "-5%" }}
+
+        >
             <img
+                className="treasureBox"
                 style={{ marginTop: "-25%", height: '80px' }}
                 src={OpenTreasureBox} alt="coins" />
             <img

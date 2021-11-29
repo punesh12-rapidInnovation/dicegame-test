@@ -47,15 +47,16 @@ const WinModal = (props: any) => {
     // console.log('number', Numbers);
 
 
-    // useEffect(() => {
-    //     if (show)
-    //         betWinSound.play();
-    //     else
-    //         betWinSound.removeEventListener('ended', () => {
-    //             betWinSound.pause();
-    //             betWinSound.currentTime = 0;
-    //         });
-    // }, [show])
+    useEffect(() => {
+        if (show)
+            betWinSound.play();
+        else
+            betWinSound.removeEventListener('ended', () => {
+                betWinSound.pause();
+                betWinSound.currentTime = 0;
+            });
+
+    }, [show])
 
     return (
         <ModalBody
@@ -70,14 +71,15 @@ const WinModal = (props: any) => {
                 <InfoTextSecondary>you win!</InfoTextSecondary>
                 <WinAmountContainer>
                     <img src={Coins} alt="coins" />
-                    <p>You’ve won {Profit} pulse coins</p>
+                    <p>You’ve won {Number(Profit).toFixed(6)} pulse coins</p>
                     <img src={HappyFace} alt="coins"
                         style={{ marginRight: "20px" }}
                     />
-                    <img
+                    {/* <img
                         style={{ marginTop: "-25%", height: '80px' }}
-                        src={OpenTreasureBox} alt="treasureBox" />
-                    {/* <AnimatedTreasureChest /> */}
+                        src={OpenTreasureBox} alt="treasureBox" /> */}
+                    <AnimatedTreasureChest
+                    />
                 </WinAmountContainer>
 
                 <DiceCont>
