@@ -26,16 +26,23 @@ export const rangeSliderSound = (
 ) => {
 	const audio = new Audio(heart);
 
-	if (play) {
-		if (soundFlag === 0) {
-			audio.play();
-			setSoundFlag(1);
-		}
-		audio.addEventListener('ended', function () {
-			// console.log('playbackRate', playbackRate);
-			// audio.playbackRate = playbackRate;
-			// audio.volume = playbackRate;
-			audio.play();
-		});
+	console.log('heart', heart);
+
+	if (soundFlag === 0) {
+		audio
+			.play()
+			.then(() => {
+				// Audio is playing.
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		setSoundFlag(1);
 	}
+	audio.addEventListener('ended', function () {
+		// console.log('playbackRate', playbackRate);
+		// audio.playbackRate = playbackRate;
+		// audio.volume = playbackRate;
+		audio.play();
+	});
 };
