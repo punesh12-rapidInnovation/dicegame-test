@@ -12,7 +12,7 @@ border-radius: 20px;
 
 export const BoxTitle = styled.div`
 color: #fff;
-padding-left: 8% ;
+padding-left: 10px;
 font-size: 20px;
 font-weight: 600;
 `
@@ -316,5 +316,5 @@ export const HousePoolChartLabel = styled.span`
 font-size: 30px;
 font-weight: 900;
 color: #fff;
-padding-left: 8%;
+padding-left:10px;
 `
