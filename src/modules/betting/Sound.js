@@ -14,7 +14,8 @@ export const Sound = (audioSource, play, loop) => {
 	}
 };
 
-export const rollingDiceSound = new Audio(RollingDice);
+// export const rollingDiceSound = new Audio(RollingDice);
+export const rollingDiceSound = new Audio(heart);
 export const betWinSound = new Audio(bigWin);
 export const betLooseSound = new Audio(bigLoose);
 
@@ -25,9 +26,6 @@ export const rangeSliderSound = (
 	setSoundFlag?
 ) => {
 	const audio = new Audio(heart);
-
-	console.log('heart', heart);
-
 	if (soundFlag === 0) {
 		audio
 			.play()

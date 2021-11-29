@@ -472,11 +472,11 @@ const Betting = () => {
     }, 5000);
   }, [ResultObject]);
 
-  useEffect(() => {
-    let speed = (Number(RangeValue) / 100)
-    if (RangeValue !== 1 && !loader)
-      rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
-  }, [RangeValue, loader])
+  // useEffect(() => {
+  //   let speed = (Number(RangeValue) / 100)
+  //   if (RangeValue !== 1 && !loader)
+  //     rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
+  // }, [RangeValue, loader])
 
   return (
     <BetBox>
