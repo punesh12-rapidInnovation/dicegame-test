@@ -75,11 +75,11 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
           tickLine={false}
           tickFormatter={(timestamp:any) => `${dayFromTimestamp(timestamp)}`}
           minTickGap={10}
-          tick={{ stroke: '#fff', strokeWidth: 0.2 }}
+          tick={{ stroke: 'rgba(255,255,255,0.8)'}}
         />
         <YAxis
           dataKey="liquidity"
-          tickCount={6}
+          // tickCount={6}
           scale="linear"
           axisLine={false}
           tickLine={false}
@@ -87,7 +87,7 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
           // fontSize="12px"
           tickFormatter={(vol) => `$${vol}`}
           orientation="right"
-          tick={{ dx: 10, stroke: '#fff', strokeWidth: 0.2 }}
+          tick={{ stroke: 'rgba(255,255,255,0.8)' }}
         />
         <Tooltip
           cursor={{ fill: "#ffffff1c" }}
