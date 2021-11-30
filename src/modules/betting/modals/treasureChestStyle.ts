@@ -438,7 +438,8 @@ const example10 = keyframes`
 		}
 `
 
-export const TreasureCont = styled(motion.div)` 
+// export const TreasureCont = styled(motion.div)` 
+export const TreasureCont = styled.div` 
 width: 100px;
 height: 100px;
 position: relative;

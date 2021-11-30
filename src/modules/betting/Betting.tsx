@@ -171,7 +171,7 @@ const Betting = () => {
     const MultipliedBetAmount = BetAmount * 1e18;
     const ProfitInWei =
       (((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount) * Houseedgeamount) /
-        Houseedgediviseramount -
+      Houseedgediviseramount -
       MultipliedBetAmount;
 
     const FinalProfit = ProfitInWei / 1e18;
@@ -278,9 +278,9 @@ const Betting = () => {
     setLoader(false);
     setSuccess(false);
     setError(false);
-    setBetAmount("");
-    setRangeValue(1);
-    window.location.reload();
+    // setBetAmount("");
+    // setRangeValue(1);
+    // window.location.reload();
   };
 
   useEffect(() => {
@@ -337,7 +337,7 @@ const Betting = () => {
             setPlacingBet(false);
             setBetplacedLoading(true);
             localStorage.setItem("Loading", "true");
-            window.location.reload();
+            // window.location.reload();
           });
         console.log(RollDice);
         return RollDice;
@@ -520,6 +520,7 @@ const Betting = () => {
 
                 position: "relative",
               }}
+
             >
               <Range type="range" value={RangeValue} onChange={RangeValueChanger}></Range>
               <div
