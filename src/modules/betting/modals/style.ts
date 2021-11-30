@@ -61,60 +61,60 @@ export const ModalBody = styled.div<ModalBodyProps>`
 	}
 }
 
-.coinShower img: nth-child(1){
+.coinShower img:nth-child(1){
 animation-delay:2s;
 width:15px;
 }
-.coinShower img: nth-child(2){
+.coinShower img:nth-child(2){
 animation-delay:1.5s;
 width:25px;
 }
-.coinShower img: nth-child(3){
+.coinShower img:nth-child(3){
 animation-delay:3s;
 width:40px;
 }
-.coinShower img: nth-child(4){
+.coinShower img:nth-child(4){
 animation-delay:2.5s;
 width:15px;
 }
-.coinShower img: nth-child(5){
+.coinShower img:nth-child(5){
 animation-delay:0.5s;
 }
-.coinShower img: nth-child(6){
+.coinShower img:nth-child(6){
 animation-delay:0.8s;
 }
-.coinShower img: nth-child(7){
+.coinShower img:nth-child(7){
 	animation-delay:3s;
 }
-.coinShower img: nth-child(8){
+.coinShower img:nth-child(8){
 	animation-delay:2s;
 }
-.coinShower img: nth-child(9){
+.coinShower img:nth-child(9){
 	animation-delay:4s;
 	width:15px;
 }
-.coinShower img: nth-child(10){
+.coinShower img:nth-child(10){
 	animation-delay:1s;
 }
-.coinShower img: nth-child(11){
+.coinShower img:nth-child(11){
 	animation-delay:4s;
 	width:45px;
 }
-.coinShower img: nth-child(11){
+.coinShower img:nth-child(11){
 	animation-delay:0.6s;
 }
-.coinShower img: nth-child(12){
+.coinShower img:nth-child(12){
 	animation-delay:2s;
 	width:20px;
 }
-.coinShower img: nth-child(13){
+.coinShower img:nth-child(13){
 	animation-delay:0.4s;
 	width:15px;
 }
-.coinShower img: nth-child(14){
+.coinShower img:nth-child(14){
 	animation-delay:4s;
 }
-.coinShower img: nth-child(15){
+.coinShower img:nth-child(15){
 	animation-delay:1s;
 	width:50px;
 }
