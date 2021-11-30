@@ -1,10 +1,13 @@
 import HousePoolModal from 'modules/app/components/HousePoolModal/HousePoolModal';
-import React from 'react';
+import React, { useState } from 'react';
 import { PrimaryButton } from 'shared/button/Button';
 import CustomModal from 'shared/custom-modal';
-import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, InfoFlexCont, PoolDetailsContainer, PoolDetails } from './style';
-
+import { colors } from 'shared/styles/theme';
+import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, InfoFlexCont, PoolDetailsContainer, PoolDetails, PoolFundsCont } from './style';
+import verticalLine from "assets/icons/verticalLine.svg";
 const HousePool = () => {
+
+    const [showDepositModal, setshowDepositModal] = useState(false)
     return (
         <HousePoolCont>
             <InfoContainer>
@@ -23,7 +26,9 @@ const HousePool = () => {
                         justifyContent="center"
                         alignItems="flex-end"
                     >
-                        <PrimaryButton width="50%">DEPOSIT FUNDS (PLS)</PrimaryButton>
+                        <PrimaryButton width="50%"
+                            onClick={() => setshowDepositModal(true)}
+                        >DEPOSIT FUNDS (PLS)</PrimaryButton>
                     </FlexCont>
                 </InfoFlexCont>
             </InfoContainer>
@@ -39,43 +44,65 @@ const HousePool = () => {
                             flexDirection="row"
                             justifyContent="space-between"
                             alignItems="center"
+
+                            style={{ marginTop: "30px" }}
                         >
                             <FlexCont
                                 justifyContent="center"
                                 alignItems="center"
                             >
-                                <p>liquidity</p>
+                                <h3>liquidity</h3>
                                 <h1>$61</h1>
                                 <p>24.158</p>
                             </FlexCont>
-                            <p>vertical line img</p>
+                            <img src={verticalLine} alt="" />
                             <FlexCont
                                 justifyContent="center"
                                 alignItems="center"
                             >
-                                <p>liquidity</p>
+                                <h3>Volume 24h</h3>
                                 <h1>$61</h1>
                                 <p>24.158</p>
                             </FlexCont>
 
                         </FlexCont>
 
+
+
+                        <FlexCont
+                            flexDirection="row"
+                            justifyContent="center"
+                            alignItems="center"
+                        >
+                            <PoolFundsCont>
+                                <h5>Your Total Funds</h5>
+                                <h1>387536.00</h1>
+                                <p>PULSE TOKEN</p>
+                            </PoolFundsCont>
+                        </FlexCont>
+                        <FlexCont
+                            flexDirection="row"
+                            justifyContent="center"
+                            alignItems="center"
+
+                            style={{ marginBottom: "30px" }}
+                        >
+                            <PrimaryButton
+                                width="30%"
+                                margin="0 10px"
+                                onClick={() => setshowDepositModal(true)}
+
+                            >DEPOSIT FUNDS
+                            </PrimaryButton>
+                            <PrimaryButton
+                                width="30%"
+                                margin="0 10px"
+                                color={colors.primary}
+                                onClick={() => setshowDepositModal(true)}
+
+                            >WITHDRAW FUNDS</PrimaryButton>
+                        </FlexCont>
                     </PoolDetails>
-
-
-                    <FlexCont
-                        flexDirection="row"
-                        justifyContent="center"
-                        alignItems="center"
-                    >poolSize</FlexCont>
-                    <FlexCont
-                        flexDirection="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                    >
-                        <PrimaryButton width="25%">Deposit</PrimaryButton>
-                        <PrimaryButton width="25%">Deposit</PrimaryButton>
-                    </FlexCont>
 
 
                 </FlexCont>
@@ -87,12 +114,13 @@ const HousePool = () => {
             </PoolDetailsContainer>
 
 
-            {/* <CustomModal
-                show={true}
+            <CustomModal
+                show={showDepositModal}
+                toggleModal={() => setshowDepositModal(false)}
                 heading="DEPOSIT FUNDS"
             >
                 <HousePoolModal />
-            </CustomModal> */}
+            </CustomModal>
         </HousePoolCont >
     );
 };
