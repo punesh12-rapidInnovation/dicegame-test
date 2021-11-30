@@ -13,6 +13,7 @@ export interface Colors {
 	green: string;
 	red: string;
 	vibrantRed: string;
+	purple: string;
 	yellow: string;
 	primary: string;
 
@@ -25,6 +26,7 @@ export const colors: Colors = {
 	green: '#6FCF97',
 	red: '#EB5757',
 	vibrantRed: '#FF221C',
+	purple: '#BB6BD9',
 	yellow: '#FFFE0E',
 	primary: '#00EAFF',
 };
@@ -43,6 +45,7 @@ export const theme: ThemeStarter = {
 	yellow: colors.yellow,
 	red: colors.red,
 	vibrantRed: colors.vibrantRed,
+	purple: colors.purple,
 	themeBackground: colors.themeBackground,
 };
 

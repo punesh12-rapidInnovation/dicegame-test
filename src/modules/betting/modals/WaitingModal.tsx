@@ -65,7 +65,6 @@ const WaitingModal = (props: any) => {
     return (
         <ModalBody
             show={show}
-            onMouseDown={handleClickOutside}
             style={{ ...styles }}
         >
             <ModalContent>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import PulseRoll from "assets/icons/loadingPulseroll.svg";
 import CopyClipboard from "assets/icons/copyClipboard.svg";
 import PulseCoin from "assets/icons/pulseGoldCoin.svg";
@@ -36,6 +37,8 @@ const WinModal = (props: any) => {
     }
   };
 
+  const { userAddress } = useSelector((state: any) => state.wallet);
+
   useEffect(() => {
     for (let index = 0; index < 15; index++) {
       //@ts-ignore
@@ -66,8 +69,8 @@ const WinModal = (props: any) => {
           <p>You’ve won {Number(Profit).toFixed(6)} pulse coins</p>
           <img src={HappyFace} alt="coins" style={{ marginRight: "20px" }} />
           {/* <img
-                style={{ marginTop: "-25%", height: '80px' }}
-                src={OpenTreasureBox} alt="treasureBox" /> */}
+                        style={{ marginTop: "-25%", height: '80px' }}
+                        src={OpenTreasureBox} alt="treasureBox" /> */}
           <AnimatedTreasureChest />
         </WinAmountContainer>
 
@@ -82,8 +85,14 @@ const WinModal = (props: any) => {
         </DiceCont>
 
         <UserAddress>
-          0x5f0dad0bed...4e9da
-          <img src={CopyClipboard} alt="copy" />
+          {userAddress}
+          <img
+            src={CopyClipboard}
+            alt="copy"
+            onClick={() => {
+              navigator.clipboard.writeText(userAddress);
+            }}
+          />
         </UserAddress>
         <PrimaryButton width="50%" onClick={() => toggleModal()}>
           DONE
