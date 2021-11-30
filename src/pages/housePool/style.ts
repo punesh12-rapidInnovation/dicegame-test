@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import landingTop from 'assets/images/landingtop.png';
 import poolDetailsBg from 'assets/images/poolDetailsBg.png';
+import tableBackground from 'assets/images/tableBackground.png';
 import semiCircle from 'assets/icons/semiCircle.png'
 
 import { colors } from 'shared/styles/theme';
@@ -36,7 +37,18 @@ background-repeat: no-repeat;
 background-color: #000;
 width:100%;
 padding:0 5%;
-
+`
+export const TransactionContainer = styled.div`
+display:flex;
+flex-direction: column;
+justify-content:center;
+align-items:center;
+background: url(${tableBackground});
+background-size: cover;
+background-repeat: no-repeat;
+background-color: #000;
+width:100%;
+padding:0 5%;
 `
 
 
@@ -59,6 +71,7 @@ font-size: 14px;
 color:${colors.primary};
 font-style:italic;
 width:fit-content;
+cursor: pointer;
 
 &:hover{
     text-decoration: underline;     
@@ -90,7 +103,7 @@ p{
 h3{
 color: ${colors.purple};
 text-transform: uppercase;
-    
+
 }
 `
 export const PoolDetails = styled.div<any>`
