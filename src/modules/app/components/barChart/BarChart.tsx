@@ -79,7 +79,7 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
         />
         <YAxis
           dataKey="liquidity"
-          // tickCount={6}
+          tickCount={6}
           scale="linear"
           axisLine={false}
           tickLine={false}
