@@ -82,6 +82,9 @@ const Betting = () => {
     for (let index = 0; index < 100; index++) {
       setNumbers((prev: any) => [...prev, index])
     }
+    if (localStorage.getItem("Loading") === "true") {
+    setLoader(true);
+  }
   }, [])
 
 
@@ -92,6 +95,8 @@ const Betting = () => {
       return "Leaving this page will reset the wizard";
     }
   };
+
+  
 
   const { walletBalance, userAddress } = useSelector(
     (state: any) => state.wallet
@@ -232,6 +237,8 @@ const Betting = () => {
       alert("Connect wallet to place bet");
     }
   };
+  
+  
 
   const ButtonText = () => {
     if (localStorage.getItem("Loading") === "true") {
@@ -362,7 +369,7 @@ const Betting = () => {
             setPlacingBet(false);
             setBetplacedLoading(true);
             localStorage.setItem("Loading", "true");
-            // window.location.reload();
+            window.location.reload();
           });
         console.log(RollDice);
         return RollDice;
@@ -380,7 +387,7 @@ const Betting = () => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
     console.log(LocalBetIt);
 
-    if (userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase()) {
+    if (userAddress && userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase()) {
       if (ResultObject?.Status === '0') {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("You Lost The Bet,Better Luck Next Time");
