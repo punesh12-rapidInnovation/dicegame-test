@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import PulseRoll from "assets/icons/loadingPulseroll.svg";
 import CopyClipboard from "assets/icons/copyClipboard.svg";
 import PulseCoin from "assets/icons/pulseGoldCoin.svg";
@@ -36,6 +37,10 @@ const WinModal = (props: any) => {
             toggleModal();
         }
     };
+
+    const { userAddress } = useSelector(
+    (state: any) => state.wallet
+  );
 
 
     useEffect(() => {
@@ -93,8 +98,8 @@ const WinModal = (props: any) => {
                 </DiceCont>
 
                 <UserAddress>
-                    0x5f0dad0bed...4e9da
-                    <img src={CopyClipboard} alt="copy" />
+                    {userAddress}
+                    <img src={CopyClipboard} alt="copy" onClick={() => {navigator.clipboard.writeText(userAddress)}}/>
                 </UserAddress>
                 <PrimaryButton
                     width="50%"

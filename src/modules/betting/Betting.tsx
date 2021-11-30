@@ -318,13 +318,11 @@ const Betting = () => {
           Playeraddress: data.PlayerAddress,
           Playernumber: data.PlayerNumber,
           Status: data.Status,
+          Date: new Date().toLocaleString(),
           Value: data.Value,
         });
         // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
-        if (data.Status === "1")
-          setwin(true);
-        setLoader(false)
-        setSuccess(true)
+         
         // StoringLastRolls();
         // setShowResultModal(true)
         // }
@@ -332,8 +330,6 @@ const Betting = () => {
       });
     } catch (err) {
       console.log("err", err);
-      setSuccess(false);
-      setError(true);
     }
   }, []);
 
@@ -384,11 +380,13 @@ const Betting = () => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
     console.log(LocalBetIt);
 
-    if (userAddress && userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase()) {
+    if (userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase()) {
       if (ResultObject?.Status === '0') {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("You Lost The Bet,Better Luck Next Time");
         setwin(false);
+        setLoader(false);
+        setSuccess(true);
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
         setShowResultModal(true);
@@ -398,7 +396,8 @@ const Betting = () => {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("Hurray,You Won The Bet");
         setwin(true);
-
+        setLoader(false);
+        setSuccess(true);
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
         setShowResultModal(true);
