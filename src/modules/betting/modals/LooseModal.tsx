@@ -24,10 +24,12 @@ import { PrimaryButton } from "shared/button/Button";
 import { colors } from "shared/styles/theme";
 import { betLooseSound } from "../Sound";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 
 const LooseModal = (props: any) => {
     const { show, toggleModal, styles, ResultObject, LossAmount } = props;
+    const { userAddress } = useSelector((state: any) => state.wallet);
 
 
     const handleClickOutside = (e: any) => {
@@ -66,7 +68,14 @@ const LooseModal = (props: any) => {
                 <InfoTextSecondary color={colors.vibrantRed} >you lose!</InfoTextSecondary>
                 <WinAmountContainer>
                     <img src={Coins} alt="coins" />
-                    <p>You’ve lost {Number(LossAmount).toFixed(6)} pulse coins</p>
+                    <p>You’ve lost
+                        {
+                            userAddress && userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase() ?
+                                Number(LossAmount).toFixed(6)
+                                : 0
+                        }
+
+                        pulse coins</p>
                     <img src={sadFace} alt="coins" />
                     <img
                         className="treasureBox"
@@ -79,7 +88,9 @@ const LooseModal = (props: any) => {
                         <img src={Diceback} alt="" />
                     </RearDice>
                     <FrontDice>
-                        <p>{!!ResultObject && ResultObject.Diceresult}</p>
+                        <p>{
+                            userAddress && userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase() && ResultObject.Diceresult
+                        } </p>
                         <img src={DiceFront} alt="" />
                     </FrontDice>
                 </DiceCont>

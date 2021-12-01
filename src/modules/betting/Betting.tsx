@@ -237,42 +237,18 @@ const Betting = () => {
   };
 
   const HeartBeatSpeed = () => {
-    if (RangeValue > 75) {
-      return "1.6s";
-    } else if (RangeValue > 50) {
-      return "1.2s";
-    } else if (RangeValue > 25) {
-      return "0.8s";
-    } else {
-      return "0.5s";
-    }
+    // if (RangeValue > 75) {
+    //   return "1.6s";
+    // } else if (RangeValue > 50) {
+    //   return "1.2s";
+    // } else if (RangeValue > 25) {
+    //   return "0.8s";
+    // } else {
+    //   return "0.5s";
+    // }
+    return `${RangeValue / 25}s`;
   };
 
-  const handlePlaceBet = async (walletAddress: string, betAmount: number, rollUnder: number) => {
-    try {
-      const lpInstance = await selectInstances(
-        instanceType.BETTING, // type of instance
-        BETTING_ADDRESS //contract address
-      );
-      await lpInstance.methods
-        .playerRollDice(rollUnder)
-        .send({
-          from: walletAddress,
-          value: convertToWei(betAmount),
-        })
-        .once("transactionHash", function (res: any) {
-          setLoader(true);
-        })
-        .once("confirmation", function (receipt: any) {
-          // setSuccess(true)
-        });
-    } catch (error) {
-      console.log("error", error);
-      setLoader(false);
-      setSuccess(false);
-      setError(true);
-    }
-  };
 
   const toggleModal = () => {
     setLoader(false);
@@ -290,8 +266,9 @@ const Betting = () => {
         // Replace event name with connection event name
         console.log("websocket connected");
       });
-      socket.on("betevent", (data) => {
+      socket.on("betevent", (data: any) => {
         console.log(data);
+
         setResultObject({
           Betid: data.BetID,
           Diceresult: data.DiceResult,

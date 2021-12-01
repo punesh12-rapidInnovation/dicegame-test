@@ -11,7 +11,7 @@ export const walletConnectCheck = (value: any) => {
 		value: value,
 	};
 };
-export const Login = (userAddress: String) => {
+export const Login = (userAddress: string) => {
 	return {
 		type: LOGIN,
 		address: userAddress,

@@ -422,6 +422,7 @@ export const SliderThumb = styled.div<any>`
     height: 60px;
     cursor: pointer;
     background: url(${Sliderthumb});
+    
     background-repeat: no-repeat;
     background-size: contain;
     animation-name: ${animateHeart};

@@ -450,7 +450,7 @@ position: relative;
 	left: 30%;
 	height: 40px;
 	width: 40px;
-	animation: ${example} 1.5s infinite;
+	animation: ${example} 2s infinite;
 }
 .pulsecoin2{
 	position: absolute;
@@ -459,7 +459,7 @@ position: relative;
 	height: 20px;
 	width: 20px;
 	animation: ${example2} infinite;
-	animation-duration: 2s;
+	animation-duration: 4s;
 }
 .pulsecoin3{
 	position: absolute;
@@ -468,7 +468,7 @@ position: relative;
 	height: 20px;
 	width: 20px;
 	animation: ${example3} infinite;
-	animation-duration: 2s;
+	animation-duration: 5s;
 }
 .pulsecoin4{
 	position: absolute;
@@ -487,7 +487,7 @@ position: relative;
 	height: 20px;
 	width: 20px;
 	animation: ${example5} infinite;
-	animation-duration: 4s;
+	animation-duration: 2.5s;
 }
 
 .pulsecoin6{
@@ -506,7 +506,7 @@ position: relative;
 	height: 20px;
 	width: 20px;
 	animation: ${example7} infinite;
-	animation-duration: 2s;
+	animation-duration: 4.5s;
 }
 
 .pulsecoin8{
@@ -516,7 +516,7 @@ position: relative;
 	height: 20px;
 	width: 20px;
 	animation: ${example8} infinite;
-	animation-duration: 4s;
+	animation-duration: 3s;
 }
 
 .pulsecoin9{
@@ -537,7 +537,7 @@ position: relative;
 	height: 20px;
 	width: 20px;
 	animation: ${example10} infinite;
-	animation-duration: 1s;
+	animation-duration: 0.5s;
 } `
 
 
