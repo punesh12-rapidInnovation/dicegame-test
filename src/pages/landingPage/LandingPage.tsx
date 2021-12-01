@@ -14,7 +14,7 @@ import Header from 'modules/app/components/header';
 const LandingPage = () => {
     return (
         <Landingdiv>
-            <Header/>
+            <Header />
             <Beonediv>
                 <Flexcol style={{ transform: 'translatey(15%)' }}>
                     <H2>EVERY DAY LOTS OF WINS</H2>
@@ -40,11 +40,7 @@ const LandingPage = () => {
                 </Flex>
 
             </Playerrank>
-
-
-
             <LiveChat />
-
         </Landingdiv>
     );
 };

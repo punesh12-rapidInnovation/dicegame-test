@@ -23,14 +23,9 @@ import {
   OddEvenDiv,
   SliderThumb,
   Select,
-  Option
+  Option,
 } from "./style";
-import {
-  MinBetAmount,
-  MaxBetAmount,
-  HouseEdge,
-  HouseEdgeDiviser,
-} from "../blockChain/bettingMethods";
+import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
 import Cross from "../../assets/icons/Cross.svg";
 import { convertToEther, convertToWei } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
@@ -47,7 +42,6 @@ import WaitingModal from "./modals/WaitingModal";
 import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
 import Sliderthumb from "../../assets/icons/sliderthumb.svg";
-
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(1);
@@ -69,26 +63,22 @@ const Betting = () => {
   const [PlacingBet, setPlacingBet] = useState(false);
   const [soundFlag, setSoundFlag] = useState(0);
 
-  const [loader, setLoader] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState(false)
+  const [loader, setLoader] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
-  const [Numbers, setNumbers] = useState([])
-
-
+  const [Numbers, setNumbers] = useState([]);
 
   useEffect(() => {
     for (let index = 0; index < 100; index++) {
-      setNumbers((prev: any) => [...prev, index])
+      //@ts-ignore
+      setNumbers((prev: any) => [...prev, index]);
     }
     if (localStorage.getItem("Loading") === "true") {
-    setLoader(true);
-  }
-  }, [])
-
-
-
+      setLoader(true);
+    }
+  }, []);
 
   window.onbeforeunload = function () {
     if (PlacingBet) {
@@ -96,11 +86,7 @@ const Betting = () => {
     }
   };
 
-  
-
-  const { walletBalance, userAddress } = useSelector(
-    (state: any) => state.wallet
-  );
+  const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
 
   const SetMinBetAmount = async () => {
@@ -173,10 +159,7 @@ const Betting = () => {
         const BetId = await PlaceBet(userAddress, BetAmount, RollUnder);
         console.log(BetId);
         setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
-        localStorage.setItem(
-          "PlacingBetId",
-          BetId?.events.LogBet.returnValues.BetID
-        );
+        localStorage.setItem("PlacingBetId", BetId?.events.LogBet.returnValues.BetID);
       }
     }
   };
@@ -187,9 +170,7 @@ const Betting = () => {
 
     const MultipliedBetAmount = BetAmount * 1e18;
     const ProfitInWei =
-      (((MultipliedBetAmount * (100 - RangeValue)) / RangeValue +
-        MultipliedBetAmount) *
-        Houseedgeamount) /
+      (((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount) * Houseedgeamount) /
       Houseedgediviseramount -
       MultipliedBetAmount;
 
@@ -201,10 +182,7 @@ const Betting = () => {
 
   const CheckAllowanceStatus = async () => {
     if (userAddress) {
-      const CheckAllowanceResult = await CheckAllowance(
-        userAddress,
-        BETTING_ADDRESS
-      );
+      const CheckAllowanceResult = await CheckAllowance(userAddress, BETTING_ADDRESS);
       if (CheckAllowanceResult > 1 || CheckAllowanceResult === 1) {
         setUserAllowance(true);
       } else {
@@ -237,8 +215,6 @@ const Betting = () => {
       alert("Connect wallet to place bet");
     }
   };
-  
-  
 
   const ButtonText = () => {
     if (localStorage.getItem("Loading") === "true") {
@@ -264,14 +240,13 @@ const Betting = () => {
     if (RangeValue > 75) {
       return "1.6s";
     } else if (RangeValue > 50) {
-      return "1.2s"
+      return "1.2s";
     } else if (RangeValue > 25) {
-      return "0.8s"
+      return "0.8s";
     } else {
-      return "0.5s"
+      return "0.5s";
     }
-  }
-
+  };
 
   const handlePlaceBet = async (walletAddress: string, betAmount: number, rollUnder: number) => {
     try {
@@ -285,29 +260,28 @@ const Betting = () => {
           from: walletAddress,
           value: convertToWei(betAmount),
         })
-        .once('transactionHash', function (res: any) {
-          setLoader(true)
+        .once("transactionHash", function (res: any) {
+          setLoader(true);
         })
         .once("confirmation", function (receipt: any) {
           // setSuccess(true)
         });
     } catch (error) {
-      console.log('error', error);
+      console.log("error", error);
       setLoader(false);
-      setSuccess(false)
+      setSuccess(false);
       setError(true);
     }
-  }
+  };
 
   const toggleModal = () => {
     setLoader(false);
     setSuccess(false);
     setError(false);
-    setBetAmount("");
-    setRangeValue(1);
-    window.location.reload();
-  }
-
+    // setBetAmount("");
+    // setRangeValue(1);
+    // window.location.reload();
+  };
 
   useEffect(() => {
     const socket = io("wss://diceroll.rapidinnovation.tech");
@@ -317,7 +291,6 @@ const Betting = () => {
         console.log("websocket connected");
       });
       socket.on("betevent", (data) => {
-
         console.log(data);
         setResultObject({
           Betid: data.BetID,
@@ -329,22 +302,17 @@ const Betting = () => {
           Value: data.Value,
         });
         // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
-         
+
         // StoringLastRolls();
         // setShowResultModal(true)
         // }
-
       });
     } catch (err) {
       console.log("err", err);
     }
   }, []);
 
-  const PlaceBet = async (
-    myAccount: string | null,
-    Amount: any,
-    Rollunder: number
-  ) => {
+  const PlaceBet = async (myAccount: string | null, Amount: any, Rollunder: number) => {
     //create instance of an abi to call any blockChain function
     const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
     // const Ethervalue = convertToEther(Amount);
@@ -362,14 +330,14 @@ const Betting = () => {
             from: myAccount,
             value: Ethervalue,
           })
-          .once('transactionHash', function (res: any) {
-            setLoader(true)
+          .once("transactionHash", function (res: any) {
+            setLoader(true);
           })
           .once("confirmation", function (receipt: any) {
             setPlacingBet(false);
             setBetplacedLoading(true);
             localStorage.setItem("Loading", "true");
-            window.location.reload();
+            // window.location.reload();
           });
         console.log(RollDice);
         return RollDice;
@@ -388,7 +356,7 @@ const Betting = () => {
     console.log(LocalBetIt);
 
     if (userAddress && userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase()) {
-      if (ResultObject?.Status === '0') {
+      if (ResultObject?.Status === "0") {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("You Lost The Bet,Better Luck Next Time");
         setwin(false);
@@ -420,29 +388,23 @@ const Betting = () => {
     }
   }, [ResultObject]);
 
-
-
-
-
   const StoringLastRolls = () => {
-
     if (localStorage.getItem("LastRolls") === null) {
-      localStorage.setItem('LastRolls', JSON.stringify([ResultObject]));
-      console.log('not exist ran')
+      localStorage.setItem("LastRolls", JSON.stringify([ResultObject]));
+      console.log("not exist ran");
     } else {
-      console.log('exist ran')
+      console.log("exist ran");
       const Resulttillnow = JSON.parse(localStorage.getItem("LastRolls") || "[]");
       if (Resulttillnow.length === 10) {
-        Resulttillnow.splice(-1)
+        Resulttillnow.splice(-1);
         console.log(Resulttillnow);
-        localStorage.setItem('LastRolls', JSON.stringify(Resulttillnow));
+        localStorage.setItem("LastRolls", JSON.stringify(Resulttillnow));
       }
       const PreviousResults = JSON.parse(localStorage.getItem("LastRolls") || "[]");
       PreviousResults.unshift(ResultObject);
-      localStorage.setItem('LastRolls', JSON.stringify(PreviousResults));
-
+      localStorage.setItem("LastRolls", JSON.stringify(PreviousResults));
     }
-  }
+  };
 
   useEffect(() => {
     const getWalletBalance = async () => {
@@ -457,8 +419,6 @@ const Betting = () => {
     };
     getWalletBalance();
   }, [userAddress, showResultModal]);
-
-
 
   useEffect(() => {
     ProfitCalculator();
@@ -487,9 +447,7 @@ const Betting = () => {
     <BetBox>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
-          <H2 MarginBottom="16px">
-            BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS
-          </H2>
+          <H2 MarginBottom="16px">BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS</H2>
           <Flex>
             <Chance
               value={BetAmount}
@@ -500,37 +458,19 @@ const Betting = () => {
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
               <TransChance
-                onClick={() =>
-                  setBetAmount(
-                    ((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(4)
-                  )
-                }
+                onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(4))}
               >
-                {OnLoadMin && OnLoadMax
-                  ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(4)
-                  : "-"}
+                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(4) : "-"}
               </TransChance>
               <TransChance
-                onClick={() =>
-                  setBetAmount(
-                    ((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(4)
-                  )
-                }
+                onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(4))}
               >
-                {OnLoadMin && OnLoadMax
-                  ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(4)
-                  : "-"}
+                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(4) : "-"}
               </TransChance>
               <TransChance
-                onClick={() =>
-                  setBetAmount(
-                    ((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(4)
-                  )
-                }
+                onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(4))}
               >
-                {OnLoadMin && OnLoadMax
-                  ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(4)
-                  : "-"}
+                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(4) : "-"}
               </TransChance>
 
               <TransChance onClick={SetMaxBetAmount}>MAX</TransChance>
@@ -566,10 +506,7 @@ const Betting = () => {
         </FlexColumn>
 
         <FlexColumn>
-          <H2
-            FontSize="16px"
-            style={{ marginBottom: "40px", marginTop: "30px" }}
-          >
+          <H2 FontSize="16px" style={{ marginBottom: "40px", marginTop: "30px" }}>
             CHANCE OF WINNING
           </H2>
           <Flex>
@@ -583,12 +520,9 @@ const Betting = () => {
 
                 position: "relative",
               }}
+
             >
-              <Range
-                type="range"
-                value={RangeValue}
-                onChange={RangeValueChanger}
-              ></Range>
+              <Range type="range" value={RangeValue} onChange={RangeValueChanger}></Range>
               <div
                 style={{
                   position: "absolute",
@@ -604,13 +538,10 @@ const Betting = () => {
                   border: "1px solid #EF0896",
                 }}
               >
-                Roll under{" "}
-                <span style={{ color: colors.primary }}>{RangeValue + 1}</span>,
+                Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span>,
                 <br />
                 Profit
-                <span style={{ color: colors.primary }}>
-                  +{Profit.toFixed(6)} PLS
-                </span>
+                <span style={{ color: colors.primary }}>+{Profit.toFixed(6)} PLS</span>
               </div>
               <SliderThumb style={{
                 position: "absolute",
@@ -626,15 +557,16 @@ const Betting = () => {
           <Flex>
             <H2>Select</H2>
             <Flex style={{ width: "40%", justifyContent: "center" }}>
-              <Flex style={{ justifyContent: "center", marginRight: '16px' }}>
-                <label className="container">Odd
+              <Flex style={{ justifyContent: "center", marginRight: "16px" }}>
+                <label className="container">
+                  Odd
                   <input type="checkbox" />
                   <span className="checkmark"></span>
                 </label>
-
               </Flex>
               <Flex style={{ justifyContent: "center" }}>
-                <label className="container">Even
+                <label className="container">
+                  Even
                   <input type="checkbox" />
                   <span className="checkmark"></span>
                 </label>
@@ -646,24 +578,25 @@ const Betting = () => {
             <Flex style={{ width: "40%", justifyContent: "space-between", alignItems: "center" }}>
               <p style={{ fontSize: "12px" }}>From</p>
               <Select id="rangeFrom" name="">
-                {
-                  Numbers.map((data, index) => {
-                    return <Option value={index + 1}>{index + 1}</Option>
-                  })
-                }
+                {Numbers.map((data, index) => {
+                  return (
+                    <Option value={index + 1} key={"rf" + index}>
+                      {index + 1}
+                    </Option>
+                  );
+                })}
               </Select>
               <p style={{ fontSize: "12px" }}>To</p>
               <Select id="rangeTo" name="">
-                {
-                  Numbers.map((data, index) => {
-                    return <Option value={index + 2}>{index + 2}</Option>
-                  })
-                }
-
+                {Numbers.map((data, index) => {
+                  return (
+                    <Option value={index + 2} key={"rt" + index}>
+                      {index + 2}
+                    </Option>
+                  );
+                })}
               </Select>
-
             </Flex>
-
           </Flex>
         </OddEvenDiv>
         <Flex style={{ marginTop: "10px" }}>
@@ -715,16 +648,11 @@ const Betting = () => {
         </BetResult>
       </CustomModal> */}
 
-
-      <WaitingModal
-        show={loader && !success && !error}
-        toggleModal={() => toggleModal()}
-      />
+      <WaitingModal show={loader && !success && !error} toggleModal={() => toggleModal()} />
       <WinModal
         // show={true}
         show={!loader && success && win && !error}
         toggleModal={() => toggleModal()}
-
         ResultObject={ResultObject}
         Profit={Profit.toFixed(6)}
       />
@@ -735,10 +663,8 @@ const Betting = () => {
         toggleModal={() => toggleModal()}
         ResultObject={ResultObject}
         LossAmount={BetAmount}
-
       />
-
-    </BetBox >
+    </BetBox>
   );
 };
 

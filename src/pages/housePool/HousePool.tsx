@@ -4,11 +4,14 @@ import Header from 'modules/app/components/header';
 import { PrimaryButton } from 'shared/button/Button';
 import CustomModal from 'shared/custom-modal';
 import { colors } from 'shared/styles/theme';
-import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, InfoFlexCont, PoolDetailsContainer, PoolDetails, PoolFundsCont } from './style';
+import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, InfoFlexCont, PoolDetailsContainer, PoolDetails, PoolFundsCont, TransactionContainer } from './style';
 import verticalLine from "assets/icons/verticalLine.svg";
+import Disclaimer from 'shared/Disclaimer/Disclaimer';
+import HousePoolTransaction from 'modules/app/components/HousePoolTransaction/HousePoolTransaction';
 const HousePool = () => {
 
     const [showDepositModal, setshowDepositModal] = useState(false)
+    const [showDisclaimer, setshowDisclaimer] = useState(false)
     return (
         <HousePoolCont>
             <Header/>
@@ -22,7 +25,7 @@ const HousePool = () => {
                         <H3>Pulse Token (PLS) </H3>
                         <p>Choose your odds and roll the dice to win pulse and prizes. Play, Invest, Exchange <br />
                             and Join the Contest with high rewards at Pulseroll</p>
-                        <Link>Read our disclaimer to know more</Link>
+                        <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
                     </FlexCont>
                     <FlexCont
                         justifyContent="center"
@@ -114,7 +117,11 @@ const HousePool = () => {
                     alignItems="center"
                 >Liquidity graph</FlexCont>
             </PoolDetailsContainer>
+            <TransactionContainer>
+                <h1>Transactions</h1>
+                <HousePoolTransaction />
 
+            </TransactionContainer>
 
             <CustomModal
                 show={showDepositModal}
@@ -123,6 +130,16 @@ const HousePool = () => {
             >
                 <HousePoolModal />
             </CustomModal>
+
+
+            <CustomModal
+                show={showDisclaimer}
+                heading="DISCLAIMER"
+                toggleModal={() => setshowDisclaimer(false)}
+            >
+                <Disclaimer />
+            </CustomModal>
+
         </HousePoolCont >
     );
 };
