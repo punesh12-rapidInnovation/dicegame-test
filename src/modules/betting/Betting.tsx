@@ -520,17 +520,13 @@ const Betting = () => {
                 Profit
                 <span style={{ color: colors.primary }}>+{Profit.toFixed(6)} PLS</span>
               </div>
-              <SliderThumb
-                style={{
-                  position: "absolute",
-                  top: "-20px",
-                  left: `${RangeValue - 3}%`,
-                  transform: "translate(-50%,-50%)",
-                }}
-                duration={HeartBeatSpeed}
-              >
-                {" "}
-              </SliderThumb>
+              <SliderThumb style={{
+                position: "absolute",
+                top: "-20px",
+                left: `${RangeValue - 5}%`,
+                transform: "translate(-50%,-50%)",
+              }} duration={HeartBeatSpeed} > </SliderThumb>
+
             </Flex>
           </Flex>
         </FlexColumn>

@@ -1,5 +1,6 @@
 import HousePoolModal from 'modules/app/components/HousePoolModal/HousePoolModal';
 import React, { useState } from 'react';
+import Header from 'modules/app/components/header';
 import { PrimaryButton } from 'shared/button/Button';
 import CustomModal from 'shared/custom-modal';
 import { colors } from 'shared/styles/theme';
@@ -13,6 +14,7 @@ const HousePool = () => {
     const [showDisclaimer, setshowDisclaimer] = useState(false)
     return (
         <HousePoolCont>
+            <Header/>
             <InfoContainer>
                 <InfoFlexCont>
                     <FlexCont
@@ -27,7 +29,7 @@ const HousePool = () => {
                     </FlexCont>
                     <FlexCont
                         justifyContent="center"
-                        alignItems="flex-end"
+                        alignItems="center"
                     >
                         <PrimaryButton width="50%"
                             onClick={() => setshowDepositModal(true)}

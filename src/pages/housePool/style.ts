@@ -13,15 +13,11 @@ Width:100%;
 
 export const InfoContainer = styled.div`
 background: url(${landingTop});
-height: 45vh;
-min-height: 200px;
+height: 500px;
 width: 100%;
 background-size: contain;
 background-repeat: no-repeat;
 background-color: #000;
-display: flex;
-justify-content: center;
-align-items:center;
  background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -85,7 +81,8 @@ display:flex;
 width:100%;
 height:100%;
 margin:0 5%;
-
+justify-content: space-between;
+align-items: center;
 `
 export const FlexCont = styled.div<any>`
 display:flex;
@@ -93,8 +90,8 @@ flex-direction: ${(props) => (props.flexDirection ? props.flexDirection : 'colum
 justify-content: ${(props) => (props.justifyContent ? props.justifyContent : 'flex-end')};
 align-items: ${(props) => (props.alignItems ? props.alignItems : '')};
 color:${colors.white};
-width:100%;
-height:100%;
+width:50%;
+height:50%;
 
 p{
     margin:10px 0;
