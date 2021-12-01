@@ -49,12 +49,16 @@ const WinModal = (props: any) => {
   // console.log('number', Numbers);
 
   useEffect(() => {
-    if (show) betWinSound.play();
-    else
-      betWinSound.removeEventListener("ended", () => {
-        betWinSound.pause();
-        betWinSound.currentTime = 0;
-      });
+    setTimeout(() => {
+      if (show) betWinSound.play();
+      else
+        betWinSound.removeEventListener("ended", () => {
+          betWinSound.pause();
+          betWinSound.currentTime = 0;
+        });
+
+    }, 1000);
+
   }, [show]);
 
   return (
