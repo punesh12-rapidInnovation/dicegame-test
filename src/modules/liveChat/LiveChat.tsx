@@ -179,7 +179,7 @@ const LiveChat = (props: any) => {
                         {
                             !hoverLiquidityChartValue && !hoverLiquidityChartDate && liquidityChartData.length ? 
                             <>
-                            <HousePoolChartLabel>${parseFloat(liquidityChartData[liquidityChartData.length-1].liquidity).toFixed(1)}
+                            <HousePoolChartLabel>${parseFloat(liquidityChartData[liquidityChartData.length-1].liquidity).toFixed(5)}
                             </HousePoolChartLabel>
                             <HousePoolChartLabel style={{paddingLeft:"10px",fontSize:"16px",fontWeight:600}}>{dateFromTimestamp(liquidityChartData[liquidityChartData.length-1].created_at)}</HousePoolChartLabel>
                             </>
@@ -187,7 +187,7 @@ const LiveChat = (props: any) => {
                             null
                             : hoverLiquidityChartDate ?
                             <>
-                              <><HousePoolChartLabel>${parseFloat(hoverLiquidityChartValue).toFixed(1)}</HousePoolChartLabel> 
+                              <><HousePoolChartLabel>${parseFloat(hoverLiquidityChartValue).toFixed(5)}</HousePoolChartLabel> 
                               <HousePoolChartLabel style={{paddingLeft:"10px",fontSize:"16px",fontWeight:600}}>{dateFromTimestamp(hoverLiquidityChartDate)}</HousePoolChartLabel> </>
                             </>
                             : null
