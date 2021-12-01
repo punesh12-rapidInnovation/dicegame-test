@@ -615,7 +615,7 @@ const Betting = () => {
               <SliderThumb style={{
                 position: "absolute",
                 top: "-20px",
-                left: `${RangeValue - 3}%`,
+                left: `${RangeValue - 5}%`,
                 transform: "translate(-50%,-50%)",
               }} duration={HeartBeatSpeed} > </SliderThumb>
 

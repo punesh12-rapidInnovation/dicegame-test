@@ -375,9 +375,7 @@ export const Range = styled.input`
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -10px;
-    animation-name: ${animateHeart};
-    animation-duration: 8s;
-    animation-iteration-count: infinite;
+    
   }
   
   &::-webkit-slider-runnable-track {
@@ -394,24 +392,26 @@ export const Range = styled.input`
   }
   &::-moz-range-thumb {
     width: 25px;
-    height: 25px;
+    height: 10px;
     border-radius: 50%;
-    background: transparent
-      linear-gradient(
-        156.93deg,
-        #ef0896 -49.7%,
-        #7007ff 44.05%,
-        #00c8ff 122.38%
-      )
-      0% 0% no-repeat padding-box;
+    background: #6FCF97;
     border: 0;
     cursor: pointer;
   }
+  ::-moz-range-track {  
+  background-color: #EB5757;
+   width: 100%;
+    height: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
   &::-moz-range-progress {
     width: 100%;
-    height: 4px;
-    background: transparent linear-gradient(270deg, #16102f 0%, #55b7ff 100%) 0%
-      0% no-repeat padding-box;
+    height: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #6FCF97;
     outline: none;
     transition: opacity 0.2s;
   }
