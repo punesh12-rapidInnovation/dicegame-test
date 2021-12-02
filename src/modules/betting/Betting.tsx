@@ -41,6 +41,7 @@ import { rangeSliderSound, rollingDiceSound, Sound } from "./Sound";
 import WaitingModal from "./modals/WaitingModal";
 import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
+import Alertmsg from "./modals/Alertmsg";
 import Sliderthumb from "../../assets/icons/sliderthumb.svg";
 
 const Betting = () => {
@@ -62,6 +63,8 @@ const Betting = () => {
   const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
   const [PlacingBet, setPlacingBet] = useState(false);
   const [soundFlag, setSoundFlag] = useState(0);
+  const [AlertModalState, setAlertModalState] = useState(false);
+  const [AlertText, setAlertText] = useState("");
 
   const [loader, setLoader] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -149,10 +152,12 @@ const Betting = () => {
     } else if (PlacingBet) {
       return;
     } else if (BetAmount === 0) {
-      window.alert("BetAmount cannot be 0");
+      setAlertText("BET AMOUNT CANNOT BE 0")
+      setAlertModalState(true);
       return;
     } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
-      alert("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED");
+      setAlertText("Amount Not Under Minimum And Maximum Amount Allowed");
+      setAlertModalState(true);
     } else {
       if (userAddress) {
         const RollUnder: any = RangeValue + 1;
@@ -254,6 +259,7 @@ const Betting = () => {
     setLoader(false);
     setSuccess(false);
     setError(false);
+    setAlertModalState(false);
     // setBetAmount("");
     // setRangeValue(1);
     // window.location.reload();
@@ -343,6 +349,7 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
+        setBetAmount(0);
         StoringLastRolls();
       } else if (ResultObject?.Status === "1") {
         setResultRoll(ResultObject?.Diceresult);
@@ -354,6 +361,7 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
+        setBetAmount(0);
         StoringLastRolls();
       } else {
         console.log("unhandled result");
@@ -640,6 +648,12 @@ const Betting = () => {
         toggleModal={() => toggleModal()}
         ResultObject={ResultObject}
         LossAmount={BetAmount}
+      />
+
+      <Alertmsg
+        show={AlertModalState}
+        toggleModal={() => toggleModal()}
+        alertText={AlertText}
       />
     </BetBox>
   );
