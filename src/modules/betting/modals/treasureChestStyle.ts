@@ -543,7 +543,7 @@ position: relative;
 	width: 20px;
 	animation-name: example9;
 	animation-duration: 1.5s;
-	animation-iteration - count: infinite;
+	animation-iteration-count: infinite;
 	transition-delay: -0.9s;
 
 }
