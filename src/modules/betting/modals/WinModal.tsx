@@ -49,12 +49,16 @@ const WinModal = (props: any) => {
   // console.log('number', Numbers);
 
   useEffect(() => {
-    if (show) betWinSound.play();
-    else
-      betWinSound.removeEventListener("ended", () => {
-        betWinSound.pause();
-        betWinSound.currentTime = 0;
-      });
+    setTimeout(() => {
+      if (show) betWinSound.play();
+      else
+        betWinSound.removeEventListener("ended", () => {
+          betWinSound.pause();
+          betWinSound.currentTime = 0;
+        });
+
+    }, 1000);
+
   }, [show]);
 
   return (
@@ -66,7 +70,11 @@ const WinModal = (props: any) => {
         <InfoTextSecondary>you win!</InfoTextSecondary>
         <WinAmountContainer>
           <img src={Coins} alt="coins" />
-          <p>You’ve won {Number(Profit).toFixed(6)} pulse coins</p>
+          <p>You’ve won {
+            userAddress && userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase() ?
+              Number(Profit).toFixed(6)
+              : 0
+          } pulse coins</p>
           <img src={HappyFace} alt="coins" style={{ marginRight: "20px" }} />
           {/* <img
                         style={{ marginTop: "-25%", height: '80px' }}
@@ -79,7 +87,9 @@ const WinModal = (props: any) => {
             <img src={Diceback} alt="" />
           </RearDice>
           <FrontDice>
-            <p>{!!ResultObject && ResultObject.Diceresult}</p>
+            <p>{
+              userAddress && userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase() && ResultObject.Diceresult
+            } </p>
             <img src={DiceFront} alt="" />
           </FrontDice>
         </DiceCont>

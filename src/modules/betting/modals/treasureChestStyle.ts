@@ -438,105 +438,126 @@ const example10 = keyframes`
 		}
 `
 
-export const TreasureCont = styled(motion.div)` 
+// export const TreasureCont = styled.div` 
+export const TreasureCont = styled(motion.div)`
 width: 100px;
 height: 100px;
 position: relative;
 
 .pulsecoin{
-	position:absolute;
-	top:10%;
-	left:30%;
-	height:40px;
-	width:40px;
-	animation: ${example} 1.5s infinite;
+	position: absolute;
+	top: 10%;
+	left: 30%;
+	height: 40px;
+	width: 40px;
+	animation: ${example} 2s infinite;
+	transition-delay: -1s;
+
+	
 }
 .pulsecoin2{
-	position:absolute;
-	top:10%;
-	left:30%;
-	height:20px;
-	width:20px;
+	position: absolute;
+	top: 10%;
+	left: 30%;
+	height: 20px;
+	width: 20px;
 	animation: ${example2} infinite;
-  animation-duration: 2s;
+	animation-duration: 4s;
+	transition-delay: 0.5s;
+
 }
 .pulsecoin3{
-	position:absolute;
-	top:10%;
-	left:90%;
-	height:20px;
-	width:20px;
+	position: absolute;
+	top: 10%;
+	left: 90%;
+	height: 20px;
+	width: 20px;
 	animation: ${example3} infinite;
-  animation-duration: 2s;
+	animation-duration: 5s;
+	transition-delay: 0.2s;
+
 }
 .pulsecoin4{
-	position:absolute;
-	top:10%;
-	left:90%;
-	height:20px;
-	width:20px;
+	position: absolute;
+	top: 10%;
+	left: 90%;
+	height: 20px;
+	width: 20px;
 	animation: ${example4} infinite;
+	animation-duration: 4s;
+	transition-delay: -0.2s;
 
-  animation-duration: 4s;
 }
 .pulsecoin5{
-	position:absolute;
-	top:10%;
-	left:30%;
-	height:20px;
-	width:20px;
+	position: absolute;
+	top: 10%;
+	left: 30%;
+	height: 20px;
+	width: 20px;
 	animation: ${example5} infinite;
-  animation-duration: 4s;
+	animation-duration: 2.5s;
+	transition-delay: 0.8s;
+
 }
 
 .pulsecoin6{
-	position:absolute;
-	top:50%;
-	left:30%;
-	height:20px;
-	width:20px;
+	position: absolute;
+	top: 50%;
+	left: 30%;
+	height: 20px;
+	width: 20px;
 	animation: ${example6} infinite;
-  animation-duration: 2s;
+	animation-duration: 2s;
+	transition-delay: -0.5s;
+
 }
 .pulsecoin7{
-	position:absolute;
-	top:40%;
-	left:35%;
-	height:20px;
-	width:20px;
+	position: absolute;
+	top: 40%;
+	left: 35%;
+	height: 20px;
+	width: 20px;
 	animation: ${example7} infinite;
-  animation-duration: 2s;
+	animation-duration: 4.5s;
+	transition-delay: 0.3s;
+
 }
 
 .pulsecoin8{
-	position:absolute;
-	top:10%;
-	left:30%;
-	height:20px;
-	width:20px;
+	position: absolute;
+	top: 10%;
+	left: 30%;
+	height: 20px;
+	width: 20px;
 	animation: ${example8} infinite;
-  animation-duration: 4s;
+	animation-duration: 3s;
+	transition-delay: 0.1s;
+
 }
 
 .pulsecoin9{
-	position:absolute;
-	top:10%;
-	left:30%;
-	height:20px;
-	width:20px;
+	position: absolute;
+	top: 10%;
+	left: 30%;
+	height: 20px;
+	width: 20px;
 	animation-name: example9;
-  animation-duration: 1.5s;
-  animation-iteration-count: infinite;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	transition-delay: -0.9s;
+
 }
 
 .pulsecoin10{
-	position:absolute;
-	top:10%;
-	left:90%;
-	height:20px;
-	width:20px;
+	position: absolute;
+	top: 10%;
+	left: 90%;
+	height: 20px;
+	width: 20px;
 	animation: ${example10} infinite;
-  animation-duration: 1s;
-}`
+	animation-duration: 0.5s;
+	transition-delay: 0.5s;
+
+} `
 
 

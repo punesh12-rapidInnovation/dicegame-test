@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import landingTop from 'assets/images/landingtop.png';
 import poolDetailsBg from 'assets/images/poolDetailsBg.png';
+import tableBackground from 'assets/images/tableBackground.png';
 import semiCircle from 'assets/icons/semiCircle.png'
 
 import { colors } from 'shared/styles/theme';
@@ -12,15 +13,11 @@ Width:100%;
 
 export const InfoContainer = styled.div`
 background: url(${landingTop});
-height: 45vh;
-min-height: 200px;
+height: 500px;
 width: 100%;
 background-size: contain;
 background-repeat: no-repeat;
 background-color: #000;
-display: flex;
-justify-content: center;
-align-items:center;
  background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -36,7 +33,18 @@ background-repeat: no-repeat;
 background-color: #000;
 width:100%;
 padding:0 5%;
-
+`
+export const TransactionContainer = styled.div`
+display:flex;
+flex-direction: column;
+justify-content:center;
+align-items:center;
+background: url(${tableBackground});
+background-size: cover;
+background-repeat: no-repeat;
+background-color: #000;
+width:100%;
+padding:0 5%;
 `
 
 
@@ -59,6 +67,7 @@ font-size: 14px;
 color:${colors.primary};
 font-style:italic;
 width:fit-content;
+cursor: pointer;
 
 &:hover{
     text-decoration: underline;     
@@ -72,7 +81,8 @@ display:flex;
 width:100%;
 height:100%;
 margin:0 5%;
-
+justify-content: space-between;
+align-items: center;
 `
 export const FlexCont = styled.div<any>`
 display:flex;
@@ -80,8 +90,8 @@ flex-direction: ${(props) => (props.flexDirection ? props.flexDirection : 'colum
 justify-content: ${(props) => (props.justifyContent ? props.justifyContent : 'flex-end')};
 align-items: ${(props) => (props.alignItems ? props.alignItems : '')};
 color:${colors.white};
-width:100%;
-height:100%;
+width:50%;
+height:50%;
 
 p{
     margin:10px 0;
@@ -90,7 +100,7 @@ p{
 h3{
 color: ${colors.purple};
 text-transform: uppercase;
-    
+
 }
 `
 export const PoolDetails = styled.div<any>`
@@ -125,4 +135,17 @@ h5{
     font-size:14px;
 }
 
+`
+
+export const VolumeChartLabel = styled.span`
+font-size: 30px;
+font-weight: 900;
+color: #fff;
+padding-left:10px;
+`
+export const BoxTitle = styled.div`
+color: #fff;
+padding-left: 10px;
+font-size: 20px;
+font-weight: 600;
 `

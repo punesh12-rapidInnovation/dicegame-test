@@ -102,6 +102,7 @@ height: 63%;
 justify-content: center;
 padding: 10px 20px;
 overflow:scroll;
+scrollbar-width:none;
 
 ::-webkit-scrollbar {
                 display: none;

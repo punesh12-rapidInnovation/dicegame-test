@@ -17,7 +17,7 @@ const AnimatedTreasureChest = () => {
       <img className="pulsecoin3" id="left13" src={PulseCoin} alt="coins" />
       <img className="pulsecoin4" id="left14" src={PulseCoin} alt="coins" />
       <img className="pulsecoin5" id="left15" src={PulseCoin} alt="coins" />
-      <img className="pulsecoin6" id="left16" src={PulseCoin} alt="coins" />
+      {/* <img className="pulsecoin6" id="left16" src={PulseCoin} alt="coins" /> */}
     </TreasureCont>
   );
 };

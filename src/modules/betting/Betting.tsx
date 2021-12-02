@@ -41,6 +41,7 @@ import { rangeSliderSound, rollingDiceSound, Sound } from "./Sound";
 import WaitingModal from "./modals/WaitingModal";
 import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
+import Alertmsg from "./modals/Alertmsg";
 import Sliderthumb from "../../assets/icons/sliderthumb.svg";
 
 const Betting = () => {
@@ -62,6 +63,8 @@ const Betting = () => {
   const [BetRightOrNotAlert, setBetRightOrNotAlert] = useState(false);
   const [PlacingBet, setPlacingBet] = useState(false);
   const [soundFlag, setSoundFlag] = useState(0);
+  const [AlertModalState, setAlertModalState] = useState(false);
+  const [AlertText, setAlertText] = useState("");
 
   const [loader, setLoader] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -149,10 +152,12 @@ const Betting = () => {
     } else if (PlacingBet) {
       return;
     } else if (BetAmount === 0) {
-      window.alert("BetAmount cannot be 0");
+      setAlertText("BET AMOUNT CANNOT BE 0")
+      setAlertModalState(true);
       return;
     } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
-      alert("AMOUNT NOT UNDER MINIMUM AND MAXIMUM BETAMOUNT ALLOWED");
+      setAlertText("Amount Not Under Minimum And Maximum Amount Allowed");
+      setAlertModalState(true);
     } else {
       if (userAddress) {
         const RollUnder: any = RangeValue + 1;
@@ -171,7 +176,7 @@ const Betting = () => {
     const MultipliedBetAmount = BetAmount * 1e18;
     const ProfitInWei =
       (((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount) * Houseedgeamount) /
-        Houseedgediviseramount -
+      Houseedgediviseramount -
       MultipliedBetAmount;
 
     const FinalProfit = ProfitInWei / 1e18;
@@ -237,70 +242,57 @@ const Betting = () => {
   };
 
   const HeartBeatSpeed = () => {
-    if (RangeValue > 75) {
-      return "1.6s";
-    } else if (RangeValue > 50) {
-      return "1.2s";
-    } else if (RangeValue > 25) {
-      return "0.8s";
-    } else {
-      return "0.5s";
-    }
+    // if (RangeValue > 75) {
+    //   return "1.6s";
+    // } else if (RangeValue > 50) {
+    //   return "1.2s";
+    // } else if (RangeValue > 25) {
+    //   return "0.8s";
+    // } else {
+    //   return "0.5s";
+    // }
+    return `${RangeValue / 25}s`;
   };
 
-  const handlePlaceBet = async (walletAddress: string, betAmount: number, rollUnder: number) => {
-    try {
-      const lpInstance = await selectInstances(
-        instanceType.BETTING, // type of instance
-        BETTING_ADDRESS //contract address
-      );
-      await lpInstance.methods
-        .playerRollDice(rollUnder)
-        .send({
-          from: walletAddress,
-          value: convertToWei(betAmount),
-        })
-        .once("transactionHash", function (res: any) {
-          setLoader(true);
-        })
-        .once("confirmation", function (receipt: any) {
-          // setSuccess(true)
-        });
-    } catch (error) {
-      console.log("error", error);
-      setLoader(false);
-      setSuccess(false);
-      setError(true);
-    }
-  };
 
   const toggleModal = () => {
     setLoader(false);
     setSuccess(false);
     setError(false);
-    setBetAmount("");
-    setRangeValue(1);
-    window.location.reload();
+    setAlertModalState(false);
+    // setBetAmount("");
+    // setRangeValue(1);
+    // window.location.reload();
   };
 
   useEffect(() => {
+    let Address: any;
+    const getBalance = async () => {
+      let accounts = await web3.eth.getAccounts();
+      Address = accounts[0]
+    }
+
+    getBalance();
+
     const socket = io("wss://diceroll.rapidinnovation.tech");
     try {
       socket.on("connection", () => {
         // Replace event name with connection event name
         console.log("websocket connected");
       });
-      socket.on("betevent", (data) => {
-        console.log(data);
-        setResultObject({
-          Betid: data.BetID,
-          Diceresult: data.DiceResult,
-          Playeraddress: data.PlayerAddress,
-          Playernumber: data.PlayerNumber,
-          Status: data.Status,
-          Date: new Date().toLocaleString(),
-          Value: data.Value,
-        });
+      socket.on("betevent", (data: any) => {
+        // console.log(data);
+
+        if (Address === data.PlayerAddress)
+          setResultObject({
+            Betid: data.BetID,
+            Diceresult: data.DiceResult,
+            Playeraddress: data.PlayerAddress,
+            Playernumber: data.PlayerNumber,
+            Status: data.Status,
+            Date: new Date().toLocaleString(),
+            Value: data.Value,
+          });
         // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
 
         // StoringLastRolls();
@@ -337,7 +329,7 @@ const Betting = () => {
             setPlacingBet(false);
             setBetplacedLoading(true);
             localStorage.setItem("Loading", "true");
-            window.location.reload();
+            // window.location.reload();
           });
         console.log(RollDice);
         return RollDice;
@@ -366,6 +358,7 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
+        setBetAmount(0);
         StoringLastRolls();
       } else if (ResultObject?.Status === "1") {
         setResultRoll(ResultObject?.Diceresult);
@@ -377,6 +370,7 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
+        setBetAmount(0);
         StoringLastRolls();
       } else {
         console.log("unhandled result");
@@ -520,6 +514,7 @@ const Betting = () => {
 
                 position: "relative",
               }}
+
             >
               <Range type="range" value={RangeValue} onChange={RangeValueChanger}></Range>
               <div
@@ -542,17 +537,13 @@ const Betting = () => {
                 Profit
                 <span style={{ color: colors.primary }}>+{Profit.toFixed(6)} PLS</span>
               </div>
-              <SliderThumb
-                style={{
-                  position: "absolute",
-                  top: "-20px",
-                  left: `${RangeValue - 3}%`,
-                  transform: "translate(-50%,-50%)",
-                }}
-                duration={HeartBeatSpeed}
-              >
-                {" "}
-              </SliderThumb>
+              <SliderThumb style={{
+                position: "absolute",
+                top: "-20px",
+                left: `${RangeValue - 5}%`,
+                transform: "translate(-50%,-50%)",
+              }} duration={HeartBeatSpeed} > </SliderThumb>
+
             </Flex>
           </Flex>
         </FlexColumn>
@@ -666,6 +657,12 @@ const Betting = () => {
         toggleModal={() => toggleModal()}
         ResultObject={ResultObject}
         LossAmount={BetAmount}
+      />
+
+      <Alertmsg
+        show={AlertModalState}
+        toggleModal={() => toggleModal()}
+        alertText={AlertText}
       />
     </BetBox>
   );

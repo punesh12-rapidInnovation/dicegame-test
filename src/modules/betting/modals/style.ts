@@ -51,10 +51,10 @@ export const ModalBody = styled.div<ModalBodyProps>`
 		// transform:translateY(0);
 		opacity:1;
 	}
-	70% {
-		// transform:translateY(0);
-		opacity:1;
-	}
+	// 70% {
+	// 	// transform:translateY(0);
+	// 	opacity:1;
+	// }
 	100% {
 		transform:translateY(100vh);
 		opacity:0;
@@ -62,61 +62,75 @@ export const ModalBody = styled.div<ModalBodyProps>`
 }
 
 .coinShower img:nth-child(1){
-animation-delay:2s;
-width:15px;
+animation-delay:-2s;
+width:30px;
 }
 .coinShower img:nth-child(2){
 animation-delay:1.5s;
 width:25px;
 }
 .coinShower img:nth-child(3){
-animation-delay:3s;
-width:40px;
+animation-delay:-0.5s;
+width:60px;
 }
 .coinShower img:nth-child(4){
-animation-delay:2.5s;
-width:15px;
+animation-delay:1.5s;
+width:30px;
 }
 .coinShower img:nth-child(5){
-animation-delay:0.5s;
+animation-delay:-0.1s;
+width:35px;
+
 }
 .coinShower img:nth-child(6){
 animation-delay:0.8s;
+width:30px;
+
 }
 .coinShower img:nth-child(7){
-	animation-delay:3s;
+	animation-delay:1.5s;
+	width:30px;
+
 }
 .coinShower img:nth-child(8){
 	animation-delay:2s;
+	width:60px;
+
 }
 .coinShower img:nth-child(9){
-	animation-delay:4s;
-	width:15px;
+	animation-delay:-2s;
+	width:55px;
 }
 .coinShower img:nth-child(10){
 	animation-delay:1s;
+	width:25px;
+
 }
 .coinShower img:nth-child(11){
-	animation-delay:4s;
-	width:45px;
+	animation-delay:0.3s;
+	width:65px;
 }
 .coinShower img:nth-child(11){
-	animation-delay:0.6s;
+	animation-delay:-0.6s;
+	width:30px;
+
 }
 .coinShower img:nth-child(12){
 	animation-delay:2s;
-	width:20px;
+	width:45px;
 }
 .coinShower img:nth-child(13){
 	animation-delay:0.4s;
-	width:15px;
+	width:35px;
 }
 .coinShower img:nth-child(14){
-	animation-delay:4s;
+	animation-delay:1.4s;
+	width:30px;
+
 }
 .coinShower img:nth-child(15){
-	animation-delay:1s;
-	width:50px;
+	animation-delay:-1s;
+	width:80px;
 }
  `;
 
