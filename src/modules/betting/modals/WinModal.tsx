@@ -25,6 +25,7 @@ import AnimatedTreasureChest from "./AnimatedTreasureChest";
 import OpenTreasureBox from "assets/icons/openTreasureBox.svg";
 
 import { betWinSound } from "../Sound";
+import FramerMotionAnimation from "./FramerMotionAnimation";
 
 const WinModal = (props: any) => {
   const { show, toggleModal, styles, ResultObject, Profit } = props;
@@ -79,7 +80,8 @@ const WinModal = (props: any) => {
           {/* <img
                         style={{ marginTop: "-25%", height: '80px' }}
                         src={OpenTreasureBox} alt="treasureBox" /> */}
-          <AnimatedTreasureChest />
+          {/* <AnimatedTreasureChest /> */}
+          <FramerMotionAnimation />
         </WinAmountContainer>
 
         <DiceCont>
@@ -109,11 +111,11 @@ const WinModal = (props: any) => {
         </PrimaryButton>
       </ModalContent>
 
-      <div className="coinShower">
+      {/* <div className="coinShower">
         {Numbers.map((data: any, index) => {
           return <img src={data.src} alt="" key={"cs" + index} />;
         })}
-      </div>
+      </div> */}
     </ModalBody>
   );
 };
