@@ -503,7 +503,6 @@ border-radius: 5px;
   background-color: linear-gradient(lett,#53084d , #7007FF, #00C8FF);
   border: 2px solid #53084d;
  }
-}
 `
 
 export const Option = styled.option`
