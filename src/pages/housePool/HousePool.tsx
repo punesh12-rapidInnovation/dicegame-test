@@ -4,10 +4,11 @@ import Header from 'modules/app/components/header';
 import { PrimaryButton } from 'shared/button/Button';
 import CustomModal from 'shared/custom-modal';
 import { colors } from 'shared/styles/theme';
-import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, InfoFlexCont, PoolDetailsContainer, PoolDetails, PoolFundsCont, TransactionContainer } from './style';
+import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, InfoFlexCont, PoolDetailsContainer, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle } from './style';
 import verticalLine from "assets/icons/verticalLine.svg";
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import HousePoolTransaction from 'modules/app/components/HousePoolTransaction/HousePoolTransaction';
+import BarChart from 'modules/app/components/barChart/BarChart';
 const HousePool = () => {
 
     const [showDepositModal, setshowDepositModal] = useState(false)
@@ -115,7 +116,19 @@ const HousePool = () => {
 
                     justifyContent="center"
                     alignItems="center"
-                >Liquidity graph</FlexCont>
+                >
+                    <PoolDetails>
+                        <BoxTitle>Volume 24 H</BoxTitle>
+
+                        <>
+                        <VolumeChartLabel>$1.27B</VolumeChartLabel> 
+                        <VolumeChartLabel style={{paddingLeft:"10px",fontSize:"16px",fontWeight:600}}>23 Oct 2022</VolumeChartLabel> 
+                        </>
+                        <div style={{ width: '100%', height: "300px" }}>
+                            <BarChart chartData={[{created_at:"11/30/2021",liquidity:0.39823},{created_at:"12/1/2021",liquidity:0.39823}]} setHoverValue={()=> {}} setHoverDate={()=> {}} />
+                        </div>
+                    </PoolDetails>
+                </FlexCont>
             </PoolDetailsContainer>
             <TransactionContainer>
                 <h1>Transactions</h1>
