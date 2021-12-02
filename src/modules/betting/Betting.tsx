@@ -260,6 +260,14 @@ const Betting = () => {
   };
 
   useEffect(() => {
+    let Address: any;
+    const getBalance = async () => {
+      let accounts = await web3.eth.getAccounts();
+      Address = accounts[0]
+    }
+
+    getBalance();
+
     const socket = io("wss://diceroll.rapidinnovation.tech");
     try {
       socket.on("connection", () => {
@@ -267,17 +275,18 @@ const Betting = () => {
         console.log("websocket connected");
       });
       socket.on("betevent", (data: any) => {
-        console.log(data);
+        // console.log(data);
 
-        setResultObject({
-          Betid: data.BetID,
-          Diceresult: data.DiceResult,
-          Playeraddress: data.PlayerAddress,
-          Playernumber: data.PlayerNumber,
-          Status: data.Status,
-          Date: new Date().toLocaleString(),
-          Value: data.Value,
-        });
+        if (Address === data.PlayerAddress)
+          setResultObject({
+            Betid: data.BetID,
+            Diceresult: data.DiceResult,
+            Playeraddress: data.PlayerAddress,
+            Playernumber: data.PlayerNumber,
+            Status: data.Status,
+            Date: new Date().toLocaleString(),
+            Value: data.Value,
+          });
         // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
 
         // StoringLastRolls();
