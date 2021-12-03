@@ -65,7 +65,7 @@ const WinModal = (props: any) => {
   }, [show]);
 
   return (
-    <ModalBody show={true} onMouseDown={handleClickOutside} style={{ ...styles }}>
+    <ModalBody show={show} onMouseDown={handleClickOutside} style={{ ...styles }}>
       <ModalContent>
         <Image src={PulseRoll} />
 
