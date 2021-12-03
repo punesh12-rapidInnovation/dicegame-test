@@ -12,31 +12,6 @@ import {
     InfoText,
 } from "./style";
 
-
-
-// const useAudio = url => {
-//     const [audio] = useState(new Audio(url));
-//     const [playing, setPlaying] = useState(false);
-
-//     const play = () => setPlaying(true);
-//     const stop = () => setPlaying(false);
-
-//     useEffect(() => {
-//         playing ? audio.play() : audio.pause();
-//     },
-//         [playing]
-//     );
-
-//     useEffect(() => {
-//         audio.addEventListener('ended', () => setPlaying(false));
-//         return () => {
-//             audio.removeEventListener('ended', () => setPlaying(false));
-//         };
-//     }, []);
-
-//     return [playing, play, stop];
-// };
-
 const WaitingModal = (props: any) => {
     const { show, toggleModal, styles } = props;
 
@@ -48,17 +23,24 @@ const WaitingModal = (props: any) => {
     };
 
     useEffect(() => {
-        if (show) {
-            rollingDiceSound.play();
-            rollingDiceSound.loop = true;
-        }
-        else {
-            rollingDiceSound.loop = false;
-            rollingDiceSound.removeEventListener('ended', () => {
-                rollingDiceSound.pause();
-                rollingDiceSound.currentTime = 0;
-                rollingDiceSound.src = ""
-            });
+        try {
+
+            if (show) {
+                rollingDiceSound.play();
+                rollingDiceSound.loop = true;
+            }
+            else {
+                rollingDiceSound.loop = false;
+                rollingDiceSound.removeEventListener('ended', () => {
+                    rollingDiceSound.pause();
+                    rollingDiceSound.currentTime = 0;
+                    rollingDiceSound.src = ""
+                });
+            }
+
+        } catch (error) {
+            console.log(error);
+
         }
     })
 

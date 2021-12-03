@@ -16,7 +16,7 @@ const example = keyframes`
 
 		}
  	30%  { 
-		 top:-40%; 
+		 top:-40%;
 		transform: scale(0.4);
 
 		}
@@ -470,9 +470,7 @@ position: relative;
 	left: 90%;
 	height: 20px;
 	width: 20px;
-	animation: ${example3} infinite;
-	animation-duration: 5s;
-	transition-delay: 0.2s;
+
 
 }
 .pulsecoin4{
@@ -530,20 +528,6 @@ position: relative;
 	animation: ${example8} infinite;
 	animation-duration: 3s;
 	transition-delay: 0.1s;
-
-}
-
-.pulsecoin9{
-	position: absolute;
-	top: 10%;
-	left: 30%;
-	height: 20px;
-	width: 20px;
-	animation-name: example9;
-	animation-duration: 1.5s;
-	animation-iteration-count: infinite;
-	transition-delay: -0.9s;
-
 }
 
 .pulsecoin10{
@@ -555,7 +539,4 @@ position: relative;
 	animation: ${example10} infinite;
 	animation-duration: 0.5s;
 	transition-delay: 0.5s;
-
 } `
-
-

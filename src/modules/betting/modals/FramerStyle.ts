@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 
 export const TreasureCont = styled.div`
-background:red;
+// background:red;
 
 display:flex;
 justify-content:center;

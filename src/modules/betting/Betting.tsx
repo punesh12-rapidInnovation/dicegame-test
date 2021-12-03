@@ -252,7 +252,11 @@ const Betting = () => {
     // } else {
     //   return "0.5s";
     // }
-    return `${RangeValue / 25}s`;
+
+    if (loader || success)
+      return '20s'
+    else
+      return `${RangeValue / 25}s`;
   };
 
 
@@ -267,6 +271,7 @@ const Betting = () => {
   };
 
   useEffect(() => {
+
     let Address: any;
     const getBalance = async () => {
       let accounts = await web3.eth.getAccounts();
@@ -676,7 +681,7 @@ const Betting = () => {
         toggleModal={() => toggleModal()}
         alertText={AlertText}
       />
-    </BetBox>
+    </BetBox >
   );
 };
 
