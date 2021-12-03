@@ -400,6 +400,12 @@ const Betting = () => {
     }
   };
 
+//   useEffect(() => {
+// window.addEventListener('storage', () => {
+//   StoringLastRolls();
+// });
+// }, [])
+
   useEffect(() => {
     const getWalletBalance = async () => {
       try {
