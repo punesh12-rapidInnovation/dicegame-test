@@ -260,7 +260,7 @@ const Betting = () => {
     setSuccess(false);
     setError(false);
     setAlertModalState(false);
-    // setBetAmount("");
+    setBetAmount("");
     // setRangeValue(1);
     // window.location.reload();
   };
@@ -358,7 +358,7 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
-        setBetAmount(0);
+        // setBetAmount(0);
         StoringLastRolls();
       } else if (ResultObject?.Status === "1") {
         setResultRoll(ResultObject?.Diceresult);
@@ -370,7 +370,7 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
-        setBetAmount(0);
+        // setBetAmount(0);
         StoringLastRolls();
       } else {
         console.log("unhandled result");

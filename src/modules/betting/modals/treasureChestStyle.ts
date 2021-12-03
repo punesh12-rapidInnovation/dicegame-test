@@ -452,8 +452,6 @@ position: relative;
 	width: 40px;
 	animation: ${example} 2s infinite;
 	transition-delay: -1s;
-
-	
 }
 .pulsecoin2{
 	position: absolute;
