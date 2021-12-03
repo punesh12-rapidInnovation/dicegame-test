@@ -111,11 +111,11 @@ const WinModal = (props: any) => {
         </PrimaryButton>
       </ModalContent>
 
-      {/* <div className="coinShower">
+      <div className="coinShower">
         {Numbers.map((data: any, index) => {
           return <img src={data.src} alt="" key={"cs" + index} />;
         })}
-      </div> */}
+      </div>
     </ModalBody>
   );
 };

@@ -40,7 +40,7 @@ const FramerMotionAnimation = () => {
                     ease: "easeInOut",
                     times: [1],
                     repeat: Infinity,
-                    repeatDelay: 1
+                    repeatDelay: 1.1
                 }}
                 className="pulsecoin" id="left1" src={PulseCoin} alt="coins" />
             <CoinImg
@@ -54,7 +54,7 @@ const FramerMotionAnimation = () => {
                     ease: "easeInOut",
                     times: [1],
                     repeat: Infinity,
-                    repeatDelay: 1
+                    repeatDelay: 1.2
                 }}
                 className="pulsecoin" id="left2" src={PulseCoin} alt="coins" />
             <CoinImg
@@ -68,7 +68,7 @@ const FramerMotionAnimation = () => {
                     ease: "easeInOut",
                     times: [1],
                     repeat: Infinity,
-                    repeatDelay: 1
+                    repeatDelay: 1.3
                 }}
                 className="pulsecoin" id="left3" src={PulseCoin} alt="coins" />
 
@@ -83,7 +83,7 @@ const FramerMotionAnimation = () => {
                     ease: "easeInOut",
                     times: [1],
                     repeat: Infinity,
-                    repeatDelay: 1
+                    repeatDelay: 1.1
                 }}
                 className="pulsecoin" id="right1" src={PulseCoin} alt="coins" />
             <CoinImg
@@ -97,7 +97,7 @@ const FramerMotionAnimation = () => {
                     ease: "easeInOut",
                     times: [1],
                     repeat: Infinity,
-                    repeatDelay: 1
+                    repeatDelay: 1.2
                 }}
                 className="pulsecoin" id="right2" src={PulseCoin} alt="coins" />
             <CoinImg
@@ -111,7 +111,7 @@ const FramerMotionAnimation = () => {
                     ease: "easeInOut",
                     times: [1],
                     repeat: Infinity,
-                    repeatDelay: 1
+                    repeatDelay: 1.3
                 }}
                 className="pulsecoin" id="right3" src={PulseCoin} alt="coins" />
 
