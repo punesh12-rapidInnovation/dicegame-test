@@ -52,7 +52,7 @@ const AnimatedTreasureChest = () => {
           animate="motion1"
           variants={variants}
         />
-        <motion.img
+        {/* <motion.img
           src={PulseCoin}
           style={{ width: "20px", height: "20px", position: "absolute", top: "10%", left: "70%" }}
           animate="motion2"
@@ -75,7 +75,7 @@ const AnimatedTreasureChest = () => {
           style={{ width: "20px", height: "20px", position: "absolute", top: "10%", left: "10%" }}
           animate="motion1"
           variants={variants}
-        />
+        /> */}
       </motion.div>
     </AnimateSharedLayout>
   );

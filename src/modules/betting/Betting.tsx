@@ -644,8 +644,8 @@ const Betting = () => {
 
       <WaitingModal show={loader && !success && !error} toggleModal={() => toggleModal()} />
       <WinModal
-        // show={true}
-        show={!loader && success && win && !error}
+        show={true}
+        // show={!loader && success && win && !error}
         toggleModal={() => toggleModal()}
         ResultObject={ResultObject}
         Profit={Profit.toFixed(6)}
