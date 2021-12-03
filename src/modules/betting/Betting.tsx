@@ -217,7 +217,8 @@ const Betting = () => {
           });
       }
     } else {
-      alert("Connect wallet to place bet");
+      setAlertText("Connect Wallet To Place Bet")
+      setAlertModalState(true);
     }
   };
 
@@ -281,9 +282,11 @@ const Betting = () => {
         console.log("websocket connected");
       });
       socket.on("betevent", (data: any) => {
-        // console.log(data);
-
-        if (Address === data.PlayerAddress)
+        console.log(data);
+        const LocalBetId = localStorage.getItem("PlacingBetId");
+        console.log(LocalBetId);
+        if (LocalBetId === data.BetID) {
+          console.log('ResultObjectupdated');
           setResultObject({
             Betid: data.BetID,
             Diceresult: data.DiceResult,
@@ -293,6 +296,7 @@ const Betting = () => {
             Date: new Date().toLocaleString(),
             Value: data.Value,
           });
+        } 
         // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
 
         // StoringLastRolls();
@@ -338,6 +342,7 @@ const Betting = () => {
           setPlacingBet(false);
         } else {
           localStorage.setItem("Loading", "false");
+          window.location.reload(); 
         }
       }
     }
@@ -347,7 +352,7 @@ const Betting = () => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
     console.log(LocalBetIt);
 
-    if (userAddress && userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase()) {
+    if (userAddress && LocalBetIt === ResultObject?.Betid) {
       if (ResultObject?.Status === "0") {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("You Lost The Bet,Better Luck Next Time");
@@ -376,8 +381,9 @@ const Betting = () => {
         console.log("unhandled result");
       }
     } else {
+      console.log(ResultObject?.Betid,LocalBetIt)
       console.log("not our result");
-      console.log(ResultObject?.Playeraddress.toUpperCase());
+      // console.log(ResultObject?.Playeraddress.toUpperCase());
       // console.log(userAddress.toUpperCase());
     }
   }, [ResultObject]);

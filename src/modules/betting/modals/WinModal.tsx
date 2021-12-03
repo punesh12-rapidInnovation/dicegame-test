@@ -39,6 +39,7 @@ const WinModal = (props: any) => {
   };
 
   const { userAddress } = useSelector((state: any) => state.wallet);
+  const LocalBetIt = localStorage.getItem("PlacingBetId");
 
   useEffect(() => {
     for (let index = 0; index < 15; index++) {
@@ -72,7 +73,7 @@ const WinModal = (props: any) => {
         <WinAmountContainer>
           <img src={Coins} alt="coins" />
           <p>You’ve won {
-            userAddress && userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase() ?
+            userAddress && LocalBetIt === ResultObject?.Betid ?
               Number(Profit).toFixed(6)
               : 0
           } pulse coins</p>
@@ -90,7 +91,7 @@ const WinModal = (props: any) => {
           </RearDice>
           <FrontDice>
             <p>{
-              userAddress && userAddress.toUpperCase() === ResultObject?.Playeraddress.toUpperCase() && ResultObject.Diceresult
+              userAddress && LocalBetIt === ResultObject?.Betid && ResultObject.Diceresult
             } </p>
             <img src={DiceFront} alt="" />
           </FrontDice>
