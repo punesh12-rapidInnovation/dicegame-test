@@ -25,22 +25,24 @@ export const rangeSliderSound = (
 	soundFlag?,
 	setSoundFlag?
 ) => {
-	const audio = new Audio(heart);
-	if (soundFlag === 0) {
-		audio
-			.play()
-			.then(() => {
-				// Audio is playing.
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-		setSoundFlag(1);
-	}
-	audio.addEventListener('ended', function () {
-		// console.log('playbackRate', playbackRate);
-		// audio.playbackRate = playbackRate;
-		// audio.volume = playbackRate;
-		audio.play();
-	});
+	try {
+		const audio = new Audio(heart);
+		if (soundFlag === 0) {
+			audio
+				.play()
+				.then(() => {
+					// Audio is playing.
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+			setSoundFlag(1);
+		}
+		audio.addEventListener('ended', function () {
+			// console.log('playbackRate', playbackRate);
+			// audio.playbackRate = playbackRate;
+			// audio.volume = playbackRate;
+			audio.play();
+		});
+	} catch (error) {}
 };
