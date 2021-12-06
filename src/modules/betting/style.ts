@@ -287,6 +287,7 @@ export const Flex = styled.div<any>`
   display: flex;
   justify-content: ${(props) => props.JustifyContent || "space-between"};
   align-content: center;
+
   width: ${(props) => props.Width || "100%"};
   margin-bottom: ${(props) => props.MarginBottom || "0"}; ;
 `;
@@ -481,7 +482,7 @@ export const OddEvenDiv = styled.div`
 
 export const Select = styled.select`
 
-width: 65px;
+width: 130px;
 height: 32px;
 color:${colors.white};
 margin:0 5px;
@@ -490,10 +491,6 @@ background: linear-gradient(90deg, rgba(239, 8, 150, 0.2) -6.9%, rgba(112, 7, 25
 border: 2px solid #53084d;
 box-shadow: 0px 3px 5px rgba(23, 15, 24, 0.5), inset 0px 0px 14px rgba(202, 26, 231, 0.6);
 border-radius: 5px;
-
-
-
-
 
  Option{
   width: 100px;
@@ -508,5 +505,10 @@ border-radius: 5px;
 
 export const Option = styled.option`
 
+  `
+export const P = styled.p`
+color:${colors.primary};
+font-weight:900;
+font-size:16px;
   `
 

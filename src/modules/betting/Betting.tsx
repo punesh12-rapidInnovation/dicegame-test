@@ -24,6 +24,7 @@ import {
   SliderThumb,
   Select,
   Option,
+  P
 } from "./style";
 import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
 import Cross from "../../assets/icons/Cross.svg";
@@ -31,7 +32,7 @@ import { convertToEther, convertToWei } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
 import { instanceType, selectInstances } from "../../utils/contracts";
-import { ROUTER_ADDRESS } from "../../config";
+import { LINK_TOKEN_ADDRESS } from "../../config";
 import { setWalletBalance } from "logic/action/wallet.action";
 import CustomModal from "shared/custom-modal";
 import { PrimaryButton } from "shared/button/Button";
@@ -43,6 +44,7 @@ import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
 import Alertmsg from "./modals/Alertmsg";
 import Sliderthumb from "../../assets/icons/sliderthumb.svg";
+import QuestionMark from "../../assets/icons/questionMark.svg";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(1);
@@ -202,7 +204,7 @@ const Betting = () => {
       //create instance of an abi to call any blockChain function
       const lpInstance = await selectInstances(
         instanceType.ERC20TOKEN, // type of instance
-        ROUTER_ADDRESS //contract address
+        LINK_TOKEN_ADDRESS //contract address
       );
 
       if (true) {
@@ -318,34 +320,33 @@ const Betting = () => {
       instanceType.BETTING, // type of instance
       BETTING_ADDRESS //contract address
     );
-    if (true) {
-      try {
-        setPlacingBet(true);
-        const RollDice = await lpInstance.methods
-          .playerRollDice(Rollunder)
-          .send({
-            from: myAccount,
-            value: Ethervalue,
-          })
-          .once("transactionHash", function (res: any) {
-            setLoader(true);
-          })
-          .once("confirmation", function (receipt: any) {
-            setPlacingBet(false);
-            setBetplacedLoading(true);
-            localStorage.setItem("Loading", "true");
-            // window.location.reload();
-          });
-        console.log(RollDice);
-        return RollDice;
-      } catch (error: any) {
-        if (error.code === 4001) {
+    try {
+      setPlacingBet(true);
+      const RollDice = await lpInstance.methods
+        .playerRollDice(Rollunder)
+        .send({
+          from: myAccount,
+          value: Ethervalue,
+        })
+        .once("transactionHash", function (res: any) {
+          setLoader(true);
+        })
+        .once("confirmation", function (receipt: any) {
           setPlacingBet(false);
-        } else {
-          localStorage.setItem("Loading", "false");
-        }
+          setBetplacedLoading(true);
+          localStorage.setItem("Loading", "true");
+          // window.location.reload();
+        });
+      console.log(RollDice);
+      return RollDice;
+    } catch (error: any) {
+      if (error.code === 4001) {
+        setPlacingBet(false);
+      } else {
+        localStorage.setItem("Loading", "false");
       }
     }
+
   };
 
   useEffect(() => {
@@ -553,9 +554,12 @@ const Betting = () => {
           </Flex>
         </FlexColumn>
         <OddEvenDiv style={{ width: "100%" }}>
+
           <Flex>
             <H2>Select</H2>
-            <Flex style={{ width: "40%", justifyContent: "center" }}>
+            <Flex
+              JustifyContent="center"
+              style={{ width: "40%", alignItem: 'center' }}>
               <Flex style={{ justifyContent: "center", marginRight: "16px" }}>
                 <label className="container">
                   Odd
@@ -570,12 +574,21 @@ const Betting = () => {
                   <span className="checkmark"></span>
                 </label>
               </Flex>
+              <Flex style={{ justifyContent: "center" }}>
+
+                <P>5%</P>
+                <img src={QuestionMark} alt="help" />
+              </Flex>
+
             </Flex>
+
+
+
+
           </Flex>
           <Flex>
             <H2>Select Range</H2>
             <Flex style={{ width: "40%", justifyContent: "space-between", alignItems: "center" }}>
-              <p style={{ fontSize: "12px" }}>From</p>
               <Select id="rangeFrom" name="">
                 {Numbers.map((data, index) => {
                   return (
@@ -585,16 +598,10 @@ const Betting = () => {
                   );
                 })}
               </Select>
-              <p style={{ fontSize: "12px" }}>To</p>
-              <Select id="rangeTo" name="">
-                {Numbers.map((data, index) => {
-                  return (
-                    <Option value={index + 2} key={"rt" + index}>
-                      {index + 2}
-                    </Option>
-                  );
-                })}
-              </Select>
+              <P>20%</P>
+              <img src={QuestionMark} alt="help" />
+
+
             </Flex>
           </Flex>
         </OddEvenDiv>
