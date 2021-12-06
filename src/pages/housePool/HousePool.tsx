@@ -4,7 +4,7 @@ import Header from 'modules/app/components/header';
 import { PrimaryButton } from 'shared/button/Button';
 import CustomModal from 'shared/custom-modal';
 import { colors } from 'shared/styles/theme';
-import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, InfoFlexCont, PoolDetailsContainer, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle } from './style';
+import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link,  PoolDetailsContainer, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle } from './style';
 import verticalLine from "assets/icons/verticalLine.svg";
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import HousePoolTransaction from 'modules/app/components/HousePoolTransaction/HousePoolTransaction';
@@ -17,9 +17,8 @@ const HousePool = () => {
         <HousePoolCont>
             <Header/>
             <InfoContainer>
-                <InfoFlexCont>
                     <FlexCont
-                        style={{ marginTop: "-20px" }}
+                        style={{ height:'250px',transform:'translatey(20%)',width:'50%' }}
                     >
                         <H3>Wallet {'>'} Liquidity</H3>
                         <H1>HOUSE POOL</H1>
@@ -28,95 +27,79 @@ const HousePool = () => {
                             and Join the Contest with high rewards at Pulseroll</p>
                         <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
                     </FlexCont>
-                    <FlexCont
-                        justifyContent="center"
-                        alignItems="center"
+                <FlexCont
+                    style={{height:'250px',transform:'translatey(20%)',alignItems:'flex-end',justifyContent:'center',width:'30%'}} 
                     >
-                        <PrimaryButton width="50%"
+                    <PrimaryButton width="300px"
+                        style={{padding:'25px',fontSize:'18px'}}
                             onClick={() => setshowDepositModal(true)}
                         >DEPOSIT FUNDS (PLS)</PrimaryButton>
                     </FlexCont>
-                </InfoFlexCont>
             </InfoContainer>
             <PoolDetailsContainer>
+                <PoolDetails style={{width:'450px',margin:'0',marginRight:'30px',height:'500px'}}>
                 <FlexCont
-
-                    justifyContent="center"
-                    alignItems="center"
-                >
-
-                    <PoolDetails>
-                        <FlexCont
-                            flexDirection="row"
-                            justifyContent="space-between"
-                            alignItems="center"
-
-                            style={{ marginTop: "30px" }}
-                        >
-                            <FlexCont
+                style={{flexDirection:'row' ,justifyContent:"space-around",height:'30%',
+                                alignItems:"center",width:'100%',padding:'20px 40px'}}>
+                     <FlexCont
                                 justifyContent="center"
-                                alignItems="center"
+                            alignItems="center"
+                            style={{width:'30%',transform:'translatey(-25px)'}}
                             >
                                 <h3>liquidity</h3>
                                 <h1>$61</h1>
                                 <p>24.158</p>
-                            </FlexCont>
-                            <img src={verticalLine} alt="" />
-                            <FlexCont
-                                justifyContent="center"
-                                alignItems="center"
-                            >
-                                <h3>Volume 24h</h3>
-                                <h1>$61</h1>
-                                <p>24.158</p>
-                            </FlexCont>
-
-                        </FlexCont>
-
-
-
-                        <FlexCont
-                            flexDirection="row"
+                    </FlexCont>
+                        <img src={verticalLine} alt="" style={{width:'30%',height:'40px'}}/>
+                    <FlexCont
                             justifyContent="center"
-                            alignItems="center"
+                            alignItems="center" style={{ width: '30%',transform:'translatey(-25px)' }}
+                    >
+                    <h3>Volume 24h</h3>
+                    <h1>$1.89M</h1>
+                    <p>124.18%</p>
+                    </FlexCont>
+                    </FlexCont>
+
+                     <FlexCont
+                            justifyContent="center"
+                        alignItems="center"
+                        style={{width:'100%',height:'50%'}}
                         >
                             <PoolFundsCont>
                                 <h5>Your Total Funds</h5>
                                 <h1>387536.00</h1>
                                 <p>PULSE TOKEN</p>
                             </PoolFundsCont>
-                        </FlexCont>
-                        <FlexCont
-                            flexDirection="row"
-                            justifyContent="center"
-                            alignItems="center"
-
-                            style={{ marginBottom: "30px" }}
+                    </FlexCont>
+                     <FlexCont
+                            style={{ marginBottom: "30px",width:'100%',flexDirection:'row',justifyContent:'center',height:'20%' }}
                         >
                             <PrimaryButton
-                                width="30%"
+                                width="40%"
                                 margin="0 10px"
-                                onClick={() => setshowDepositModal(true)}
+                            onClick={() => setshowDepositModal(true)}
+                            style={{padding:'18px'}}
 
                             >DEPOSIT FUNDS
                             </PrimaryButton>
                             <PrimaryButton
-                                width="30%"
+                                width="45%"
                                 margin="0 10px"
                                 color={colors.primary}
-                                onClick={() => setshowDepositModal(true)}
+                            onClick={() => setshowDepositModal(true)}
+                            style={{padding:'18px'}}
 
                             >WITHDRAW FUNDS</PrimaryButton>
                         </FlexCont>
-                    </PoolDetails>
-
-
-                </FlexCont>
-                <FlexCont
+                </PoolDetails>
+                    
+                
+                   <FlexCont
 
                     justifyContent="center"
                     alignItems="center"
-                >
+                    >
                     <PoolDetails>
                         <BoxTitle>Volume 24 H</BoxTitle>
 
@@ -128,7 +111,7 @@ const HousePool = () => {
                             <BarChart chartData={[{created_at:"11/30/2021",liquidity:0.39823},{created_at:"12/1/2021",liquidity:0.39823}]} setHoverValue={()=> {}} setHoverDate={()=> {}} />
                         </div>
                     </PoolDetails>
-                </FlexCont>
+                    </FlexCont>
             </PoolDetailsContainer>
             <TransactionContainer>
                 <h1>Transactions</h1>

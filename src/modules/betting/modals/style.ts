@@ -251,9 +251,10 @@ export const FrontDice = styled.div`
 position: relative;
 p{
     position:absolute;
-    top:25%;
-    left:25%;
-    font-size:43px;
+    top:50%;
+    left:50%;
+	transform: translate(-50%,-50%);
+    font-size:40px;
     font-family:AvenirLTStd;
     font-weight :750;
 }
