@@ -27,15 +27,16 @@ background-color: #000;
 `
 
 export const PoolDetailsContainer = styled.div`
-display:flex;
-justify-content:center;
-align-items:center;
+/*display:flex;*/
+/*justify-content:center;*/
+/*align-items:center;*/
 background: url(${poolDetailsBg});
 background-size: cover;
 background-repeat: no-repeat;
 background-color: #000;
 width:100%;
 height: 600px;
+padding:0 5%;
 `
 export const TransactionContainer = styled.div`
 display:flex;
