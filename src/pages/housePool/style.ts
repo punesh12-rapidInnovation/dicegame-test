@@ -21,6 +21,9 @@ background-color: #000;
  background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 `
 
 export const PoolDetailsContainer = styled.div`
@@ -32,7 +35,7 @@ background-size: cover;
 background-repeat: no-repeat;
 background-color: #000;
 width:100%;
-padding:0 5%;
+height: 600px;
 `
 export const TransactionContainer = styled.div`
 display:flex;
@@ -76,22 +79,21 @@ cursor: pointer;
 
 `
 
-export const InfoFlexCont = styled.div`
-display:flex;
-width:100%;
-height:100%;
-margin:0 5%;
-justify-content: space-between;
-align-items: center;
-`
+// export const InfoFlexCont = styled.div`
+// display:flex;
+// width:100%;
+// height:100%;
+// margin:0 5%;
+// justify-content: space-between;
+// align-items: center;
+// `
 export const FlexCont = styled.div<any>`
-display:flex;
-flex-direction: ${(props) => (props.flexDirection ? props.flexDirection : 'column')};
-justify-content: ${(props) => (props.justifyContent ? props.justifyContent : 'flex-end')};
-align-items: ${(props) => (props.alignItems ? props.alignItems : '')};
+display: flex;
+flex-direction: column;
+align-items: flex-start;
 color:${colors.white};
-width:50%;
-height:50%;
+width:40%;
+height:30%;
 
 p{
     margin:10px 0;
@@ -107,7 +109,7 @@ export const PoolDetails = styled.div<any>`
 display:flex;
 flex-direction:column;
 justify-content: center;
-// align-items:center;
+align-items:center;
 width:95%;
 height:100%;
 margin:50px;
@@ -115,6 +117,9 @@ margin:50px;
 background: linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%);
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9);
 border-radius: 20px;
+
+*{
+}
 
 `
 
@@ -127,8 +132,8 @@ background: url(${semiCircle});
 background-size: cover;
 background-repeat: no-repeat;
 // background-color: #000;
-width:80%;
-height: 300px;
+width:100%;
+height: 250px;
 
 h5{
     color: ${colors.primary};
