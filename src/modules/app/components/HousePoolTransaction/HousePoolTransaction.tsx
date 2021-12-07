@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { usePagination, useTable } from 'react-table';
-import { DataContainer, TABLE, TableStyles, TD, THead, TR } from './style';
+import { DataContainer, PaginationCont, TABLE, TableStyles, TD, THead, TR } from './style';
 
 
 const HousePoolTransaction = () => {
@@ -132,18 +132,23 @@ const HousePoolTransaction = () => {
         */}
                 {
                     page.length ?
-                        <div className="pagination">
-                            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                                {'<'}
-                            </button>{' '}
-                            <strong>
-                                Page {pageIndex + 1} of {pageOptions.length}
-                            </strong>
-                            <button onClick={() => nextPage()} disabled={!canNextPage}>
-                                {'>'}
-                            </button>{' '}
-                            {' '}
-                        </div>
+                        <PaginationCont className="pagination">
+
+                            <div>Showing 1 to 5 of 35 elements</div>
+                            <div>
+                                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                                    {'<'}
+                                </button>{' '}
+                                <strong>
+                                    Page {pageIndex + 1} of {pageOptions.length}
+                                </strong>
+                                <button onClick={() => nextPage()} disabled={!canNextPage}>
+                                    {'>'}
+                                </button>{' '}
+                                {' '}
+                            </div>
+
+                        </PaginationCont>
                         : null
                 }
             </>

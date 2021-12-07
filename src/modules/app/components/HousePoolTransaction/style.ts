@@ -102,3 +102,18 @@ text-align:center;
 export const TD = styled.td`
 
 `
+export const PaginationCont = styled.div`
+display:flex;
+justify-content:space-between;
+color:${colors.white};
+height:50px;
+
+div{
+  width:20%;
+  // background:red;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+`
