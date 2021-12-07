@@ -74,7 +74,7 @@ const Betting = () => {
   const [showToolTip1, setShowToolTip1] = useState(false)
   const [showToolTip2, setShowToolTip2] = useState(false)
   const [evenOddProfit, setEvenOddProfit] = useState(0)
-
+  const [rangeProfit, setRangeProfit] = useState(0)
 
 
   const [Numbers, setNumbers] = useState([]);
@@ -158,10 +158,12 @@ const Betting = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      OnLoadMaxBet();
-      OnLoadMinBet();
-    }, 5000);
+    // setTimeout(() => {
+    //   OnLoadMaxBet();
+    //   OnLoadMinBet();
+    // }, 5000);
+    OnLoadMaxBet();
+    OnLoadMinBet();
   }, [ResultObject]);
 
   useEffect(() => {
@@ -219,18 +221,48 @@ const Betting = () => {
 
   useEffect(() => {
     const ProfitCalculator = async () => {
-      const Houseedgeamount = parseInt(await HouseEdge());
-      const Houseedgediviseramount = parseInt(await HouseEdgeDiviser());
+      const HouseEdgeAmount = parseInt(await HouseEdge());
+      const HouseEdgeDiviserAmount = parseInt(await HouseEdgeDiviser());
 
       const MultipliedBetAmount = BetAmount * 1e18;
-      const ProfitInWei =
-        (((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount) * Houseedgeamount) /
-        Houseedgediviseramount -
+      // const ProfitInWei =
+      //   (((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount) * HouseEdgeAmount) /
+      //   HouseEdgeDiviserAmount -
+      //   MultipliedBetAmount;
+
+      // const FinalProfit = ProfitInWei / 1e18;
+
+      // setProfit(FinalProfit);
+
+
+      let tempPlayerProfit = (((
+        ((MultipliedBetAmount * (100 - (RangeValue))) /
+          (RangeValue) + MultipliedBetAmount)
+      ) * HouseEdgeAmount) / HouseEdgeDiviserAmount) -
         MultipliedBetAmount;
 
-      const FinalProfit = ProfitInWei / 1e18;
+      if (evenOdd == 0) {
+        tempPlayerProfit = tempPlayerProfit;
+      }
+      else if (evenOdd == 1 || evenOdd == 2) {
+        tempPlayerProfit = tempPlayerProfit + tempPlayerProfit * 10000 / 100000;
+      }
+      if (rangeLow > 0 || rangeHigh > 0) {
+        console.log('reach');
 
-      setProfit(FinalProfit);
+        const midNum = (Number(rangeLow) + Number(rangeHigh)) / 2;
+
+        console.log('check', rangeLow, midNum, rangeHigh, rangeLow > midNum, rangeHigh <= midNum);
+
+        if (rangeHigh > midNum && rangeLow <= midNum) {
+          //tempPlayerProfit = tempPlayerProfit + tempPlayerProfit * 10000 / 100000;
+          tempPlayerProfit = tempPlayerProfit + tempPlayerProfit * (2 * (((100 - rangeHigh) * 100) / 100000));
+          console.log('reach1');
+
+        }
+      }
+      const finalProfit = tempPlayerProfit / 1e18
+      setProfit(finalProfit);
     };
 
     const CheckAllowanceStatus = async () => {
@@ -243,7 +275,7 @@ const Betting = () => {
 
     ProfitCalculator();
     CheckAllowanceStatus();
-  }, [BetAmount, RangeValue]);
+  }, [BetAmount, RangeValue, evenOdd, rangeLow, rangeHigh, userAddress]);
   //#endregion
 
   //#region Handle
@@ -501,12 +533,10 @@ const Betting = () => {
     else if (checked1) {
       setChecked1(!checked1);
       setEvenOdd(0);
-
     }
     else if (checked2) {
       setChecked2(!checked2);
       setEvenOdd(0);
-
     }
     else
       setEvenOdd(0);
@@ -519,22 +549,62 @@ const Betting = () => {
       setEvenOddProfit(5)
     else
       setEvenOddProfit(0)
-  }, [evenOdd])
+
+    handleRangeProfit(rangeLow, rangeHigh);
+
+  }, [evenOdd, rangeLow, rangeHigh]);
 
 
+  const handleRangeProfit = (rangeLow: any, rangeHigh: any) => {
+    const range: any = `${rangeLow}-${rangeHigh}`;
+
+    switch (range) {
+      case '0-10':
+        setRangeProfit(20);
+        break;
+      case '10-20':
+        setRangeProfit(18);
+        break;
+      case '20-30':
+        console.log('3');
+        setRangeProfit(16);
+        break;
+      case '30-40':
+        setRangeProfit(14);
+        break;
+      case '40-50':
+        setRangeProfit(12);
+        break;
+      case '50-60':
+        setRangeProfit(10);
+        break;
+      case '60-70':
+        setRangeProfit(8);
+        break;
+      case '70-80':
+        setRangeProfit(6);
+        break;
+      case '80-90':
+        setRangeProfit(4);
+        break;
+      case '90-100':
+        setRangeProfit(2);
+        break;
+      default:
+        setRangeProfit(0);
+        break;
+    }
+  }
 
   const handleSelectValue = (e: any) => {
-
     const value = e.target.value;
-
     const first: any = value.split('-')[0];
     const second: any = value.split('-')[1];
-
-
-    setRangeLow(first)
-    setRangeHigh(second)
-
+    setRangeLow(first);
+    setRangeHigh(second);
   }
+
+
 
   return (
     <BetBox>
@@ -633,7 +703,7 @@ const Betting = () => {
                 Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span>,
                 <br />
                 Profit
-                <span style={{ color: colors.primary }}>+{Profit.toFixed(6)} PLS</span>
+                <span style={{ color: colors.primary }}>+ {Profit.toFixed(6)} PLS</span>
               </div>
               <SliderThumb
                 style={{
@@ -713,7 +783,7 @@ const Betting = () => {
               <Flex style={{ width: "40%" }}
                 JustifyContent="center"
               >
-                <P>20%</P>
+                <P>{rangeProfit}%</P>
                 <div style={{ position: "relative" }}>
                   <img src={QuestionMark} alt="help"
                     onMouseOver={() => setShowToolTip2(true)}
