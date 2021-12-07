@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { usePagination, useTable } from 'react-table';
-import { DataContainer, TABLE, TableStyles, THead } from './style';
+import { DataContainer, TABLE, TableStyles, TD, THead, TR } from './style';
 
 
 const HousePoolTransaction = () => {
@@ -12,24 +12,31 @@ const HousePoolTransaction = () => {
             'total_value': 256.22,
             'account': '0x5f0da096A0B4e9da',
             'time': '23|Oct|2022 - 19:11',
+            'locked': 24,
         },
         {
             'action': "Deposit",
             'total_value': 256.22,
             'account': '0x5f0da096A0B4e9da',
             'time': '23|Oct|2022 - 19:11',
+            'locked': 15,
+
         },
         {
             'action': "Deposit",
             'total_value': 256.22,
             'account': '0x5f0da096A0B4e9da',
             'time': '23|Oct|2022 - 19:11',
+            'locked': 23.5,
+
         },
         {
             'action': "Deposit",
             'total_value': 256.22,
             'account': '0x5f0da096A0B4e9da',
             'time': '23|Oct|2022 - 19:11',
+            'locked': 8,
+
         },
     ])
 
@@ -102,14 +109,14 @@ const HousePoolTransaction = () => {
                                     prepareRow(row)
 
                                     return (
-                                        <tr {...row.getRowProps()}>
+                                        <TR {...row.getRowProps()}>
                                             {row.cells.map((cell: any) => {
 
                                                 // else
                                                 // if (cell.column.id === 'dollar_Price') return <td {...cell.getCellProps()}>$ {cell.value}</td>
-                                                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                                return <TD {...cell.getCellProps()}>{cell.render('Cell')}</TD>
                                             })}
-                                        </tr>
+                                        </TR>
                                     )
                                 })
                                 :
@@ -158,6 +165,10 @@ const HousePoolTransaction = () => {
             {
                 Header: 'ACCOUNT',
                 accessor: 'account',
+            },
+            {
+                Header: 'LOCKED FOR',
+                accessor: 'locked',
             },
             {
                 Header: 'TIME',
