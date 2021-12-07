@@ -24,7 +24,9 @@ import {
   SliderThumb,
   Select,
   Option,
-  P
+  P,
+  ToolTipCont
+
 } from "./style";
 import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
 import Cross from "../../assets/icons/Cross.svg";
@@ -43,11 +45,12 @@ import WaitingModal from "./modals/WaitingModal";
 import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
 import Alertmsg from "./modals/Alertmsg";
-import Sliderthumb from "../../assets/icons/sliderthumb.svg";
-import QuestionMark from "../../assets/icons/questionMark.svg";
+import Sliderthumb from "assets/icons/sliderthumb.svg";
+import QuestionMark from "assets/icons/questionMark.svg";
+
 
 const Betting = () => {
-  const [RangeValue, setRangeValue] = useState<number>(1);
+  const [RangeValue, setRangeValue] = useState<number>(75);
   const [BetAmount, setBetAmount] = useState<any>("");
   const [Profit, setProfit] = useState<number>(0);
   const [UserAllowance, setUserAllowance] = useState(false);
@@ -71,14 +74,23 @@ const Betting = () => {
   const [loader, setLoader] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [checked1, setChecked1] = useState(false);
+  const [checked2, setChecked2] = useState(false);
+  const [evenOdd, setEvenOdd] = useState(0);
+  const [rangeLow, setRangeLow] = useState(0);
+  const [rangeHigh, setRangeHigh] = useState(0);
+  const [showToolTip1, setShowToolTip1] = useState(false)
+  const [showToolTip2, setShowToolTip2] = useState(false)
+  const [evenOddProfit, setEvenOddProfit] = useState(0)
+
+
 
   const [Numbers, setNumbers] = useState([]);
 
   useEffect(() => {
-    for (let index = 0; index < 100; index++) {
+    for (let index = 0; index < 100; index += 10) {
       //@ts-ignore
-      setNumbers((prev: any) => [...prev, index]);
+      setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
     }
     if (localStorage.getItem("Loading") === "true") {
       setLoader(true);
@@ -163,7 +175,7 @@ const Betting = () => {
     } else {
       if (userAddress) {
         const RollUnder: any = RangeValue + 1;
-        const BetId = await PlaceBet(userAddress, BetAmount, RollUnder);
+        const BetId = await PlaceBet(userAddress, BetAmount, RollUnder, evenOdd);
         console.log(BetId);
         setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
         localStorage.setItem("PlacingBetId", BetId?.events.LogBet.returnValues.BetID);
@@ -315,7 +327,7 @@ const Betting = () => {
     }
   }, []);
 
-  const PlaceBet = async (myAccount: string | null, Amount: any, Rollunder: number) => {
+  const PlaceBet = async (myAccount: string | null, Amount: any, Rollunder: number, evenOdd: number) => {
     //create instance of an abi to call any blockChain function
     const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
     // const Ethervalue = convertToEther(Amount);
@@ -327,7 +339,7 @@ const Betting = () => {
     try {
       setPlacingBet(true);
       const RollDice = await lpInstance.methods
-        .playerRollDice(Rollunder)
+        .playerRollDice(Rollunder, evenOdd, rangeLow, rangeHigh)
         .send({
           from: myAccount,
           value: Ethervalue,
@@ -344,6 +356,8 @@ const Betting = () => {
       console.log(RollDice);
       return RollDice;
     } catch (error: any) {
+
+      console.log('errr', error)
       if (error.code === 4001) {
         setPlacingBet(false);
 
@@ -448,6 +462,8 @@ const Betting = () => {
       OnLoadMaxBet();
       OnLoadMinBet();
     }, 5000);
+
+
   }, [ResultObject]);
 
   // useEffect(() => {
@@ -455,6 +471,55 @@ const Betting = () => {
   //   if (RangeValue !== 1 && !loader)
   //     rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
   // }, [RangeValue, loader])
+  const handleCheckChange = (value: any, checkNum: Number) => {
+
+    if (checkNum === 1 && !checked1) {
+      setChecked1(!checked1);
+      setChecked2(false);
+      setEvenOdd(1);
+    }
+    else if (checkNum === 2 && !checked2) {
+      setChecked2(!checked2);
+      setChecked1(false);
+      setEvenOdd(2);
+    }
+    else if (checked1) {
+      setChecked1(!checked1);
+      setEvenOdd(0);
+
+    }
+    else if (checked2) {
+      setChecked2(!checked2);
+      setEvenOdd(0);
+
+    }
+    else
+      setEvenOdd(0);
+
+  }
+
+  useEffect(() => {
+
+    if (evenOdd !== 0)
+      setEvenOddProfit(5)
+    else
+      setEvenOddProfit(0)
+  }, [evenOdd])
+
+
+
+  const handleSelectValue = (e: any) => {
+
+    const value = e.target.value;
+
+    const first: any = value.split('-')[0];
+    const second: any = value.split('-')[1];
+
+
+    setRangeLow(first)
+    setRangeHigh(second)
+
+  }
 
   return (
     <BetBox>
@@ -568,52 +633,79 @@ const Betting = () => {
         </FlexColumn>
         <OddEvenDiv style={{ width: "100%" }}>
 
-          <Flex>
+
+          <Flex >
             <H2>Select</H2>
             <Flex
               JustifyContent="center"
-              style={{ width: "40%", alignItem: 'center' }}>
-              <Flex style={{ justifyContent: "center", marginRight: "16px" }}>
+              style={{ width: "60%", alignItems: 'center', paddingLeft: "10px" }}>
+              <Flex style={{ justifyContent: "space-between", width: "50%" }}>
                 <label className="container">
                   Odd
-                  <input type="checkbox" />
+                  <input type="checkbox"
+                    checked={checked1}
+                    onChange={() => handleCheckChange(1, 1)}
+                  />
                   <span className="checkmark"></span>
                 </label>
               </Flex>
-              <Flex style={{ justifyContent: "center" }}>
+              <Flex style={{ justifyContent: "space-between", width: "50%" }}>
                 <label className="container">
                   Even
-                  <input type="checkbox" />
+                  <input type="checkbox"
+                    checked={checked2}
+                    onChange={() => handleCheckChange(2, 2)}
+                  />
                   <span className="checkmark"></span>
                 </label>
               </Flex>
-              <Flex style={{ justifyContent: "center" }}>
-
-                <P>5%</P>
-                <img src={QuestionMark} alt="help" />
+              <Flex style={{ width: "40%" }}
+                JustifyContent="center"
+              >
+                <P>{evenOddProfit}%</P>
+                <div style={{ position: "relative" }}>
+                  <img src={QuestionMark} alt="help"
+                    onMouseOver={() => setShowToolTip1(true)}
+                    onMouseOut={() => setShowToolTip1(false)}
+                  />
+                  <ToolTipCont display={showToolTip1}>
+                    <p>Additional Profit(in %)</p>
+                  </ToolTipCont>
+                </div>
               </Flex>
-
             </Flex>
-
-
-
-
           </Flex>
           <Flex>
             <H2>Select Range</H2>
-            <Flex style={{ width: "40%", justifyContent: "space-between", alignItems: "center" }}>
-              <Select id="rangeFrom" name="">
+            <Flex style={{ width: "60%", justifyContent: "space-between", alignItems: "center" }}>
+              <Select id="rangeFrom" name=""
+                style={{ width: "100%" }}
+                onChange={handleSelectValue}
+              >
                 {Numbers.map((data, index) => {
                   return (
-                    <Option value={index + 1} key={"rf" + index}>
-                      {index + 1}
+                    <Option value={data} key={"rf" + index}>
+                      {data}
+                      {/* {index} */}
                     </Option>
                   );
                 })}
               </Select>
-              <P>20%</P>
-              <img src={QuestionMark} alt="help" />
 
+              <Flex style={{ width: "40%" }}
+                JustifyContent="center"
+              >
+                <P>20%</P>
+                <div style={{ position: "relative" }}>
+                  <img src={QuestionMark} alt="help"
+                    onMouseOver={() => setShowToolTip2(true)}
+                    onMouseOut={() => setShowToolTip2(false)}
+                  />
+                  <ToolTipCont display={showToolTip2}>
+                    <p>Additional Profit(in %)</p>
+                  </ToolTipCont>
+                </div>
+              </Flex>
 
             </Flex>
           </Flex>

@@ -74,11 +74,12 @@ export const GlobalStyle = createGlobalStyle`
 
 @font-face {
   font-family: AvenirLTStd;
-  src: url(${AvenirLTStd}) format('truetype');
+//   src: url(${AvenirLTStd}) format('woff');
+  src:  url('https://fonts.cdnfonts.com/css/avenir-lt-std') format('woff');
 }
 @font-face {
   font-family: BalooDa2;
-  src: url(${BalooDa}) format('truetype');
+  src: url(${BalooDa}) format('woff');
 }
 
 body{
@@ -87,6 +88,7 @@ body{
 	// background-repeat: no-repeat;
 	// background-position: center;	
 	
-	// background-color: ${colors.themeBackground};		
+	// background-color: ${colors.themeBackground};	
+	font-family:	AvenirLTStd;
 }
 `;

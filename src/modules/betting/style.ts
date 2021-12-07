@@ -4,6 +4,9 @@ import sendimage from "../../assets/images/send-icon.svg";
 import ModalBackground from "../../assets/images/ModalBackground.png";
 import { colors } from "shared/styles/theme";
 import Sliderthumb from "../../assets/icons/sliderthumb.svg";
+import toolTip from "assets/icons/toolTip.png";
+
+
 
 export const Box = styled.div`
   background: linear-gradient(
@@ -289,7 +292,15 @@ export const Flex = styled.div<any>`
   align-content: center;
 
   width: ${(props) => props.Width || "100%"};
-  margin-bottom: ${(props) => props.MarginBottom || "0"}; ;
+  margin-bottom: ${(props) => props.MarginBottom || "0"}; 
+  margin:0;
+  padding:0;
+
+  img{
+    height:20px;
+    cursor:pointer;
+  }
+ 
 `;
 
 export const Chance = styled.input`
@@ -505,10 +516,36 @@ border-radius: 5px;
 
 export const Option = styled.option`
 
-  `
+`
 export const P = styled.p`
 color:${colors.primary};
 font-weight:900;
 font-size:16px;
-  `
+min-width:30px;
+margin:0 5px;
+`
+
+export const ToolTipCont = styled.div<any>`
+display: ${(props) => (props.display ? 'block' : "none")};
+position:absolute;
+top:-30%;
+left:100%;
+z-index:10;
+cursor:pointer;
+p{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: url(${toolTip});
+  background-size:cover;
+  min-width:180px;
+  width:fit-content;
+  height:30px;
+  color:${colors.primary};
+  font-size:14px;
+
+
+}
+
+`
 
