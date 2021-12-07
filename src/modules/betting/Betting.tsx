@@ -8,7 +8,6 @@ import {
   BetBox,
   BetMiddle,
   BetBottom,
-  RollDice,
   H2,
   FlexColumn,
   Flex,
@@ -16,10 +15,6 @@ import {
   Chance,
   Range,
   TransChance,
-  PercentChance,
-  BetResultPopup,
-  Crossimg,
-  BetResult,
   OddEvenDiv,
   SliderThumb,
   Select,
@@ -29,18 +24,15 @@ import {
 
 } from "./style";
 import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
-import Cross from "../../assets/icons/Cross.svg";
-import { convertToEther, convertToWei } from "../../utils/helper";
+import { convertToEther } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
 import { instanceType, selectInstances } from "../../utils/contracts";
 import { LINK_TOKEN_ADDRESS } from "../../config";
 import { setWalletBalance } from "logic/action/wallet.action";
-import CustomModal from "shared/custom-modal";
 import { PrimaryButton } from "shared/button/Button";
 import { colors } from "shared/styles/theme";
 import { floatNumRegex } from "shared/helpers/regrexConstants";
-import { rangeSliderSound, rollingDiceSound, Sound } from "./Sound";
 import WaitingModal from "./modals/WaitingModal";
 import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
@@ -87,6 +79,9 @@ const Betting = () => {
 
   const [Numbers, setNumbers] = useState([]);
 
+  const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     for (let index = 0; index < 100; index += 10) {
       //@ts-ignore
@@ -97,15 +92,53 @@ const Betting = () => {
     }
   }, []);
 
-  window.onbeforeunload = function () {
-    if (PlacingBet) {
-      return "Leaving this page will reset the wizard";
+  useEffect(() => {
+    let Address: any;
+    const getBalance = async () => {
+      let accounts = await web3.eth.getAccounts();
+      Address = accounts[0];
+    };
+
+    getBalance();
+
+    const socket = io("wss://diceroll.rapidinnovation.tech");
+    try {
+      socket.on("connection", () => {
+        // Replace event name with connection event name
+        console.log("websocket connected");
+      });
+      socket.on("betevent", (data: any) => {
+        console.log(data);
+        const LocalBetId = localStorage.getItem("PlacingBetId");
+        console.log(LocalBetId);
+        if (LocalBetId === data.BetID) {
+          console.log("ResultObjectupdated");
+          setResultObject({
+            Betid: data.BetID,
+            Diceresult: data.DiceResult,
+            Playeraddress: data.PlayerAddress,
+            Playernumber: data.PlayerNumber,
+            Status: data.Status,
+            Date: new Date().toLocaleString(),
+            Value: data.Value,
+          });
+        }
+        // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
+
+        // StoringLastRolls();
+        // setShowResultModal(true)
+        // }
+      });
+    } catch (err) {
+      console.log("err", err);
     }
+  }, []);
+
+  window.onbeforeunload = function () {
+    if (PlacingBet) return "Leaving this page will reset the wizard";
   };
 
-  const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
-  const dispatch = useDispatch();
-
+  //#region Bet Amount
   const SetMinBetAmount = async () => {
     const MinBet = await MinBetAmount();
     setBetAmount(convertToEther(MinBet));
@@ -125,24 +158,26 @@ const Betting = () => {
   };
 
   useEffect(() => {
-    if (BetAmount === 0 || BetAmount === "") {
-      setBetRightOrNotAlert(false);
-    } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
-      setBetRightOrNotAlert(true);
-    } else {
-      setBetRightOrNotAlert(false);
-    }
-  });
+    setTimeout(() => {
+      OnLoadMaxBet();
+      OnLoadMinBet();
+    }, 5000);
+  }, [ResultObject]);
+
+  useEffect(() => {
+    if (BetAmount === 0 || BetAmount === "") setBetRightOrNotAlert(false);
+    else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) setBetRightOrNotAlert(true);
+    else setBetRightOrNotAlert(false);
+
+    OnLoadMaxBet();
+    OnLoadMinBet();
+  }, [BetAmount]);
 
   const RangeValueChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
     const RangePercent = parseInt(e.currentTarget.value);
-    if (RangePercent > 98) {
-      setRangeValue(98);
-    } else if (RangePercent < 1) {
-      setRangeValue(1);
-    } else {
-      setRangeValue(RangePercent);
-    }
+    if (RangePercent > 98) setRangeValue(98);
+    else if (RangePercent < 1) setRangeValue(1);
+    else setRangeValue(RangePercent);
   };
 
   const BetSetThroughInput = (e: any) => {
@@ -153,7 +188,6 @@ const Betting = () => {
   };
 
   const OutFocusSetBetamount = () => {
-    //@ts-ignore
     if (BetAmount === "") {
       setBetAmount(0);
       console.log("set 0");
@@ -183,34 +217,36 @@ const Betting = () => {
     }
   };
 
-  const ProfitCalculator = async () => {
-    const Houseedgeamount = parseInt(await HouseEdge());
-    const Houseedgediviseramount = parseInt(await HouseEdgeDiviser());
+  useEffect(() => {
+    const ProfitCalculator = async () => {
+      const Houseedgeamount = parseInt(await HouseEdge());
+      const Houseedgediviseramount = parseInt(await HouseEdgeDiviser());
 
-    const MultipliedBetAmount = BetAmount * 1e18;
-    const ProfitInWei =
-      (((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount) * Houseedgeamount) /
-      Houseedgediviseramount -
-      MultipliedBetAmount;
+      const MultipliedBetAmount = BetAmount * 1e18;
+      const ProfitInWei =
+        (((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount) * Houseedgeamount) /
+        Houseedgediviseramount -
+        MultipliedBetAmount;
 
-    const FinalProfit = ProfitInWei / 1e18;
-    // const finP = new BigNumber(FinalProfit, 18)
+      const FinalProfit = ProfitInWei / 1e18;
 
-    setProfit(FinalProfit);
-  };
+      setProfit(FinalProfit);
+    };
 
-  const CheckAllowanceStatus = async () => {
-    if (userAddress) {
-      const CheckAllowanceResult = await CheckAllowance(userAddress, BETTING_ADDRESS);
-      if (CheckAllowanceResult > 1 || CheckAllowanceResult === 1) {
-        setUserAllowance(true);
-      } else {
-        setUserAllowance(false);
+    const CheckAllowanceStatus = async () => {
+      if (userAddress) {
+        const CheckAllowanceResult = await CheckAllowance(userAddress, BETTING_ADDRESS);
+        if (CheckAllowanceResult >= 1) setUserAllowance(true);
+        else setUserAllowance(false);
       }
-    }
-  };
-  // const AccountAddress: any = localStorage.getItem("address");
+    };
 
+    ProfitCalculator();
+    CheckAllowanceStatus();
+  }, [BetAmount, RangeValue]);
+  //#endregion
+
+  //#region Handle
   const HandleAllowance = async () => {
     if (userAddress) {
       //create instance of an abi to call any blockChain function
@@ -231,7 +267,7 @@ const Betting = () => {
           });
       }
     } else {
-      setAlertText("Connect Wallet To Place Bet")
+      setAlertText("Connect Wallet To Place Bet");
       setAlertModalState(true);
     }
   };
@@ -267,12 +303,9 @@ const Betting = () => {
     //   return "0.5s";
     // }
 
-    if (loader || success)
-      return '20s'
-    else
-      return `${RangeValue / 25}s`;
+    if (loader || success) return "20s";
+    else return `${RangeValue / 25}s`;
   };
-
 
   const toggleModal = () => {
     setLoader(false);
@@ -283,49 +316,30 @@ const Betting = () => {
     // setRangeValue(1);
     // window.location.reload();
   };
+  //#endregion
 
-  useEffect(() => {
-
-    let Address: any;
-    const getBalance = async () => {
-      let accounts = await web3.eth.getAccounts();
-      Address = accounts[0]
-    }
-
-    getBalance();
-
-    const socket = io("wss://diceroll.rapidinnovation.tech");
-    try {
-      socket.on("connection", () => {
-        // Replace event name with connection event name
-        console.log("websocket connected");
-      });
-      socket.on("betevent", (data: any) => {
-        console.log(data);
-        const LocalBetId = localStorage.getItem("PlacingBetId");
-        console.log(LocalBetId);
-        if (LocalBetId === data.BetID) {
-          console.log('ResultObjectupdated');
-          setResultObject({
-            Betid: data.BetID,
-            Diceresult: data.DiceResult,
-            Playeraddress: data.PlayerAddress,
-            Playernumber: data.PlayerNumber,
-            Status: data.Status,
-            Date: new Date().toLocaleString(),
-            Value: data.Value,
-          });
-        }
-        // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
-
-        // StoringLastRolls();
-        // setShowResultModal(true)
-        // }
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
-  }, []);
+  // const CallingPlaceBet = async () => {
+  //   if (localStorage.getItem("Loading") === "true") {
+  //     return;
+  //   } else if (PlacingBet) {
+  //     return;
+  //   } else if (BetAmount === 0) {
+  //     setAlertText("BET AMOUNT CANNOT BE 0");
+  //     setAlertModalState(true);
+  //     return;
+  //   } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
+  //     setAlertText("Amount Not Under Minimum And Maximum Amount Allowed");
+  //     setAlertModalState(true);
+  //   } else {
+  //     if (userAddress) {
+  //       const RollUnder: any = RangeValue + 1;
+  //       const BetId = await PlaceBet(userAddress, BetAmount, RollUnder);
+  //       console.log(BetId);
+  //       setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
+  //       localStorage.setItem("PlacingBetId", BetId?.events.LogBet.returnValues.BetID);
+  //     }
+  //   }
+  // };
 
   const PlaceBet = async (myAccount: string | null, Amount: any, Rollunder: number, evenOdd: number) => {
     //create instance of an abi to call any blockChain function
@@ -366,8 +380,9 @@ const Betting = () => {
         window.location.reload();
       }
     }
+  }
 
-  };
+
 
   useEffect(() => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
@@ -447,10 +462,10 @@ const Betting = () => {
     getWalletBalance();
   }, [userAddress, showResultModal]);
 
-  useEffect(() => {
-    ProfitCalculator();
-    CheckAllowanceStatus();
-  });
+  // useEffect(() => {
+  //   ProfitCalculator();
+  //   CheckAllowanceStatus();
+  // });
 
   useEffect(() => {
     OnLoadMaxBet();
@@ -598,7 +613,6 @@ const Betting = () => {
 
                 position: "relative",
               }}
-
             >
               <Range type="range" value={RangeValue} onChange={RangeValueChanger}></Range>
               <div
@@ -621,13 +635,17 @@ const Betting = () => {
                 Profit
                 <span style={{ color: colors.primary }}>+{Profit.toFixed(6)} PLS</span>
               </div>
-              <SliderThumb style={{
-                position: "absolute",
-                top: "-20px",
-                left: `${RangeValue - 5}%`,
-                transform: "translate(-50%,-50%)",
-              }} duration={HeartBeatSpeed} > </SliderThumb>
-
+              <SliderThumb
+                style={{
+                  position: "absolute",
+                  top: "-20px",
+                  left: `${RangeValue - 5}%`,
+                  transform: "translate(-50%,-50%)",
+                }}
+                duration={HeartBeatSpeed}
+              >
+                {" "}
+              </SliderThumb>
             </Flex>
           </Flex>
         </FlexColumn>
@@ -776,12 +794,8 @@ const Betting = () => {
         LossAmount={BetAmount}
       />
 
-      <Alertmsg
-        show={AlertModalState}
-        toggleModal={() => toggleModal()}
-        alertText={AlertText}
-      />
-    </BetBox >
+      <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />
+    </BetBox>
   );
 };
 

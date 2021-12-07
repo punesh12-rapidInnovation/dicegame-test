@@ -37,31 +37,109 @@ const HousePool = () => {
                     </FlexCont>
             </InfoContainer>
             <PoolDetailsContainer>
-                <PoolDetails style={{width:'450px',margin:'0',marginRight:'30px',height:'500px'}}>
-                <FlexCont
-                style={{flexDirection:'row' ,justifyContent:"space-around",height:'30%',
-                                alignItems:"center",width:'100%',padding:'20px 40px'}}>
-                     <FlexCont
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'minmax(370px, 1fr) minmax(370px, 2fr)',
+                    gridColumnGap: '20px',
+                    gridRowGap: '20px',
+                }}>
+                    <div style={{
+                        background: "linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%)",
+                        boxShadow: "0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9)",
+                        borderRadius: "20px",
+                    }}>
+                        <FlexCont style={{flexDirection:'row' ,justifyContent:"space-around",height:'30%',alignItems:"center",width:'100%',padding:'20px 40px'}}>
+                            <FlexCont
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    style={{width:'30%',transform:'translatey(-25px)'}}
+                                    >
+                                        <h3>liquidity</h3>
+                                        <h1>$61</h1>
+                                        <p>24.158</p>
+                            </FlexCont>
+                            <img src={verticalLine} alt="" style={{width:'30%',height:'40px'}}/>
+                            <FlexCont
+                                    justifyContent="center"
+                                    alignItems="center" style={{ width: '30%',transform:'translatey(-25px)' }}
+                            >
+                            <h3>Volume 24h</h3>
+                            <h1>$1.89M</h1>
+                            <p>124.18%</p>
+                            </FlexCont>
+                        </FlexCont>
+                        <FlexCont
                                 justifyContent="center"
                             alignItems="center"
-                            style={{width:'30%',transform:'translatey(-25px)'}}
+                            style={{width:'100%',height:'50%'}}
                             >
-                                <h3>liquidity</h3>
-                                <h1>$61</h1>
-                                <p>24.158</p>
-                    </FlexCont>
-                        <img src={verticalLine} alt="" style={{width:'30%',height:'40px'}}/>
-                    <FlexCont
-                            justifyContent="center"
-                            alignItems="center" style={{ width: '30%',transform:'translatey(-25px)' }}
-                    >
-                    <h3>Volume 24h</h3>
-                    <h1>$1.89M</h1>
-                    <p>124.18%</p>
-                    </FlexCont>
-                    </FlexCont>
+                                <PoolFundsCont>
+                                    <h5>Your Total Funds</h5>
+                                    <h1>387536.00</h1>
+                                    <p>PULSE TOKEN</p>
+                                </PoolFundsCont>
+                        </FlexCont>
+                        <FlexCont
+                                style={{ marginBottom: "30px",width:'100%',flexDirection:'row',justifyContent:'center',height:'20%' }}
+                            >
+                                <PrimaryButton
+                                    width="40%"
+                                    margin="0 10px"
+                                onClick={() => setshowDepositModal(true)}
+                                style={{padding:'18px'}}
 
-                     <FlexCont
+                                >DEPOSIT FUNDS
+                                </PrimaryButton>
+                                <PrimaryButton
+                                    width="45%"
+                                    margin="0 10px"
+                                    color={colors.primary}
+                                onClick={() => setshowDepositModal(true)}
+                                style={{padding:'18px'}}
+
+                                >WITHDRAW FUNDS</PrimaryButton>
+                        </FlexCont>
+                    </div>
+
+                    <div style={{
+                        background: "linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%)",
+                        boxShadow: "0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9)",
+                        borderRadius: "20px",
+                    }}>
+                        <BoxTitle>Volume 24 H</BoxTitle>
+                            <>
+                            <VolumeChartLabel>$1.27B</VolumeChartLabel> 
+                            <VolumeChartLabel style={{paddingLeft:"10px",fontSize:"16px",fontWeight:600}}>23 Oct 2022</VolumeChartLabel> 
+                            </>
+                            <div style={{ width: '100%', height: "300px" }}>
+                                <BarChart chartData={[{created_at:"11/30/2021",liquidity:0.39823},{created_at:"12/1/2021",liquidity:0.39823}]} setHoverValue={()=> {}} setHoverDate={()=> {}} />
+                            </div>
+                    </div>
+                </div>
+            </PoolDetailsContainer>
+            {/* <PoolDetailsContainer>
+                <PoolDetails style={{width:'450px',margin:'0',marginRight:'30px',height:'500px'}}>
+                    <FlexCont style={{flexDirection:'row' ,justifyContent:"space-around",height:'30%',alignItems:"center",width:'100%',padding:'20px 40px'}}>
+                        <FlexCont
+                                justifyContent="center"
+                                alignItems="center"
+                                style={{width:'30%',transform:'translatey(-25px)'}}
+                                >
+                                    <h3>liquidity</h3>
+                                    <h1>$61</h1>
+                                    <p>24.158</p>
+                        </FlexCont>
+                        <img src={verticalLine} alt="" style={{width:'30%',height:'40px'}}/>
+                        <FlexCont
+                                justifyContent="center"
+                                alignItems="center" style={{ width: '30%',transform:'translatey(-25px)' }}
+                        >
+                        <h3>Volume 24h</h3>
+                        <h1>$1.89M</h1>
+                        <p>124.18%</p>
+                        </FlexCont>
+                    </FlexCont>
+                    <FlexCont
                             justifyContent="center"
                         alignItems="center"
                         style={{width:'100%',height:'50%'}}
@@ -91,18 +169,11 @@ const HousePool = () => {
                             style={{padding:'18px'}}
 
                             >WITHDRAW FUNDS</PrimaryButton>
-                        </FlexCont>
+                    </FlexCont>
                 </PoolDetails>
-                    
-                
-                   <FlexCont
-
-                    justifyContent="center"
-                    alignItems="center"
-                    >
+                <FlexCont justifyContent="center" alignItems="center">
                     <PoolDetails>
                         <BoxTitle>Volume 24 H</BoxTitle>
-
                         <>
                         <VolumeChartLabel>$1.27B</VolumeChartLabel> 
                         <VolumeChartLabel style={{paddingLeft:"10px",fontSize:"16px",fontWeight:600}}>23 Oct 2022</VolumeChartLabel> 
@@ -111,8 +182,8 @@ const HousePool = () => {
                             <BarChart chartData={[{created_at:"11/30/2021",liquidity:0.39823},{created_at:"12/1/2021",liquidity:0.39823}]} setHoverValue={()=> {}} setHoverDate={()=> {}} />
                         </div>
                     </PoolDetails>
-                    </FlexCont>
-            </PoolDetailsContainer>
+                </FlexCont>
+            </PoolDetailsContainer> */}
             <TransactionContainer>
                 <h1>Transactions</h1>
                 <HousePoolTransaction />
