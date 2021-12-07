@@ -17,7 +17,7 @@ export const TableStyles = styled.div`
   max-width: 100%;
   background: #000;
   margin:20px 0px;
-  border-radius:20px;
+  border-radius:10px;
   overflow:hidden;
 
   /* This will make the table scrollable when it gets too small */
@@ -46,7 +46,7 @@ export const TableStyles = styled.div`
 
     thead{
         background: url(${Rectangle});
-        color:#BB6BD9;
+        color:${colors.purple};
         height:20px;
     }
     tbody{
@@ -80,4 +80,15 @@ export const TableStyles = styled.div`
     color:#fff;
     text-align:center;
   }
+`
+
+export const TABLE = styled.div`
+width:100%;
+`
+export const THead = styled.div`
+background: url(${Rectangle});
+width:100%;
+color:${colors.purple};
+height:20px;
+
 `

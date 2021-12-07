@@ -269,7 +269,7 @@ export const H2 = styled.h2<any>`
   margin-bottom: ${(props) =>
     props.MarginBottom ? props.MarginBottom : "14px"};
   font-weight: 600;
-  color: ${(props) => (props.color ? props.color : "#00eaff")};
+  color: ${(props) => (props.color ? props.color : colors.white)};
 `;
 export const H1 = styled.h2<any>`
   font-size: ${(props) => (props.FontSize ? props.FontSize : "18px")};

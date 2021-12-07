@@ -7,7 +7,7 @@ import Coins from "assets/icons/coins.svg";
 import HappyFace from "assets/icons/happyFace.svg";
 import DiceFront from "assets/icons/diceFront.svg";
 import Diceback from "assets/icons/diceback.svg";
-import treasure from "assets/icons/dicegame_coin_animation.gif";
+import treasure from "assets/icons/dicegame_coin_animation.svg";
 
 import {
   ModalBody,
@@ -88,7 +88,7 @@ const WinModal = (props: any) => {
           {/* <FramerMotionAnimation /> */}
 
           <img src={treasure}
-            style={{ marginTop: "-25%", height: "80px" }}
+            style={{ position: "absolute", marginTop: "-25%", height: "100px", right: "-10%" }}
           />
         </WinAmountContainer>
 

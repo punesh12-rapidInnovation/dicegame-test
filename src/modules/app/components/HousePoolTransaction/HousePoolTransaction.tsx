@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { usePagination, useTable } from 'react-table';
-import { DataContainer, TableStyles } from './style';
+import { DataContainer, TABLE, TableStyles, THead } from './style';
 
 
 const HousePoolTransaction = () => {
@@ -84,8 +84,8 @@ const HousePoolTransaction = () => {
         // Render the UI for your table
         return (
             <>
-                <table {...getTableProps()}>
-                    <thead>
+                <TABLE {...getTableProps()}>
+                    <THead>
                         {headerGroups.map((headerGroup: any) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column: any) => (
@@ -93,7 +93,7 @@ const HousePoolTransaction = () => {
                                 ))}
                             </tr>
                         ))}
-                    </thead>
+                    </THead>
 
                     <tbody {...getTableBodyProps()}>
                         {
@@ -118,7 +118,7 @@ const HousePoolTransaction = () => {
                                 </tr>
                         }
                     </tbody>
-                </table>
+                </TABLE>
                 {/* 
           Pagination can be built however you'd like. 
           This is just a very basic UI implementation:
