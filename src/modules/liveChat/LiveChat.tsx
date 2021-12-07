@@ -113,12 +113,19 @@ const LiveChat = (props: any) => {
         }
     }
 
+    const handleKeyDown = (e: any) => {
+        if (e.key === 'Enter') {
+            sendTOAPI();
+        }
+    }
+
     const handleInputMessage = (e: any) => {
         const { value } = e.target
         setInputMessage(value)
     }
 
     const renderChat = () => {
+        console.log(messages);
         return messages.map((m: any, index: any) => (
             m.username === userAddress ?
                 <OwnMsg key={index}
@@ -134,6 +141,7 @@ const LiveChat = (props: any) => {
                     </h1>
                 </Messagediv>
         ))
+        
     }
 
     return (
@@ -158,11 +166,12 @@ const LiveChat = (props: any) => {
                         <ChatTopdiv><div style={{ textAlign: 'left' }}> <h3 style={{ fontSize: '14px' }}>GLOBAL CHAT</h3>
                             <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 PLAYING</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
                         <ChatMiddlediv>
-                            {renderChat()}
+                        {renderChat()}
                         </ChatMiddlediv>
                         <InputParent>
                             <Input
                                 onChange={handleInputMessage}
+                                onKeyDown={handleKeyDown}
                                 value={inputMessage}
                                 style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
                             <Button
