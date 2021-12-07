@@ -99,9 +99,9 @@ display: flex;
 flex-direction: column;
 width: 100%;
 height: 63%;
-justify-content: center;
-padding: 10px 20px;
-overflow:scroll;
+justify-content: flex-start;
+padding: 0px 20px;
+overflow-y: scroll;
 scrollbar-width:none;
 
 ::-webkit-scrollbar {
@@ -121,8 +121,6 @@ margin: 10px 0;
 align-self: flex-start;
 text-align: left;
 word-break: break-all;
-
-
 `
 export const OwnMsg = styled.div`
 background: linear-gradient(92.8deg, rgba(30, 232, 183, 0.8) 2.13%, rgba(172, 51, 191, 0.4) 102.29%);

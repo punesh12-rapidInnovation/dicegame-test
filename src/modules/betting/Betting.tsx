@@ -121,6 +121,7 @@ const Betting = () => {
             Status: data.Status,
             Date: new Date().toLocaleString(),
             Value: data.Value,
+            BetAmount: localStorage.getItem("BetAmount")
           });
         }
         // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
@@ -365,6 +366,7 @@ const Betting = () => {
           setPlacingBet(false);
           setBetplacedLoading(true);
           localStorage.setItem("Loading", "true");
+          localStorage.setItem("BetAmount", BetAmount);
           // window.location.reload();
         });
       console.log(RollDice);
@@ -399,8 +401,10 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
+        localStorage.setItem("BetAmount", '0');
         // setBetAmount(0);
         StoringLastRolls();
+        localStorage.setItem("BetAmount", '0');
       } else if (ResultObject?.Status === "1") {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("Hurray,You Won The Bet");
@@ -413,6 +417,7 @@ const Betting = () => {
         localStorage.setItem("Loading", "false");
         // setBetAmount(0);
         StoringLastRolls();
+        localStorage.setItem("BetAmount", '0');
       } else {
         console.log("unhandled result");
       }
