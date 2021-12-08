@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { usePagination, useTable } from 'react-table';
-// import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 import { DataContainer, PaginationCont, TABLE, TableStyles, TD, THead, TBody, TR, TimerWrapper } from './style';
 
@@ -119,7 +119,7 @@ const HousePoolTransaction = () => {
                                                 if (cell.column.id === 'locked') return <td {...cell.getCellProps()}>
 
                                                     <TimerWrapper >
-                                                        {/* <CountdownCircleTimer
+                                                        <CountdownCircleTimer
                                                             isPlaying
                                                             isLinearGradient={true}
                                                             duration={cell.value}
@@ -131,10 +131,10 @@ const HousePoolTransaction = () => {
                                                             strokeWidth={4}
                                                         >
                                                             {renderTime}
-                                                        </CountdownCircleTimer> */}
+                                                        </CountdownCircleTimer>
                                                     </TimerWrapper>
 
-                                                    {formatRemainingTime(cell.value)}
+                                                    {/* {cell.value} */}
                                                 </td>
                                                 return <TD {...cell.getCellProps()}>{cell.render('Cell')}</TD>
                                             })}
