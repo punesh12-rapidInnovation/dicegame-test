@@ -87,6 +87,8 @@ background:${colors.black};
 box-shadow:inset 10px 1px 20px 5px ${colors.darkPurple};
 width:100%;
 color:${colors.purple};
+outline: solid thin ;
+outline-color:${colors.darkPurple};
 height:70px;
 border-radius:10px;
 text-align:center;
@@ -95,9 +97,16 @@ export const TR = styled.tr`
 border-radius:50px;
 height:70px;
 border:1px solid ${colors.darkPurple};
+border-radius:10px;
+
 color:${colors.white};
 width: 100%;
 text-align:center;
+
+`
+export const TBody = styled.tbody`
+// border-collapse:collapse;
+
 `
 export const TD = styled.td`
 
@@ -108,12 +117,43 @@ justify-content:space-between;
 color:${colors.white};
 height:50px;
 
-div{
-  width:20%;
-  // background:red;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+
+  .pageCount{
+    width:50%;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding:0 10px;
+  }
+
+  .dataCount{
+    width:50%;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    padding:0 10px;
+
+  }
+
+  button{
+    color:${colors.primary};
+    padding: 5px;
+    margin: 0 5px;
+    background: linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%);
+    box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9);
+    border-radius: 4px;
+  }
+
+
+`
+export const TimerWrapper = styled.div`
+display: flex;
+justify-content: center;
+align-items:center;
+color:white;
+
+.timer{
+  color:${colors.white};
 }
 
 `
