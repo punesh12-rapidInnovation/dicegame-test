@@ -205,24 +205,23 @@ const HousePoolTransaction = () => {
         []
     )
 
-
-
     const renderTime = ({ remainingTime }) => {
-        if (remainingTime === 0)
+        if (remainingTime === 0) {
             return <div className="timer">0</div>;
+        }
         else
+
             return (
                 <div className="timer">
+                    {/* <div className="text">Remaining time</div> */}
                     <div className="value">{formatRemainingTime(remainingTime)}</div>
                 </div>
             );
     }
 
     const formatRemainingTime = (time: any) => {
-        const minutes: Number = Math.floor((time % 3600) / 60);
-        const seconds: Number = time % 60;
-
-
+        const minutes = Math.floor((time % 3600) / 60);
+        const seconds = time % 60;
 
         return `${minutes}:${seconds}`;
     };
