@@ -204,13 +204,12 @@ const HousePoolTransaction = () => {
         ],
         []
     )
-
+    //@ts-ignore 
     const renderTime = ({ remainingTime }) => {
         if (remainingTime === 0) {
             return <div className="timer">0</div>;
         }
         else
-
             return (
                 <div className="timer">
                     {/* <div className="text">Remaining time</div> */}
