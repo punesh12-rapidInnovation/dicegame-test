@@ -119,9 +119,14 @@ max-width: 73%;
 border-top-left-radius:0;
 margin: 10px 0;
 align-self: flex-start;
-text-align: justify;
+text-align: left;
 word-break:keep-all;
-;
+h1{
+  font-size:14px;
+  font-weight:100;
+  letter-spacing:1;
+  }
+
 `
 export const OwnMsg = styled.div`
 background: linear-gradient(92.8deg, rgba(30, 232, 183, 0.8) 2.13%, rgba(172, 51, 191, 0.4) 102.29%);
@@ -132,8 +137,13 @@ display: flex;
 max-width: 73%;
 margin: 10px 0;
 align-self: flex-end;
-text-align: justify;
+text-align: left;
 word-break:keep-all;
+h1{
+font-size:14px;
+font-weight:100;
+letter-spacing:1;
+}
 `
 
 export const Button = styled.button`

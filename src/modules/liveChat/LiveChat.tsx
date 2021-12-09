@@ -130,13 +130,13 @@ const LiveChat = (props: any) => {
             m.username === userAddress ?
                 <OwnMsg key={index}
                 >
-                    <h1 style={{ fontSize: '11px' }}>
+                    <h1>
                         {m.content}
                     </h1>
                 </OwnMsg>
                 :
                 <Messagediv key={index}>
-                    <h1 style={{ fontSize: '11px' }}>
+                    <h1>
                         {m.content}
                     </h1>
                 </Messagediv>
