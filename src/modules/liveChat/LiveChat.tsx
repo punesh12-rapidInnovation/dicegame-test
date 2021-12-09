@@ -141,6 +141,7 @@ const LiveChat = (props: any) => {
         }
         finally {
             setInputMessage('')
+            setshowEmojis('none')
         }
     }
 
