@@ -102,7 +102,7 @@ width: 100%;
 height: 63%;
 justify-content: flex-start;
 padding: 0px 20px;
-overflow: scroll;
+overflow-y: scroll;
 scrollbar-width:none;
 
 ::-webkit-scrollbar {
@@ -121,9 +121,9 @@ border-top-left-radius:0;
 margin: 10px 0;
 align-self: flex-start;
 text-align: justify;
-word-break:keep-all;
-;
+word-break: break-word;
 `
+
 export const OwnMsg = styled.div`
 background: linear-gradient(92.8deg, rgba(30, 232, 183, 0.8) 2.13%, rgba(172, 51, 191, 0.4) 102.29%);
 border-radius: 10px;
@@ -134,7 +134,7 @@ max-width: 400px;
 margin: 10px 0;
 align-self: flex-end;
 text-align: justify;
-word-break:keep-all;
+word-break: break-word;
 `
 
 export const EmojiButton = styled.div`
