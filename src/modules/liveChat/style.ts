@@ -116,11 +116,12 @@ background: rgba(255, 255, 255, 0.23);
 border-radius: 10px;
 padding: 15px;
 display: flex;
+font-size: 14px;
 max-width: 400px;
 border-top-left-radius:0;
 margin: 10px 0;
 align-self: flex-start;
-text-align: justify;
+text-align: left;
 word-break: break-word;
 `
 
@@ -130,10 +131,11 @@ border-radius: 10px;
 border-bottom-right-radius:0;
 padding: 15px;
 display: flex;
+font-size: 14px;
 max-width: 400px;
 margin: 10px 0;
 align-self: flex-end;
-text-align: justify;
+text-align: left;
 word-break: break-word;
 `
 

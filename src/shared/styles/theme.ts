@@ -1,3 +1,4 @@
+
 import { createGlobalStyle } from 'styled-components';
 
 
@@ -5,6 +6,9 @@ import ThemeBackground from 'assets/images/theme-background.svg';
 
 const BalooDa = require("assets/fonts/BalooDa2.ttf");
 const AvenirLTStd = require("assets/fonts/AvenirLTStd.ttf");
+
+
+
 
 export interface Colors {
 	themeBackground: string;
@@ -77,7 +81,8 @@ export const GlobalStyle = createGlobalStyle`
 
 @font-face {
   font-family: AvenirLTStd;
-  src: url(${AvenirLTStd}) format('woff');
+  src: url('http://fonts.cdnfonts.com/css/avenir-lt-std');
+
 }
 @font-face {
   font-family: BalooDa2;
@@ -85,6 +90,6 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 body{
-	font-family:AvenirLTStd;
+	font-family: AvenirLTStd, sans-serif;
 }
 `;

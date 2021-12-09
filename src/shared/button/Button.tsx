@@ -14,7 +14,6 @@ export const PrimaryButton = styled.button<any>`
   border-radius: 10px;
   font-size: 16px;
   border: none;
-  font-family:AvenirLTStd;
 `;
 
 

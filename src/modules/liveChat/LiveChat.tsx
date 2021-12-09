@@ -1,4 +1,4 @@
-import React, { useState, useEffect,createRef } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
 import { io } from "socket.io-client";
 import axios from 'axios';
 import Betting from '../betting';
@@ -76,11 +76,11 @@ const LiveChat = (props: any) => {
         return () => {
             socket.disconnect();
         };
-    }, [messages]);  
-//@ts-ignore
+    }, [messages]);
+    //@ts-ignore
     const pickEmoji = (e: any, { emoji }) => {
         console.log(e.target)
-        const ref:any = inputRef.current;
+        const ref: any = inputRef.current;
         ref.focus();
         const start = inputMessage.substring(0, ref.selectionStart);
         const end = inputMessage.substring(ref.selectionStart);
@@ -96,9 +96,9 @@ const LiveChat = (props: any) => {
             setshowEmojis("none")
         } else {
             //@ts-ignore
-        inputRef.current.focus();
-        setshowEmojis('flex')   
-        } 
+            inputRef.current.focus();
+            setshowEmojis('flex')
+        }
     }
 
     useEffect(() => {
@@ -112,7 +112,7 @@ const LiveChat = (props: any) => {
         } //
         getdata();
     }, [])
-     
+
     const sendTOAPI = async () => {
         if (inputMessage.trim() === "") {
             return;
@@ -159,8 +159,7 @@ const LiveChat = (props: any) => {
     const renderChat = () => {
         return messages.map((m: any, index: any) => (
             m.username === userAddress ?
-                <OwnMsg key={index}
-                >
+                <OwnMsg key={index}>
                         {m.content}
                 </OwnMsg>
                 :
@@ -171,12 +170,12 @@ const LiveChat = (props: any) => {
     }
     const scrollToBottom = () => {
         //@ts-ignore
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start'  })
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
         console.log(messagesEndRef.current)
-  }
+    }
 
     useEffect(() => {
-       scrollToBottom()
+        scrollToBottom()
     }, [messages])
 
     useEffect(() => {
@@ -207,7 +206,7 @@ const LiveChat = (props: any) => {
                             <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 PLAYING</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
                         <ChatMiddlediv>
                             {renderChat()}
-                             <div ref={messagesEndRef} />
+                            <div ref={messagesEndRef} />
                         </ChatMiddlediv>
                         <InputParent>
                             <Input
@@ -224,8 +223,8 @@ const LiveChat = (props: any) => {
 
                                 </Emojisdiv>
                             }
-                            
-                            
+
+
                             <Button
                                 onClick={() => { sendTOAPI() }}
                                 disabled={userAddress === '' || userAddress === null || inputMessage === ''}
