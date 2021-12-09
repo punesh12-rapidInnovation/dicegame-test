@@ -42,7 +42,7 @@ import QuestionMark from "assets/icons/questionMark.svg";
 
 
 const Betting = () => {
-  const [RangeValue, setRangeValue] = useState<number>(99);
+  const [RangeValue, setRangeValue] = useState<number>(98);
   const [BetAmount, setBetAmount] = useState<any>("");
   const [Profit, setProfit] = useState<number>(0);
   const [UserAllowance, setUserAllowance] = useState(false);
