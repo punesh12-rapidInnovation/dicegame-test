@@ -133,6 +133,10 @@ const Betting = () => {
     } catch (err) {
       console.log("err", err);
     }
+
+    return () => socket.disconnect();
+
+
   }, []);
 
   window.onbeforeunload = function () {

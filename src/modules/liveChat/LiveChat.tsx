@@ -141,7 +141,6 @@ const LiveChat = (props: any) => {
                     </h1>
                 </Messagediv>
         ))
-        
     }
 
     return (
@@ -165,8 +164,8 @@ const LiveChat = (props: any) => {
 
                         <ChatTopdiv><div style={{ textAlign: 'left' }}> <h3 style={{ fontSize: '14px' }}>GLOBAL CHAT</h3>
                             <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 PLAYING</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
-                        <ChatMiddlediv>
-                        {renderChat()}
+                        <ChatMiddlediv id='chatBox'>
+                            {renderChat()}
                         </ChatMiddlediv>
                         <InputParent>
                             <Input
@@ -186,20 +185,20 @@ const LiveChat = (props: any) => {
                     <Box style={{ width: '45%', marginTop: '30px', maxWidth: '700plax', height: '400px', padding: "20px" }}>
                         <BoxTitle>House Pool Size 24 H</BoxTitle>
                         {
-                            !hoverLiquidityChartValue && !hoverLiquidityChartDate && liquidityChartData.length ? 
-                            <>
-                            <HousePoolChartLabel>${parseFloat(liquidityChartData[liquidityChartData.length-1].liquidity).toFixed(5)}
-                            </HousePoolChartLabel>
-                            <HousePoolChartLabel style={{paddingLeft:"10px",fontSize:"16px",fontWeight:600}}>{dateFromTimestamp(liquidityChartData[liquidityChartData.length-1].created_at)}</HousePoolChartLabel>
-                            </>
-                            : !liquidityChartData.length ?
-                            null
-                            : hoverLiquidityChartDate ?
-                            <>
-                              <><HousePoolChartLabel>${parseFloat(hoverLiquidityChartValue).toFixed(5)}</HousePoolChartLabel> 
-                              <HousePoolChartLabel style={{paddingLeft:"10px",fontSize:"16px",fontWeight:600}}>{dateFromTimestamp(hoverLiquidityChartDate)}</HousePoolChartLabel> </>
-                            </>
-                            : null
+                            !hoverLiquidityChartValue && !hoverLiquidityChartDate && liquidityChartData.length ?
+                                <>
+                                    <HousePoolChartLabel>${parseFloat(liquidityChartData[liquidityChartData.length - 1].liquidity).toFixed(5)}
+                                    </HousePoolChartLabel>
+                                    <HousePoolChartLabel style={{ paddingLeft: "10px", fontSize: "16px", fontWeight: 600 }}>{dateFromTimestamp(liquidityChartData[liquidityChartData.length - 1].created_at)}</HousePoolChartLabel>
+                                </>
+                                : !liquidityChartData.length ?
+                                    null
+                                    : hoverLiquidityChartDate ?
+                                        <>
+                                            <><HousePoolChartLabel>${parseFloat(hoverLiquidityChartValue).toFixed(5)}</HousePoolChartLabel>
+                                                <HousePoolChartLabel style={{ paddingLeft: "10px", fontSize: "16px", fontWeight: 600 }}>{dateFromTimestamp(hoverLiquidityChartDate)}</HousePoolChartLabel> </>
+                                        </>
+                                        : null
                         }
 
 
