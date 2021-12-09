@@ -42,7 +42,7 @@ import QuestionMark from "assets/icons/questionMark.svg";
 
 
 const Betting = () => {
-  const [RangeValue, setRangeValue] = useState<number>(75);
+  const [RangeValue, setRangeValue] = useState<number>(98);
   const [BetAmount, setBetAmount] = useState<any>("");
   const [Profit, setProfit] = useState<number>(0);
   const [UserAllowance, setUserAllowance] = useState(false);
@@ -133,6 +133,10 @@ const Betting = () => {
     } catch (err) {
       console.log("err", err);
     }
+
+    return () => socket.disconnect();
+
+
   }, []);
 
   window.onbeforeunload = function () {
@@ -708,7 +712,7 @@ const Betting = () => {
                 Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span>,
                 <br />
                 Profit
-                <span style={{ color: colors.primary }}>+ {Profit.toFixed(6)} PLS</span>
+                <span style={{ color: colors.primary }}> +{Profit.toFixed(6)} PLS</span>
               </div>
               <SliderThumb
                 style={{
@@ -805,11 +809,11 @@ const Betting = () => {
         </OddEvenDiv>
         <Flex style={{ marginTop: "10px" }}>
           <H2 style={{ fontSize: "18px" }}>Roll Under </H2>
-          <H1 FontSize="18px">{RangeValue + 1}</H1>
+          <H1 FontSize="48px" color={colors.primary}>{RangeValue + 1}</H1>
         </Flex>
         <Flex>
           <H2 style={{ fontSize: "18px" }}>Profit </H2>
-          <H1 FontSize="18px">+{Profit} PLS</H1>
+          <H1 color={colors.primary} >+{Profit} PLS</H1>
         </Flex>
       </BetMiddle>
       <BetBottom>

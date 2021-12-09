@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 
-import ThemeBackground from '../../assets/images/theme-background.svg';
+import ThemeBackground from 'assets/images/theme-background.svg';
 
 const BalooDa = require("assets/fonts/BalooDa2.ttf");
 const AvenirLTStd = require("assets/fonts/AvenirLTStd.ttf");
@@ -14,6 +14,7 @@ export interface Colors {
 	red: string;
 	vibrantRed: string;
 	purple: string;
+	darkPurple: string;
 	yellow: string;
 	primary: string;
 
@@ -27,6 +28,7 @@ export const colors: Colors = {
 	red: '#EB5757',
 	vibrantRed: '#FF221C',
 	purple: '#BB6BD9',
+	darkPurple: '#53084d',
 	yellow: '#FFFE0E',
 	primary: '#00EAFF',
 };
@@ -46,6 +48,7 @@ export const theme: ThemeStarter = {
 	red: colors.red,
 	vibrantRed: colors.vibrantRed,
 	purple: colors.purple,
+	darkPurple: colors.darkPurple,
 	themeBackground: colors.themeBackground,
 };
 
@@ -74,8 +77,7 @@ export const GlobalStyle = createGlobalStyle`
 
 @font-face {
   font-family: AvenirLTStd;
-//   src: url(${AvenirLTStd}) format('woff');
-  src:  url('https://fonts.cdnfonts.com/css/avenir-lt-std') format('woff');
+  src: url(${AvenirLTStd}) format('woff');
 }
 @font-face {
   font-family: BalooDa2;
@@ -83,12 +85,6 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 body{
-	// background: url(${ThemeBackground});
-	// background-size: cover;
-	// background-repeat: no-repeat;
-	// background-position: center;	
-	
-	// background-color: ${colors.themeBackground};	
-	font-family:	AvenirLTStd;
+	font-family:AvenirLTStd;
 }
 `;
