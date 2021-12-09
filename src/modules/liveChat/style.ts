@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Chatsection from '../../assets/images/Chatsection.png';
 import sendimage from '../../assets/images/send-icon.svg';
+import smilingFace from '../../assets/images/smiling-face.png';
 
 
 
@@ -68,7 +69,7 @@ background: linear-gradient(90deg, rgba(239, 8, 150, 0.2) -6.9%, rgba(112, 7, 25
 border-radius: 0px 0px 20px 20px;
 box-shadow: 0px 3px 5px rgba(23, 15, 24, 0.5), inset 0px 0px 14px rgba(202, 26, 231, 0.6);
 border: none;
-padding-left: 20px;
+padding-left: 50px;
 padding-right: 70px;
 display: flex;
 justify-content: space-between;
@@ -101,7 +102,7 @@ width: 100%;
 height: 63%;
 justify-content: flex-start;
 padding: 0px 20px;
-overflow-y: scroll;
+overflow: scroll;
 scrollbar-width:none;
 
 ::-webkit-scrollbar {
@@ -144,6 +145,27 @@ font-size:14px;
 font-weight:100;
 letter-spacing:1;
 }
+`
+
+export const EmojiButton = styled.div`
+background-image: url(${smilingFace});
+background-position: center;
+background-size: contain;
+cursor: pointer;
+border-radius: 12px;
+width: 25px;
+height: 25px;
+border: none;
+position: absolute;
+left: 12px;
+top: 50%;
+transform: translatey(-50%);
+`
+export const Emojisdiv = styled.div`
+position: absolute;
+left: 20px;
+top: 0%;
+transform: translatey(-97%);
 `
 
 export const Button = styled.button`
