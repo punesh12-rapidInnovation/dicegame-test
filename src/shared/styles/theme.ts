@@ -81,7 +81,7 @@ export const GlobalStyle = createGlobalStyle`
 
 @font-face {
   font-family: AvenirLTStd;
-  src: url('http://fonts.cdnfonts.com/css/avenir-lt-std');
+  src: url('https://fonts.cdnfonts.com/css/avenir-lt-std');
 
 }
 @font-face {
