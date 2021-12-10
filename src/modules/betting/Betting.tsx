@@ -77,7 +77,9 @@ const Betting = () => {
   const [rangeProfit, setRangeProfit] = useState(0)
 
 
-  const [Numbers, setNumbers] = useState([]);
+  const [Numbers, setNumbers] = useState(['0-0']);
+
+  console.log('Number', Numbers, rangeLow, rangeHigh)
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -555,7 +557,7 @@ const Betting = () => {
   useEffect(() => {
 
     if (evenOdd !== 0)
-      setEvenOddProfit(5)
+      setEvenOddProfit(10)
     else
       setEvenOddProfit(0)
 

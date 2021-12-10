@@ -521,8 +521,9 @@ export const P = styled.p`
 color:${colors.primary};
 font-weight:900;
 font-size:16px;
-min-width:30px;
 margin:0 5px;
+min-width:50%;
+text-align:right;
 `
 
 export const ToolTipCont = styled.div<any>`

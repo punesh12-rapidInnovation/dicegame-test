@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Chatsection from '../../assets/images/Chatsection.png';
 import sendimage from '../../assets/images/send-icon.svg';
-import smilingFace from '../../assets/images/smiling-face.png';
+import smilingFace from '../../assets/images/smiling-face.svg';
 
 
 
