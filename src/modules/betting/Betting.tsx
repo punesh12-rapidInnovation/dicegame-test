@@ -75,11 +75,7 @@ const Betting = () => {
   const [showToolTip2, setShowToolTip2] = useState(false)
   const [evenOddProfit, setEvenOddProfit] = useState(0)
   const [rangeProfit, setRangeProfit] = useState(0)
-
-
   const [Numbers, setNumbers] = useState(['0-0']);
-
-  console.log('Number', Numbers, rangeLow, rangeHigh)
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
