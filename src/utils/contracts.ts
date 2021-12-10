@@ -11,6 +11,7 @@ import {
   LP_ABI,
   BETTING_ABI,
   ROUTER_ABI,
+  HOUSEPOOL_ABI,
 } from "./abi";
 import wallet from "./wallet";
 
@@ -21,6 +22,7 @@ export enum instanceType {
   "ERC20TOKEN" = "ERC20TOKEN",
   "HOUSEPOOL" = "HOUSEPOOL",
   "BETTING" = "BETTING",
+  "HOUSEPOOL" = "HOUSEPOOL", 
 }
 export const selectInstances = async (
   type: any,
@@ -39,6 +41,8 @@ export const selectInstances = async (
       return new wallet.web3.eth.Contract(HOUSEPOOL_ABI, HOUSEPOOL_ADDRESS);
     case "BETTING":
       return new wallet.web3.eth.Contract(BETTING_ABI, BETTING_ADDRESS);
+    case "HOUSEPOOL":
+      return new wallet.web3.eth.Contract(HOUSEPOOL_ABI, HOUSEPOOL_ADDRESS);
     default:
       return null;
   }
