@@ -5,6 +5,7 @@ import Betting from '../betting';
 import LastRolls from 'modules/LastRolls/LastRolls';
 import Emojis from './EmojiComponent/Emojis';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
+import ChatProfile from '../../assets/icons/ChatProfileIcon.svg';
 
 import {
     GlobalChatSection,
@@ -33,7 +34,9 @@ import {
     BoxTitle,
     HousePoolChartLabel,
     EmojiButton,
-    Emojisdiv
+    Emojisdiv,
+    OthersMsgIcon,
+    OtherMsgAddress
 } from './style'
 import threedot from '../../assets/images/threedot.svg';
 import historyicon from '../../assets/icons/history.svg';
@@ -114,7 +117,11 @@ const LiveChat = (props: any) => {
     }, [])
 
     const sendTOAPI = async () => {
-        if (inputMessage.trim() === "") {
+        const walletConnectOrNot = localStorage.getItem("walletConnected");
+        if (inputMessage.trim() === "" || walletConnectOrNot !== 'true') {
+            if (walletConnectOrNot !== 'true') {
+                window.alert('connectWallettoSendMessage');
+            }
             return;
         }
         const data: any =
@@ -163,9 +170,14 @@ const LiveChat = (props: any) => {
                         {m.content}
                 </OwnMsg>
                 :
-                <Messagediv key={index}>
-                        {m.content}
-                </Messagediv>
+                    <Messagediv key={index}>
+                    <OthersMsgIcon src={ChatProfile} alt="" />
+                    <OtherMsgAddress>{m.username.substring(0,10)}...</OtherMsgAddress>
+                    {m.content}
+                    
+                    </Messagediv>
+                
+            
         ))
     }
     const scrollToBottom = () => {

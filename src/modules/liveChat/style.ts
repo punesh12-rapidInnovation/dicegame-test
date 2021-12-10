@@ -123,7 +123,30 @@ margin: 10px 0;
 align-self: flex-start;
 text-align: left;
 word-break: break-word;
+position: relative;
+margin-left: 40px;
+margin-top: 30px;
+min-width: 100px;
 `
+
+
+export const OthersMsgIcon = styled.img`
+position: absolute;
+left: 0;
+top: 0;
+transform: translate(-40px,-20px);
+`
+export const OtherMsgAddress = styled.h3`
+font-size: 11px;
+line-height: 13px;
+color: #00EAFF;
+position: absolute;
+left: 0;
+top: 0;
+transform: translate(5px,-20px);
+`
+
+
 
 export const OwnMsg = styled.div`
 background: linear-gradient(92.8deg, rgba(30, 232, 183, 0.8) 2.13%, rgba(172, 51, 191, 0.4) 102.29%);
@@ -137,6 +160,7 @@ margin: 10px 0;
 align-self: flex-end;
 text-align: left;
 word-break: break-word;
+min-width: 80px;
 `
 
 export const EmojiButton = styled.div`
