@@ -39,13 +39,13 @@ const AnimatedTreasureChest = () => {
         />
         {/* <img className="pulsecoin" id="middle" src={PulseCoin} alt="coins" /> */}
         {/* <img className="pulsecoin2" id="left1" src={PulseCoin} alt="coins" />
-      <img className="pulsecoin3" id="left13" src={PulseCoin} alt="coins" />
-      <img className="pulsecoin4" id="left14" src={PulseCoin} alt="coins" />
-      <img className="pulsecoin5" id="left15" src={PulseCoin} alt="coins" />
-      <img className="pulsecoin6" id="left115" src={PulseCoin} alt="coins" />
-      <img className="pulsecoin7" id="left125" src={PulseCoin} alt="coins" />
-      <img className="pulsecoin8" id="left135" src={PulseCoin} alt="coins" />
-      <img className="pulsecoin10" id="left155" src={PulseCoin} alt="coins" /> */}
+            <img className="pulsecoin3" id="left13" src={PulseCoin} alt="coins" />
+            <img className="pulsecoin4" id="left14" src={PulseCoin} alt="coins" />
+            <img className="pulsecoin5" id="left15" src={PulseCoin} alt="coins" />
+            <img className="pulsecoin6" id="left115" src={PulseCoin} alt="coins" />
+            <img className="pulsecoin7" id="left125" src={PulseCoin} alt="coins" />
+            <img className="pulsecoin8" id="left135" src={PulseCoin} alt="coins" />
+            <img className="pulsecoin10" id="left155" src={PulseCoin} alt="coins" /> */}
         <motion.img
           src={PulseCoin}
           style={{ width: "20px", height: "20px", position: "absolute", top: "10%", left: "90%" }}

@@ -1,4 +1,4 @@
-import { BETTING_ADDRESS } from "./../../config";
+import { BETTING_ADDRESS, HOUSEPOOL_ADDRESS } from "./../../config";
 import { instanceType, selectInstances } from "../../utils/contracts";
 import web3 from "../../utils/web3";
 
@@ -8,8 +8,8 @@ import web3 from "../../utils/web3";
 export const MinBetAmount = async () => {
   //create instance of an abi to call any blockChain function
   const lpInstance = await selectInstances(
-    instanceType.BETTING, // type of instance
-    BETTING_ADDRESS //contract address
+    instanceType.HOUSEPOOL, // type of instance
+    HOUSEPOOL_ADDRESS //contract address
   );
   if (true) {
     const MinBetAmount = await lpInstance.methods.minBet().call();
@@ -19,8 +19,8 @@ export const MinBetAmount = async () => {
 export const MaxBetAmount = async () => {
   //create instance of an abi to call any blockChain function
   const lpInstance = await selectInstances(
-    instanceType.BETTING, // type of instance
-    BETTING_ADDRESS //contract address
+    instanceType.HOUSEPOOL, // type of instance
+    HOUSEPOOL_ADDRESS //contract address
   );
   if (true) {
     const MaxBetAmount = await lpInstance.methods.maxBet().call();

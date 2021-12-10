@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Chatsection from '../../assets/images/Chatsection.png';
 import sendimage from '../../assets/images/send-icon.svg';
+import smilingFace from '../../assets/images/smiling-face.svg';
 
 
 
@@ -68,7 +69,7 @@ background: linear-gradient(90deg, rgba(239, 8, 150, 0.2) -6.9%, rgba(112, 7, 25
 border-radius: 0px 0px 20px 20px;
 box-shadow: 0px 3px 5px rgba(23, 15, 24, 0.5), inset 0px 0px 14px rgba(202, 26, 231, 0.6);
 border: none;
-padding-left: 20px;
+padding-left: 50px;
 padding-right: 70px;
 display: flex;
 justify-content: space-between;
@@ -99,9 +100,9 @@ display: flex;
 flex-direction: column;
 width: 100%;
 height: 63%;
-justify-content: center;
-padding: 10px 20px;
-overflow:scroll;
+justify-content: flex-start;
+padding: 0px 20px;
+overflow-y: scroll;
 scrollbar-width:none;
 
 ::-webkit-scrollbar {
@@ -115,26 +116,48 @@ background: rgba(255, 255, 255, 0.23);
 border-radius: 10px;
 padding: 15px;
 display: flex;
-max-width: 73%;
+font-size: 14px;
+max-width: 400px;
 border-top-left-radius:0;
 margin: 10px 0;
 align-self: flex-start;
 text-align: left;
-word-break: break-all;
-
-
+word-break: break-word;
 `
+
 export const OwnMsg = styled.div`
 background: linear-gradient(92.8deg, rgba(30, 232, 183, 0.8) 2.13%, rgba(172, 51, 191, 0.4) 102.29%);
 border-radius: 10px;
 border-bottom-right-radius:0;
 padding: 15px;
 display: flex;
-max-width: 73%;
+font-size: 14px;
+max-width: 400px;
 margin: 10px 0;
 align-self: flex-end;
 text-align: left;
-word-break: break-all;
+word-break: break-word;
+`
+
+export const EmojiButton = styled.div`
+background-image: url(${smilingFace});
+background-position: center;
+background-size: contain;
+cursor: pointer;
+border-radius: 12px;
+width: 25px;
+height: 25px;
+border: none;
+position: absolute;
+left: 12px;
+top: 50%;
+transform: translatey(-50%);
+`
+export const Emojisdiv = styled.div`
+position: absolute;
+left: 20px;
+top: 0%;
+transform: translatey(-97%);
 `
 
 export const Button = styled.button`

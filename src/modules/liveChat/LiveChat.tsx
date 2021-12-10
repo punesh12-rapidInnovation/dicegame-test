@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
 import { io } from "socket.io-client";
 import axios from 'axios';
 import Betting from '../betting';
 import LastRolls from 'modules/LastRolls/LastRolls';
+import Emojis from './EmojiComponent/Emojis';
+import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
+
 import {
     GlobalChatSection,
     Box,
@@ -28,9 +31,9 @@ import {
     Transchance,
     OwnMsg,
     BoxTitle,
-    HousePoolChartLabel
-
-
+    HousePoolChartLabel,
+    EmojiButton,
+    Emojisdiv
 } from './style'
 import threedot from '../../assets/images/threedot.svg';
 import historyicon from '../../assets/icons/history.svg';
@@ -40,10 +43,12 @@ import { dateFromTimestamp } from 'utils/helper';
 
 
 const LiveChat = (props: any) => {
+    const inputRef = createRef<HTMLInputElement>();
+    const messagesEndRef = createRef<HTMLDivElement>();
     const { connectWallet, setToggleModal, toggleModal } = props
     const { userAddress } = useSelector((state: any) => state.wallet);
-
-
+    const [showEmojis, setshowEmojis] = useState("none");
+    const [cursorPosition, setcursorPosition] = useState();
     const [messages, setMessages] = useState<any>([])
     const [inputMessage, setInputMessage] = useState('')
     const [liquidityChartData, setLiquidityChartData] = useState<any>([])
@@ -72,6 +77,29 @@ const LiveChat = (props: any) => {
             socket.disconnect();
         };
     }, [messages]);
+    //@ts-ignore
+    const pickEmoji = (e: any, { emoji }) => {
+        console.log(e.target)
+        const ref: any = inputRef.current;
+        ref.focus();
+        const start = inputMessage.substring(0, ref.selectionStart);
+        const end = inputMessage.substring(ref.selectionStart);
+        const text = start + emoji + end;
+        console.log(e.target);
+        setInputMessage(text);
+        setcursorPosition(start.length + emoji.lenght);
+    }
+
+    const handleShowEmojis = () => {
+
+        if (showEmojis === 'flex') {
+            setshowEmojis("none")
+        } else {
+            //@ts-ignore
+            inputRef.current.focus();
+            setshowEmojis('flex')
+        }
+    }
 
     useEffect(() => {
         const axiosInstance = axios.create({
@@ -86,6 +114,9 @@ const LiveChat = (props: any) => {
     }, [])
 
     const sendTOAPI = async () => {
+        if (inputMessage.trim() === "") {
+            return;
+        }
         const data: any =
         {
             'username': userAddress,
@@ -110,6 +141,13 @@ const LiveChat = (props: any) => {
         }
         finally {
             setInputMessage('')
+            setshowEmojis('none')
+        }
+    }
+
+    const handleKeyDown = (e: any) => {
+        if (e.key === 'Enter') {
+            sendTOAPI();
         }
     }
 
@@ -121,20 +159,29 @@ const LiveChat = (props: any) => {
     const renderChat = () => {
         return messages.map((m: any, index: any) => (
             m.username === userAddress ?
-                <OwnMsg key={index}
-                >
-                    <h1 style={{ fontSize: '11px' }}>
+                <OwnMsg key={index}>
                         {m.content}
-                    </h1>
                 </OwnMsg>
                 :
                 <Messagediv key={index}>
-                    <h1 style={{ fontSize: '11px' }}>
                         {m.content}
-                    </h1>
                 </Messagediv>
         ))
     }
+    const scrollToBottom = () => {
+        //@ts-ignore
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+        console.log(messagesEndRef.current)
+    }
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [messages])
+
+    useEffect(() => {
+        //@ts-ignore
+        inputRef.current.selectionEnd = cursorPosition;
+    }, [cursorPosition])
 
     return (
         <GlobalChatSection>
@@ -159,12 +206,25 @@ const LiveChat = (props: any) => {
                             <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 PLAYING</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
                         <ChatMiddlediv>
                             {renderChat()}
+                            <div ref={messagesEndRef} />
                         </ChatMiddlediv>
                         <InputParent>
                             <Input
                                 onChange={handleInputMessage}
+                                onKeyDown={handleKeyDown}
                                 value={inputMessage}
+                                //@ts-ignore
+                                ref={inputRef}
                                 style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
+                            <EmojiButton onClick={handleShowEmojis}></EmojiButton>
+                            {
+                                <Emojisdiv style={{ display: `${showEmojis}` }}>
+                                    <Emojis pickEmoji={pickEmoji} />
+
+                                </Emojisdiv>
+                            }
+
+
                             <Button
                                 onClick={() => { sendTOAPI() }}
                                 disabled={userAddress === '' || userAddress === null || inputMessage === ''}
@@ -177,20 +237,20 @@ const LiveChat = (props: any) => {
                     <Box style={{ width: '45%', marginTop: '30px', maxWidth: '700plax', height: '400px', padding: "20px" }}>
                         <BoxTitle>House Pool Size 24 H</BoxTitle>
                         {
-                            !hoverLiquidityChartValue && !hoverLiquidityChartDate && liquidityChartData.length ? 
-                            <>
-                            <HousePoolChartLabel>${parseFloat(liquidityChartData[liquidityChartData.length-1].liquidity).toFixed(5)}
-                            </HousePoolChartLabel>
-                            <HousePoolChartLabel style={{paddingLeft:"10px",fontSize:"16px",fontWeight:600}}>{dateFromTimestamp(liquidityChartData[liquidityChartData.length-1].created_at)}</HousePoolChartLabel>
-                            </>
-                            : !liquidityChartData.length ?
-                            null
-                            : hoverLiquidityChartDate ?
-                            <>
-                              <><HousePoolChartLabel>${parseFloat(hoverLiquidityChartValue).toFixed(5)}</HousePoolChartLabel> 
-                              <HousePoolChartLabel style={{paddingLeft:"10px",fontSize:"16px",fontWeight:600}}>{dateFromTimestamp(hoverLiquidityChartDate)}</HousePoolChartLabel> </>
-                            </>
-                            : null
+                            !hoverLiquidityChartValue && !hoverLiquidityChartDate && liquidityChartData.length ?
+                                <>
+                                    <HousePoolChartLabel>${parseFloat(liquidityChartData[liquidityChartData.length - 1].liquidity).toFixed(5)}
+                                    </HousePoolChartLabel>
+                                    <HousePoolChartLabel style={{ paddingLeft: "10px", fontSize: "16px", fontWeight: 600 }}>{dateFromTimestamp(liquidityChartData[liquidityChartData.length - 1].created_at)}</HousePoolChartLabel>
+                                </>
+                                : !liquidityChartData.length ?
+                                    null
+                                    : hoverLiquidityChartDate ?
+                                        <>
+                                            <><HousePoolChartLabel>${parseFloat(hoverLiquidityChartValue).toFixed(5)}</HousePoolChartLabel>
+                                                <HousePoolChartLabel style={{ paddingLeft: "10px", fontSize: "16px", fontWeight: 600 }}>{dateFromTimestamp(hoverLiquidityChartDate)}</HousePoolChartLabel> </>
+                                        </>
+                                        : null
                         }
 
 

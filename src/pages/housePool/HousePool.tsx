@@ -5,7 +5,7 @@ import Header from 'modules/app/components/header';
 import { PrimaryButton } from 'shared/button/Button';
 import CustomModal from 'shared/custom-modal';
 import { colors } from 'shared/styles/theme';
-import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link,  PoolDetailsContainer, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle } from './style';
+import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, PoolDetailsContainer, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle } from './style';
 import verticalLine from "assets/icons/verticalLine.svg";
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import HousePoolTransaction from 'modules/app/components/HousePoolTransaction/HousePoolTransaction';
@@ -63,26 +63,26 @@ const HousePool = () => {
     }, [])
     return (
         <HousePoolCont>
-            <Header/>
+            <Header />
             <InfoContainer>
-                    <FlexCont
-                        style={{ height:'250px',transform:'translatey(20%)',width:'50%' }}
-                    >
-                        <H3>Wallet {'>'} Liquidity</H3>
-                        <H1>HOUSE POOL</H1>
-                        <H3>Pulse Token (PLS) </H3>
-                        <p>Choose your odds and roll the dice to win pulse and prizes. Play, Invest, Exchange <br />
-                            and Join the Contest with high rewards at Pulseroll</p>
-                        <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
-                    </FlexCont>
                 <FlexCont
-                    style={{height:'250px',transform:'translatey(20%)',alignItems:'flex-end',justifyContent:'center',width:'30%'}} 
-                    >
+                    style={{ height: '250px', transform: 'translatey(20%)', width: '50%' }}
+                >
+                    <H3>Wallet {'>'} Liquidity</H3>
+                    <H1>HOUSE POOL</H1>
+                    <H3>Pulse Token (PLS) </H3>
+                    <p>Choose your odds and roll the dice to win pulse and prizes. Play, Invest, Exchange <br />
+                        and Join the Contest with high rewards at Pulseroll</p>
+                    <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
+                </FlexCont>
+                <FlexCont
+                    style={{ height: '250px', transform: 'translatey(20%)', alignItems: 'flex-end', justifyContent: 'center', width: '30%' }}
+                >
                     <PrimaryButton width="300px"
-                        style={{padding:'25px',fontSize:'18px'}}
-                            onClick={() => setshowDepositModal(true)}
-                        >DEPOSIT FUNDS (PLS)</PrimaryButton>
-                    </FlexCont>
+                        style={{ padding: '25px', fontSize: '18px' }}
+                        onClick={() => setshowDepositModal(true)}
+                    >DEPOSIT FUNDS (PLS)</PrimaryButton>
+                </FlexCont>
             </InfoContainer>
             <PoolDetailsContainer>
                 <div style={{
@@ -96,7 +96,7 @@ const HousePool = () => {
                         boxShadow: "0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9)",
                         borderRadius: "20px",
                     }}>
-                        <FlexCont style={{flexDirection:'row' ,justifyContent:"space-around",height:'30%',alignItems:"center",width:'100%',padding:'20px 40px'}}>
+                        <FlexCont style={{ flexDirection: 'row', justifyContent: "space-around", height: '30%', alignItems: "center", width: '100%', padding: '20px 40px' }}>
                             <FlexCont
                                     justifyContent="center"
                                     alignItems="center"
@@ -108,8 +108,8 @@ const HousePool = () => {
                             </FlexCont>
                             {/* <img src={verticalLine} alt="" style={{width:'30%',height:'40px'}}/>
                             <FlexCont
-                                    justifyContent="center"
-                                    alignItems="center" style={{ width: '30%',transform:'translatey(-25px)' }}
+                                justifyContent="center"
+                                alignItems="center" style={{ width: '30%', transform: 'translatey(-25px)' }}
                             >
                             <h3>Volume 24h</h3>
                             <h1>$1.89M</h1>
@@ -117,7 +117,7 @@ const HousePool = () => {
                             </FlexCont> */}
                         </FlexCont>
                         <FlexCont
-                                justifyContent="center"
+                            justifyContent="center"
                             alignItems="center"
                             style={{width:'100%',height:'50%'}}
                             >
@@ -128,24 +128,24 @@ const HousePool = () => {
                                 </PoolFundsCont>
                         </FlexCont>
                         <FlexCont
-                                style={{ marginBottom: "30px",width:'100%',flexDirection:'row',justifyContent:'center',height:'20%' }}
-                            >
-                                <PrimaryButton
-                                    width="40%"
-                                    margin="0 10px"
+                            style={{ marginBottom: "30px", width: '100%', flexDirection: 'row', justifyContent: 'center', height: '20%' }}
+                        >
+                            <PrimaryButton
+                                width="40%"
+                                margin="0 10px"
                                 onClick={() => setshowDepositModal(true)}
-                                style={{padding:'18px'}}
+                                style={{ padding: '18px' }}
 
-                                >DEPOSIT FUNDS
-                                </PrimaryButton>
-                                <PrimaryButton
-                                    width="45%"
-                                    margin="0 10px"
-                                    color={colors.primary}
+                            >DEPOSIT FUNDS
+                            </PrimaryButton>
+                            <PrimaryButton
+                                width="45%"
+                                margin="0 10px"
+                                color={colors.primary}
                                 onClick={() => setshowDepositModal(true)}
-                                style={{padding:'18px'}}
+                                style={{ padding: '18px' }}
 
-                                >WITHDRAW FUNDS</PrimaryButton>
+                            >WITHDRAW FUNDS</PrimaryButton>
                         </FlexCont>
                     </div>
 

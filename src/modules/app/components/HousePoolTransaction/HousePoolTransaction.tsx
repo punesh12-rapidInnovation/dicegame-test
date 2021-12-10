@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { usePagination, useTable } from 'react-table';
-import { DataContainer, TableStyles } from './style';
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
+
+import { DataContainer, PaginationCont, TABLE, TableStyles, TD, THead, TBody, TR, TimerWrapper } from './style';
 
 
 const HousePoolTransaction = () => {
+
 
 
     const [TokenData, setTokenData] = useState<any>([
@@ -12,24 +15,31 @@ const HousePoolTransaction = () => {
             'total_value': 256.22,
             'account': '0x5f0da096A0B4e9da',
             'time': '23|Oct|2022 - 19:11',
+            'locked': 200,
         },
         {
             'action': "Deposit",
             'total_value': 256.22,
             'account': '0x5f0da096A0B4e9da',
             'time': '23|Oct|2022 - 19:11',
+            'locked': 50,
+
         },
         {
             'action': "Deposit",
             'total_value': 256.22,
             'account': '0x5f0da096A0B4e9da',
             'time': '23|Oct|2022 - 19:11',
+            'locked': 70,
+
         },
         {
             'action': "Deposit",
             'total_value': 256.22,
             'account': '0x5f0da096A0B4e9da',
             'time': '23|Oct|2022 - 19:11',
+            'locked': 8,
+
         },
     ])
 
@@ -84,8 +94,8 @@ const HousePoolTransaction = () => {
         // Render the UI for your table
         return (
             <>
-                <table {...getTableProps()}>
-                    <thead>
+                <TABLE {...getTableProps()}>
+                    <THead>
                         {headerGroups.map((headerGroup: any) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column: any) => (
@@ -93,23 +103,42 @@ const HousePoolTransaction = () => {
                                 ))}
                             </tr>
                         ))}
-                    </thead>
+                    </THead>
 
-                    <tbody {...getTableBodyProps()}>
+                    <TBody {...getTableBodyProps()}>
                         {
                             page.length ?
                                 page.map((row: any, i: number) => {
                                     prepareRow(row)
 
                                     return (
-                                        <tr {...row.getRowProps()}>
+                                        <TR className="table-row" {...row.getRowProps()}>
                                             {row.cells.map((cell: any) => {
 
                                                 // else
-                                                // if (cell.column.id === 'dollar_Price') return <td {...cell.getCellProps()}>$ {cell.value}</td>
-                                                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                                if (cell.column.id === 'locked') return <td {...cell.getCellProps()}>
+
+                                                    <TimerWrapper >
+                                                        <CountdownCircleTimer
+                                                            isPlaying
+                                                            isLinearGradient={true}
+                                                            duration={cell.value}
+                                                            colors={[
+                                                                ["#EF0896", 0],
+                                                                ["#7007FF", 1],
+                                                            ]}
+                                                            size={55}
+                                                            strokeWidth={4}
+                                                        >
+                                                            {renderTime}
+                                                        </CountdownCircleTimer>
+                                                    </TimerWrapper>
+
+                                                    {/* {cell.value} */}
+                                                </td>
+                                                return <TD {...cell.getCellProps()}>{cell.render('Cell')}</TD>
                                             })}
-                                        </tr>
+                                        </TR>
                                     )
                                 })
                                 :
@@ -117,26 +146,31 @@ const HousePoolTransaction = () => {
                                     <td colSpan={5} style={{ textAlign: "center" }}>No Data Available</td>
                                 </tr>
                         }
-                    </tbody>
-                </table>
+                    </TBody>
+                </TABLE>
                 {/* 
           Pagination can be built however you'd like. 
           This is just a very basic UI implementation:
         */}
                 {
                     page.length ?
-                        <div className="pagination">
-                            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                                {'<'}
-                            </button>{' '}
-                            <strong>
-                                Page {pageIndex + 1} of {pageOptions.length}
-                            </strong>
-                            <button onClick={() => nextPage()} disabled={!canNextPage}>
-                                {'>'}
-                            </button>{' '}
-                            {' '}
-                        </div>
+                        <PaginationCont className="pagination">
+
+                            <div className="dataCount">Showing 1 to 5 of 35 elements</div>
+                            <div className="pageCount">
+                                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                                    {'<'}
+                                </button>{' '}
+                                <strong>
+                                    Page {pageIndex + 1} of {pageOptions.length}
+                                </strong>
+                                <button onClick={() => nextPage()} disabled={!canNextPage}>
+                                    {'>'}
+                                </button>{' '}
+                                {' '}
+                            </div>
+
+                        </PaginationCont>
                         : null
                 }
             </>
@@ -160,12 +194,36 @@ const HousePoolTransaction = () => {
                 accessor: 'account',
             },
             {
+                Header: 'LOCKED FOR',
+                accessor: 'locked',
+            },
+            {
                 Header: 'TIME',
                 accessor: 'time',
             },
         ],
         []
     )
+    //@ts-ignore 
+    const renderTime = ({ remainingTime }) => {
+        if (remainingTime === 0) {
+            return <div className="timer">0</div>;
+        }
+        else
+            return (
+                <div className="timer">
+                    {/* <div className="text">Remaining time</div> */}
+                    <div className="value">{formatRemainingTime(remainingTime)}</div>
+                </div>
+            );
+    }
+
+    const formatRemainingTime = (time: any) => {
+        const minutes = Math.floor((time % 3600) / 60);
+        const seconds = time % 60;
+
+        return `${minutes}:${seconds}`;
+    };
     return (
         <DataContainer>
             HousePoolTransaction
@@ -173,7 +231,8 @@ const HousePoolTransaction = () => {
 
                 {TokenData && <Table columns={columns} data={TokenData} />}
             </TableStyles>
-        </DataContainer>
+
+        </DataContainer >
     );
 };
 

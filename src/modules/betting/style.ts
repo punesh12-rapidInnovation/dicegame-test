@@ -4,6 +4,9 @@ import sendimage from "../../assets/images/send-icon.svg";
 import ModalBackground from "../../assets/images/ModalBackground.png";
 import { colors } from "shared/styles/theme";
 import Sliderthumb from "../../assets/icons/sliderthumb.svg";
+import toolTip from "assets/icons/toolTip.png";
+
+
 
 export const Box = styled.div`
   background: linear-gradient(
@@ -266,7 +269,7 @@ export const H2 = styled.h2<any>`
   margin-bottom: ${(props) =>
     props.MarginBottom ? props.MarginBottom : "14px"};
   font-weight: 600;
-  color: ${(props) => (props.color ? props.color : "#00eaff")};
+  color: ${(props) => (props.color ? props.color : colors.white)};
 `;
 export const H1 = styled.h2<any>`
   font-size: ${(props) => (props.FontSize ? props.FontSize : "18px")};
@@ -287,8 +290,17 @@ export const Flex = styled.div<any>`
   display: flex;
   justify-content: ${(props) => props.JustifyContent || "space-between"};
   align-content: center;
+
   width: ${(props) => props.Width || "100%"};
-  margin-bottom: ${(props) => props.MarginBottom || "0"}; ;
+  margin-bottom: ${(props) => props.MarginBottom || "0"}; 
+  margin:0;
+  padding:0;
+
+  img{
+    height:20px;
+    cursor:pointer;
+  }
+ 
 `;
 
 export const Chance = styled.input`
@@ -481,7 +493,7 @@ export const OddEvenDiv = styled.div`
 
 export const Select = styled.select`
 
-width: 65px;
+width: 130px;
 height: 32px;
 color:${colors.white};
 margin:0 5px;
@@ -490,10 +502,6 @@ background: linear-gradient(90deg, rgba(239, 8, 150, 0.2) -6.9%, rgba(112, 7, 25
 border: 2px solid #53084d;
 box-shadow: 0px 3px 5px rgba(23, 15, 24, 0.5), inset 0px 0px 14px rgba(202, 26, 231, 0.6);
 border-radius: 5px;
-
-
-
-
 
  Option{
   width: 100px;
@@ -508,5 +516,37 @@ border-radius: 5px;
 
 export const Option = styled.option`
 
-  `
+`
+export const P = styled.p`
+color:${colors.primary};
+font-weight:900;
+font-size:16px;
+margin:0 5px;
+min-width:50%;
+text-align:right;
+`
+
+export const ToolTipCont = styled.div<any>`
+display: ${(props) => (props.display ? 'block' : "none")};
+position:absolute;
+top:-30%;
+left:100%;
+z-index:10;
+cursor:pointer;
+p{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: url(${toolTip});
+  background-size:cover;
+  min-width:180px;
+  width:fit-content;
+  height:30px;
+  color:${colors.primary};
+  font-size:14px;
+
+
+}
+
+`
 

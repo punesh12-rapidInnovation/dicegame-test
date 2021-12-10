@@ -53,18 +53,18 @@ function LastRolls() {
               <TD style={{ textAlign: "left" }}>
                 #{index + 1} - {Roll.Date}
               </TD>
-              <TD>23.36 PLS</TD>
+              <TD>{Roll.BetAmount}</TD>
               <TD>{Roll.Playernumber - 1}%</TD>
               {Roll.Status === "1" ? (
                 <TD>
                   {" "}
                   <img src={Winicon} style={{ marginRight: "5px" }} />
-                  {convertToEther(Roll.Value).substring(0, 6)}
+                  {(convertToEther(Roll.Value) - Roll.BetAmount).toFixed(5)}
                 </TD>
               ) : (
                 <TD>
                   <img src={Lossicon} style={{ marginRight: "5px" }} />
-                  {convertToEther(Roll.Value).substring(0, 6)}
+                  {convertToEther(Roll.Value).substring(0, 7)}
                 </TD>
               )}
             </TR>
