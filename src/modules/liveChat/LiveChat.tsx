@@ -57,6 +57,7 @@ const LiveChat = (props: any) => {
     const [liquidityChartData, setLiquidityChartData] = useState<any>([])
     const [hoverLiquidityChartValue, setHoverLiquidityChartValue] = React.useState<any>("")
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("")
+    const [userTyping, setUserTyping] = useState(false)
 
     const BASE_URL = 'https://diceroll.rapidinnovation.tech/api/message'
     const socket = io('wss://diceroll.rapidinnovation.tech');
@@ -73,8 +74,12 @@ const LiveChat = (props: any) => {
                 const updatedData = [...messages, data]
                 setMessages(updatedData)
             });
-            socket.on('typing', (data) => {
-                console.log('data', data);
+            socket.on('typing', data => {
+                console.log('typingdata', data);
+                if (data === "stop")
+                    setUserTyping(false);
+                else
+                    setUserTyping(true);
             });
         } catch (err) {
             console.log('err', err);
@@ -120,6 +125,7 @@ const LiveChat = (props: any) => {
     }, [])
 
     const sendTOAPI = async () => {
+        setUserTyping(false)
 
         console.log('time', new Date().toISOString()
         );
@@ -182,7 +188,6 @@ const LiveChat = (props: any) => {
                     <OthersMsgIcon src={ChatProfile} alt="" />
                     <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
                     {m.content}
-
                 </Messagediv>
 
 
@@ -205,6 +210,10 @@ const LiveChat = (props: any) => {
 
     const handleKeyPress = (e: any) => {
         socket.emit('typing', userAddress)
+    }
+
+    const handleKeyUp = (e: any) => {
+        socket.emit('typing', 'stop')
     }
     return (
         <GlobalChatSection>
@@ -229,6 +238,14 @@ const LiveChat = (props: any) => {
                             <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 PLAYING</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
                         <ChatMiddlediv>
                             {renderChat()}
+                            {
+                                userTyping ?
+
+                                    <Messagediv >
+                                        <OthersMsgIcon src={ChatProfile} alt="" />
+                                        <OtherMsgAddress>Typing..</OtherMsgAddress>
+                                    </Messagediv>
+                                    : ""}
                             <div ref={messagesEndRef} />
                         </ChatMiddlediv>
                         <InputParent>
@@ -238,6 +255,9 @@ const LiveChat = (props: any) => {
                                 value={inputMessage}
                                 //@ts-ignore
                                 ref={inputRef}
+                                onKeyPress={handleKeyPress}
+                                onKeyUp={handleKeyUp}
+
                                 style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
                             <EmojiButton onClick={handleShowEmojis}></EmojiButton>
                             {
@@ -246,12 +266,9 @@ const LiveChat = (props: any) => {
 
                                 </Emojisdiv>
                             }
-
-
                             <Button
                                 onClick={() => { sendTOAPI() }}
                                 disabled={userAddress === '' || userAddress === null || inputMessage === ''}
-                                onKeyPress={handleKeyPress}
 
                             >
                             </Button>
