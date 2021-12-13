@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { usePagination, useTable } from 'react-table';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-
 import { DataContainer, PaginationCont, TABLE, TableStyles, TD, THead, TBody, TR, TimerWrapper } from './style';
+import axios from 'axios';
 
 
 const HousePoolTransaction = () => {
@@ -12,37 +13,42 @@ const HousePoolTransaction = () => {
     const [TokenData, setTokenData] = useState<any>([
         {
             'action': "Deposit",
-            'total_value': 256.22,
-            'account': '0x5f0da096A0B4e9da',
-            'time': '23|Oct|2022 - 19:11',
-            'locked': 200,
-        },
-        {
-            'action': "Deposit",
-            'total_value': 256.22,
-            'account': '0x5f0da096A0B4e9da',
-            'time': '23|Oct|2022 - 19:11',
-            'locked': 50,
+            "_sender": "0x6531B1e3745802bb92F3BaFcE20dBb547f39f222",
+            "_amount": "100000000000000000",
+            "_depositedTime": "1639378776",
+            "_boxNum": "30",
+            "_releaseTime": "1639378836",
+            'locked': 20,
 
         },
-        {
-            'action': "Deposit",
-            'total_value': 256.22,
-            'account': '0x5f0da096A0B4e9da',
-            'time': '23|Oct|2022 - 19:11',
-            'locked': 70,
-
-        },
-        {
-            'action': "Deposit",
-            'total_value': 256.22,
-            'account': '0x5f0da096A0B4e9da',
-            'time': '23|Oct|2022 - 19:11',
-            'locked': 8,
-
-        },
+        
     ])
+    const [depositTxs, setDepositTxs] = useState<any>([])
+    const [withdrawTxs, setWithdrawTxs] = useState<any>([])
+    const  { userAddress } = useSelector((state: any) => state.wallet);
 
+    useEffect(() => {
+        const axiosInstance = axios.create({
+            baseURL: "https://diceroll.rapidinnovation.tech/pool",
+        });
+        const getdata = async () => {
+            console.log(userAddress);
+            if(userAddress){
+                const res2 = await axiosInstance.get(`/alldeposit/0x6531B1e3745802bb92F3BaFcE20dBb547f39f222`)
+                const depositTxs:any[] = Array.isArray(res2.data) ? res2.data : [];
+                setDepositTxs(depositTxs.map((item:any) => ({...item, action: "Deposit", locked: item._releaseTime-item._depositedTime,})));
+
+                const res3 = await axiosInstance.get(`/allwithdraw/0x6531B1e3745802bb92F3BaFcE20dBb547f39f222`)
+                const withdrawTxs:any[] = Array.isArray(res3.data) ? res3.data : [];
+                setWithdrawTxs(withdrawTxs.map((item:any) => ({...item, action: "Withdraw"})));
+                
+            }
+        } //
+        
+        getdata();
+
+        
+    }, [userAddress])
 
     function Table({ columns, data }: { columns: any, data: any }) {
         // Use the state and functions returned from useTable to build your UI
@@ -118,7 +124,8 @@ const HousePoolTransaction = () => {
                                                 // else
                                                 if (cell.column.id === 'locked') return <td {...cell.getCellProps()}>
 
-                                                    <TimerWrapper >
+                                                    {cell.value &&
+                                                      <TimerWrapper >
                                                         <CountdownCircleTimer
                                                             isPlaying
                                                             isLinearGradient={true}
@@ -132,7 +139,7 @@ const HousePoolTransaction = () => {
                                                         >
                                                             {renderTime}
                                                         </CountdownCircleTimer>
-                                                    </TimerWrapper>
+                                                    </TimerWrapper>}
 
                                                     {/* {cell.value} */}
                                                 </td>
@@ -187,11 +194,11 @@ const HousePoolTransaction = () => {
             },
             {
                 Header: 'TOTAL VALUE',
-                accessor: 'total_value',
+                accessor: '_amount',
             },
             {
                 Header: 'ACCOUNT',
-                accessor: 'account',
+                accessor: '_sender',
             },
             {
                 Header: 'LOCKED FOR',
@@ -199,7 +206,7 @@ const HousePoolTransaction = () => {
             },
             {
                 Header: 'TIME',
-                accessor: 'time',
+                accessor: '_depositedTime',
             },
         ],
         []
@@ -229,7 +236,7 @@ const HousePoolTransaction = () => {
             HousePoolTransaction
             <TableStyles  >
 
-                {TokenData && <Table columns={columns} data={TokenData} />}
+                {depositTxs && <Table columns={columns} data={[...depositTxs, ...withdrawTxs]} />}
             </TableStyles>
 
         </DataContainer >

@@ -11,7 +11,6 @@ import {
   LP_ABI,
   BETTING_ABI,
   ROUTER_ABI,
-  HOUSEPOOL_ABI,
 } from "./abi";
 import wallet from "./wallet";
 
@@ -21,8 +20,7 @@ export enum instanceType {
   "LP" = "LP",
   "ERC20TOKEN" = "ERC20TOKEN",
   "HOUSEPOOL" = "HOUSEPOOL",
-  "BETTING" = "BETTING",
-  "HOUSEPOOL" = "HOUSEPOOL", 
+  "BETTING" = "BETTING", 
 }
 export const selectInstances = async (
   type: any,

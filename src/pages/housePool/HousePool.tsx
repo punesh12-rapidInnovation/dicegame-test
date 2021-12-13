@@ -30,37 +30,42 @@ const HousePool = () => {
             baseURL: "https://diceroll.rapidinnovation.tech/pool",
         });
         const getdata = async () => {
-            const res1 = await axiosInstance.get('/allLiquidity');
-            setLiquidityChartData(res1.data);          
-            const res2 = await axiosInstance.get(`/alldeposit/0x0DBEbDe22004369a8456a020c684cfDf6B81DC66`)
-            setDepositTxs(res2.data);
-            const res3 = await axiosInstance.get(`/allwithdraw/0x0DBEbDe22004369a8456a020c684cfDf6B81DC66`)
-            setWithdrawTxs(res3.data);
-            //--
-            const housepoolInstance = await selectInstances(
-                instanceType.HOUSEPOOL, // type of instance
-            );
-            let userItemlength= await housepoolInstance.methods.UserItemlength("0x0DBEbDe22004369a8456a020c684cfDf6B81DC66").call()
-            // let y = await housepoolInstance.methods.Users("0x0DBEbDe22004369a8456a020c684cfDf6B81DC66", 0).call()
-            console.log("userItemlength", userItemlength);
-            let promiseArray = [];
-            if (parseFloat(`${userItemlength}`)>0){
-                for(let i = 0; i<userItemlength; i++){
-                    promiseArray.push(housepoolInstance.methods.Users("0x0DBEbDe22004369a8456a020c684cfDf6B81DC66", i).call());
+            console.log(userAddress);
+            if(userAddress){
+
+                const res1 = await axiosInstance.get('/allLiquidity');
+                setLiquidityChartData(res1.data);          
+                const res2 = await axiosInstance.get(`/alldeposit/0x6531B1e3745802bb92F3BaFcE20dBb547f39f222`)
+                setDepositTxs(res2.data);
+                const res3 = await axiosInstance.get(`/allwithdraw/0x6531B1e3745802bb92F3BaFcE20dBb547f39f222`)
+                setWithdrawTxs(res3.data);
+                //--
+                const housepoolInstance = await selectInstances(
+                    instanceType.HOUSEPOOL, // type of instance
+                );
+                let userItemlength= await housepoolInstance.methods.UserItemlength(`${userAddress}`).call()
+                // let y = await housepoolInstance.methods.Users("0x0DBEbDe22004369a8456a020c684cfDf6B81DC66", 0).call()
+                console.log("userItemlength", userItemlength);
+                let promiseArray = [];
+                if (parseFloat(`${userItemlength}`)>0){
+                    for(let i = 0; i<userItemlength; i++){
+                        promiseArray.push(housepoolInstance.methods.Users(`${userAddress}`, i).call());
+                    }
                 }
+                const usersArray = await Promise.all(promiseArray)
+                console.log("TotalFunds",usersArray.reduce((a:any,c:any) => a + parseFloat(c.Balance), 0));
+                
+                setTotalFunds(usersArray.reduce((a:any,c:any) => a + parseFloat(c.Balance), 0));
+                let totalValueLocked = await housepoolInstance.methods.TotalValueLocked().call();
+                setTotalValueLocked(totalValueLocked)
+                // console.log("totalValueLocked",totalValueLocked);
             }
-            const usersArray = await Promise.all(promiseArray)
-            console.log("usersArray",usersArray.reduce((a:any,c:any) => a + parseFloat(c.Balance), 0));
-            
-            setTotalFunds(usersArray.reduce((a:any,c:any) => a + parseFloat(c.Balance), 0));
-            let totalValueLocked = await housepoolInstance.methods.TotalValueLocked().call();
-            setTotalValueLocked(totalValueLocked)
-            // console.log("totalValueLocked",totalValueLocked);
         } //
+
         getdata();
 
         
-    }, [])
+    }, [userAddress])
     return (
         <HousePoolCont>
             <Header />
