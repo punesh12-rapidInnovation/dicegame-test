@@ -164,15 +164,16 @@ const LiveChat = (props: any) => {
     }
 
     const renderChat = () => {
+        var today = new Date();
         return messages.map((m: any, index: any) => (
             m.username === userAddress ?
                 <OwnMsg key={index}>
-                        {m.content}
+                    {m.content}
                 </OwnMsg>
                 :
                     <Messagediv key={index}>
                     <OthersMsgIcon src={ChatProfile} alt="" />
-                    <OtherMsgAddress>{m.username.substring(0,10)}...</OtherMsgAddress>
+                    <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
                     {m.content}
                     
                     </Messagediv>

@@ -20,7 +20,8 @@ import {
   Select,
   Option,
   P,
-  ToolTipCont
+  ToolTipCont,
+  HowToPlay
 
 } from "./style";
 import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
@@ -39,6 +40,8 @@ import LooseModal from "./modals/LooseModal";
 import Alertmsg from "./modals/Alertmsg";
 import Sliderthumb from "assets/icons/sliderthumb.svg";
 import QuestionMark from "assets/icons/questionMark.svg";
+import howtoplay from '../../assets/icons/HowToPlay.svg';
+import CustomModal from "shared/custom-modal";
 
 
 const Betting = () => {
@@ -76,6 +79,8 @@ const Betting = () => {
   const [evenOddProfit, setEvenOddProfit] = useState(0)
   const [rangeProfit, setRangeProfit] = useState(0)
   const [Numbers, setNumbers] = useState(['0-0']);
+  const [showHowToPlay, setshowHowToPlay] = useState(false);
+  const [showDisclaimer, setshowDisclaimer] = useState(true);
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -121,6 +126,8 @@ const Betting = () => {
             Value: data.Value,
             BetAmount: localStorage.getItem("BetAmount")
           });
+        } else {
+          console.log(data.BetID)
         }
         // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
 
@@ -457,7 +464,6 @@ const Betting = () => {
       }
     } else {
       console.log(ResultObject?.Betid, LocalBetIt)
-      console.log("not our result");
       // console.log(ResultObject?.Playeraddress.toUpperCase());
       // console.log(userAddress.toUpperCase());
     }
@@ -615,6 +621,7 @@ const Betting = () => {
 
   return (
     <BetBox>
+      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{color:'rgba(0, 234, 255, 1)'}}><img src={howtoplay} width='20px' height='15px'/>How to Play</HowToPlay>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
           <H2 MarginBottom="16px">BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS</H2>
@@ -872,6 +879,19 @@ const Betting = () => {
       />
 
       <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />
+       <CustomModal
+                show={showHowToPlay}
+                heading="HOW TO PLAY"
+                toggleModal={() => setshowHowToPlay(false)}
+            ><H2 style={{marginTop:'30px',fontSize:'14px',padding:'20px'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.</H2>
+      </CustomModal>
+      <CustomModal
+                show={showDisclaimer}
+                heading="DISCLAIMER"
+                toggleModal={() => setshowDisclaimer(false)}
+      ><H2 style={{ marginTop: '20px', fontSize: '14px', padding: '10px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque </H2>
+        <PrimaryButton onCLick={() => setshowDisclaimer(false)}>AGREE</PrimaryButton>
+            </CustomModal>
     </BetBox>
   );
 };

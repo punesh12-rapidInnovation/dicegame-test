@@ -99,7 +99,7 @@ export const ChatMiddlediv = styled.div`
 display: flex;
 flex-direction: column;
 width: 100%;
-height: 63%;
+height: 70%;
 justify-content: flex-start;
 padding: 0px 20px;
 overflow-y: scroll;
