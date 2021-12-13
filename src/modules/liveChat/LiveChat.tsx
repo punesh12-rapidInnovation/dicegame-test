@@ -209,16 +209,16 @@ const LiveChat = (props: any) => {
     }, [cursorPosition])
 
     const handleKeyPress = (e: any) => {
-        // socket.emit('typing', userAddress)
+        socket.emit('typing', userAddress)
         //@ts-ignore
-        socket.broadcast.to('typing', userAddress)
+        // socket.broadcast.to('typing', userAddress)
 
     }
 
     const handleKeyUp = (e: any) => {
-        // socket.emit('typing', 'stop')
+        socket.emit('typing', 'stop')
         //@ts-ignore
-        socket.broadcast.to('typing', 'stop')
+        // socket.broadcast.to('typing', 'stop')
     }
     return (
         <GlobalChatSection>
