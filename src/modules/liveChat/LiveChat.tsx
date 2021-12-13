@@ -59,9 +59,9 @@ const LiveChat = (props: any) => {
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("")
 
     const BASE_URL = 'https://diceroll.rapidinnovation.tech/api/message'
+    const socket = io('wss://diceroll.rapidinnovation.tech');
 
     useEffect(() => {
-        const socket = io('wss://diceroll.rapidinnovation.tech');
         try {
             socket.on('connection', () => {
                 // Replace event name with connection event name
@@ -72,6 +72,9 @@ const LiveChat = (props: any) => {
                 console.log('data', data);
                 const updatedData = [...messages, data]
                 setMessages(updatedData)
+            });
+            socket.on('typing', (data) => {
+                console.log('data', data);
             });
         } catch (err) {
             console.log('err', err);
@@ -117,6 +120,10 @@ const LiveChat = (props: any) => {
     }, [])
 
     const sendTOAPI = async () => {
+
+        console.log('time', new Date().toISOString()
+        );
+
         const walletConnectOrNot = localStorage.getItem("walletConnected");
         if (inputMessage.trim() === "" || walletConnectOrNot !== 'true') {
             if (walletConnectOrNot !== 'true') {
@@ -127,7 +134,8 @@ const LiveChat = (props: any) => {
         const data: any =
         {
             'username': userAddress,
-            'content': inputMessage
+            'content': inputMessage,
+            'time': new Date().toISOString()
         };
 
         try {
@@ -171,14 +179,14 @@ const LiveChat = (props: any) => {
                     {m.content}
                 </OwnMsg>
                 :
-                    <Messagediv key={index}>
+                <Messagediv key={index}>
                     <OthersMsgIcon src={ChatProfile} alt="" />
                     <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
                     {m.content}
-                    
-                    </Messagediv>
-                
-            
+
+                </Messagediv>
+
+
         ))
     }
     const scrollToBottom = () => {
@@ -196,6 +204,9 @@ const LiveChat = (props: any) => {
         inputRef.current.selectionEnd = cursorPosition;
     }, [cursorPosition])
 
+    const handleKeyPress = (e: any) => {
+        socket.emit('typing', userAddress)
+    }
     return (
         <GlobalChatSection>
             <>
@@ -241,6 +252,7 @@ const LiveChat = (props: any) => {
                             <Button
                                 onClick={() => { sendTOAPI() }}
                                 disabled={userAddress === '' || userAddress === null || inputMessage === ''}
+                                onKeyPress={handleKeyPress}
 
                             >
                             </Button>

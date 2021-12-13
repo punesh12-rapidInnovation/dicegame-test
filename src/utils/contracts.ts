@@ -39,6 +39,8 @@ export const selectInstances = async (
       return new wallet.web3.eth.Contract(HOUSEPOOL_ABI, HOUSEPOOL_ADDRESS);
     case "BETTING":
       return new wallet.web3.eth.Contract(BETTING_ABI, BETTING_ADDRESS);
+    case "HOUSEPOOL":
+      return new wallet.web3.eth.Contract(HOUSEPOOL_ABI, HOUSEPOOL_ADDRESS);
     default:
       return null;
   }
