@@ -5,6 +5,7 @@ import Betting from '../betting';
 import LastRolls from 'modules/LastRolls/LastRolls';
 import Emojis from './EmojiComponent/Emojis';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
+import ChatProfile from '../../assets/icons/ChatProfileIcon.svg';
 
 import {
     GlobalChatSection,
@@ -33,7 +34,9 @@ import {
     BoxTitle,
     HousePoolChartLabel,
     EmojiButton,
-    Emojisdiv
+    Emojisdiv,
+    OthersMsgIcon,
+    OtherMsgAddress
 } from './style'
 import threedot from '../../assets/images/threedot.svg';
 import historyicon from '../../assets/icons/history.svg';
@@ -56,9 +59,9 @@ const LiveChat = (props: any) => {
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("")
 
     const BASE_URL = 'https://diceroll.rapidinnovation.tech/api/message'
+    const socket = io('wss://diceroll.rapidinnovation.tech');
 
     useEffect(() => {
-        const socket = io('wss://diceroll.rapidinnovation.tech');
         try {
             socket.on('connection', () => {
                 // Replace event name with connection event name
@@ -69,6 +72,9 @@ const LiveChat = (props: any) => {
                 console.log('data', data);
                 const updatedData = [...messages, data]
                 setMessages(updatedData)
+            });
+            socket.on('typing', (data) => {
+                console.log('data', data);
             });
         } catch (err) {
             console.log('err', err);
@@ -114,13 +120,22 @@ const LiveChat = (props: any) => {
     }, [])
 
     const sendTOAPI = async () => {
-        if (inputMessage.trim() === "") {
+
+        console.log('time', new Date().toISOString()
+        );
+
+        const walletConnectOrNot = localStorage.getItem("walletConnected");
+        if (inputMessage.trim() === "" || walletConnectOrNot !== 'true') {
+            if (walletConnectOrNot !== 'true') {
+                window.alert('connectWallettoSendMessage');
+            }
             return;
         }
         const data: any =
         {
             'username': userAddress,
-            'content': inputMessage
+            'content': inputMessage,
+            'time': new Date().toISOString()
         };
 
         try {
@@ -160,12 +175,17 @@ const LiveChat = (props: any) => {
         return messages.map((m: any, index: any) => (
             m.username === userAddress ?
                 <OwnMsg key={index}>
-                        {m.content}
+                    {m.content}
                 </OwnMsg>
                 :
                 <Messagediv key={index}>
-                        {m.content}
+                    <OthersMsgIcon src={ChatProfile} alt="" />
+                    <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
+                    {m.content}
+
                 </Messagediv>
+
+
         ))
     }
     const scrollToBottom = () => {
@@ -183,6 +203,9 @@ const LiveChat = (props: any) => {
         inputRef.current.selectionEnd = cursorPosition;
     }, [cursorPosition])
 
+    const handleKeyPress = (e: any) => {
+        socket.emit('typing', userAddress)
+    }
     return (
         <GlobalChatSection>
             <>
@@ -228,6 +251,7 @@ const LiveChat = (props: any) => {
                             <Button
                                 onClick={() => { sendTOAPI() }}
                                 disabled={userAddress === '' || userAddress === null || inputMessage === ''}
+                                onKeyPress={handleKeyPress}
 
                             >
                             </Button>

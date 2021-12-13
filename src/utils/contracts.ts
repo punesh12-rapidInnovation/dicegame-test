@@ -20,7 +20,7 @@ export enum instanceType {
   "LP" = "LP",
   "ERC20TOKEN" = "ERC20TOKEN",
   "HOUSEPOOL" = "HOUSEPOOL",
-  "BETTING" = "BETTING", 
+  "BETTING" = "BETTING",
 }
 export const selectInstances = async (
   type: any,

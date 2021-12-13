@@ -51,3 +51,25 @@ img{
     margin:0 10px;
 }
 `
+
+export const Input = styled.input`
+    width: 100%;
+	background: transparent;
+	color: ${colors.white};
+	font-size: 14px;
+	line-height: 20px;
+	border: none;
+	box-sizing: border-box;
+	outline: none;
+	padding: 0;
+	margin: 0;
+
+    ::placeholder{
+        color: ${colors.white};
+
+    }
+
+	@media (min-width: ${screenSizes.mediaM}px) {
+		font-size: 14px;
+		line-height: 30px;
+	}`

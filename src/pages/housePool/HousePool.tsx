@@ -24,7 +24,9 @@ const HousePool = () => {
     const [liquidityChartData, setLiquidityChartData] = useState<any>([])
     const [hoverLiquidityChartValue, setHoverLiquidityChartValue] = React.useState<any>("")
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("")
-    const  { userAddress } = useSelector((state: any) => state.wallet);
+    const [ActionType, setActionType] = useState('');
+
+    const { userAddress, walletBalance } = useSelector((state: any) => state.wallet);
     useEffect(() => {
         const axiosInstance = axios.create({
             baseURL: "https://diceroll.rapidinnovation.tech/pool",
@@ -85,7 +87,7 @@ const HousePool = () => {
                 >
                     <PrimaryButton width="300px"
                         style={{ padding: '25px', fontSize: '18px' }}
-                        onClick={() => setshowDepositModal(true)}
+                        onClick={() => { setshowDepositModal(true); setActionType('deposit') }}
                     >DEPOSIT FUNDS (PLS)</PrimaryButton>
                 </FlexCont>
             </InfoContainer>
@@ -103,13 +105,13 @@ const HousePool = () => {
                     }}>
                         <FlexCont style={{ flexDirection: 'row', justifyContent: "space-around", height: '30%', alignItems: "center", width: '100%', padding: '20px 40px' }}>
                             <FlexCont
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    style={{width:'30%',transform:'translatey(-25px)'}}
-                                    >
-                                        <h3>liquidity</h3>
-                                        <h1>${parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</h1>
-                                        <p>{parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</p>
+                                justifyContent="center"
+                                alignItems="center"
+                                style={{ width: '30%', transform: 'translatey(-25px)' }}
+                            >
+                                <h3>liquidity</h3>
+                                <h1>${parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</h1>
+                                <p>{parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</p>
                             </FlexCont>
                             {/* <img src={verticalLine} alt="" style={{width:'30%',height:'40px'}}/>
                             <FlexCont
@@ -124,13 +126,13 @@ const HousePool = () => {
                         <FlexCont
                             justifyContent="center"
                             alignItems="center"
-                            style={{width:'100%',height:'50%'}}
-                            >
-                                <PoolFundsCont>
-                                    <h5>Your Total Funds</h5>
-                                    <h1>{parseFloat(`${convertToEther(`${totalFunds}`)}`).toFixed(3)}</h1>
-                                    <p>PULSE TOKEN</p>
-                                </PoolFundsCont>
+                            style={{ width: '100%', height: '50%' }}
+                        >
+                            <PoolFundsCont>
+                                <h5>Your Total Funds</h5>
+                                <h1>{parseFloat(`${convertToEther(`${totalFunds}`)}`).toFixed(3)}</h1>
+                                <p>PULSE TOKEN</p>
+                            </PoolFundsCont>
                         </FlexCont>
                         <FlexCont
                             style={{ marginBottom: "30px", width: '100%', flexDirection: 'row', justifyContent: 'center', height: '20%' }}
@@ -138,7 +140,7 @@ const HousePool = () => {
                             <PrimaryButton
                                 width="40%"
                                 margin="0 10px"
-                                onClick={() => setshowDepositModal(true)}
+                                onClick={() => { setshowDepositModal(true); setActionType('deposit') }}
                                 style={{ padding: '18px' }}
 
                             >DEPOSIT FUNDS
@@ -147,7 +149,7 @@ const HousePool = () => {
                                 width="45%"
                                 margin="0 10px"
                                 color={colors.primary}
-                                onClick={() => setshowDepositModal(true)}
+                                onClick={() => { setshowDepositModal(true); setActionType('withdraw') }}
                                 style={{ padding: '18px' }}
 
                             >WITHDRAW FUNDS</PrimaryButton>
@@ -158,30 +160,30 @@ const HousePool = () => {
                         background: "linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%)",
                         boxShadow: "0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9)",
                         borderRadius: "20px",
-                        padding:"20px"
+                        padding: "20px"
                     }}>
                         <BoxTitle>Liquidity 24 H</BoxTitle>
-                            <>
-                        {
-                            !hoverLiquidityChartValue && !hoverLiquidityChartDate && liquidityChartData.length ? 
-                            <>
-                            <VolumeChartLabel>${parseFloat(liquidityChartData[liquidityChartData.length-1].liquidity).toFixed(5)}
-                            </VolumeChartLabel>
-                            <VolumeChartLabel style={{paddingLeft:"10px",fontSize:"16px",fontWeight:600}}>{dateFromTimestamp(liquidityChartData[liquidityChartData.length-1].created_at)}</VolumeChartLabel>
-                            </>
-                            : !liquidityChartData.length ?
-                            null
-                            : hoverLiquidityChartDate ?
-                            <>
-                              <><VolumeChartLabel>${parseFloat(hoverLiquidityChartValue).toFixed(5)}</VolumeChartLabel> 
-                              <VolumeChartLabel style={{paddingLeft:"10px",fontSize:"16px",fontWeight:600}}>{dateFromTimestamp(hoverLiquidityChartDate)}</VolumeChartLabel> </>
-                            </>
-                            : null
-                        }
-                            </>
-                            <div style={{ width: '100%', height: "300px" }}>
-                                <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
-                            </div>
+                        <>
+                            {
+                                !hoverLiquidityChartValue && !hoverLiquidityChartDate && liquidityChartData.length ?
+                                    <>
+                                        <VolumeChartLabel>${parseFloat(liquidityChartData[liquidityChartData.length - 1].liquidity).toFixed(5)}
+                                        </VolumeChartLabel>
+                                        <VolumeChartLabel style={{ paddingLeft: "10px", fontSize: "16px", fontWeight: 600 }}>{dateFromTimestamp(liquidityChartData[liquidityChartData.length - 1].created_at)}</VolumeChartLabel>
+                                    </>
+                                    : !liquidityChartData.length ?
+                                        null
+                                        : hoverLiquidityChartDate ?
+                                            <>
+                                                <><VolumeChartLabel>${parseFloat(hoverLiquidityChartValue).toFixed(5)}</VolumeChartLabel>
+                                                    <VolumeChartLabel style={{ paddingLeft: "10px", fontSize: "16px", fontWeight: 600 }}>{dateFromTimestamp(hoverLiquidityChartDate)}</VolumeChartLabel> </>
+                                            </>
+                                            : null
+                            }
+                        </>
+                        <div style={{ width: '100%', height: "300px" }}>
+                            <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
+                        </div>
                     </div>
                 </div>
             </PoolDetailsContainer>
@@ -261,11 +263,10 @@ const HousePool = () => {
             <CustomModal
                 show={showDepositModal}
                 toggleModal={() => setshowDepositModal(false)}
-                heading="DEPOSIT FUNDS"
+                heading={ActionType === "deposit" ? "DEPOSIT FUNDS" : "WITHDRAW FUNDS"}
             >
-                <HousePoolModal />
+                <HousePoolModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} />
             </CustomModal>
-
 
             <CustomModal
                 show={showDisclaimer}
@@ -274,7 +275,6 @@ const HousePool = () => {
             >
                 <Disclaimer />
             </CustomModal>
-
         </HousePoolCont >
     );
 };
