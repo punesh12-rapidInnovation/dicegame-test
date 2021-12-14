@@ -4,10 +4,12 @@ import { FlexCont, H1, HousePoolCont, Input, InputCont } from './style';
 import pulseIcon from "assets/icons/pulseIcon.svg";
 import { useState } from 'react';
 import { floatNumRegex } from 'shared/helpers/regrexConstants';
+import { instanceType, selectInstances } from 'utils/contracts';
+import { convertToWei } from 'utils/helper';
 
 const HousePoolModal = (props: any) => {
     const { show, toggleModal, styles, userAddress, walletBalance, ActionType } = props;
-    const [stakeAmount, setStakeAmount] = useState('')
+    const [depositAmount, setDepositAmount] = useState('')
 
 
     const handleClickOutside = (e: any) => {
@@ -17,26 +19,43 @@ const HousePoolModal = (props: any) => {
     };
 
 
-    const handleSendAmount = (e: any) => {
+    const handleDepositAmount = (e: any) => {
         const { value } = e.target
         if (floatNumRegex.test(value.toString())) {
-            setStakeAmount(value)
+            setDepositAmount(value)
         }
         if (!value) {
-            setStakeAmount("")
+            setDepositAmount("")
         }
     }
 
-    const handleMaxStaked = () => {
+    const handleMaxDeposit = () => {
 
         if (ActionType === "deposit")
-            // setStakeAmount(lpBalance)
-            setStakeAmount('')
+            // setDepositAmount(lpBalance)
+            setDepositAmount('')
         else
-            setStakeAmount(Number(walletBalance).toFixed(6));
-        // setStakeAmount(dataForStaking.staked)
+            setDepositAmount(Number(walletBalance).toFixed(6));
+        // setDepositAmount(dataForStaking.staked)
+    }
 
+    const handleDeposit = async () => {
+        try {
+            const value = depositAmount;
 
+            const housepoolInstance = await selectInstances(
+                instanceType.HOUSEPOOL, // type of instance
+            );
+            const receipt = await housepoolInstance.methods.deposit().send({
+                from: userAddress,
+                value: convertToWei(value),
+            })
+            console.log("receipt",receipt);
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
     }
 
     return (
@@ -58,8 +77,8 @@ const HousePoolModal = (props: any) => {
                 >
                     <Input
                         placeholder="0.00"
-                        onChange={handleSendAmount}
-                        value={stakeAmount}
+                        onChange={handleDepositAmount}
+                        value={depositAmount}
                     />
                     <FlexCont
 
@@ -68,11 +87,11 @@ const HousePoolModal = (props: any) => {
                         alignItems="center"
                     > <span
                         style={{ cursor: 'pointer' }}
-                        onClick={() => handleMaxStaked()}
+                        onClick={() => handleMaxDeposit()}
                     > MAX</span>  <img src={pulseIcon} alt="" /> PLS</FlexCont>
                 </FlexCont>
             </InputCont>
-            <PrimaryButton>{ActionType === "deposit" ? "Deposit" : "Withdraw"}</PrimaryButton>
+            <PrimaryButton onClick={handleDeposit}>{ActionType === "deposit" ? "Deposit" : "Withdraw"}</PrimaryButton>
         </HousePoolCont >
     );
 };
