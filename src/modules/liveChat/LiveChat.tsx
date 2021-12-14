@@ -36,7 +36,8 @@ import {
     EmojiButton,
     Emojisdiv,
     OthersMsgIcon,
-    OtherMsgAddress
+    OtherMsgAddress,
+    Time
 } from './style'
 import threedot from '../../assets/images/threedot.svg';
 import historyicon from '../../assets/icons/history.svg';
@@ -183,12 +184,14 @@ const LiveChat = (props: any) => {
             m.username === userAddress ?
                 <OwnMsg key={index}>
                     {m.content}
+                    <Time>{m.time.substring(11,16)}</Time>
                 </OwnMsg>
                 :
                 <Messagediv key={index}>
                     <OthersMsgIcon src={ChatProfile} alt="" />
                     <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
                     {m.content}
+                    <Time>{m.time.substring(11,16)}</Time>
                 </Messagediv>
 
 
