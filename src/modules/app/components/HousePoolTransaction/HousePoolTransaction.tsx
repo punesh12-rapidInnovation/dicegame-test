@@ -34,11 +34,11 @@ const HousePoolTransaction = () => {
         const getdata = async () => {
             console.log(userAddress);
             if(userAddress){
-                const res2 = await axiosInstance.get(`/alldeposit/0x6531B1e3745802bb92F3BaFcE20dBb547f39f222`)
+                const res2 = await axiosInstance.get(`/alldeposit/${userAddress}`)
                 const depositTxs:any[] = Array.isArray(res2.data) ? res2.data : [];
                 setDepositTxs(depositTxs.map((item:any) => ({...item, action: "Deposit", locked: item._releaseTime-item._depositedTime,})));
 
-                const res3 = await axiosInstance.get(`/allwithdraw/0x6531B1e3745802bb92F3BaFcE20dBb547f39f222`)
+                const res3 = await axiosInstance.get(`/allwithdraw/${userAddress}`)
                 const withdrawTxs:any[] = Array.isArray(res3.data) ? res3.data : [];
                 setWithdrawTxs(withdrawTxs.map((item:any) => ({...item, action: "Withdraw"})));
                 

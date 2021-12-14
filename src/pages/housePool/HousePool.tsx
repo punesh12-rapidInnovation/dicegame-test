@@ -13,12 +13,14 @@ import BarChart from 'modules/app/components/barChart/BarChart';
 import { instanceType, selectInstances } from 'utils/contracts';
 import { useSelector } from 'react-redux';
 import { convertToEther, dateFromTimestamp } from 'utils/helper';
+import HousePoolWithdrawModal from 'modules/app/components/HousePoolModal/HousePoolWithdrawModal';
 const HousePool = () => {
 
     const [showDepositModal, setshowDepositModal] = useState(false)
+    const [showWithdrawModal, setshowWithdrawModal] = useState(false)
     const [showDisclaimer, setshowDisclaimer] = useState(false)
-    const [depositTxs, setDepositTxs] = useState<any>([])
-    const [withdrawTxs, setWithdrawTxs] = useState<any>([])
+    // const [depositTxs, setDepositTxs] = useState<any>([])
+    // const [withdrawTxs, setWithdrawTxs] = useState<any>([])
     const [totalValueLocked, setTotalValueLocked] = useState<any>("0")
     const [totalFunds, setTotalFunds] = useState<any>("0")
     const [liquidityChartData, setLiquidityChartData] = useState<any>([])
@@ -37,10 +39,10 @@ const HousePool = () => {
 
                 const res1 = await axiosInstance.get('/allLiquidity');
                 setLiquidityChartData(res1.data);          
-                const res2 = await axiosInstance.get(`/alldeposit/0x6531B1e3745802bb92F3BaFcE20dBb547f39f222`)
-                setDepositTxs(res2.data);
-                const res3 = await axiosInstance.get(`/allwithdraw/0x6531B1e3745802bb92F3BaFcE20dBb547f39f222`)
-                setWithdrawTxs(res3.data);
+                // const res2 = await axiosInstance.get(`/alldeposit/0x6531B1e3745802bb92F3BaFcE20dBb547f39f222`)
+                // setDepositTxs(res2.data);
+                // const res3 = await axiosInstance.get(`/allwithdraw/0x6531B1e3745802bb92F3BaFcE20dBb547f39f222`)
+                // setWithdrawTxs(res3.data);
                 //--
                 const housepoolInstance = await selectInstances(
                     instanceType.HOUSEPOOL, // type of instance
@@ -149,7 +151,7 @@ const HousePool = () => {
                                 width="45%"
                                 margin="0 10px"
                                 color={colors.primary}
-                                onClick={() => { setshowDepositModal(true); setActionType('withdraw') }}
+                                onClick={() => { setshowWithdrawModal(true); setActionType('withdraw') }}
                                 style={{ padding: '18px' }}
 
                             >WITHDRAW FUNDS</PrimaryButton>
@@ -267,6 +269,15 @@ const HousePool = () => {
             >
                 <HousePoolModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} />
             </CustomModal>
+
+            {showWithdrawModal &&
+            <CustomModal
+                show={showWithdrawModal}
+                toggleModal={() => setshowWithdrawModal(false)}
+                heading={"WITHDRAW FUNDS"}
+            >
+                <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={"withdraw"} />
+            </CustomModal>}
 
             <CustomModal
                 show={showDisclaimer}
