@@ -25,7 +25,7 @@ import {
 
 } from "./style";
 import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
-import { convertToEther } from "../../utils/helper";
+import { convertToEther, convertToWei } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
 import { instanceType, selectInstances } from "../../utils/contracts";
@@ -167,22 +167,22 @@ const Betting = () => {
     setOnLoadMax(MaxBet);
   };
 
-  useEffect(() => {
-    // setTimeout(() => {
-    //   OnLoadMaxBet();
-    //   OnLoadMinBet();
-    // }, 5000);
-    OnLoadMaxBet();
-    OnLoadMinBet();
-  }, [ResultObject]);
+  // useEffect(() => {
+  //   // setTimeout(() => {
+  //   //   OnLoadMaxBet();
+  //   //   OnLoadMinBet();
+  //   // }, 5000);
+  //   OnLoadMaxBet();
+  //   OnLoadMinBet();
+  // }, [ResultObject]);
 
   useEffect(() => {
     if (BetAmount === 0 || BetAmount === "") setBetRightOrNotAlert(false);
     else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) setBetRightOrNotAlert(true);
     else setBetRightOrNotAlert(false);
 
-    OnLoadMaxBet();
-    OnLoadMinBet();
+    // OnLoadMaxBet();
+    // OnLoadMinBet();
   }, [BetAmount]);
 
   const RangeValueChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -272,7 +272,7 @@ const Betting = () => {
         }
       }
       const finalProfit = tempPlayerProfit / 1e18
-      setProfit(finalProfit);
+      // setProfit(finalProfit);
     };
 
     const CheckAllowanceStatus = async () => {
@@ -395,7 +395,7 @@ const Betting = () => {
     try {
       setPlacingBet(true);
       const RollDice = await lpInstance.methods
-        .playerRollDice(Rollunder, evenOdd, rangeLow, rangeHigh)
+        .playerRollDice(Rollunder, evenOdd, rangeLow, rangeHigh, Profit)
         .send({
           from: myAccount,
           value: Ethervalue,
@@ -512,19 +512,17 @@ const Betting = () => {
   //   CheckAllowanceStatus();
   // });
 
-  useEffect(() => {
-    OnLoadMaxBet();
-    OnLoadMinBet();
-  }, [BetAmount]);
+  // useEffect(() => {
+  //   OnLoadMaxBet();
+  //   OnLoadMinBet();
+  // }, [BetAmount]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      OnLoadMaxBet();
-      OnLoadMinBet();
-    }, 5000);
-
-
-  }, [ResultObject]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     OnLoadMaxBet();
+  //     OnLoadMinBet();
+  //   }, 5000);
+  // }, [ResultObject]);
 
   // useEffect(() => {
   //   let speed = (Number(RangeValue) / 100)
@@ -617,6 +615,80 @@ const Betting = () => {
     setRangeHigh(second);
   }
 
+
+  // new approcah for betting -start
+  const maxProfit = 0.004;
+  var maxBet;
+
+  const Multiplier = (RangeValue, isRangeTrue, _OddEvenStatus, rangeLow, rangeHigh) => {
+    const totalChances: Number = 99;
+    const rollUnder: Number = RangeValue;
+    let multiplier: Number = totalChances / rollUnder;
+    if (_OddEvenStatus == 0) {
+      multiplier = multiplier;
+    }
+    else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
+      multiplier = multiplier + (rollunder / (rollunder / 2));//The multiplier has fixed as 2
+    }
+    if (isRangeTrue == true) {
+      multiplier += 2;
+      // multiplier = multiplier + (toalChanges/(rangeHigh-rangeLow));//Want to Fix the multiplier
+    }
+    console.log(' Multiplier ', multiplier);
+    return multiplier;
+  }
+
+  function CutHouseEdge(payout) {
+    return payout * (990 / 1000)//get this things from the contract
+  }
+  const setMaxBet = (multiplier: any) => {
+
+
+    maxBet = maxProfit / multiplier;
+    console.log('MaxBet', maxBet);
+    setOnLoadMax(maxBet);
+    setOnLoadMin((10 / 100) * maxBet);
+    return (maxBet);
+  }
+
+
+  useEffect(() => {
+    const multiplier = Multiplier(RangeValue, rangeLow > 0 && rangeHigh > 0, evenOddProfit, rangeLow, rangeHigh)
+
+    setMaxBet(multiplier);
+    calcTempPlayerProfit(multiplier, BetAmount)
+
+  }, [RangeValue, BetAmount])
+  // function SetMinimumBet(){
+  //     // uint contractBalance=address(this).balance;
+  //    minBet = (address(this).balance * minBetAspercent)/minBetDivisor;
+  // }
+  function calcTempPlayerProfit(multiplier: number, betValue: number) {
+    try {
+      const returnedamount: number = (betValue * multiplier);
+      const House: number = CutHouseEdge(returnedamount);
+      const profit: number = House - betValue;
+      console.log(' returnedamount ', returnedamount);
+      console.log(' House', House, 'BetValue', betValue, 'multiplier', multiplier);
+
+      const finalProfit = convertToWei(profit.toFixed(18).toString())
+
+      console.log('finalProfit', finalProfit, finalProfit - 1);
+
+      if (finalProfit === '0') {
+        setProfit(0);
+        return (0);
+      }
+      else {
+        setProfit(finalProfit - 1);
+        return finalProfit - 1;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // new approcah for betting -end
 
 
   return (
@@ -717,7 +789,7 @@ const Betting = () => {
                 Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span>,
                 <br />
                 Profit
-                <span style={{ color: colors.primary }}> +{Profit.toFixed(6)} PLS</span>
+                <span style={{ color: colors.primary }}> +{Profit && convertToEther(Profit.toString())} PLS</span>
               </div>
               <SliderThumb
                 style={{
@@ -818,7 +890,7 @@ const Betting = () => {
         </Flex>
         <Flex>
           <H2 style={{ fontSize: "18px" }}>Profit </H2>
-          <H1 color={colors.primary} >+{Profit} PLS</H1>
+          <H1 color={colors.primary} >+{convertToEther(Profit.toString())} PLS</H1>
         </Flex>
       </BetMiddle>
       <BetBottom>
@@ -867,7 +939,7 @@ const Betting = () => {
         show={!loader && success && win && !error}
         toggleModal={() => toggleModal()}
         ResultObject={ResultObject}
-        Profit={Profit.toFixed(6)}
+        Profit={convertToEther(Profit.toString())}
       />
 
       <LooseModal
