@@ -36,7 +36,8 @@ import {
     EmojiButton,
     Emojisdiv,
     OthersMsgIcon,
-    OtherMsgAddress
+    OtherMsgAddress,
+    Time
 } from './style'
 import threedot from '../../assets/images/threedot.svg';
 import historyicon from '../../assets/icons/history.svg';
@@ -57,6 +58,7 @@ const LiveChat = (props: any) => {
     const [liquidityChartData, setLiquidityChartData] = useState<any>([])
     const [hoverLiquidityChartValue, setHoverLiquidityChartValue] = React.useState<any>("")
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("")
+    const [userTyping, setUserTyping] = useState(false)
 
     const BASE_URL = 'https://diceroll.rapidinnovation.tech/api/message'
     const socket = io('wss://diceroll.rapidinnovation.tech');
@@ -73,8 +75,12 @@ const LiveChat = (props: any) => {
                 const updatedData = [...messages, data]
                 setMessages(updatedData)
             });
-            socket.on('typing', (data) => {
-                console.log('data', data);
+            socket.on('typing', data => {
+                console.log('typingdata', data);
+                if (data === "stop")
+                    setUserTyping(false);
+                else
+                    setUserTyping(true);
             });
         } catch (err) {
             console.log('err', err);
@@ -120,8 +126,11 @@ const LiveChat = (props: any) => {
     }, [])
 
     const sendTOAPI = async () => {
+        setUserTyping(false)
+        var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+        var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
 
-        console.log('time', new Date().toISOString()
+        console.log('time', localISOTime
         );
 
         const walletConnectOrNot = localStorage.getItem("walletConnected");
@@ -135,7 +144,7 @@ const LiveChat = (props: any) => {
         {
             'username': userAddress,
             'content': inputMessage,
-            'time': new Date().toISOString()
+            'time': localISOTime
         };
 
         try {
@@ -172,17 +181,19 @@ const LiveChat = (props: any) => {
     }
 
     const renderChat = () => {
+        var today = new Date();
         return messages.map((m: any, index: any) => (
             m.username === userAddress ?
                 <OwnMsg key={index}>
                     {m.content}
+                    <Time>{m.time.substring(11,16)}</Time>
                 </OwnMsg>
                 :
                 <Messagediv key={index}>
                     <OthersMsgIcon src={ChatProfile} alt="" />
                     <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
                     {m.content}
-
+                    <Time>{m.time.substring(11,16)}</Time>
                 </Messagediv>
 
 
@@ -205,6 +216,15 @@ const LiveChat = (props: any) => {
 
     const handleKeyPress = (e: any) => {
         socket.emit('typing', userAddress)
+        //@ts-ignore
+        // socket.broadcast.to('typing', userAddress)
+
+    }
+
+    const handleKeyUp = (e: any) => {
+        socket.emit('typing', 'stop')
+        //@ts-ignore
+        // socket.broadcast.to('typing', 'stop')
     }
     return (
         <GlobalChatSection>
@@ -229,6 +249,14 @@ const LiveChat = (props: any) => {
                             <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 PLAYING</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
                         <ChatMiddlediv>
                             {renderChat()}
+                            {
+                                userTyping ?
+
+                                    <Messagediv >
+                                        <OthersMsgIcon src={ChatProfile} alt="" />
+                                        <OtherMsgAddress>Typing..</OtherMsgAddress>
+                                    </Messagediv>
+                                    : ""}
                             <div ref={messagesEndRef} />
                         </ChatMiddlediv>
                         <InputParent>
@@ -238,6 +266,9 @@ const LiveChat = (props: any) => {
                                 value={inputMessage}
                                 //@ts-ignore
                                 ref={inputRef}
+                                onKeyPress={handleKeyPress}
+                                onKeyUp={handleKeyUp}
+
                                 style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
                             <EmojiButton onClick={handleShowEmojis}></EmojiButton>
                             {
@@ -246,12 +277,9 @@ const LiveChat = (props: any) => {
 
                                 </Emojisdiv>
                             }
-
-
                             <Button
                                 onClick={() => { sendTOAPI() }}
                                 disabled={userAddress === '' || userAddress === null || inputMessage === ''}
-                                onKeyPress={handleKeyPress}
 
                             >
                             </Button>

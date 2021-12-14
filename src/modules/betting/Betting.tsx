@@ -20,11 +20,12 @@ import {
   Select,
   Option,
   P,
-  ToolTipCont
+  ToolTipCont,
+  HowToPlay
 
 } from "./style";
 import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
-import { convertToEther } from "../../utils/helper";
+import { convertToEther, convertToWei } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
 import { instanceType, selectInstances } from "../../utils/contracts";
@@ -39,6 +40,8 @@ import LooseModal from "./modals/LooseModal";
 import Alertmsg from "./modals/Alertmsg";
 import Sliderthumb from "assets/icons/sliderthumb.svg";
 import QuestionMark from "assets/icons/questionMark.svg";
+import howtoplay from '../../assets/icons/HowToPlay.svg';
+import CustomModal from "shared/custom-modal";
 
 
 const Betting = () => {
@@ -76,6 +79,8 @@ const Betting = () => {
   const [evenOddProfit, setEvenOddProfit] = useState(0)
   const [rangeProfit, setRangeProfit] = useState(0)
   const [Numbers, setNumbers] = useState(['0-0']);
+  const [showHowToPlay, setshowHowToPlay] = useState(false);
+  const [showDisclaimer, setshowDisclaimer] = useState(true);
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -121,6 +126,8 @@ const Betting = () => {
             Value: data.Value,
             BetAmount: localStorage.getItem("BetAmount")
           });
+        } else {
+          console.log(data.BetID)
         }
         // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
 
@@ -160,22 +167,22 @@ const Betting = () => {
     setOnLoadMax(MaxBet);
   };
 
-  useEffect(() => {
-    // setTimeout(() => {
-    //   OnLoadMaxBet();
-    //   OnLoadMinBet();
-    // }, 5000);
-    OnLoadMaxBet();
-    OnLoadMinBet();
-  }, [ResultObject]);
+  // useEffect(() => {
+  //   // setTimeout(() => {
+  //   //   OnLoadMaxBet();
+  //   //   OnLoadMinBet();
+  //   // }, 5000);
+  //   OnLoadMaxBet();
+  //   OnLoadMinBet();
+  // }, [ResultObject]);
 
   useEffect(() => {
     if (BetAmount === 0 || BetAmount === "") setBetRightOrNotAlert(false);
     else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) setBetRightOrNotAlert(true);
     else setBetRightOrNotAlert(false);
 
-    OnLoadMaxBet();
-    OnLoadMinBet();
+    // OnLoadMaxBet();
+    // OnLoadMinBet();
   }, [BetAmount]);
 
   const RangeValueChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -265,7 +272,7 @@ const Betting = () => {
         }
       }
       const finalProfit = tempPlayerProfit / 1e18
-      setProfit(finalProfit);
+      // setProfit(finalProfit);
     };
 
     const CheckAllowanceStatus = async () => {
@@ -388,7 +395,7 @@ const Betting = () => {
     try {
       setPlacingBet(true);
       const RollDice = await lpInstance.methods
-        .playerRollDice(Rollunder, evenOdd, rangeLow, rangeHigh)
+        .playerRollDice(Rollunder, evenOdd, rangeLow, rangeHigh, Profit)
         .send({
           from: myAccount,
           value: Ethervalue,
@@ -413,7 +420,8 @@ const Betting = () => {
 
       } else {
         localStorage.setItem("Loading", "false");
-        window.location.reload();
+        setPlacingBet(false);
+        console.log(error)
       }
     }
   }
@@ -457,7 +465,6 @@ const Betting = () => {
       }
     } else {
       console.log(ResultObject?.Betid, LocalBetIt)
-      console.log("not our result");
       // console.log(ResultObject?.Playeraddress.toUpperCase());
       // console.log(userAddress.toUpperCase());
     }
@@ -506,19 +513,17 @@ const Betting = () => {
   //   CheckAllowanceStatus();
   // });
 
-  useEffect(() => {
-    OnLoadMaxBet();
-    OnLoadMinBet();
-  }, [BetAmount]);
+  // useEffect(() => {
+  //   OnLoadMaxBet();
+  //   OnLoadMinBet();
+  // }, [BetAmount]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      OnLoadMaxBet();
-      OnLoadMinBet();
-    }, 5000);
-
-
-  }, [ResultObject]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     OnLoadMaxBet();
+  //     OnLoadMinBet();
+  //   }, 5000);
+  // }, [ResultObject]);
 
   // useEffect(() => {
   //   let speed = (Number(RangeValue) / 100)
@@ -612,9 +617,84 @@ const Betting = () => {
   }
 
 
+  // new approcah for betting -start
+  const maxProfit = 0.004;
+  var maxBet;
+
+  const Multiplier = (RangeValue, isRangeTrue, _OddEvenStatus, rangeLow, rangeHigh) => {
+    const totalChances: Number = 99;
+    const rollUnder: Number = RangeValue;
+    let multiplier: Number = totalChances / rollUnder;
+    if (_OddEvenStatus == 0) {
+      multiplier = multiplier;
+    }
+    else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
+      multiplier = multiplier + (rollunder / (rollunder / 2));//The multiplier has fixed as 2
+    }
+    if (isRangeTrue == true) {
+      multiplier += 2;
+      // multiplier = multiplier + (toalChanges/(rangeHigh-rangeLow));//Want to Fix the multiplier
+    }
+    console.log(' Multiplier ', multiplier);
+    return multiplier;
+  }
+
+  function CutHouseEdge(payout) {
+    return payout * (990 / 1000)//get this things from the contract
+  }
+  const setMaxBet = (multiplier: any) => {
+
+
+    maxBet = maxProfit / multiplier;
+    console.log('MaxBet', maxBet);
+    setOnLoadMax(maxBet);
+    setOnLoadMin((10 / 100) * maxBet);
+    return (maxBet);
+  }
+
+
+  useEffect(() => {
+    const multiplier = Multiplier(RangeValue, rangeLow > 0 && rangeHigh > 0, evenOddProfit, rangeLow, rangeHigh)
+
+    setMaxBet(multiplier);
+    calcTempPlayerProfit(multiplier, BetAmount)
+
+  }, [RangeValue, BetAmount])
+  // function SetMinimumBet(){
+  //     // uint contractBalance=address(this).balance;
+  //    minBet = (address(this).balance * minBetAspercent)/minBetDivisor;
+  // }
+  function calcTempPlayerProfit(multiplier: number, betValue: number) {
+    try {
+      const returnedamount: number = (betValue * multiplier);
+      const House: number = CutHouseEdge(returnedamount);
+      const profit: number = House - betValue;
+      console.log(' returnedamount ', returnedamount);
+      console.log(' House', House, 'BetValue', betValue, 'multiplier', multiplier);
+
+      const finalProfit = convertToWei(profit.toFixed(18).toString())
+
+      console.log('finalProfit', finalProfit, finalProfit - 1);
+
+      if (finalProfit === '0') {
+        setProfit(0);
+        return (0);
+      }
+      else {
+        setProfit(finalProfit - 1);
+        return finalProfit - 1;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // new approcah for betting -end
+
 
   return (
     <BetBox>
+      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{color:'rgba(0, 234, 255, 1)'}}><img src={howtoplay} width='20px' height='15px'/>How to Play</HowToPlay>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
           <H2 MarginBottom="16px">BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS</H2>
@@ -710,7 +790,7 @@ const Betting = () => {
                 Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span>,
                 <br />
                 Profit
-                <span style={{ color: colors.primary }}> +{Profit.toFixed(6)} PLS</span>
+                <span style={{ color: colors.primary }}> +{Profit && convertToEther(Profit.toString())} PLS</span>
               </div>
               <SliderThumb
                 style={{
@@ -811,7 +891,7 @@ const Betting = () => {
         </Flex>
         <Flex>
           <H2 style={{ fontSize: "18px" }}>Profit </H2>
-          <H1 color={colors.primary} >+{Profit} PLS</H1>
+          <H1 color={colors.primary} >+{convertToEther(Profit.toString())} PLS</H1>
         </Flex>
       </BetMiddle>
       <BetBottom>
@@ -860,7 +940,7 @@ const Betting = () => {
         show={!loader && success && win && !error}
         toggleModal={() => toggleModal()}
         ResultObject={ResultObject}
-        Profit={Profit.toFixed(6)}
+        Profit={convertToEther(Profit.toString())}
       />
 
       <LooseModal
@@ -872,6 +952,19 @@ const Betting = () => {
       />
 
       <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />
+       <CustomModal
+                show={showHowToPlay}
+                heading="HOW TO PLAY"
+                toggleModal={() => setshowHowToPlay(false)}
+            ><H2 style={{marginTop:'30px',fontSize:'14px',padding:'20px'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.</H2>
+      </CustomModal>
+      <CustomModal
+                show={showDisclaimer}
+                heading="DISCLAIMER"
+                toggleModal={() => setshowDisclaimer(false)}
+      ><H2 style={{ marginTop: '20px', fontSize: '14px', padding: '10px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque </H2>
+        <PrimaryButton onCLick={() => setshowDisclaimer(false)}>AGREE</PrimaryButton>
+            </CustomModal>
     </BetBox>
   );
 };
