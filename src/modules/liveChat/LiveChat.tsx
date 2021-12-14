@@ -127,8 +127,10 @@ const LiveChat = (props: any) => {
 
     const sendTOAPI = async () => {
         setUserTyping(false)
+        var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+        var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
 
-        console.log('time', new Date().toISOString()
+        console.log('time', localISOTime
         );
 
         const walletConnectOrNot = localStorage.getItem("walletConnected");
@@ -142,7 +144,7 @@ const LiveChat = (props: any) => {
         {
             'username': userAddress,
             'content': inputMessage,
-            'time': new Date().toISOString()
+            'time': localISOTime
         };
 
         try {

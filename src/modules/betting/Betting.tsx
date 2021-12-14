@@ -420,7 +420,8 @@ const Betting = () => {
 
       } else {
         localStorage.setItem("Loading", "false");
-        window.location.reload();
+        setPlacingBet(false);
+        console.log(error)
       }
     }
   }
