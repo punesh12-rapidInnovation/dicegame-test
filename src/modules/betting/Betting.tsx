@@ -657,12 +657,13 @@ const Betting = () => {
     const HOUSEPOOL_INSTANCE = await selectInstances(instanceType.HOUSEPOOL);
     const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
 
-    const maxBet = convertToEther(maxProfit) / multiplier;
-    setOnLoadMax(maxBet);
-    setOnLoadMin((10 / 100) * OnLoadMax);
-    return (maxBet);
+    if (maxProfit) {
+      const maxBet = convertToEther(maxProfit) / multiplier;
+      setOnLoadMax(maxBet);
+      setOnLoadMin((10 / 100) * maxBet);
+      return (maxBet);
+    }
   }
-
 
   useEffect(() => {
     const multiplier = Multiplier(RangeValue, rangeLow > 0 && rangeHigh > 0, evenOddProfit, rangeLow, rangeHigh)
