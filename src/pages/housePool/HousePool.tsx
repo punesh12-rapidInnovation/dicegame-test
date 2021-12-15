@@ -13,6 +13,7 @@ import BarChart from 'modules/app/components/barChart/BarChart';
 import { instanceType, selectInstances } from 'utils/contracts';
 import { useSelector } from 'react-redux';
 import { convertToEther, dateFromTimestamp } from 'utils/helper';
+import { CheckCont } from 'shared/Disclaimer/style';
 const HousePool = () => {
 
     const [showDepositModal, setshowDepositModal] = useState(false)
@@ -264,13 +265,9 @@ const HousePool = () => {
                 <HousePoolModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} />
             </CustomModal>
 
-            <CustomModal
-                show={showDisclaimer}
-                heading="DISCLAIMER"
-                toggleModal={() => setshowDisclaimer(false)}
-            >
-                <Disclaimer />
-            </CustomModal>
+            
+            <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
+         
         </HousePoolCont >
     );
 };

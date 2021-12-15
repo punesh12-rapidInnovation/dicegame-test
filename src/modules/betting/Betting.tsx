@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import web3 from "../../utils/web3";
 import { io } from "socket.io-client";
 import "./Checkbox.css";
+import Disclaimer from "shared/Disclaimer/Disclaimer";
 import {
   BetBox,
   BetMiddle,
@@ -42,6 +43,7 @@ import Sliderthumb from "assets/icons/sliderthumb.svg";
 import QuestionMark from "assets/icons/questionMark.svg";
 import howtoplay from '../../assets/icons/HowToPlay.svg';
 import CustomModal from "shared/custom-modal";
+import { CheckCont } from "shared/Disclaimer/style";
 
 
 const Betting = () => {
@@ -80,7 +82,7 @@ const Betting = () => {
   const [rangeProfit, setRangeProfit] = useState(0)
   const [Numbers, setNumbers] = useState(['0-0']);
   const [showHowToPlay, setshowHowToPlay] = useState(false);
-  const [showDisclaimer, setshowDisclaimer] = useState(true);
+  const [showDisclaimer, setshowDisclaimer] = useState(false);
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -94,6 +96,16 @@ const Betting = () => {
       setLoader(true);
     }
   }, []);
+
+  useEffect(() => {
+    const localChecked = localStorage.getItem("ShowDisclaimer")
+        if (localChecked === null || localChecked === 'false') { 
+            setshowDisclaimer(true)
+        } else {
+            setshowDisclaimer(false)
+        }
+   
+  }, [])
 
   useEffect(() => {
     let Address: any;
@@ -955,16 +967,10 @@ const Betting = () => {
        <CustomModal
                 show={showHowToPlay}
                 heading="HOW TO PLAY"
-                toggleModal={() => setshowHowToPlay(false)}
-            ><H2 style={{marginTop:'30px',fontSize:'14px',padding:'20px'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.</H2>
+        toggleModal={() => setshowHowToPlay(false)}
+      ><h3 style={{ marginTop: '30px',color:'white', fontSize: '12px' ,margin:'40px 0px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.<br /><br/>Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.<br /><br/>Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.<br /><br/>Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.</h3>
       </CustomModal>
-      <CustomModal
-                show={showDisclaimer}
-                heading="DISCLAIMER"
-                toggleModal={() => setshowDisclaimer(false)}
-      ><H2 style={{ marginTop: '20px', fontSize: '14px', padding: '10px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque </H2>
-        <PrimaryButton onCLick={() => setshowDisclaimer(false)}>AGREE</PrimaryButton>
-            </CustomModal>
+       <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
     </BetBox>
   );
 };
