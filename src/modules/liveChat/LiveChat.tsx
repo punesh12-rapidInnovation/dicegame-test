@@ -36,7 +36,8 @@ import {
     EmojiButton,
     Emojisdiv,
     OthersMsgIcon,
-    OtherMsgAddress
+    OtherMsgAddress,
+    Time
 } from './style'
 import threedot from '../../assets/images/threedot.svg';
 import historyicon from '../../assets/icons/history.svg';
@@ -98,7 +99,7 @@ const LiveChat = (props: any) => {
         const text = start + emoji + end;
         console.log(e.target);
         setInputMessage(text);
-        setcursorPosition(start.length + emoji.lenght);
+        setcursorPosition(start.length + emoji.length);
     }
 
     const handleShowEmojis = () => {
@@ -126,8 +127,10 @@ const LiveChat = (props: any) => {
 
     const sendTOAPI = async () => {
         setUserTyping(false)
+        var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+        var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
 
-        console.log('time', new Date().toISOString()
+        console.log('time', localISOTime
         );
 
         const walletConnectOrNot = localStorage.getItem("walletConnected");
@@ -141,7 +144,7 @@ const LiveChat = (props: any) => {
         {
             'username': userAddress,
             'content': inputMessage,
-            'time': new Date().toISOString()
+            'time': localISOTime
         };
 
         try {
@@ -178,16 +181,19 @@ const LiveChat = (props: any) => {
     }
 
     const renderChat = () => {
+        var today = new Date();
         return messages.map((m: any, index: any) => (
             m.username === userAddress ?
                 <OwnMsg key={index}>
                     {m.content}
+                    <Time>{m.time.substring(11,16)}</Time>
                 </OwnMsg>
                 :
                 <Messagediv key={index}>
                     <OthersMsgIcon src={ChatProfile} alt="" />
                     <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
                     {m.content}
+                    <Time>{m.time.substring(11,16)}</Time>
                 </Messagediv>
 
 
@@ -209,9 +215,16 @@ const LiveChat = (props: any) => {
     }, [cursorPosition])
 
     const handleKeyPress = (e: any) => {
+
+        console.log('e', e.target.value);
+
+
+
         socket.emit('typing', userAddress)
         //@ts-ignore
         // socket.broadcast.to('typing', userAddress)
+
+        // socket.broadcast.emit('typing', userAddress);
 
     }
 
@@ -219,6 +232,8 @@ const LiveChat = (props: any) => {
         socket.emit('typing', 'stop')
         //@ts-ignore
         // socket.broadcast.to('typing', 'stop')
+
+        // socket.broadcast.emit('typing', 'stop');
     }
     return (
         <GlobalChatSection>

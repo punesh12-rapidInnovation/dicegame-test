@@ -99,7 +99,7 @@ export const ChatMiddlediv = styled.div`
 display: flex;
 flex-direction: column;
 width: 100%;
-height: 63%;
+height: 70%;
 justify-content: flex-start;
 padding: 0px 20px;
 overflow-y: scroll;
@@ -127,6 +127,7 @@ position: relative;
 margin-left: 40px;
 margin-top: 30px;
 min-width: 100px;
+padding-bottom:30px;
 `
 
 
@@ -146,6 +147,16 @@ top: 0;
 transform: translate(5px,-20px);
 `
 
+export const Time = styled.h3`
+font-size: 10px;
+line-height: 13px;
+color: #fff;
+position: absolute;
+right: 18px;
+bottom: -10px;
+transform: translate(5px,-20px);
+`
+
 
 
 export const OwnMsg = styled.div`
@@ -161,6 +172,8 @@ align-self: flex-end;
 text-align: left;
 word-break: break-word;
 min-width: 80px;
+position:relative;
+padding-bottom:30px;
 `
 
 export const EmojiButton = styled.div`

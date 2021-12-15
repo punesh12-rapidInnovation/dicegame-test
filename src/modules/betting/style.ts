@@ -19,6 +19,23 @@ export const Box = styled.div`
     inset 0px 0px 20px rgba(202, 26, 231, 0.9);
   border-radius: 20px;
 `;
+export const HowToPlay = styled.h2<any>`
+  font-size: ${(props) => (props.FontSize ? props.FontSize : "12px")};
+  margin-bottom: ${(props) =>
+    props.MarginBottom ? props.MarginBottom : "14px"};
+  font-weight: 600;
+  color: rgba(0, 234, 255, 1);
+  position:absolute;
+  right:20px;
+  top:15px;
+  text-decoration:underline;
+  text-transform:capitalize;
+  display: Flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+`;
+
 
 export const PopupModal = styled.button`
   height: 50vh;
@@ -183,6 +200,7 @@ export const BetBox = styled.div`
   flex-direction: column;
   justify-content: space-around;
   padding: 10px 0;
+  position:relative;
 `;
 
 export const BetTop = styled.div`
@@ -197,7 +215,7 @@ export const BetTop = styled.div`
 `;
 
 export const BetMiddle = styled.div`
-  height: 70%;
+  height: 65%;
   width: 85%;
   color: white;
   font-size: 10px;
