@@ -12,7 +12,7 @@ const HousePoolWithdrawModal = (props: any) => {
     const [withdrawAmount, setWithdrawAmount] = useState('')
     const [depositList, setDepositList] = useState<any>([]);
     const [showDepositList, setShowDepositList] = useState(false)
-    const [depositSelected, setDepositSelected] = useState({presentBalance:0.00,index:0})
+    const [depositSelected, setDepositSelected] = useState({presentBalance:0.00,Balance:0.00,index:0})
 
 
     useEffect(() => {
@@ -42,15 +42,15 @@ const HousePoolWithdrawModal = (props: any) => {
                     }
                     const mypresentBalances = await Promise.all(promiseArray);
                     console.log("mypresentBalances",mypresentBalances);
-                    // /PendingRewards
-                    // promiseArray = [];
-                    // if (parseFloat(`${userItemlength}`)>0){
-                    //     for(let i = 0; i<userItemlength; i++){
-                    //         promiseArray.push(housepoolInstance.methods.PendingRewards(`${userAddress}`, i).call());
-                    //     }
-                    // }
-                    // const pendingRewards = await Promise.all(promiseArray);
-                    // console.log("PendingRewards",pendingRewards);
+                    //PendingRewards
+                    promiseArray = [];
+                    if (parseFloat(`${userItemlength}`)>0){
+                        for(let i = 0; i<userItemlength; i++){
+                            promiseArray.push(housepoolInstance.methods.PendingRewards(`${userAddress}`, i).call());
+                        }
+                    }
+                    const pendingRewards = await Promise.all(promiseArray);
+                    console.log("PendingRewards",pendingRewards);
                     
                     setDepositList(depositsArray.map((item:object,i:number) => ({...item, presentBalance: mypresentBalances[i], index:i})))
                 }
@@ -82,11 +82,11 @@ const HousePoolWithdrawModal = (props: any) => {
 
     const handleMaxWithdraw = () => {
 
-        if (ActionType === "deposit")
-            // setWithdrawAmount(lpBalance)
-            setWithdrawAmount('')
-        else
-            setWithdrawAmount(Number(walletBalance).toFixed(6));
+        // if (ActionType === "deposit")
+        //     // setWithdrawAmount(lpBalance)
+        //     setWithdrawAmount('')
+        // else
+            setWithdrawAmount(Number(convertToEther(depositSelected.presentBalance)).toFixed(6));
         // setWithdrawAmount(dataForStaking.staked)
     }
 
@@ -97,9 +97,8 @@ const HousePoolWithdrawModal = (props: any) => {
             const housepoolInstance = await selectInstances(
                 instanceType.HOUSEPOOL, // type of instance
             );
-            const receipt = await housepoolInstance.methods.withdraw(value, depositSelected.index).send({
+            const receipt = await housepoolInstance.methods.withdraw(convertToWei(value), depositSelected.index).send({
                 from: userAddress,
-                value: convertToWei(value),
             })
             console.log("receipt",receipt);
             
@@ -114,28 +113,45 @@ const HousePoolWithdrawModal = (props: any) => {
             <H1>HOUSE POOL</H1>
             <div style={{
                 width:'100%',
-                // height:'20px',
                 background: '#2A1966',
                 boxShadow: '0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7',
                 borderRadius: '20px',
                 padding:"20px",
                 margin:'30px 0 0 0' ,
                 color:"#fff",
-                position:"relative"
-            }}>
-                <div onClick={() => setShowDepositList(!showDepositList)}>
-                    Select A Deposit
+                position:"relative",
+                cursor:"pointer",
+            }}
+            onClick={() => setShowDepositList(!showDepositList)}
+            >
+                <div style={{display:"flex",justifyContent:"space-between"}} 
+                >
+                   {
+                   depositSelected.Balance ? 
+                   <div style={{display:"flex",alignItems:"center"}}>
+                     <img  style={{marginRight:"10px"}} src={pulseIcon} alt="" /><span>{convertToEther(depositSelected.Balance)}</span>
+                   </div>
+                   : 
+                   <span> Select A Deposit</span>
+                   }
+                   <span style={{transform: 'rotateZ(90deg)'}}> {'>'} </span>
                 </div>
+
                 {showDepositList && 
                 <div style={{background: '#fff', color:"#000",position:"absolute",
+                borderRadius:"10px",
                 width: '100%',
-                bottom: '-60px',
+                top: '50px',
                 transform: 'translateX(-4%)',
                 }}>
                     { depositList.map((item:any,i:number) => 
                     <>
-                    <div key={i} onClick={() => {setDepositSelected(item);setShowDepositList(false)}}>{convertToEther(item.Balance)}</div>
-                    <hr/>
+                    <div key={i} style={{padding:"10px",display:"flex",alignItems:"center"}} 
+                    onClick={() => {setDepositSelected(item);setShowDepositList(false)}}>
+                        <img  style={{marginRight:"10px"}} src={pulseIcon} alt="" /> 
+                        <span>Deposit {i+1}</span>
+                    </div>
+                    
                     </>
                     )}
                 </div>}
@@ -158,6 +174,7 @@ const HousePoolWithdrawModal = (props: any) => {
                         placeholder="0.00"
                         onChange={handleWithdrawAmount}
                         value={withdrawAmount}
+                        disabled={depositSelected.presentBalance ? false : true}
                     />
                     <FlexCont
 

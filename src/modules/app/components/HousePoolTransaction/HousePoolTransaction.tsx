@@ -35,6 +35,8 @@ const HousePoolTransaction = () => {
             console.log(userAddress);
             if(userAddress){
                 const res2 = await axiosInstance.get(`/alldeposit/${userAddress}`)
+                console.log("deposit api",res2);
+                
                 const depositTxs:any[] = Array.isArray(res2.data) ? res2.data : [];
                 setDepositTxs(depositTxs.map((item:any) => ({...item, action: "Deposit", locked: item._releaseTime-item._depositedTime,})));
 

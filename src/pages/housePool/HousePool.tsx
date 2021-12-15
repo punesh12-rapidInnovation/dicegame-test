@@ -75,7 +75,7 @@ const HousePool = () => {
             <Header />
             <InfoContainer>
                 <FlexCont
-                    style={{ height: '250px', transform: 'translatey(20%)', width: '50%' }}
+                    style={{ padding:"30px 0" }}
                 >
                     <H3>Wallet {'>'} Liquidity</H3>
                     <H1>HOUSE POOL</H1>
@@ -85,7 +85,7 @@ const HousePool = () => {
                     <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
                 </FlexCont>
                 <FlexCont
-                    style={{ height: '250px', transform: 'translatey(20%)', alignItems: 'flex-end', justifyContent: 'center', width: '30%' }}
+                
                 >
                     <PrimaryButton width="300px"
                         style={{ padding: '25px', fontSize: '18px' }}
@@ -96,9 +96,11 @@ const HousePool = () => {
             <PoolDetailsContainer>
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'minmax(370px, 1fr) minmax(370px, 2fr)',
+                    gridTemplateColumns: 'minmax(450px, 450px) minmax(370px, 2fr)',
                     gridColumnGap: '20px',
                     gridRowGap: '20px',
+
+                    paddingTop:"50px",
                 }}>
                     <div style={{
                         background: "linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%)",
@@ -109,7 +111,7 @@ const HousePool = () => {
                             <FlexCont
                                 justifyContent="center"
                                 alignItems="center"
-                                style={{ width: '30%', transform: 'translatey(-25px)' }}
+                                
                             >
                                 <h3>liquidity</h3>
                                 <h1>${parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</h1>
@@ -257,7 +259,7 @@ const HousePool = () => {
                 </FlexCont>
             </PoolDetailsContainer> */}
             <TransactionContainer>
-                <h1>Transactions</h1>
+                <h1 style={{color:"#fff"}}>Transactions</h1>
                 <HousePoolTransaction />
 
             </TransactionContainer>
