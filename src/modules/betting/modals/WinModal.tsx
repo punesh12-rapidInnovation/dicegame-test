@@ -87,9 +87,9 @@ const WinModal = (props: any) => {
           {/* <AnimatedTreasureChest /> */}
           {/* <FramerMotionAnimation /> */}
 
-          <img src={treasure}
+          {/* <img src={treasure}
             style={{ position: "absolute", marginTop: "-25%", height: "100px", right: "-10%" }}
-          />
+          /> */}
         </WinAmountContainer>
 
         <DiceCont>

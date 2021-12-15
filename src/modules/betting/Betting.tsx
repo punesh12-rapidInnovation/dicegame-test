@@ -40,7 +40,7 @@ import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
 import Alertmsg from "./modals/Alertmsg";
 import Sliderthumb from "assets/icons/sliderthumb.svg";
-import QuestionMark from "assets/icons/questionMark.svg";
+import HelpIcon from "assets/icons/helpIcon.svg";
 import howtoplay from '../../assets/icons/HowToPlay.svg';
 import CustomModal from "shared/custom-modal";
 import { CheckCont } from "shared/Disclaimer/style";
@@ -97,6 +97,7 @@ const Betting = () => {
     }
   }, []);
 
+  //@ts-ignore
   useEffect(() => {
     const localChecked = localStorage.getItem("ShowDisclaimer")
         if (localChecked === null || localChecked === 'false') { 
@@ -162,12 +163,16 @@ const Betting = () => {
 
   //#region Bet Amount
   const SetMinBetAmount = async () => {
-    const MinBet = await MinBetAmount();
-    setBetAmount(convertToEther(MinBet));
+    // const MinBet = await MinBetAmount();
+    // setBetAmount(convertToEther(MinBet));
+
+    setBetAmount((10 / 100) * OnLoadMax);
+
   };
   const SetMaxBetAmount = async () => {
-    const MaxBet = await MaxBetAmount();
-    setBetAmount(convertToEther(MaxBet));
+    // const MaxBet = await MaxBetAmount();
+    // setBetAmount(convertToEther(MaxBet));
+    setBetAmount(OnLoadMax);
   };
 
   const OnLoadMinBet = async () => {
@@ -630,40 +635,47 @@ const Betting = () => {
 
 
   // new approcah for betting -start
-  const maxProfit = 0.004;
-  var maxBet;
+  // const maxProfit = 0.004;
+  // var maxBet;
 
-  const Multiplier = (RangeValue, isRangeTrue, _OddEvenStatus, rangeLow, rangeHigh) => {
-    const totalChances: Number = 99;
-    const rollUnder: Number = RangeValue;
-    let multiplier: Number = totalChances / rollUnder;
+  const Multiplier = (RangeValue: number, isRangeTrue: boolean, _OddEvenStatus: number, rangeLow: number, rangeHigh: number) => {
+    const totalChances: number = 99;
+    const rollUnder: number = RangeValue;
+    let multiplier: number = totalChances / rollUnder;
     if (_OddEvenStatus == 0) {
       multiplier = multiplier;
     }
     else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
-      multiplier = multiplier + (rollunder / (rollunder / 2));//The multiplier has fixed as 2
+      multiplier = multiplier + (rollUnder / (rollUnder / 2));//The multiplier has fixed as 2
     }
-    if (isRangeTrue == true) {
+    if (isRangeTrue === true) {
       multiplier += 2;
       // multiplier = multiplier + (toalChanges/(rangeHigh-rangeLow));//Want to Fix the multiplier
     }
-    console.log(' Multiplier ', multiplier);
     return multiplier;
   }
 
-  function CutHouseEdge(payout) {
-    return payout * (990 / 1000)//get this things from the contract
+  const CutHouseEdge = async (payout: number) => {
+    const HouseEdgeAmount: number = await HouseEdge();
+    const HouseEdgeDivisor: number = await HouseEdgeDiviser();
+
+    if (HouseEdgeAmount || HouseEdgeDivisor) {
+      const finalPayout = payout * (HouseEdgeAmount / HouseEdgeDivisor)//get this things from the contract
+      // const finalPayout = payout * (900 / 1000)//get this things from the contract
+      return finalPayout;
+    }
   }
-  const setMaxBet = (multiplier: any) => {
+  const setMaxBet = async (multiplier: any) => {
+    const HOUSEPOOL_INSTANCE = await selectInstances(instanceType.HOUSEPOOL);
+    const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
 
-
-    maxBet = maxProfit / multiplier;
-    console.log('MaxBet', maxBet);
-    setOnLoadMax(maxBet);
-    setOnLoadMin((10 / 100) * maxBet);
-    return (maxBet);
+    if (maxProfit) {
+      const maxBet = convertToEther(maxProfit) / multiplier;
+      setOnLoadMax(maxBet);
+      setOnLoadMin((10 / 100) * maxBet);
+      return (maxBet);
+    }
   }
-
 
   useEffect(() => {
     const multiplier = Multiplier(RangeValue, rangeLow > 0 && rangeHigh > 0, evenOddProfit, rangeLow, rangeHigh)
@@ -671,22 +683,19 @@ const Betting = () => {
     setMaxBet(multiplier);
     calcTempPlayerProfit(multiplier, BetAmount)
 
-  }, [RangeValue, BetAmount])
+  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow])
+
   // function SetMinimumBet(){
   //     // uint contractBalance=address(this).balance;
   //    minBet = (address(this).balance * minBetAspercent)/minBetDivisor;
   // }
-  function calcTempPlayerProfit(multiplier: number, betValue: number) {
+  const calcTempPlayerProfit = async (multiplier: number, betValue: number) => {
     try {
-      const returnedamount: number = (betValue * multiplier);
-      const House: number = CutHouseEdge(returnedamount);
+      const returnedAmount: number = (betValue * multiplier);
+      const House: any = await CutHouseEdge(returnedAmount);
       const profit: number = House - betValue;
-      console.log(' returnedamount ', returnedamount);
-      console.log(' House', House, 'BetValue', betValue, 'multiplier', multiplier);
 
       const finalProfit = convertToWei(profit.toFixed(18).toString())
-
-      console.log('finalProfit', finalProfit, finalProfit - 1);
 
       if (finalProfit === '0') {
         setProfit(0);
@@ -706,7 +715,7 @@ const Betting = () => {
 
   return (
     <BetBox>
-      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{color:'rgba(0, 234, 255, 1)'}}><img src={howtoplay} width='20px' height='15px'/>How to Play</HowToPlay>
+      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{ color: 'rgba(0, 234, 255, 1)' }}><img src={howtoplay} width='20px' height='15px' />How to Play</HowToPlay>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
           <H2 MarginBottom="16px">BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS</H2>
@@ -788,7 +797,7 @@ const Betting = () => {
                 style={{
                   position: "absolute",
                   textAlign: "center",
-                  width: "100px",
+                  width: "120px",
                   background: "rgba(0,0,0,0.3)",
                   top: "-35px",
                   left: `${SliderFollower()}%`,
@@ -802,7 +811,7 @@ const Betting = () => {
                 Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span>,
                 <br />
                 Profit
-                <span style={{ color: colors.primary }}> +{Profit && convertToEther(Profit.toString())} PLS</span>
+                <span style={{ color: colors.primary }}> +{Profit && Number(convertToEther(Profit.toString())).toFixed(10)} PLS</span>
               </div>
               <SliderThumb
                 style={{
@@ -849,9 +858,9 @@ const Betting = () => {
               <Flex style={{ width: "40%" }}
                 JustifyContent="center"
               >
-                <P>{evenOddProfit}%</P>
+                <P>{evenOddProfit}x</P>
                 <div style={{ position: "relative" }}>
-                  <img src={QuestionMark} alt="help"
+                  <img src={HelpIcon} alt="help"
                     onMouseOver={() => setShowToolTip1(true)}
                     onMouseOut={() => setShowToolTip1(false)}
                   />
@@ -882,9 +891,9 @@ const Betting = () => {
               <Flex style={{ width: "40%" }}
                 JustifyContent="center"
               >
-                <P>{rangeProfit}%</P>
+                <P>{rangeProfit}x</P>
                 <div style={{ position: "relative" }}>
-                  <img src={QuestionMark} alt="help"
+                  <img src={HelpIcon} alt="help"
                     onMouseOver={() => setShowToolTip2(true)}
                     onMouseOut={() => setShowToolTip2(false)}
                   />

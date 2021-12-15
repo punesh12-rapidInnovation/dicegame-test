@@ -99,7 +99,7 @@ const LiveChat = (props: any) => {
         const text = start + emoji + end;
         console.log(e.target);
         setInputMessage(text);
-        setcursorPosition(start.length + emoji.lenght);
+        setcursorPosition(start.length + emoji.length);
     }
 
     const handleShowEmojis = () => {
@@ -215,9 +215,16 @@ const LiveChat = (props: any) => {
     }, [cursorPosition])
 
     const handleKeyPress = (e: any) => {
+
+        console.log('e', e.target.value);
+
+
+
         socket.emit('typing', userAddress)
         //@ts-ignore
         // socket.broadcast.to('typing', userAddress)
+
+        // socket.broadcast.emit('typing', userAddress);
 
     }
 
@@ -225,6 +232,8 @@ const LiveChat = (props: any) => {
         socket.emit('typing', 'stop')
         //@ts-ignore
         // socket.broadcast.to('typing', 'stop')
+
+        // socket.broadcast.emit('typing', 'stop');
     }
     return (
         <GlobalChatSection>
