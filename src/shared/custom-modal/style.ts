@@ -49,6 +49,7 @@ export const ModalBody = styled.div<ModalBodyProps>`
 	background: rgba(26, 39, 50, 0.7);
 	-webkit-backdrop-filter: blur(5px);
 	        backdrop-filter: blur(5px);
+	
 `;
 
 export const ModalContent = styled.div<any>`
