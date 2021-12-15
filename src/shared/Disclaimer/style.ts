@@ -4,13 +4,13 @@ import styled from "styled-components";
 
 
 export const DisclaimerCont = styled.div<any>`
-display: -webkit-box;
-display: -ms-flexbox;
+display:-webkit-box;
+display:-ms-flexbox;
 display: flex;
 -webkit-box-orient: vertical;
 -webkit-box-direction: normal;
 -ms-flex-direction: column;
-        flex-direction: column;
+flex-direction: column;
 font-family:AvenirLTStd;
 color:${colors.white};
 
@@ -50,5 +50,4 @@ label{
     margin:5px 0;
     opacity:0.8;
 }
-
 `
