@@ -623,8 +623,8 @@ const Betting = () => {
 
 
   // new approcah for betting -start
-  const maxProfit = 0.004;
-  var maxBet;
+  // const maxProfit = 0.004;
+  // var maxBet;
 
   const Multiplier = (RangeValue: number, isRangeTrue: boolean, _OddEvenStatus: number, rangeLow: number, rangeHigh: number) => {
     const totalChances: number = 99;
@@ -640,7 +640,6 @@ const Betting = () => {
       multiplier += 2;
       // multiplier = multiplier + (toalChanges/(rangeHigh-rangeLow));//Want to Fix the multiplier
     }
-    console.log(' Multiplier ', multiplier);
     return multiplier;
   }
 
@@ -654,8 +653,11 @@ const Betting = () => {
       return finalPayout;
     }
   }
-  const setMaxBet = (multiplier: any) => {
-    maxBet = maxProfit / multiplier;
+  const setMaxBet = async (multiplier: any) => {
+    const HOUSEPOOL_INSTANCE = await selectInstances(instanceType.HOUSEPOOL);
+    const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
+
+    const maxBet = convertToEther(maxProfit) / multiplier;
     setOnLoadMax(maxBet);
     setOnLoadMin((10 / 100) * OnLoadMax);
     return (maxBet);
@@ -669,6 +671,7 @@ const Betting = () => {
     calcTempPlayerProfit(multiplier, BetAmount)
 
   }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow])
+
   // function SetMinimumBet(){
   //     // uint contractBalance=address(this).balance;
   //    minBet = (address(this).balance * minBetAspercent)/minBetDivisor;
@@ -677,15 +680,9 @@ const Betting = () => {
     try {
       const returnedAmount: number = (betValue * multiplier);
       const House: any = await CutHouseEdge(returnedAmount);
-      console.log('log', "betValue", betValue, 'multiplier', multiplier, 'House', House);
-
       const profit: number = House - betValue;
-      console.log(' returnedAmount ', returnedAmount);
-      console.log(' House', House, 'BetValue', betValue, 'multiplier', multiplier);
 
       const finalProfit = convertToWei(profit.toFixed(18).toString())
-
-      console.log('finalProfit', finalProfit, finalProfit - 1);
 
       if (finalProfit === '0') {
         setProfit(0);
