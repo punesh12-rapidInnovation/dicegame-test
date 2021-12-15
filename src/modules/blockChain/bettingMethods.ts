@@ -40,13 +40,9 @@ export const HouseEdge = async () => {
       const Houseedge = await lpInstance.methods.houseEdge().call();
       return Houseedge;
     }
-
   } catch (error) {
     console.log(error);
-
-
   }
-
 };
 export const HouseEdgeDiviser = async () => {
   //create instance of an abi to call any blockChain function

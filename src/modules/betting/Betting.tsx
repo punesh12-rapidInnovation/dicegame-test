@@ -39,7 +39,7 @@ import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
 import Alertmsg from "./modals/Alertmsg";
 import Sliderthumb from "assets/icons/sliderthumb.svg";
-import QuestionMark from "assets/icons/questionMark.svg";
+import HelpIcon from "assets/icons/helpIcon.svg";
 import howtoplay from '../../assets/icons/HowToPlay.svg';
 import CustomModal from "shared/custom-modal";
 
@@ -636,7 +636,7 @@ const Betting = () => {
     else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
       multiplier = multiplier + (rollUnder / (rollUnder / 2));//The multiplier has fixed as 2
     }
-    if (isRangeTrue == true) {
+    if (isRangeTrue === true) {
       multiplier += 2;
       // multiplier = multiplier + (toalChanges/(rangeHigh-rangeLow));//Want to Fix the multiplier
     }
@@ -644,15 +644,20 @@ const Betting = () => {
     return multiplier;
   }
 
-  function CutHouseEdge(payout: number) {
-    return payout * (990 / 1000)//get this things from the contract
+  const CutHouseEdge = async (payout: number) => {
+    const HouseEdgeAmount: number = await HouseEdge();
+    const HouseEdgeDivisor: number = await HouseEdgeDiviser();
+
+    if (HouseEdgeAmount || HouseEdgeDivisor) {
+      const finalPayout = payout * (HouseEdgeAmount / HouseEdgeDivisor)//get this things from the contract
+      // const finalPayout = payout * (900 / 1000)//get this things from the contract
+      return finalPayout;
+    }
   }
   const setMaxBet = (multiplier: any) => {
     maxBet = maxProfit / multiplier;
-    console.log('MaxBet', maxBet);
     setOnLoadMax(maxBet);
     setOnLoadMin((10 / 100) * OnLoadMax);
-
     return (maxBet);
   }
 
@@ -663,15 +668,17 @@ const Betting = () => {
     setMaxBet(multiplier);
     calcTempPlayerProfit(multiplier, BetAmount)
 
-  }, [RangeValue, BetAmount, userAddress])
+  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow])
   // function SetMinimumBet(){
   //     // uint contractBalance=address(this).balance;
   //    minBet = (address(this).balance * minBetAspercent)/minBetDivisor;
   // }
-  function calcTempPlayerProfit(multiplier: number, betValue: number) {
+  const calcTempPlayerProfit = async (multiplier: number, betValue: number) => {
     try {
       const returnedAmount: number = (betValue * multiplier);
-      const House: number = CutHouseEdge(returnedAmount);
+      const House: any = await CutHouseEdge(returnedAmount);
+      console.log('log', "betValue", betValue, 'multiplier', multiplier, 'House', House);
+
       const profit: number = House - betValue;
       console.log(' returnedAmount ', returnedAmount);
       console.log(' House', House, 'BetValue', betValue, 'multiplier', multiplier);
@@ -698,7 +705,7 @@ const Betting = () => {
 
   return (
     <BetBox>
-      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{color:'rgba(0, 234, 255, 1)'}}><img src={howtoplay} width='20px' height='15px'/>How to Play</HowToPlay>
+      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{ color: 'rgba(0, 234, 255, 1)' }}><img src={howtoplay} width='20px' height='15px' />How to Play</HowToPlay>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
           <H2 MarginBottom="16px">BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS</H2>
@@ -780,7 +787,7 @@ const Betting = () => {
                 style={{
                   position: "absolute",
                   textAlign: "center",
-                  width: "100px",
+                  width: "120px",
                   background: "rgba(0,0,0,0.3)",
                   top: "-35px",
                   left: `${SliderFollower()}%`,
@@ -841,9 +848,9 @@ const Betting = () => {
               <Flex style={{ width: "40%" }}
                 JustifyContent="center"
               >
-                <P>{evenOddProfit}%</P>
+                <P>{evenOddProfit}x</P>
                 <div style={{ position: "relative" }}>
-                  <img src={QuestionMark} alt="help"
+                  <img src={HelpIcon} alt="help"
                     onMouseOver={() => setShowToolTip1(true)}
                     onMouseOut={() => setShowToolTip1(false)}
                   />
@@ -874,9 +881,9 @@ const Betting = () => {
               <Flex style={{ width: "40%" }}
                 JustifyContent="center"
               >
-                <P>{rangeProfit}%</P>
+                <P>{rangeProfit}x</P>
                 <div style={{ position: "relative" }}>
-                  <img src={QuestionMark} alt="help"
+                  <img src={HelpIcon} alt="help"
                     onMouseOver={() => setShowToolTip2(true)}
                     onMouseOut={() => setShowToolTip2(false)}
                   />
@@ -956,19 +963,19 @@ const Betting = () => {
       />
 
       <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />
-       <CustomModal
-                show={showHowToPlay}
-                heading="HOW TO PLAY"
-                toggleModal={() => setshowHowToPlay(false)}
-            ><H2 style={{marginTop:'30px',fontSize:'14px',padding:'20px'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.</H2>
+      <CustomModal
+        show={showHowToPlay}
+        heading="HOW TO PLAY"
+        toggleModal={() => setshowHowToPlay(false)}
+      ><H2 style={{ marginTop: '30px', fontSize: '14px', padding: '20px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.</H2>
       </CustomModal>
       <CustomModal
-                show={showDisclaimer}
-                heading="DISCLAIMER"
-                toggleModal={() => setshowDisclaimer(false)}
+        show={showDisclaimer}
+        heading="DISCLAIMER"
+        toggleModal={() => setshowDisclaimer(false)}
       ><H2 style={{ marginTop: '20px', fontSize: '14px', padding: '10px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque </H2>
         <PrimaryButton onCLick={() => setshowDisclaimer(false)}>AGREE</PrimaryButton>
-            </CustomModal>
+      </CustomModal>
     </BetBox>
   );
 };
