@@ -129,6 +129,13 @@ margin-top: 30px;
 min-width: 100px;
 padding-bottom:30px;
 `
+export const Report = styled.div`
+position:absolute;
+right:-45px;
+top:50%;
+transform:translatey(-50%);
+cursor:pointer;
+`
 
 
 export const OthersMsgIcon = styled.img`

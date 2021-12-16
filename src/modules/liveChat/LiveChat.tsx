@@ -38,7 +38,8 @@ import {
     Emojisdiv,
     OthersMsgIcon,
     OtherMsgAddress,
-    Time
+    Time,
+    Report
 } from './style'
 import threedot from '../../assets/images/threedot.svg';
 import historyicon from '../../assets/icons/history.svg';
@@ -61,6 +62,8 @@ const LiveChat = (props: any) => {
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("")
     const [userTyping, setUserTyping] = useState(false)
     const [AlertModalState, setAlertModalState] = useState(false)
+    const [AlertModaltext, setAlertModaltext] = useState("");
+    const [UserBlockedOrNot, setUserBlockedOrNot] = useState(false);
 
     const BASE_URL = 'https://diceroll.rapidinnovation.tech/api/message'
     const socket = io('wss://diceroll.rapidinnovation.tech');
@@ -128,6 +131,12 @@ const LiveChat = (props: any) => {
     }, [])
 
     const sendTOAPI = async () => {
+        if (UserBlockedOrNot) {
+                setAlertModaltext('You Have Been Blocked From Global Chat')
+            setAlertModalState(true);
+            return;
+                
+            }
         setUserTyping(false)
         var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
         var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
@@ -138,9 +147,10 @@ const LiveChat = (props: any) => {
         const walletConnectOrNot = localStorage.getItem("walletConnected");
         if (inputMessage.trim() === "" || walletConnectOrNot !== 'true') {
             if (walletConnectOrNot !== 'true') {
+                setAlertModaltext('Connect wallet to send messages to Global chat')
                 setAlertModalState(true);
                
-            }
+            } 
             return;
         }
         const data: any =
@@ -177,10 +187,47 @@ const LiveChat = (props: any) => {
             sendTOAPI();
         }
     }
+    useEffect(async () => {
+        //@ts-ignore
+        const address = JSON.parse(localStorage.getItem("address"));
+        if (address !== null) {
+            const axiosInstance = axios.create({
+            baseURL: "https://diceroll.rapidinnovation.tech/pool",
+        });
+        
+        await axiosInstance.get(`/allBlockUser/${address}`).then(function (response) {
+            //@ts-ignore
+            const counter = response.data.result.counter;
+            if (counter > 4) {
+                setUserBlockedOrNot(true)
+            }
+    })
+        }
+        
+    }, [])
 
-    const handleInputMessage = (e: any) => {
+    const handleInputMessage = async (e: any) => {
+        
         const { value } = e.target
         setInputMessage(value)
+    }
+
+
+    const HandleReport = async(address:string) => {
+         const axiosInstance = axios.create({
+            baseURL: "https://diceroll.rapidinnovation.tech/pool",
+        });
+        await axiosInstance.post('/blockUser', {
+    "publicAddress": address
+    })
+    .then(function (response) {
+        console.log(response.status);
+        if (response.status === 200) {
+            setAlertModaltext('You have reported this user successfully we will take a look into it')
+            setAlertModalState(true);
+        }
+    })
+
     }
 
     const renderChat = () => {
@@ -196,7 +243,9 @@ const LiveChat = (props: any) => {
                     <OthersMsgIcon src={ChatProfile} alt="" />
                     <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
                     {m.content}
-                    <Time>{m.time.substring(11,16)}</Time>
+                    <Time>{m.time.substring(11, 16)}</Time>
+                    <Report onClick={(e) => HandleReport(m.username)}>Report</Report>   
+                    
                 </Messagediv>
 
 
@@ -279,11 +328,9 @@ const LiveChat = (props: any) => {
                                 onChange={handleInputMessage}
                                 onKeyDown={handleKeyDown}
                                 value={inputMessage}
+                                
                                 //@ts-ignore
                                 ref={inputRef}
-                                onKeyPress={handleKeyPress}
-                                onKeyUp={handleKeyUp}
-
                                 style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
                             <EmojiButton onClick={handleShowEmojis}></EmojiButton>
                             {
@@ -376,7 +423,7 @@ const LiveChat = (props: any) => {
 
                     />
                 </PopupModal>
-                <Alertmsg show={AlertModalState} toggleModal={() => Closealert()} alertText="Connect Wallet to Send Message" />
+                <Alertmsg show={AlertModalState} toggleModal={() => Closealert()} alertText={AlertModaltext} />
             </>
         </GlobalChatSection >
     )

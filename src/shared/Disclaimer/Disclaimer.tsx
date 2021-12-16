@@ -2,9 +2,11 @@ import { PrimaryButton } from 'shared/button/Button';
 import { CheckCont, DisclaimerCont } from './style';
 import { ModelHead, ModalBody, ModalContent, Close } from 'shared/custom-modal/style';
 import Cross from 'assets/icons/Cross.svg';
+import { useEffect,useState } from 'react';
 
 
 const Disclaimer = (props: any) => {
+    const [AgreedTerms, setAgreedTerms] = useState<Boolean>(false);
     const { show, toggleModal } =
         props;
 
@@ -19,7 +21,6 @@ const Disclaimer = (props: any) => {
             return true;
         }
     }
-    console.log(CheckedOrNot())
 
     const SetLocalShowDisclaimer = () => {
         const localChecked = localStorage.getItem("ShowDisclaimer")
@@ -29,6 +30,19 @@ const Disclaimer = (props: any) => {
             localStorage.setItem("ShowDisclaimer", 'false')
         }
     }
+
+    const setAgree = () => {
+        toggleModal(!show);
+        localStorage.setItem("AgreeTerms", "true")
+
+    }
+   
+
+    useEffect( () => {
+        //@ts-ignore
+        const localAgreedTerms:Boolean = JSON.parse(localStorage.getItem('AgreeTerms'))
+        setAgreedTerms(localAgreedTerms);
+    }, [])
 
 
     return (
@@ -51,7 +65,13 @@ const Disclaimer = (props: any) => {
                         <li> Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.</li>
                         <li>Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.            </li>
                     </ul>
-                    <PrimaryButton onClick={() => toggleModal(!show)}>AGREE</PrimaryButton>
+                    {
+
+                    }
+                    {
+                        AgreedTerms ? '' : <PrimaryButton onClick={() => setAgree()}>AGREE</PrimaryButton>
+                    }
+                    
                     <p style={{ marginTop: '10px', color: 'white', fontSize: '14px', textAlign: 'right' }}>Please read the disclaimer to proceed</p>
 
                     <CheckCont>
