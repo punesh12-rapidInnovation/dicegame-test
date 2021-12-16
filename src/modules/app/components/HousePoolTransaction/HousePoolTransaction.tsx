@@ -4,6 +4,7 @@ import { usePagination, useTable } from 'react-table';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { DataContainer, PaginationCont, TABLE, TableStyles, TD, THead, TBody, TR, TimerWrapper } from './style';
 import axios from 'axios';
+import { convertToEther, dateFromTimestamp, timeFromTimestamp } from 'utils/helper';
 
 
 const HousePoolTransaction = () => {
@@ -122,7 +123,7 @@ const HousePoolTransaction = () => {
                                     return (
                                         <TR className="table-row" {...row.getRowProps()}>
                                             {row.cells.map((cell: any) => {
-
+                                                
                                                 // else
                                                 if (cell.column.id === 'locked') return <td {...cell.getCellProps()}>
 
@@ -145,6 +146,11 @@ const HousePoolTransaction = () => {
 
                                                     {/* {cell.value} */}
                                                 </td>
+
+                                                if(cell.column.Header==="TOTAL VALUE") return <TD {...cell.getCellProps()}>{parseFloat(convertToEther(cell.value))} PLS</TD>
+                                                if(cell.column.Header==="ACCOUNT") return <TD {...cell.getCellProps()}>{cell.value.slice(0,4)}...{cell.value.slice(-4)}</TD>
+                                                if(cell.column.Header==="TIME") return <TD {...cell.getCellProps()}>{dateFromTimestamp(cell.value*1000)} {timeFromTimestamp(cell.value*1000)}</TD>
+
                                                 return <TD {...cell.getCellProps()}>{cell.render('Cell')}</TD>
                                             })}
                                         </TR>

@@ -3,6 +3,7 @@ import { PrimaryButton } from 'shared/button/Button';
 import { FlexCont, H1, HousePoolCont, Input, InputCont } from './style';
 
 import pulseIcon from "assets/icons/pulseIcon.svg";
+import downCarotIcon from 'assets/icons/downCarot.svg'
 import { floatNumRegex } from 'shared/helpers/regrexConstants';
 import { instanceType, selectInstances } from 'utils/contracts';
 import { convertToEther, convertToWei } from 'utils/helper';
@@ -12,7 +13,7 @@ const HousePoolWithdrawModal = (props: any) => {
     const [withdrawAmount, setWithdrawAmount] = useState('')
     const [depositList, setDepositList] = useState<any>([]);
     const [showDepositList, setShowDepositList] = useState(false)
-    const [depositSelected, setDepositSelected] = useState({presentBalance:0.00,Balance:0.00,index:0})
+    const [depositSelected, setDepositSelected] = useState({presentBalance:0.00,Balance:0.00,pendingRewards:0.00,index:0})
 
 
     useEffect(() => {
@@ -52,7 +53,7 @@ const HousePoolWithdrawModal = (props: any) => {
                     const pendingRewards = await Promise.all(promiseArray);
                     console.log("PendingRewards",pendingRewards);
                     
-                    setDepositList(depositsArray.map((item:object,i:number) => ({...item, presentBalance: mypresentBalances[i], index:i})))
+                    setDepositList(depositsArray.map((item:object,i:number) => ({...item, presentBalance: mypresentBalances[i], pendingRewards:pendingRewards[i], index:i})))
                 }
             } catch (error) {
                 console.log(error);
@@ -124,24 +125,27 @@ const HousePoolWithdrawModal = (props: any) => {
             }}
             onClick={() => setShowDepositList(!showDepositList)}
             >
-                <div style={{display:"flex",justifyContent:"space-between"}} 
-                >
+                
+                <div style={{display:"flex",justifyContent:"flex-end",marginBottom:"10px"}}>
+                    <p>Total Balance: {depositSelected.Balance && parseFloat(convertToEther(depositSelected.Balance))}</p>
+                </div>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                    {
-                   depositSelected.Balance ? 
+                   Object.values(depositSelected).filter(x => x).length ? 
                    <div style={{display:"flex",alignItems:"center"}}>
-                     <img  style={{marginRight:"10px"}} src={pulseIcon} alt="" /><span>{convertToEther(depositSelected.Balance)}</span>
+                     <img  style={{marginRight:"10px"}} src={pulseIcon} alt="" /><span>Deposit {depositSelected.index + 1}</span>
                    </div>
                    : 
-                   <span> Select A Deposit</span>
+                   <div> Select A Deposit</div>
                    }
-                   <span style={{transform: 'rotateZ(90deg)'}}> {'>'} </span>
+                   <div> Deposits <img src={downCarotIcon} /> </div>
                 </div>
 
                 {showDepositList && 
-                <div style={{background: '#fff', color:"#000",position:"absolute",
+                <div style={{background: '#fff', color:"#000",position:"absolute", zIndex:"9",
                 borderRadius:"10px",
                 width: '100%',
-                top: '50px',
+                top: '80px',
                 transform: 'translateX(-4%)',
                 }}>
                     { depositList.map((item:any,i:number) => 
@@ -156,14 +160,14 @@ const HousePoolWithdrawModal = (props: any) => {
                     )}
                 </div>}
             </div>
-            <InputCont>
+            <InputCont isDisabled={!Object.values(depositSelected).filter(x => x).length}>
                 <FlexCont
                     flexDirection="row"
                     justifyContent="space-between"
                     alignItems="center"
                 >
                     <p>Input</p>
-                    <p>Balance: {depositSelected.presentBalance && convertToEther(depositSelected.presentBalance)}</p>
+                    <p>Balance With Loss: {depositSelected.presentBalance ? parseFloat(convertToEther(depositSelected.presentBalance)): 0.00}</p>
                 </FlexCont>
                 <FlexCont
                     flexDirection="row"
@@ -187,6 +191,7 @@ const HousePoolWithdrawModal = (props: any) => {
                     > MAX</span>  <img src={pulseIcon} alt="" /> PLS</FlexCont>
                 </FlexCont>
             </InputCont>
+            {/* <div>pendingRewards: { convertToEther(depositSelected.pendingRewards)}</div> */}
             <PrimaryButton onClick={handleWithdraw}>Withdraw</PrimaryButton>
         </HousePoolCont >
     );
