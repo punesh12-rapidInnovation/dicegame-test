@@ -57,7 +57,9 @@ const ResultsModal = (props: any) => {
                 <TD>GAIN/LOSS</TD>
               </TR>
 
-              {NoResultMessage()}
+              <TR>
+                <TD>{NoResultMessage()}</TD>
+              </TR>
 
               {LastRolls.slice(0, 10).map((Roll: any, index: any) => (
                 <TR key={"k" + index}>

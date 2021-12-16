@@ -818,9 +818,11 @@ const Betting = () => {
                     onMouseOver={() => setShowToolTip1(true)}
                     onMouseOut={() => setShowToolTip1(false)}
                   />
-                  <ToolTipCont display={showToolTip1}>
-                    <p>Additional Profit(in %)</p>
-                  </ToolTipCont>
+                  {showToolTip1 && (
+                    <ToolTipCont>
+                      <p>Additional Profit(in %)</p>
+                    </ToolTipCont>
+                  )}
                 </div>
               </Flex>
             </Flex>
@@ -848,9 +850,11 @@ const Betting = () => {
                     onMouseOver={() => setShowToolTip2(true)}
                     onMouseOut={() => setShowToolTip2(false)}
                   />
-                  <ToolTipCont display={showToolTip2}>
-                    <p>Additional Profit(in %)</p>
-                  </ToolTipCont>
+                  {showToolTip1 && (
+                    <ToolTipCont>
+                      <p>Additional Profit(in %)</p>
+                    </ToolTipCont>
+                  )}
                 </div>
               </Flex>
             </Flex>

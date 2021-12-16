@@ -543,8 +543,8 @@ min-width:50%;
 text-align:right;
 `
 
-export const ToolTipCont = styled.div<any>`
-display: ${(props) => (props.display ? 'block' : "none")};
+export const ToolTipCont = styled.div`
+display: block;
 position:absolute;
 top:-30%;
 left:100%;
