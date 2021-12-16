@@ -23,13 +23,16 @@ background: linear-gradient(
 -webkit-background-clip: text;
 `
 
-export const InputCont = styled.div`
+export const InputCont = styled.div<any>`
 width:100%;
 height:90px;
 background: #2A1966;
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7;
 border-radius: 20px;
 margin:8% 0 ;
+
+opacity:${(props:any) => (props.isDisabled ? '0.4' : 1)};
+pointer-events:${(props:any) => (props.isDisabled ? 'none' : 'unset')};
 `
 export const FlexCont = styled.div<any>`
 display:flex;

@@ -62,7 +62,8 @@ export const RangeSliderInput = styled.input<any>`
     height: 12px;
     border-radius: 10px;
     border: none;
-    outline: none;
+    outline: 10px solid #19072e ;
+
 }
   &::-moz-range-progress {
     width: 100%;

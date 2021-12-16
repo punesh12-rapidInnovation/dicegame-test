@@ -49,36 +49,40 @@ const ResultsModal = (props: any) => {
 
         <TableBox style={{ height: "85%", width: "95%" }}>
           <table style={{ width: "100%" }}>
-            <TR style={{ height: "30px" }}>
-              <TD style={{ textAlign: "left" }}># DATE AND TIME</TD>
-              <TD>BET AMOUNT</TD>
-              <TD>MIN CHANCE</TD>
-              <TD>GAIN/LOSS</TD>
-            </TR>
-
-            {NoResultMessage()}
-
-            {LastRolls.slice(0, 10).map((Roll: any, index: any) => (
-              <TR key={"k" + index}>
-                <TD style={{ textAlign: "left" }}>
-                  #{index + 1} - {Roll.Date}
-                </TD>
-                <TD>{Roll.BetAmount}</TD>
-                <TD>{Roll.Playernumber - 1}%</TD>
-                {Roll.Status === "1" ? (
-                  <TD>
-                  {" "}
-                  <img src={Winicon} style={{ marginRight: "5px" }} />
-                  {(convertToEther(Roll.Value) - Roll.BetAmount).toFixed(5)}
-                </TD>
-              ) : (
-                <TD>
-                  <img src={Lossicon} style={{ marginRight: "5px" }} />
-                  {convertToEther(Roll.Value).substring(0, 7)}
-                </TD>
-                )}
+            <tbody>
+              <TR style={{ height: "30px" }}>
+                <TD style={{ textAlign: "left" }}># DATE AND TIME</TD>
+                <TD>BET AMOUNT</TD>
+                <TD>MIN CHANCE</TD>
+                <TD>GAIN/LOSS</TD>
               </TR>
-            ))}
+
+              <TR>
+                <TD>{NoResultMessage()}</TD>
+              </TR>
+
+              {LastRolls.slice(0, 10).map((Roll: any, index: any) => (
+                <TR key={"k" + index}>
+                  <TD style={{ textAlign: "left" }}>
+                    #{index + 1} - {Roll.Date}
+                  </TD>
+                  <TD>{Roll.BetAmount}</TD>
+                  <TD>{Roll.Playernumber - 1}%</TD>
+                  {Roll.Status === "1" ? (
+                    <TD>
+                      {" "}
+                      <img src={Winicon} style={{ marginRight: "5px" }} />
+                      {(convertToEther(Roll.Value) - Roll.BetAmount).toFixed(5)}
+                    </TD>
+                  ) : (
+                    <TD>
+                      <img src={Lossicon} style={{ marginRight: "5px" }} />
+                      {convertToEther(Roll.Value).substring(0, 7)}
+                    </TD>
+                  )}
+                </TR>
+              ))}
+            </tbody>
           </table>
         </TableBox>
       </Box>
