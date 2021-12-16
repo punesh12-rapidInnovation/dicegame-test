@@ -46,6 +46,9 @@ const Header = () => {
                 localStorage.setItem("address", JSON.stringify(accounts[0]));
                 setWalletAddress(accounts[0])
                 dispatch(Login(accounts[0]));
+
+                if (!accounts.length)
+                    disconnectWallet()
             });
 
             web3.currentProvider.on('chainChanged', (chainId: number) => {
