@@ -295,9 +295,9 @@ const Betting = () => {
 
     const CheckAllowanceStatus = async () => {
       if (userAddress) {
-        // const CheckAllowanceResult = await CheckAllowance(userAddress, BETTING_ADDRESS);
-        // if (CheckAllowanceResult >= 1) setUserAllowance(true);
-        // else setUserAllowance(false);
+        const CheckAllowanceResult = await CheckAllowance(userAddress, BETTING_ADDRESS);
+        if (CheckAllowanceResult >= 1) setUserAllowance(true);
+        else setUserAllowance(false);
       }
     };
 
