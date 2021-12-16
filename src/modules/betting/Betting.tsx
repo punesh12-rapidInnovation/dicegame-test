@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import web3 from "../../utils/web3";
 import { io } from "socket.io-client";
 import "./Checkbox.css";
+import Disclaimer from "shared/Disclaimer/Disclaimer";
 import {
   BetBox,
   BetMiddle,
@@ -39,9 +40,10 @@ import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
 import Alertmsg from "./modals/Alertmsg";
 import Sliderthumb from "assets/icons/sliderthumb.svg";
-import QuestionMark from "assets/icons/questionMark.svg";
+import HelpIcon from "assets/icons/helpIcon.svg";
 import howtoplay from '../../assets/icons/HowToPlay.svg';
 import CustomModal from "shared/custom-modal";
+import { CheckCont } from "shared/Disclaimer/style";
 
 
 const Betting = () => {
@@ -80,7 +82,8 @@ const Betting = () => {
   const [rangeProfit, setRangeProfit] = useState(0)
   const [Numbers, setNumbers] = useState(['0-0']);
   const [showHowToPlay, setshowHowToPlay] = useState(false);
-  const [showDisclaimer, setshowDisclaimer] = useState(true);
+  const [showDisclaimer, setshowDisclaimer] = useState(false);
+  const [disableButton, setDisableButton] = useState(false)
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -96,6 +99,16 @@ const Betting = () => {
   }, []);
 
   //@ts-ignore
+  useEffect(() => {
+    const localChecked = localStorage.getItem("ShowDisclaimer")
+    if (localChecked === null || localChecked === 'false') {
+      setshowDisclaimer(true)
+    } else {
+      setshowDisclaimer(false)
+    }
+
+  }, [])
+
   useEffect(() => {
     let Address: any;
     const getBalance = async () => {
@@ -295,14 +308,16 @@ const Betting = () => {
 
   //#region Handle
   const HandleAllowance = async () => {
-    if (userAddress) {
-      //create instance of an abi to call any blockChain function
-      const lpInstance = await selectInstances(
-        instanceType.ERC20TOKEN, // type of instance
-        LINK_TOKEN_ADDRESS //contract address
-      );
+    setDisableButton(true)
 
-      if (true) {
+    try {
+      if (userAddress) {
+        //create instance of an abi to call any blockChain function
+        const lpInstance = await selectInstances(
+          instanceType.ERC20TOKEN, // type of instance
+          LINK_TOKEN_ADDRESS //contract address
+        );
+
         const approvalAmount = ethers.constants.MaxUint256; //  Infinite number
         await lpInstance.methods
           .approve(BETTING_ADDRESS, approvalAmount)
@@ -311,11 +326,17 @@ const Betting = () => {
           })
           .once("confirmation", function (receipt: any) {
             setUserAllowance(true);
+            setDisableButton(false)
           });
+
+      } else {
+        setAlertText("Connect Wallet To Place Bet");
+        setAlertModalState(true);
+        setDisableButton(false)
       }
-    } else {
-      setAlertText("Connect Wallet To Place Bet");
-      setAlertModalState(true);
+
+    } catch (error) {
+      setDisableButton(false)
     }
   };
 
@@ -623,8 +644,8 @@ const Betting = () => {
 
 
   // new approcah for betting -start
-  const maxProfit = 0.004;
-  var maxBet;
+  // const maxProfit = 0.004;
+  // var maxBet;
 
   const Multiplier = (RangeValue: number, isRangeTrue: boolean, _OddEvenStatus: number, rangeLow: number, rangeHigh: number) => {
     const totalChances: number = 99;
@@ -636,26 +657,34 @@ const Betting = () => {
     else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
       multiplier = multiplier + (rollUnder / (rollUnder / 2));//The multiplier has fixed as 2
     }
-    if (isRangeTrue == true) {
+    if (isRangeTrue === true) {
       multiplier += 2;
       // multiplier = multiplier + (toalChanges/(rangeHigh-rangeLow));//Want to Fix the multiplier
     }
-    console.log(' Multiplier ', multiplier);
     return multiplier;
   }
 
-  function CutHouseEdge(payout: number) {
-    return payout * (990 / 1000)//get this things from the contract
-  }
-  const setMaxBet = (multiplier: any) => {
-    maxBet = maxProfit / multiplier;
-    console.log('MaxBet', maxBet);
-    setOnLoadMax(maxBet);
-    setOnLoadMin((10 / 100) * OnLoadMax);
+  const CutHouseEdge = async (payout: number) => {
+    const HouseEdgeAmount: number = await HouseEdge();
+    const HouseEdgeDivisor: number = await HouseEdgeDiviser();
 
-    return (maxBet);
+    if (HouseEdgeAmount || HouseEdgeDivisor) {
+      const finalPayout = payout * (HouseEdgeAmount / HouseEdgeDivisor)//get this things from the contract
+      // const finalPayout = payout * (900 / 1000)//get this things from the contract
+      return finalPayout;
+    }
   }
+  const setMaxBet = async (multiplier: any) => {
+    const HOUSEPOOL_INSTANCE = await selectInstances(instanceType.HOUSEPOOL);
+    const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
 
+    if (maxProfit) {
+      const maxBet = convertToEther(maxProfit) / multiplier;
+      setOnLoadMax(maxBet);
+      setOnLoadMin((10 / 100) * maxBet);
+      return (maxBet);
+    }
+  }
 
   useEffect(() => {
     const multiplier = Multiplier(RangeValue, rangeLow > 0 && rangeHigh > 0, evenOddProfit, rangeLow, rangeHigh)
@@ -663,22 +692,19 @@ const Betting = () => {
     setMaxBet(multiplier);
     calcTempPlayerProfit(multiplier, BetAmount)
 
-  }, [RangeValue, BetAmount, userAddress])
+  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow])
+
   // function SetMinimumBet(){
   //     // uint contractBalance=address(this).balance;
   //    minBet = (address(this).balance * minBetAspercent)/minBetDivisor;
   // }
-  function calcTempPlayerProfit(multiplier: number, betValue: number) {
+  const calcTempPlayerProfit = async (multiplier: number, betValue: number) => {
     try {
       const returnedAmount: number = (betValue * multiplier);
-      const House: number = CutHouseEdge(returnedAmount);
+      const House: any = await CutHouseEdge(returnedAmount);
       const profit: number = House - betValue;
-      console.log(' returnedAmount ', returnedAmount);
-      console.log(' House', House, 'BetValue', betValue, 'multiplier', multiplier);
 
       const finalProfit = convertToWei(profit.toFixed(18).toString())
-
-      console.log('finalProfit', finalProfit, finalProfit - 1);
 
       if (finalProfit === '0') {
         setProfit(0);
@@ -698,7 +724,7 @@ const Betting = () => {
 
   return (
     <BetBox>
-      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{color:'rgba(0, 234, 255, 1)'}}><img src={howtoplay} width='20px' height='15px'/>How to Play</HowToPlay>
+      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{ color: 'rgba(0, 234, 255, 1)' }}><img src={howtoplay} width='20px' height='15px' />How to Play</HowToPlay>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
           <H2 MarginBottom="16px">BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS</H2>
@@ -780,7 +806,7 @@ const Betting = () => {
                 style={{
                   position: "absolute",
                   textAlign: "center",
-                  width: "100px",
+                  width: "120px",
                   background: "rgba(0,0,0,0.3)",
                   top: "-35px",
                   left: `${SliderFollower()}%`,
@@ -841,9 +867,9 @@ const Betting = () => {
               <Flex style={{ width: "40%" }}
                 JustifyContent="center"
               >
-                <P>{evenOddProfit}%</P>
+                <P>{evenOddProfit}x</P>
                 <div style={{ position: "relative" }}>
-                  <img src={QuestionMark} alt="help"
+                  <img src={HelpIcon} alt="help"
                     onMouseOver={() => setShowToolTip1(true)}
                     onMouseOut={() => setShowToolTip1(false)}
                   />
@@ -874,9 +900,9 @@ const Betting = () => {
               <Flex style={{ width: "40%" }}
                 JustifyContent="center"
               >
-                <P>{rangeProfit}%</P>
+                <P>{rangeProfit}x</P>
                 <div style={{ position: "relative" }}>
-                  <img src={QuestionMark} alt="help"
+                  <img src={HelpIcon} alt="help"
                     onMouseOver={() => setShowToolTip2(true)}
                     onMouseOut={() => setShowToolTip2(false)}
                   />
@@ -905,7 +931,7 @@ const Betting = () => {
             {ButtonText()}
           </PrimaryButton>
         ) : (
-          <PrimaryButton onClick={HandleAllowance}>Approve</PrimaryButton>
+          <PrimaryButton onClick={HandleAllowance} disabled={disableButton}>Approve</PrimaryButton>
         )}
       </BetBottom>
 
@@ -956,19 +982,13 @@ const Betting = () => {
       />
 
       <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />
-       <CustomModal
-                show={showHowToPlay}
-                heading="HOW TO PLAY"
-                toggleModal={() => setshowHowToPlay(false)}
-            ><H2 style={{marginTop:'30px',fontSize:'14px',padding:'20px'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.</H2>
-      </CustomModal>
       <CustomModal
-                show={showDisclaimer}
-                heading="DISCLAIMER"
-                toggleModal={() => setshowDisclaimer(false)}
-      ><H2 style={{ marginTop: '20px', fontSize: '14px', padding: '10px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque </H2>
-        <PrimaryButton onCLick={() => setshowDisclaimer(false)}>AGREE</PrimaryButton>
-            </CustomModal>
+        show={showHowToPlay}
+        heading="HOW TO PLAY"
+        toggleModal={() => setshowHowToPlay(false)}
+      ><h3 style={{ marginTop: '30px', color: 'white', fontSize: '12px', margin: '40px 0px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.<br /><br />Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.<br /><br />Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.<br /><br />Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.</h3>
+      </CustomModal>
+      <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
     </BetBox>
   );
 };

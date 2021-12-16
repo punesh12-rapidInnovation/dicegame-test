@@ -6,6 +6,7 @@ import LastRolls from 'modules/LastRolls/LastRolls';
 import Emojis from './EmojiComponent/Emojis';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import ChatProfile from '../../assets/icons/ChatProfileIcon.svg';
+import Alertmsg from 'modules/betting/modals/Alertmsg';
 
 import {
     GlobalChatSection,
@@ -59,6 +60,7 @@ const LiveChat = (props: any) => {
     const [hoverLiquidityChartValue, setHoverLiquidityChartValue] = React.useState<any>("")
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("")
     const [userTyping, setUserTyping] = useState(false)
+    const [AlertModalState, setAlertModalState] = useState(false)
 
     const BASE_URL = 'https://diceroll.rapidinnovation.tech/api/message'
     const socket = io('wss://diceroll.rapidinnovation.tech');
@@ -136,7 +138,8 @@ const LiveChat = (props: any) => {
         const walletConnectOrNot = localStorage.getItem("walletConnected");
         if (inputMessage.trim() === "" || walletConnectOrNot !== 'true') {
             if (walletConnectOrNot !== 'true') {
-                window.alert('connectWallettoSendMessage');
+                setAlertModalState(true);
+               
             }
             return;
         }
@@ -227,6 +230,9 @@ const LiveChat = (props: any) => {
         // socket.broadcast.emit('typing', userAddress);
 
     }
+    const Closealert = () => {
+    setAlertModalState(false);
+  };
 
     const handleKeyUp = (e: any) => {
         socket.emit('typing', 'stop')
@@ -287,7 +293,7 @@ const LiveChat = (props: any) => {
                                 </Emojisdiv>
                             }
                             <Button
-                                onClick={() => { sendTOAPI() }}
+                                onClick={() => sendTOAPI() }
                                 disabled={userAddress === '' || userAddress === null || inputMessage === ''}
 
                             >
@@ -370,6 +376,7 @@ const LiveChat = (props: any) => {
 
                     />
                 </PopupModal>
+                <Alertmsg show={AlertModalState} toggleModal={() => Closealert()} alertText="Connect Wallet to Send Message" />
             </>
         </GlobalChatSection >
     )

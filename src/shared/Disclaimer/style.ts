@@ -4,19 +4,20 @@ import styled from "styled-components";
 
 
 export const DisclaimerCont = styled.div<any>`
-display: -webkit-box;
-display: -ms-flexbox;
-display: flex;
+display:-webkit-box;
+display:-ms-flexbox;
+display:flex;
 -webkit-box-orient: vertical;
 -webkit-box-direction: normal;
 -ms-flex-direction: column;
-        flex-direction: column;
-font-family:AvenirLTStd;
+flex-direction: column;
+font-family: AvenirLTStd;
 color:${colors.white};
 
-ul, li {
+ul,li {
     font-size:14px;
     list-style:none;
+    font-family: AvenirLTStd;
 }
 ul{
     margin:30px 0;
@@ -31,6 +32,7 @@ p{
     text-align:right;
     margin:5px 0;
     opacity:0.8;
+    font-family: AvenirLTStd;
 }
 `
 
@@ -40,7 +42,7 @@ display:-ms-flexbox;
 display:flex;
 -webkit-box-align:center;
 -ms-flex-align:center;
-        align-items:center;
+align-items:center;
 margin-top:20px;
     
 label{
@@ -50,5 +52,4 @@ label{
     margin:5px 0;
     opacity:0.8;
 }
-
 `
