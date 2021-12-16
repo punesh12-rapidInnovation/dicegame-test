@@ -44,6 +44,7 @@ import HelpIcon from "assets/icons/helpIcon.svg";
 import howtoplay from '../../assets/icons/HowToPlay.svg';
 import CustomModal from "shared/custom-modal";
 import { CheckCont } from "shared/Disclaimer/style";
+import RangeSlider from "shared/range-slider/RangeSlider";
 
 
 const Betting = () => {
@@ -789,52 +790,14 @@ const Betting = () => {
           <H2 FontSize="16px" style={{ marginBottom: "40px", marginTop: "30px" }}>
             CHANCE OF WINNING
           </H2>
-          <Flex>
-            <Flex
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                width: "95%",
-                alignSelf: "flex-start",
-                marginTop: "15px",
+          <Flex
+          // style={{ width: "90 %" }}
+          >
+            <RangeSlider value={RangeValue} onChange={RangeValueChanger} HeartBeatSpeed={HeartBeatSpeed} Profit={Profit} />
 
-                position: "relative",
-              }}
-            >
-              <Range type="range" value={RangeValue} onChange={RangeValueChanger}></Range>
-              <div
-                style={{
-                  position: "absolute",
-                  textAlign: "center",
-                  width: "120px",
-                  background: "rgba(0,0,0,0.3)",
-                  top: "-35px",
-                  left: `${SliderFollower()}%`,
-                  transform: "translate(-50%,-50%)",
-                  padding: "6px",
-                  fontSize: "9px",
-                  borderRadius: "22px",
-                  border: "1px solid #EF0896",
-                }}
-              >
-                Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span>,
-                <br />
-                Profit
-                <span style={{ color: colors.primary }}> +{Profit && Number(convertToEther(Profit.toString())).toFixed(10)} PLS</span>
-              </div>
-              <SliderThumb
-                style={{
-                  position: "absolute",
-                  top: "-20px",
-                  left: `${RangeValue - 5}%`,
-                  transform: "translate(-50%,-50%)",
-                }}
-                duration={HeartBeatSpeed}
-              >
-                {" "}
-              </SliderThumb>
-            </Flex>
           </Flex>
+
+
         </FlexColumn>
         <OddEvenDiv style={{ width: "100%" }}>
 
