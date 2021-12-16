@@ -22,8 +22,7 @@ import {
   Option,
   P,
   ToolTipCont,
-  HowToPlay
-
+  HowToPlay,
 } from "./style";
 import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
 import { convertToEther, convertToWei } from "../../utils/helper";
@@ -41,10 +40,10 @@ import LooseModal from "./modals/LooseModal";
 import Alertmsg from "./modals/Alertmsg";
 import Sliderthumb from "assets/icons/sliderthumb.svg";
 import HelpIcon from "assets/icons/helpIcon.svg";
-import howtoplay from '../../assets/icons/HowToPlay.svg';
+import howtoplay from "../../assets/icons/HowToPlay.svg";
 import CustomModal from "shared/custom-modal";
 import { CheckCont } from "shared/Disclaimer/style";
-
+import RangeSlider from "shared/range-slider/RangeSlider";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
@@ -76,14 +75,14 @@ const Betting = () => {
   const [evenOdd, setEvenOdd] = useState(0);
   const [rangeLow, setRangeLow] = useState(0);
   const [rangeHigh, setRangeHigh] = useState(0);
-  const [showToolTip1, setShowToolTip1] = useState(false)
-  const [showToolTip2, setShowToolTip2] = useState(false)
-  const [evenOddProfit, setEvenOddProfit] = useState(0)
-  const [rangeProfit, setRangeProfit] = useState(0)
-  const [Numbers, setNumbers] = useState(['0-0']);
+  const [showToolTip1, setShowToolTip1] = useState(false);
+  const [showToolTip2, setShowToolTip2] = useState(false);
+  const [evenOddProfit, setEvenOddProfit] = useState(0);
+  const [rangeProfit, setRangeProfit] = useState(0);
+  const [Numbers, setNumbers] = useState(["0-0"]);
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showDisclaimer, setshowDisclaimer] = useState(false);
-  const [disableButton, setDisableButton] = useState(false)
+  const [disableButton, setDisableButton] = useState(false);
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -100,18 +99,17 @@ const Betting = () => {
 
   //@ts-ignore
   useEffect(() => {
-    const localChecked = localStorage.getItem("ShowDisclaimer")
-    if (localChecked === null || localChecked === 'false') {
-      setshowDisclaimer(true)
+    const localChecked = localStorage.getItem("ShowDisclaimer");
+    if (localChecked === null || localChecked === "false") {
+      setshowDisclaimer(true);
     } else {
-      setshowDisclaimer(false)
+      setshowDisclaimer(false);
     }
-
-  }, [])
+  }, []);
 
   useEffect(() => {
-    let Address: any;
     const getBalance = async () => {
+      let Address: any;
       let accounts = await web3.eth.getAccounts();
       Address = accounts[0];
     };
@@ -119,43 +117,49 @@ const Betting = () => {
     getBalance();
 
     const socket = io("wss://diceroll.rapidinnovation.tech");
-    try {
-      socket.on("connection", () => {
-        // Replace event name with connection event name
-        console.log("websocket connected");
-      });
-      socket.on("betevent", (data: any) => {
-        console.log(data);
-        const LocalBetId = localStorage.getItem("PlacingBetId");
-        console.log(LocalBetId);
-        if (LocalBetId === data.BetID) {
-          console.log("ResultObjectupdated");
-          setResultObject({
-            Betid: data.BetID,
-            Diceresult: data.DiceResult,
-            Playeraddress: data.PlayerAddress,
-            Playernumber: data.PlayerNumber,
-            Status: data.Status,
-            Date: new Date().toLocaleString(),
-            Value: data.Value,
-            BetAmount: localStorage.getItem("BetAmount")
-          });
-        } else {
-          console.log(data.BetID)
-        }
-        // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
 
-        // StoringLastRolls();
-        // setShowResultModal(true)
-        // }
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
+    const connect = () => {
+      try {
+        socket.on("connection", () => {
+          // Replace event name with connection event name
+          console.log("websocket connected");
+        });
+        socket.on("betevent", (data: any) => {
+          console.log(data);
+          const LocalBetId = localStorage.getItem("PlacingBetId");
+          console.log(LocalBetId);
+          if (LocalBetId === data.BetID) {
+            console.log("ResultObjectupdated");
+            setResultObject({
+              Betid: data.BetID,
+              Diceresult: data.DiceResult,
+              Playeraddress: data.PlayerAddress,
+              Playernumber: data.PlayerNumber,
+              Status: data.Status,
+              Date: new Date().toLocaleString(),
+              Value: data.Value,
+              BetAmount: localStorage.getItem("BetAmount"),
+            });
+          } else {
+            console.log(data.BetID);
+          }
+          // if (!!ResultObject && userAddress === ResultObject.PlayerAddress) {
 
-    return () => socket.disconnect();
+          // StoringLastRolls();
+          // setShowResultModal(true)
+          // }
+        });
+      } catch (err) {
+        console.log("err", err);
+      }
+    };
 
+    connect();
 
+    const disconnect = () => {
+      socket.disconnect();
+    };
+    return () => disconnect();
   }, []);
 
   window.onbeforeunload = function () {
@@ -168,7 +172,6 @@ const Betting = () => {
     // setBetAmount(convertToEther(MinBet));
 
     setBetAmount((10 / 100) * OnLoadMax);
-
   };
   const SetMaxBetAmount = async () => {
     // const MaxBet = await MaxBetAmount();
@@ -230,7 +233,7 @@ const Betting = () => {
     } else if (PlacingBet) {
       return;
     } else if (BetAmount === 0) {
-      setAlertText("BET AMOUNT CANNOT BE 0")
+      setAlertText("BET AMOUNT CANNOT BE 0");
       setAlertModalState(true);
       return;
     } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
@@ -262,34 +265,30 @@ const Betting = () => {
 
       // setProfit(FinalProfit);
 
-
-      let tempPlayerProfit = (((
-        ((MultipliedBetAmount * (100 - (RangeValue))) /
-          (RangeValue) + MultipliedBetAmount)
-      ) * HouseEdgeAmount) / HouseEdgeDiviserAmount) -
+      let tempPlayerProfit =
+        (((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount) * HouseEdgeAmount) /
+          HouseEdgeDiviserAmount -
         MultipliedBetAmount;
 
       if (evenOdd == 0) {
         tempPlayerProfit = tempPlayerProfit;
-      }
-      else if (evenOdd == 1 || evenOdd == 2) {
-        tempPlayerProfit = tempPlayerProfit + tempPlayerProfit * 10000 / 100000;
+      } else if (evenOdd == 1 || evenOdd == 2) {
+        tempPlayerProfit = tempPlayerProfit + (tempPlayerProfit * 10000) / 100000;
       }
       if (rangeLow > 0 || rangeHigh > 0) {
-        console.log('reach');
+        console.log("reach");
 
         const midNum = (Number(rangeLow) + Number(rangeHigh)) / 2;
 
-        console.log('check', rangeLow, midNum, rangeHigh, rangeLow > midNum, rangeHigh <= midNum);
+        console.log("check", rangeLow, midNum, rangeHigh, rangeLow > midNum, rangeHigh <= midNum);
 
         if (rangeHigh > midNum && rangeLow <= midNum) {
           //tempPlayerProfit = tempPlayerProfit + tempPlayerProfit * 10000 / 100000;
           tempPlayerProfit = tempPlayerProfit + tempPlayerProfit * (2 * (((100 - rangeHigh) * 100) / 100000));
-          console.log('reach1');
-
+          console.log("reach1");
         }
       }
-      const finalProfit = tempPlayerProfit / 1e18
+      const finalProfit = tempPlayerProfit / 1e18;
       // setProfit(finalProfit);
     };
 
@@ -308,7 +307,7 @@ const Betting = () => {
 
   //#region Handle
   const HandleAllowance = async () => {
-    setDisableButton(true)
+    setDisableButton(true);
 
     try {
       if (userAddress) {
@@ -326,17 +325,15 @@ const Betting = () => {
           })
           .once("confirmation", function (receipt: any) {
             setUserAllowance(true);
-            setDisableButton(false)
+            setDisableButton(false);
           });
-
       } else {
         setAlertText("Connect Wallet To Place Bet");
         setAlertModalState(true);
-        setDisableButton(false)
+        setDisableButton(false);
       }
-
     } catch (error) {
-      setDisableButton(false)
+      setDisableButton(false);
     }
   };
 
@@ -439,20 +436,16 @@ const Betting = () => {
       console.log(RollDice);
       return RollDice;
     } catch (error: any) {
-
-      console.log('errr', error)
+      console.log("errr", error);
       if (error.code === 4001) {
         setPlacingBet(false);
-
       } else {
         localStorage.setItem("Loading", "false");
         setPlacingBet(false);
-        console.log(error)
+        console.log(error);
       }
     }
-  }
-
-
+  };
 
   useEffect(() => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
@@ -469,10 +462,10 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
-        localStorage.setItem("BetAmount", '0');
+        localStorage.setItem("BetAmount", "0");
         // setBetAmount(0);
         StoringLastRolls();
-        localStorage.setItem("BetAmount", '0');
+        localStorage.setItem("BetAmount", "0");
       } else if (ResultObject?.Status === "1") {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("Hurray,You Won The Bet");
@@ -485,12 +478,12 @@ const Betting = () => {
         localStorage.setItem("Loading", "false");
         // setBetAmount(0);
         StoringLastRolls();
-        localStorage.setItem("BetAmount", '0');
+        localStorage.setItem("BetAmount", "0");
       } else {
         console.log("unhandled result");
       }
     } else {
-      console.log(ResultObject?.Betid, LocalBetIt)
+      console.log(ResultObject?.Betid, LocalBetIt);
       // console.log(ResultObject?.Playeraddress.toUpperCase());
       // console.log(userAddress.toUpperCase());
     }
@@ -557,123 +550,115 @@ const Betting = () => {
   //     rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
   // }, [RangeValue, loader])
   const handleCheckChange = (value: any, checkNum: Number) => {
-
     if (checkNum === 1 && !checked1) {
       setChecked1(!checked1);
       setChecked2(false);
       setEvenOdd(1);
-    }
-    else if (checkNum === 2 && !checked2) {
+    } else if (checkNum === 2 && !checked2) {
       setChecked2(!checked2);
       setChecked1(false);
       setEvenOdd(2);
-    }
-    else if (checked1) {
+    } else if (checked1) {
       setChecked1(!checked1);
       setEvenOdd(0);
-    }
-    else if (checked2) {
+    } else if (checked2) {
       setChecked2(!checked2);
       setEvenOdd(0);
-    }
-    else
-      setEvenOdd(0);
-
-  }
+    } else setEvenOdd(0);
+  };
 
   useEffect(() => {
-
-    if (evenOdd !== 0)
-      setEvenOddProfit(10)
-    else
-      setEvenOddProfit(0)
+    if (evenOdd !== 0) setEvenOddProfit(10);
+    else setEvenOddProfit(0);
 
     handleRangeProfit(rangeLow, rangeHigh);
-
   }, [evenOdd, rangeLow, rangeHigh]);
-
 
   const handleRangeProfit = (rangeLow: any, rangeHigh: any) => {
     const range: any = `${rangeLow}-${rangeHigh}`;
 
     switch (range) {
-      case '0-10':
+      case "0-10":
         setRangeProfit(20);
         break;
-      case '10-20':
+      case "10-20":
         setRangeProfit(18);
         break;
-      case '20-30':
-        console.log('3');
+      case "20-30":
+        console.log("3");
         setRangeProfit(16);
         break;
-      case '30-40':
+      case "30-40":
         setRangeProfit(14);
         break;
-      case '40-50':
+      case "40-50":
         setRangeProfit(12);
         break;
-      case '50-60':
+      case "50-60":
         setRangeProfit(10);
         break;
-      case '60-70':
+      case "60-70":
         setRangeProfit(8);
         break;
-      case '70-80':
+      case "70-80":
         setRangeProfit(6);
         break;
-      case '80-90':
+      case "80-90":
         setRangeProfit(4);
         break;
-      case '90-100':
+      case "90-100":
         setRangeProfit(2);
         break;
       default:
         setRangeProfit(0);
         break;
     }
-  }
+  };
 
   const handleSelectValue = (e: any) => {
     const value = e.target.value;
-    const first: any = value.split('-')[0];
-    const second: any = value.split('-')[1];
+    const first: any = value.split("-")[0];
+    const second: any = value.split("-")[1];
     setRangeLow(first);
     setRangeHigh(second);
-  }
-
+  };
 
   // new approcah for betting -start
   // const maxProfit = 0.004;
   // var maxBet;
 
-  const Multiplier = (RangeValue: number, isRangeTrue: boolean, _OddEvenStatus: number, rangeLow: number, rangeHigh: number) => {
+  const Multiplier = (
+    RangeValue: number,
+    isRangeTrue: boolean,
+    _OddEvenStatus: number,
+    rangeLow: number,
+    rangeHigh: number
+  ) => {
     const totalChances: number = 99;
     const rollUnder: number = RangeValue;
     let multiplier: number = totalChances / rollUnder;
     if (_OddEvenStatus == 0) {
       multiplier = multiplier;
-    }
-    else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
-      multiplier = multiplier + (rollUnder / (rollUnder / 2));//The multiplier has fixed as 2
+    } else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
+      multiplier = multiplier + rollUnder / (rollUnder / 2); //The multiplier has fixed as 2
     }
     if (isRangeTrue === true) {
       multiplier += 2;
       // multiplier = multiplier + (toalChanges/(rangeHigh-rangeLow));//Want to Fix the multiplier
     }
     return multiplier;
-  }
+  };
 
   const CutHouseEdge = async (payout: number) => {
     const HouseEdgeAmount: number = await HouseEdge();
     const HouseEdgeDivisor: number = await HouseEdgeDiviser();
 
     if (HouseEdgeAmount || HouseEdgeDivisor) {
-      const finalPayout = payout * (HouseEdgeAmount / HouseEdgeDivisor)//get this things from the contract
+      const finalPayout = payout * (HouseEdgeAmount / HouseEdgeDivisor); //get this things from the contract
       // const finalPayout = payout * (900 / 1000)//get this things from the contract
       return finalPayout;
     }
-  }
+  };
   const setMaxBet = async (multiplier: any) => {
     const HOUSEPOOL_INSTANCE = await selectInstances(instanceType.HOUSEPOOL);
     const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
@@ -682,17 +667,22 @@ const Betting = () => {
       const maxBet = convertToEther(maxProfit) / multiplier;
       setOnLoadMax(maxBet);
       setOnLoadMin((10 / 100) * maxBet);
-      return (maxBet);
+      return maxBet;
     }
-  }
+  };
 
   useEffect(() => {
-    const multiplier = Multiplier(RangeValue, rangeLow > 0 && rangeHigh > 0, evenOddProfit, rangeLow, rangeHigh)
+    const multiplier = Multiplier(
+      RangeValue,
+      rangeLow > 0 && rangeHigh > 0,
+      evenOddProfit,
+      rangeLow,
+      rangeHigh
+    );
 
     setMaxBet(multiplier);
-    calcTempPlayerProfit(multiplier, BetAmount)
-
-  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow])
+    calcTempPlayerProfit(multiplier, BetAmount);
+  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow]);
 
   // function SetMinimumBet(){
   //     // uint contractBalance=address(this).balance;
@@ -700,31 +690,32 @@ const Betting = () => {
   // }
   const calcTempPlayerProfit = async (multiplier: number, betValue: number) => {
     try {
-      const returnedAmount: number = (betValue * multiplier);
+      const returnedAmount: number = betValue * multiplier;
       const House: any = await CutHouseEdge(returnedAmount);
       const profit: number = House - betValue;
 
-      const finalProfit = convertToWei(profit.toFixed(18).toString())
+      const finalProfit = convertToWei(profit.toFixed(18).toString());
 
-      if (finalProfit === '0') {
+      if (finalProfit === "0") {
         setProfit(0);
-        return (0);
-      }
-      else {
+        return 0;
+      } else {
         setProfit(finalProfit - 1);
         return finalProfit - 1;
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   // new approcah for betting -end
 
-
   return (
     <BetBox>
-      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{ color: 'rgba(0, 234, 255, 1)' }}><img src={howtoplay} width='20px' height='15px' />How to Play</HowToPlay>
+      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{ color: "rgba(0, 234, 255, 1)" }}>
+        <img src={howtoplay} width="20px" height="15px" />
+        How to Play
+      </HowToPlay>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
           <H2 MarginBottom="16px">BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS</H2>
@@ -789,87 +780,41 @@ const Betting = () => {
           <H2 FontSize="16px" style={{ marginBottom: "40px", marginTop: "30px" }}>
             CHANCE OF WINNING
           </H2>
-          <Flex>
-            <Flex
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                width: "95%",
-                alignSelf: "flex-start",
-                marginTop: "15px",
-
-                position: "relative",
-              }}
-            >
-              <Range type="range" value={RangeValue} onChange={RangeValueChanger}></Range>
-              <div
-                style={{
-                  position: "absolute",
-                  textAlign: "center",
-                  width: "120px",
-                  background: "rgba(0,0,0,0.3)",
-                  top: "-35px",
-                  left: `${SliderFollower()}%`,
-                  transform: "translate(-50%,-50%)",
-                  padding: "6px",
-                  fontSize: "9px",
-                  borderRadius: "22px",
-                  border: "1px solid #EF0896",
-                }}
-              >
-                Roll under <span style={{ color: colors.primary }}>{RangeValue + 1}</span>,
-                <br />
-                Profit
-                <span style={{ color: colors.primary }}> +{Profit && Number(convertToEther(Profit.toString())).toFixed(10)} PLS</span>
-              </div>
-              <SliderThumb
-                style={{
-                  position: "absolute",
-                  top: "-20px",
-                  left: `${RangeValue - 5}%`,
-                  transform: "translate(-50%,-50%)",
-                }}
-                duration={HeartBeatSpeed}
-              >
-                {" "}
-              </SliderThumb>
-            </Flex>
+          <Flex
+          // style={{ width: "90 %" }}
+          >
+            <RangeSlider
+              value={RangeValue}
+              onChange={RangeValueChanger}
+              HeartBeatSpeed={HeartBeatSpeed}
+              Profit={Profit}
+            />
           </Flex>
         </FlexColumn>
         <OddEvenDiv style={{ width: "100%" }}>
-
-
-          <Flex >
+          <Flex>
             <H2>Select</H2>
-            <Flex
-              JustifyContent="center"
-              style={{ width: "60%", alignItems: 'center', paddingLeft: "10px" }}>
+            <Flex JustifyContent="center" style={{ width: "60%", alignItems: "center", paddingLeft: "10px" }}>
               <Flex style={{ justifyContent: "space-between", width: "50%" }}>
                 <label className="container">
                   Odd
-                  <input type="checkbox"
-                    checked={checked1}
-                    onChange={() => handleCheckChange(1, 1)}
-                  />
+                  <input type="checkbox" checked={checked1} onChange={() => handleCheckChange(1, 1)} />
                   <span className="checkmark"></span>
                 </label>
               </Flex>
               <Flex style={{ justifyContent: "space-between", width: "50%" }}>
                 <label className="container">
                   Even
-                  <input type="checkbox"
-                    checked={checked2}
-                    onChange={() => handleCheckChange(2, 2)}
-                  />
+                  <input type="checkbox" checked={checked2} onChange={() => handleCheckChange(2, 2)} />
                   <span className="checkmark"></span>
                 </label>
               </Flex>
-              <Flex style={{ width: "40%" }}
-                JustifyContent="center"
-              >
+              <Flex style={{ width: "40%" }} JustifyContent="center">
                 <P>{evenOddProfit}x</P>
                 <div style={{ position: "relative" }}>
-                  <img src={HelpIcon} alt="help"
+                  <img
+                    src={HelpIcon}
+                    alt="help"
                     onMouseOver={() => setShowToolTip1(true)}
                     onMouseOut={() => setShowToolTip1(false)}
                   />
@@ -883,10 +828,7 @@ const Betting = () => {
           <Flex>
             <H2>Select Range</H2>
             <Flex style={{ width: "60%", justifyContent: "space-between", alignItems: "center" }}>
-              <Select id="rangeFrom" name=""
-                style={{ width: "100%" }}
-                onChange={handleSelectValue}
-              >
+              <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue}>
                 {Numbers.map((data, index) => {
                   return (
                     <Option value={data} key={"rf" + index}>
@@ -897,12 +839,12 @@ const Betting = () => {
                 })}
               </Select>
 
-              <Flex style={{ width: "40%" }}
-                JustifyContent="center"
-              >
+              <Flex style={{ width: "40%" }} JustifyContent="center">
                 <P>{rangeProfit}x</P>
                 <div style={{ position: "relative" }}>
-                  <img src={HelpIcon} alt="help"
+                  <img
+                    src={HelpIcon}
+                    alt="help"
                     onMouseOver={() => setShowToolTip2(true)}
                     onMouseOut={() => setShowToolTip2(false)}
                   />
@@ -911,17 +853,18 @@ const Betting = () => {
                   </ToolTipCont>
                 </div>
               </Flex>
-
             </Flex>
           </Flex>
         </OddEvenDiv>
         <Flex style={{ marginTop: "10px" }}>
           <H2 style={{ fontSize: "18px" }}>Roll Under </H2>
-          <H1 FontSize="48px" color={colors.primary}>{RangeValue + 1}</H1>
+          <H1 FontSize="48px" color={colors.primary}>
+            {RangeValue + 1}
+          </H1>
         </Flex>
         <Flex>
           <H2 style={{ fontSize: "18px" }}>Profit </H2>
-          <H1 color={colors.primary} >+{convertToEther(Profit.toString())} PLS</H1>
+          <H1 color={colors.primary}>+{convertToEther(Profit.toString())} PLS</H1>
         </Flex>
       </BetMiddle>
       <BetBottom>
@@ -931,7 +874,9 @@ const Betting = () => {
             {ButtonText()}
           </PrimaryButton>
         ) : (
-          <PrimaryButton onClick={HandleAllowance} disabled={disableButton}>Approve</PrimaryButton>
+          <PrimaryButton onClick={HandleAllowance} disabled={disableButton}>
+            Approve
+          </PrimaryButton>
         )}
       </BetBottom>
 
@@ -982,11 +927,24 @@ const Betting = () => {
       />
 
       <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />
-      <CustomModal
-        show={showHowToPlay}
-        heading="HOW TO PLAY"
-        toggleModal={() => setshowHowToPlay(false)}
-      ><h3 style={{ marginTop: '30px', color: 'white', fontSize: '12px', margin: '40px 0px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.<br /><br />Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.<br /><br />Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.<br /><br />Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.</h3>
+      <CustomModal show={showHowToPlay} heading="HOW TO PLAY" toggleModal={() => setshowHowToPlay(false)}>
+        <h3 style={{ marginTop: "30px", color: "white", fontSize: "12px", margin: "40px 0px" }}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+          et dolnc non blandit.
+          <br />
+          <br />
+          Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae
+          sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis
+          enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.
+          <br />
+          <br />
+          Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque
+          pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.
+          <br />
+          <br />
+          Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus
+          purus in massa tempor.
+        </h3>
       </CustomModal>
       <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
     </BetBox>

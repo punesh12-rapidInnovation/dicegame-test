@@ -121,7 +121,7 @@ class Wallet {
 					async (accounts: Array<string>) => {
 						if (accounts.length) {
 							address = accounts[0];
-							dispatch(Login(address));
+							dispatch(Login(address.toString()));
 							localStorage.setItem('address', JSON.stringify(address));
 						}
 					}
