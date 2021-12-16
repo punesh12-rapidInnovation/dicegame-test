@@ -273,6 +273,14 @@ const HousePool = () => {
                 <HousePoolModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} />
             </CustomModal>
 
+            <CustomModal
+                show={showWithdrawModal}
+                toggleModal={() => setshowWithdrawModal(false)}
+                heading={"WITHDRAW FUNDS"}
+            >
+                <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} />
+            </CustomModal>
+
             
             <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
          
