@@ -293,7 +293,7 @@ export const H1 = styled.h2<any>`
   font-size: ${(props) => (props.FontSize ? props.FontSize : "18px")};
   color: ${(props) => (props.color ? props.color : colors.white)};
 
-  margin-bottom: 14px;
+  // margin-bottom: 10px;
 `;
 
 export const FlexColumn = styled.div<any>`
@@ -451,8 +451,7 @@ export const SliderThumb = styled.div<any>`
     width: 60px;
     height: 60px;
     cursor: pointer;
-    background: url(${Sliderthumb});
-    
+    background: url(${Sliderthumb});    
     background-repeat: no-repeat;
     background-size: contain;
     animation-name: ${animateHeart};

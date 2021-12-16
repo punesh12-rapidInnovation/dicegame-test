@@ -13,17 +13,18 @@ Width:100%;
 
 export const InfoContainer = styled.div`
 background: url(${landingTop});
-height: 500px;
+/*height: 500px;*/
 width: 100%;
+padding-top:100px;
 background-size: contain;
 background-repeat: no-repeat;
 background-color: #000;
- background-size: cover;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+background-size: cover;
+background-repeat: no-repeat;
+background-position: 50% 50%;
+display: flex;
+justify-content: space-around;
+align-items: center;
 `
 
 export const PoolDetailsContainer = styled.div`
@@ -42,13 +43,13 @@ export const TransactionContainer = styled.div`
 display:flex;
 flex-direction: column;
 justify-content:center;
-align-items:center;
+align-items: flex-start;
 background: url(${tableBackground});
 background-size: cover;
 background-repeat: no-repeat;
 background-color: #000;
 width:100%;
-padding:0 5%;
+padding: 30px 5%;
 `
 
 
@@ -93,8 +94,7 @@ display: flex;
 flex-direction: column;
 align-items: flex-start;
 color:${colors.white};
-width:40%;
-height:30%;
+
 
 p{
     margin:10px 0;
