@@ -83,6 +83,7 @@ const Betting = () => {
   const [Numbers, setNumbers] = useState(['0-0']);
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showDisclaimer, setshowDisclaimer] = useState(false);
+  const [disableButton, setDisableButton] = useState(false)
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -100,12 +101,12 @@ const Betting = () => {
   //@ts-ignore
   useEffect(() => {
     const localChecked = localStorage.getItem("ShowDisclaimer")
-        if (localChecked === null || localChecked === 'false') { 
-            setshowDisclaimer(true)
-        } else {
-            setshowDisclaimer(false)
-        }
-   
+    if (localChecked === null || localChecked === 'false') {
+      setshowDisclaimer(true)
+    } else {
+      setshowDisclaimer(false)
+    }
+
   }, [])
 
   useEffect(() => {
@@ -294,9 +295,9 @@ const Betting = () => {
 
     const CheckAllowanceStatus = async () => {
       if (userAddress) {
-        const CheckAllowanceResult = await CheckAllowance(userAddress, BETTING_ADDRESS);
-        if (CheckAllowanceResult >= 1) setUserAllowance(true);
-        else setUserAllowance(false);
+        // const CheckAllowanceResult = await CheckAllowance(userAddress, BETTING_ADDRESS);
+        // if (CheckAllowanceResult >= 1) setUserAllowance(true);
+        // else setUserAllowance(false);
       }
     };
 
@@ -307,14 +308,16 @@ const Betting = () => {
 
   //#region Handle
   const HandleAllowance = async () => {
-    if (userAddress) {
-      //create instance of an abi to call any blockChain function
-      const lpInstance = await selectInstances(
-        instanceType.ERC20TOKEN, // type of instance
-        LINK_TOKEN_ADDRESS //contract address
-      );
+    setDisableButton(true)
 
-      if (true) {
+    try {
+      if (userAddress) {
+        //create instance of an abi to call any blockChain function
+        const lpInstance = await selectInstances(
+          instanceType.ERC20TOKEN, // type of instance
+          LINK_TOKEN_ADDRESS //contract address
+        );
+
         const approvalAmount = ethers.constants.MaxUint256; //  Infinite number
         await lpInstance.methods
           .approve(BETTING_ADDRESS, approvalAmount)
@@ -323,11 +326,17 @@ const Betting = () => {
           })
           .once("confirmation", function (receipt: any) {
             setUserAllowance(true);
+            setDisableButton(false)
           });
+
+      } else {
+        setAlertText("Connect Wallet To Place Bet");
+        setAlertModalState(true);
+        setDisableButton(false)
       }
-    } else {
-      setAlertText("Connect Wallet To Place Bet");
-      setAlertModalState(true);
+
+    } catch (error) {
+      setDisableButton(false)
     }
   };
 
@@ -922,7 +931,7 @@ const Betting = () => {
             {ButtonText()}
           </PrimaryButton>
         ) : (
-          <PrimaryButton onClick={HandleAllowance}>Approve</PrimaryButton>
+          <PrimaryButton onClick={HandleAllowance} disabled={disableButton}>Approve</PrimaryButton>
         )}
       </BetBottom>
 
@@ -973,13 +982,13 @@ const Betting = () => {
       />
 
       <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />
-       <CustomModal
-                show={showHowToPlay}
-                heading="HOW TO PLAY"
+      <CustomModal
+        show={showHowToPlay}
+        heading="HOW TO PLAY"
         toggleModal={() => setshowHowToPlay(false)}
-      ><h3 style={{ marginTop: '30px',color:'white', fontSize: '12px' ,margin:'40px 0px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.<br /><br/>Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.<br /><br/>Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.<br /><br/>Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.</h3>
+      ><h3 style={{ marginTop: '30px', color: 'white', fontSize: '12px', margin: '40px 0px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolnc non blandit.<br /><br />Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.<br /><br />Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.<br /><br />Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus purus in massa tempor.</h3>
       </CustomModal>
-       <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
+      <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
     </BetBox>
   );
 };
