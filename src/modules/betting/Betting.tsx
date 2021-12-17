@@ -589,17 +589,17 @@ const Betting = () => {
               <TransChance
                 onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 6))}
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(4) : "-"}
+                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(5) : "-"}
               </TransChance>
               <TransChance
                 onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 4))}
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(4) : "-"}
+                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(5) : "-"}
               </TransChance>
               <TransChance
                 onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 2))}
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(4) : "-"}
+                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(5) : "-"}
               </TransChance>
 
               <TransChance onClick={SetMaxBetAmount}>MAX</TransChance>
