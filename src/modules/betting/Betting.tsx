@@ -556,8 +556,10 @@ const Betting = () => {
         setProfit(0);
         return 0;
       } else {
-        setProfit(finalProfit - 1);
-        return finalProfit - 1;
+        // setProfit(finalProfit - 1);
+        // return finalProfit - 1;
+        setProfit(Math.abs(finalProfit));
+        return finalProfit;
       }
     } catch (error) {
       console.log(error);
