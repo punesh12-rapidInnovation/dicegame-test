@@ -408,7 +408,7 @@ const Betting = () => {
 
   const PlaceBet = async (myAccount: string | null, Amount: any, Rollunder: number, evenOdd: number) => {
     //create instance of an abi to call any blockChain function
-    const Ethervalue = web3.utils.toWei(Number(Amount).toFixed(18).toString(), "ether");
+    const Ethervalue = web3.utils.toWei(Number(Amount).toFixed(10).toString(), "ether");
     // const Ethervalue = convertToEther(Amount);
 
     const lpInstance = await selectInstances(
@@ -568,7 +568,7 @@ const Betting = () => {
   };
 
   useEffect(() => {
-    if (evenOdd !== 0) setEvenOddProfit(10);
+    if (evenOdd !== 0) setEvenOddProfit(2);
     else setEvenOddProfit(0);
 
     handleRangeProfit(rangeLow, rangeHigh);
@@ -579,32 +579,32 @@ const Betting = () => {
 
     switch (range) {
       case "0-10":
-        setRangeProfit(20);
+        setRangeProfit(2);
         break;
       case "10-20":
-        setRangeProfit(18);
+        setRangeProfit(2);
         break;
       case "20-30":
         console.log("3");
-        setRangeProfit(16);
+        setRangeProfit(2);
         break;
       case "30-40":
-        setRangeProfit(14);
+        setRangeProfit(2);
         break;
       case "40-50":
-        setRangeProfit(12);
+        setRangeProfit(2);
         break;
       case "50-60":
-        setRangeProfit(10);
+        setRangeProfit(2);
         break;
       case "60-70":
-        setRangeProfit(8);
+        setRangeProfit(2);
         break;
       case "70-80":
-        setRangeProfit(6);
+        setRangeProfit(2);
         break;
       case "80-90":
-        setRangeProfit(4);
+        setRangeProfit(2);
         break;
       case "90-100":
         setRangeProfit(2);
@@ -682,7 +682,7 @@ const Betting = () => {
 
     setMaxBet(multiplier);
     calcTempPlayerProfit(multiplier, BetAmount);
-  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow]);
+  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow, walletBalance]);
 
   // function SetMinimumBet(){
   //     // uint contractBalance=address(this).balance;
@@ -810,7 +810,7 @@ const Betting = () => {
                 </label>
               </Flex>
               <Flex style={{ width: "40%" }} JustifyContent="center">
-                <P>{evenOddProfit}x</P>
+                <P>+{evenOddProfit}x</P>
                 <div style={{ position: "relative" }}>
                   <img
                     src={HelpIcon}
@@ -842,7 +842,7 @@ const Betting = () => {
               </Select>
 
               <Flex style={{ width: "40%" }} JustifyContent="center">
-                <P>{rangeProfit}x</P>
+                <P>+{rangeProfit}x</P>
                 <div style={{ position: "relative" }}>
                   <img
                     src={HelpIcon}
