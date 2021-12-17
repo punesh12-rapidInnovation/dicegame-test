@@ -267,7 +267,7 @@ const Betting = () => {
 
       let tempPlayerProfit =
         (((MultipliedBetAmount * (100 - RangeValue)) / RangeValue + MultipliedBetAmount) * HouseEdgeAmount) /
-          HouseEdgeDiviserAmount -
+        HouseEdgeDiviserAmount -
         MultipliedBetAmount;
 
       if (evenOdd == 0) {
@@ -408,7 +408,7 @@ const Betting = () => {
 
   const PlaceBet = async (myAccount: string | null, Amount: any, Rollunder: number, evenOdd: number) => {
     //create instance of an abi to call any blockChain function
-    const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
+    const Ethervalue = web3.utils.toWei(Number(Amount).toFixed(18).toString(), "ether");
     // const Ethervalue = convertToEther(Amount);
 
     const lpInstance = await selectInstances(
