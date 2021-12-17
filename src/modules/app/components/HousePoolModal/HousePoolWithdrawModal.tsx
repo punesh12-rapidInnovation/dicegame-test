@@ -143,7 +143,7 @@ const HousePoolWithdrawModal = (props: any) => {
 
                 {showDepositList &&
                     <div style={{
-                        background: '#fff', color: "#000", position: "absolute", zIndex: "9",
+                        background: '#fff', color: "#000", position: "absolute",
                         borderRadius: "10px",
                         width: '100%',
                         top: '80px',
