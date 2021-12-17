@@ -408,7 +408,7 @@ const Betting = () => {
 
   const PlaceBet = async (myAccount: string | null, Amount: any, Rollunder: number, evenOdd: number) => {
     //create instance of an abi to call any blockChain function
-    const Ethervalue = web3.utils.toWei(Number(Amount).toFixed(10).toString(), "ether");
+    const Ethervalue = web3.utils.toWei(Number(Amount).toFixed(8).toString(), "ether");
     // const Ethervalue = convertToEther(Amount);
 
     const lpInstance = await selectInstances(
@@ -682,7 +682,7 @@ const Betting = () => {
 
     setMaxBet(multiplier);
     calcTempPlayerProfit(multiplier, BetAmount);
-  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow, walletBalance]);
+  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow]);
 
   // function SetMinimumBet(){
   //     // uint contractBalance=address(this).balance;
