@@ -28,7 +28,9 @@ import {
   Time,
   Report,
 } from "./style";
-import threedot from "../../assets/images/threedot.svg";
+import threedot from "assets/images/threedot.svg";
+import ReportIcon from "assets/icons/reportIcon.svg";
+
 import { useSelector } from "react-redux";
 import BarChart from "modules/app/components/barChart/BarChart";
 import { dateFromTimestamp } from "utils/helper";
@@ -247,7 +249,10 @@ const LiveChat = (props: any) => {
           <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
           {m.content}
           <Time>{m.time.substring(11, 16)}</Time>
-          <Report onClick={(e) => HandleReport(m.username)}>Report</Report>
+          <Report onClick={(e) => HandleReport(m.username)}>
+            <img src={ReportIcon} alt="" />
+            <p> Report Spam</p>
+          </Report>
         </Messagediv>
       )
     );
@@ -369,8 +374,8 @@ const LiveChat = (props: any) => {
           >
             <BoxTitle>House Pool Size 24 H</BoxTitle>
             {!hoverLiquidityChartValue &&
-            !hoverLiquidityChartDate &&
-            liquidityChartData.length ? (
+              !hoverLiquidityChartDate &&
+              liquidityChartData.length ? (
               <>
                 <HousePoolChartLabel>
                   $

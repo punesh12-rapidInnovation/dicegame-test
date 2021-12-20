@@ -33,11 +33,24 @@ export const PopupModal = styled.button`
 `;
 
 export const Report = styled.div`
+
+display:flex;
+flex-direction: column;
+justify-content: center;
+
   position: absolute;
-  right: -45px;
+  right: -70px;
   top: 50%;
   transform: translatey(-50%);
   cursor: pointer;
+
+  img{
+    height:20px;
+    margin:5px 0;
+  }
+  p{
+    font-size:10px;
+  }
 `;
 
 export const ChatBox = styled.div`
