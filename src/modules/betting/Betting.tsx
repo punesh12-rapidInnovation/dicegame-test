@@ -77,13 +77,13 @@ const Betting = () => {
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(false);
   const [evenOdd, setEvenOdd] = useState(0);
-  const [rangeLow, setRangeLow] = useState(1);
-  const [rangeHigh, setRangeHigh] = useState(1);
+  const [rangeLow, setRangeLow] = useState(0);
+  const [rangeHigh, setRangeHigh] = useState(0);
   const [showToolTip1, setShowToolTip1] = useState(false);
   const [showToolTip2, setShowToolTip2] = useState(false);
   const [evenOddProfit, setEvenOddProfit] = useState(0);
   const [rangeProfit, setRangeProfit] = useState(0);
-  const [Numbers, setNumbers] = useState([])
+  const [Numbers, setNumbers] = useState([]);
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
@@ -97,7 +97,7 @@ const Betting = () => {
     for (let index = 0; index < 100; index++) {
       //@ts-ignore
       // setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
-      setNumbers((prev: any) => [...prev, index])
+      setNumbers((prev: any) => [...prev, index]);
     }
     if (localStorage.getItem("Loading") === "true") {
       setLoader(true);
@@ -462,9 +462,7 @@ const Betting = () => {
     // const range: any = `${rangeLow}-${rangeHigh}`;
     if (rangeLow >= 1 && rangeHigh <= 99 && rangeLow !== rangeHigh) {
       setRangeProfit(2);
-    }
-    else
-      setRangeProfit(0);
+    } else setRangeProfit(0);
   };
 
   const handleSelectValue1 = (e: any) => {
@@ -490,14 +488,14 @@ const Betting = () => {
     const totalChances: number = 99;
 
     // let multiplier: number = totalChances / (rollUnder - 1);
-    let multiplier: number = totalChances / (RangeValue);
+    let multiplier: number = totalChances / RangeValue;
     if (_OddEvenStatus == 0) {
       multiplier = multiplier;
     } else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
-      multiplier = multiplier + (rollUnder / (rollUnder / 2)); //The multiplier has fixed as 2
+      multiplier = multiplier + rollUnder / (rollUnder / 2); //The multiplier has fixed as 2
     }
     if (isRangeTrue === true) {
-      let range = (rangeHigh - rangeLow)//3-1
+      let range = rangeHigh - rangeLow; //3-1
       // let totalchances=100-range //2
       let totalchances = range / 2;
       // multiplier +=totalchances/range;//2/98
@@ -520,7 +518,7 @@ const Betting = () => {
     const HOUSEPOOL_INSTANCE = await selectInstances(instanceType.HOUSEPOOL);
     const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
 
-    console.log('multiplier max profit', convertToEther(maxProfit));
+    console.log("multiplier max profit", convertToEther(maxProfit));
 
     if (maxProfit) {
       const maxBet = convertToEther(maxProfit) / multiplier;
@@ -556,7 +554,7 @@ const Betting = () => {
       const profit: number = House - betValue;
 
       const finalProfit = convertToWei(profit.toFixed(18).toString());
-      console.log('multiplier', multiplier, 'profit', profit);
+      console.log("multiplier", multiplier, "profit", profit);
 
       if (finalProfit === "0") {
         setProfit(0);
@@ -801,7 +799,8 @@ const Betting = () => {
         {UserAllowance ? (
           <PrimaryButton
             disabled={rangeLow > rangeHigh}
-            onClick={() => CallingPlaceBet()}>
+            onClick={() => CallingPlaceBet()}
+          >
             {/* // <PrimaryButton onClick={() => handlePlaceBet(userAddress, BetAmount, RangeValue + 1)}> */}
             {ButtonText()}
           </PrimaryButton>
