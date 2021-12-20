@@ -81,8 +81,9 @@ export const GlobalStyle = createGlobalStyle`
 
 @font-face {
   font-family: AvenirLTStd;
-  src: url('https://fonts.cdnfonts.com/css/avenir-lt-std') format('truetype'), url('https://fonts.cdnfonts.com/css/avenir-lt-std') format('woff2');
+src: AvenirLTStd format('truetype'), AvenirLTStd format('woff2'),  url('https://fonts.cdnfonts.com/css/avenir-lt-std') format('truetype'), url('https://fonts.cdnfonts.com/css/avenir-lt-std') format('woff2');
 
+}
 }
 @font-face {
   font-family: BalooDa2;

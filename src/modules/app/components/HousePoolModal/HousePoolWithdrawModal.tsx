@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { PrimaryButton } from 'shared/button/Button';
 import { FlexCont, H1, HousePoolCont, Input, InputCont } from './style';
 
@@ -13,55 +13,55 @@ const HousePoolWithdrawModal = (props: any) => {
     const [withdrawAmount, setWithdrawAmount] = useState('')
     const [depositList, setDepositList] = useState<any>([]);
     const [showDepositList, setShowDepositList] = useState(false)
-    const [depositSelected, setDepositSelected] = useState({presentBalance:0.00,Balance:0.00,pendingRewards:0.00,index:0})
+    const [depositSelected, setDepositSelected] = useState({ presentBalance: 0.00, Balance: 0.00, pendingRewards: 0.00, index: 0 })
 
 
     useEffect(() => {
         const getdata = async () => {
             try {
                 console.log(userAddress);
-                if(userAddress){
+                if (userAddress) {
                     const housepoolInstance = await selectInstances(
                         instanceType.HOUSEPOOL, // type of instance
                     );
-                    let userItemlength= await housepoolInstance.methods.UserItemlength(`${userAddress}`).call()
+                    let userItemlength = await housepoolInstance.methods.UserItemlength(`${userAddress}`).call()
                     console.log("userItemlength", userItemlength);
                     let promiseArray = [];
-                    if (parseFloat(`${userItemlength}`)>0){
-                        for(let i = 0; i<userItemlength; i++){
+                    if (parseFloat(`${userItemlength}`) > 0) {
+                        for (let i = 0; i < userItemlength; i++) {
                             promiseArray.push(housepoolInstance.methods.Users(`${userAddress}`, i).call());
                         }
                     }
                     const depositsArray = await Promise.all(promiseArray);
-                    console.log("depositsArray",depositsArray);
+                    console.log("depositsArray", depositsArray);
                     //GetMypresentBalance
                     promiseArray = [];
-                    if (parseFloat(`${userItemlength}`)>0){
-                        for(let i = 0; i<userItemlength; i++){
+                    if (parseFloat(`${userItemlength}`) > 0) {
+                        for (let i = 0; i < userItemlength; i++) {
                             promiseArray.push(housepoolInstance.methods.GetMypresentBalance(`${userAddress}`, i).call());
                         }
                     }
                     const mypresentBalances = await Promise.all(promiseArray);
-                    console.log("mypresentBalances",mypresentBalances);
+                    console.log("mypresentBalances", mypresentBalances);
                     //PendingRewards
                     promiseArray = [];
-                    if (parseFloat(`${userItemlength}`)>0){
-                        for(let i = 0; i<userItemlength; i++){
+                    if (parseFloat(`${userItemlength}`) > 0) {
+                        for (let i = 0; i < userItemlength; i++) {
                             promiseArray.push(housepoolInstance.methods.PendingRewards(`${userAddress}`, i).call());
                         }
                     }
                     const pendingRewards = await Promise.all(promiseArray);
-                    console.log("PendingRewards",pendingRewards);
-                    
-                    setDepositList(depositsArray.map((item:object,i:number) => ({...item, presentBalance: mypresentBalances[i], pendingRewards:pendingRewards[i], index:i})))
+                    console.log("PendingRewards", pendingRewards);
+
+                    setDepositList(depositsArray.map((item: object, i: number) => ({ ...item, presentBalance: mypresentBalances[i], pendingRewards: pendingRewards[i], index: i })))
                 }
             } catch (error) {
                 console.log(error);
-                
+
             }
         }
         getdata();
-    },[userAddress])
+    }, [userAddress])
 
 
     const handleClickOutside = (e: any) => {
@@ -87,7 +87,7 @@ const HousePoolWithdrawModal = (props: any) => {
         //     // setWithdrawAmount(lpBalance)
         //     setWithdrawAmount('')
         // else
-            setWithdrawAmount(Number(convertToEther(depositSelected.presentBalance)).toFixed(6));
+        setWithdrawAmount(Number(convertToEther(depositSelected.presentBalance)).toFixed(6));
         // setWithdrawAmount(dataForStaking.staked)
     }
 
@@ -101,11 +101,11 @@ const HousePoolWithdrawModal = (props: any) => {
             const receipt = await housepoolInstance.methods.withdraw(convertToWei(value), depositSelected.index).send({
                 from: userAddress,
             })
-            console.log("receipt",receipt);
-            
+            console.log("receipt", receipt);
+
         } catch (error) {
             console.log(error);
-            
+
         }
     }
 
@@ -113,52 +113,53 @@ const HousePoolWithdrawModal = (props: any) => {
         <HousePoolCont>
             <H1>HOUSE POOL</H1>
             <div style={{
-                width:'100%',
+                width: '100%',
                 background: '#2A1966',
                 boxShadow: '0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7',
                 borderRadius: '20px',
-                padding:"20px",
-                margin:'30px 0 0 0' ,
-                color:"#fff",
-                position:"relative",
-                cursor:"pointer",
+                padding: "20px",
+                margin: '30px 0 0 0',
+                color: "#fff",
+                position: "relative",
+                cursor: "pointer",
             }}
-            onClick={() => setShowDepositList(!showDepositList)}
+                onClick={() => setShowDepositList(!showDepositList)}
             >
-                
-                <div style={{display:"flex",justifyContent:"flex-end",marginBottom:"10px"}}>
+
+                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "10px" }}>
                     <p>Total Balance: {depositSelected.Balance && parseFloat(convertToEther(depositSelected.Balance))}</p>
                 </div>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                   {
-                   Object.values(depositSelected).filter(x => x).length ? 
-                   <div style={{display:"flex",alignItems:"center"}}>
-                     <img  style={{marginRight:"10px"}} src={pulseIcon} alt="" /><span>Deposit {depositSelected.index + 1}</span>
-                   </div>
-                   : 
-                   <div> Select A Deposit</div>
-                   }
-                   <div> Deposits <img src={downCarotIcon} /> </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    {
+                        Object.values(depositSelected).filter(x => x).length ?
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <img style={{ marginRight: "10px" }} src={pulseIcon} alt="" /><span>Deposit {depositSelected.index + 1}</span>
+                            </div>
+                            :
+                            <div> Select A Deposit</div>
+                    }
+                    <div> Deposits <img src={downCarotIcon} /> </div>
                 </div>
 
-                {showDepositList && 
-                <div style={{background: '#fff', color:"#000",position:"absolute", zIndex:"9",
-                borderRadius:"10px",
-                width: '100%',
-                top: '80px',
-                transform: 'translateX(-4%)',
-                }}>
-                    { depositList.map((item:any,i:number) => 
-                    <>
-                    <div key={i} style={{padding:"10px",display:"flex",alignItems:"center"}} 
-                    onClick={() => {setDepositSelected(item);setShowDepositList(false)}}>
-                        <img  style={{marginRight:"10px"}} src={pulseIcon} alt="" /> 
-                        <span>Deposit {i+1}</span>
-                    </div>
-                    
-                    </>
-                    )}
-                </div>}
+                {showDepositList &&
+                    <div style={{
+                        background: '#fff', color: "#000", position: "absolute",
+                        borderRadius: "10px",
+                        width: '100%',
+                        top: '80px',
+                        transform: 'translateX(-4%)',
+                    }}>
+                        {depositList.map((item: any, i: number) =>
+                            <>
+                                <div key={i} style={{ padding: "10px", display: "flex", alignItems: "center" }}
+                                    onClick={() => { setDepositSelected(item); setShowDepositList(false) }}>
+                                    <img style={{ marginRight: "10px" }} src={pulseIcon} alt="" />
+                                    <span>Deposit {i + 1}</span>
+                                </div>
+
+                            </>
+                        )}
+                    </div>}
             </div>
             <InputCont isDisabled={!Object.values(depositSelected).filter(x => x).length}>
                 <FlexCont
@@ -167,7 +168,7 @@ const HousePoolWithdrawModal = (props: any) => {
                     alignItems="center"
                 >
                     <p>Input</p>
-                    <p>Balance With Loss: {depositSelected.presentBalance ? parseFloat(convertToEther(depositSelected.presentBalance)): 0.00}</p>
+                    <p>Balance With Loss: {depositSelected.presentBalance ? parseFloat(convertToEther(depositSelected.presentBalance)) : 0.00}</p>
                 </FlexCont>
                 <FlexCont
                     flexDirection="row"

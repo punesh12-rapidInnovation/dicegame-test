@@ -25,14 +25,13 @@ export const RangeSliderInput = styled.input<any>`
   transition: opacity 0.2s;
   cursor: pointer;
   &::-webkit-slider-thumb {
-    width: 40px;
-    height: 40px;
-    background-repeat: no-repeat;
-    background-size: contain;
+    width: 10px;
+    height: 20px;
+    background:red;
+    // opacity:0.1;
     border: none;
     cursor: pointer;
     -webkit-appearance: none;
-    margin-top: -10px;
     
   }
   
@@ -49,12 +48,14 @@ export const RangeSliderInput = styled.input<any>`
     outline: 10px solid #19072e ;
   }
   &::-moz-range-thumb {
-    width: 25px;
-    height: 10px;
-    border-radius: 50%;
-    background: #6FCF97;
-    border: 0;
+    width: 10px;
+    height: 20px;
+    background:red;
+    // opacity:0.1;
+    border: none;
     cursor: pointer;
+    -webkit-appearance: none;
+
   }
   ::-moz-range-track {  
   background-color: #EB5757;
@@ -62,7 +63,8 @@ export const RangeSliderInput = styled.input<any>`
     height: 12px;
     border-radius: 10px;
     border: none;
-    outline: none;
+    outline: 10px solid #19072e ;
+
 }
   &::-moz-range-progress {
     width: 100%;

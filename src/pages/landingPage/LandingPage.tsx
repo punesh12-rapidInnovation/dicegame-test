@@ -9,9 +9,14 @@ import { PrimaryButton } from 'shared/button/Button';
 import history from 'shared/helpers/history'
 import { Paths } from 'modules/app/components/routes/types';
 import Header from 'modules/app/components/header';
+import { Link } from 'pages/housePool/style';
+import { useState } from 'react';
+import Disclaimer from 'shared/Disclaimer/Disclaimer';
 
 
 const LandingPage = () => {
+    const [showDisclaimer, setshowDisclaimer] = useState(false);
+
     return (
         <Landingdiv>
             <Header />
@@ -20,6 +25,10 @@ const LandingPage = () => {
                     <H2>EVERY DAY LOTS OF WINS</H2>
                     <H1>BE ONE OF THEM</H1>
                     <H3>Choose you odds and roll the dice to win pulse and prizes,invest,exchange,and join the contest with high rewards at pulseroll</H3>
+                    <Link
+                        style={{ marginTop: '20px' }}
+                        onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
+
                 </Flexcol>
                 <Beoneimagediv>
                     <Beoneimg src={Beoneimage} alt="" />
@@ -41,6 +50,8 @@ const LandingPage = () => {
 
             </Playerrank>
             <LiveChat />
+            <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
+
         </Landingdiv>
     );
 };
