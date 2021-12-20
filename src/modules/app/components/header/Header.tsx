@@ -24,6 +24,21 @@ const Header = () => {
     const [showWrongNetwork, setShowWrongNetwork] = useState(false)
 
 
+    useEffect(() => {
+        const handleWrongNetwork = () => {
+            console.log('walletConnectCheck', walletConnectCheck);
+
+            if (walletConnectCheck) {
+
+                if (chainId !== networkTestChainId)
+                    setShowWrongNetwork(true)
+                else
+                    setShowWrongNetwork(false)
+            }
+        }
+        handleWrongNetwork()
+    }, [chainId])
+
     React.useEffect(() => {
         try {
             //@ts-ignore

@@ -15,7 +15,7 @@ import { AddressInfo, ConnectWalletButton, WalletCont, WalletList, WalletOption 
 const ConnectWallet = (props: any) => {
   const { connectWallet, setConnectWallet, setWalletAddress, showWalletContent } = props;
   const dispatch = useDispatch();
-  const { walletBalance } = useSelector((state: any) => state.wallet);
+  const { walletBalance, chainId } = useSelector((state: any) => state.wallet);
   const [showModal, setShowModal] = useState(false);
   const [disconnectWallet, setDisconnectWallet] = useState(false);
   const [walletType] = useState(false);
@@ -65,7 +65,10 @@ const ConnectWallet = (props: any) => {
 
       <CustomModal show={showModal} toggleModal={() => setShowModal(false)}>
         <WalletList>
-          <WalletOption onClick={() => connect(WalletTypes.metamask)}>Metamask</WalletOption>
+          {
+            chainId === 0 ? null :
+              <WalletOption onClick={() => connect(WalletTypes.metamask)}>Metamask</WalletOption>
+          }
           <WalletOption onClick={() => connect(WalletTypes.walletConnect)}>Wallet connect</WalletOption>
         </WalletList>
       </CustomModal>
