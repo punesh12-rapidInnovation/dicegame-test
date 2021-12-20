@@ -24,7 +24,12 @@ import {
   ToolTipCont,
   HowToPlay,
 } from "./style";
-import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
+import {
+  MinBetAmount,
+  MaxBetAmount,
+  HouseEdge,
+  HouseEdgeDiviser,
+} from "../blockChain/bettingMethods";
 import { convertToEther, convertToWei } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
@@ -84,7 +89,9 @@ const Betting = () => {
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
 
-  const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
+  const { walletBalance, userAddress } = useSelector(
+    (state: any) => state.wallet
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -124,7 +131,7 @@ const Betting = () => {
           // Replace event name with connection event name
           console.log("websocket connected");
         });
-        socket.on("betevent", (data: any) => {
+        socket.on("betting", (data: any) => {
           console.log(data);
           const LocalBetId = localStorage.getItem("PlacingBetId");
           console.log(LocalBetId);
@@ -143,7 +150,6 @@ const Betting = () => {
           } else {
             console.log(data.BetID);
           }
-
         });
       } catch (err) {
         console.log("err", err);
@@ -172,7 +178,8 @@ const Betting = () => {
 
   useEffect(() => {
     if (BetAmount === 0 || BetAmount === "") setBetRightOrNotAlert(false);
-    else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) setBetRightOrNotAlert(true);
+    else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax)
+      setBetRightOrNotAlert(true);
     else setBetRightOrNotAlert(false);
   }, [BetAmount]);
 
@@ -212,10 +219,18 @@ const Betting = () => {
     } else {
       if (userAddress) {
         const RollUnder: any = RangeValue + 1;
-        const BetId = await PlaceBet(userAddress, BetAmount, RollUnder, evenOdd);
+        const BetId = await PlaceBet(
+          userAddress,
+          BetAmount,
+          RollUnder,
+          evenOdd
+        );
         console.log(BetId);
         setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
-        localStorage.setItem("PlacingBetId", BetId?.events.LogBet.returnValues.BetID);
+        localStorage.setItem(
+          "PlacingBetId",
+          BetId?.events.LogBet.returnValues.BetID
+        );
       }
     }
   };
@@ -223,7 +238,10 @@ const Betting = () => {
   useEffect(() => {
     const CheckAllowanceStatus = async () => {
       if (userAddress) {
-        const CheckAllowanceResult = await CheckAllowance(userAddress, BETTING_ADDRESS);
+        const CheckAllowanceResult = await CheckAllowance(
+          userAddress,
+          BETTING_ADDRESS
+        );
         if (CheckAllowanceResult >= 1) setUserAllowance(true);
         else setUserAllowance(false);
       }
@@ -289,8 +307,12 @@ const Betting = () => {
   };
   //#endregion
 
-
-  const PlaceBet = async (myAccount: string | null, Amount: any, Rollunder: number, evenOdd: number) => {
+  const PlaceBet = async (
+    myAccount: string | null,
+    Amount: any,
+    Rollunder: number,
+    evenOdd: number
+  ) => {
     const Ethervalue = convertToWei(Number(Amount).toFixed(8).toString());
 
     const lpInstance = await selectInstances(
@@ -313,6 +335,7 @@ const Betting = () => {
           setBetplacedLoading(true);
           localStorage.setItem("Loading", "true");
           localStorage.setItem("BetAmount", BetAmount);
+          window.location.reload();
         });
       console.log(RollDice);
       return RollDice;
@@ -374,18 +397,21 @@ const Betting = () => {
       // console.log("not exist ran");
     } else {
       // console.log("exist ran");
-      const Resulttillnow = JSON.parse(localStorage.getItem("LastRolls") || "[]");
+      const Resulttillnow = JSON.parse(
+        localStorage.getItem("LastRolls") || "[]"
+      );
       if (Resulttillnow.length === 10) {
         Resulttillnow.splice(-1);
         // console.log(Resulttillnow);
         localStorage.setItem("LastRolls", JSON.stringify(Resulttillnow));
       }
-      const PreviousResults = JSON.parse(localStorage.getItem("LastRolls") || "[]");
+      const PreviousResults = JSON.parse(
+        localStorage.getItem("LastRolls") || "[]"
+      );
       PreviousResults.unshift(ResultObject);
       localStorage.setItem("LastRolls", JSON.stringify(PreviousResults));
     }
   };
-
 
   useEffect(() => {
     const getWalletBalance = async () => {
@@ -574,13 +600,18 @@ const Betting = () => {
 
   return (
     <BetBox>
-      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{ color: "rgba(0, 234, 255, 1)" }}>
+      <HowToPlay
+        onClick={() => setshowHowToPlay(true)}
+        style={{ color: "rgba(0, 234, 255, 1)" }}
+      >
         <img src={howtoplay} width="20px" height="15px" />
         How to Play
       </HowToPlay>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
-          <H2 MarginBottom="16px">BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS</H2>
+          <H2 MarginBottom="16px">
+            BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS
+          </H2>
           <Flex>
             <Chance
               value={BetAmount}
@@ -591,19 +622,31 @@ const Betting = () => {
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
               <TransChance
-                onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 6))}
+                onClick={() =>
+                  setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 6)
+                }
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(5) : "-"}
+                {OnLoadMin && OnLoadMax
+                  ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(5)
+                  : "-"}
               </TransChance>
               <TransChance
-                onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 4))}
+                onClick={() =>
+                  setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 4)
+                }
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(5) : "-"}
+                {OnLoadMin && OnLoadMax
+                  ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(5)
+                  : "-"}
               </TransChance>
               <TransChance
-                onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 2))}
+                onClick={() =>
+                  setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 2)
+                }
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(5) : "-"}
+                {OnLoadMin && OnLoadMax
+                  ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(5)
+                  : "-"}
               </TransChance>
 
               <TransChance onClick={SetMaxBetAmount}>MAX</TransChance>
@@ -639,11 +682,13 @@ const Betting = () => {
         </FlexColumn>
 
         <FlexColumn>
-          <H2 FontSize="16px" style={{ marginBottom: "40px", marginTop: "30px" }}>
+          <H2
+            FontSize="16px"
+            style={{ marginBottom: "40px", marginTop: "30px" }}
+          >
             CHANCE OF WINNING
           </H2>
-          <Flex
-          >
+          <Flex>
             <RangeSlider
               value={RangeValue}
               onChange={RangeValueChanger}
@@ -655,18 +700,33 @@ const Betting = () => {
         <OddEvenDiv style={{ width: "100%" }}>
           <Flex>
             <H2>Select</H2>
-            <Flex JustifyContent="center" style={{ width: "60%", alignItems: "center", paddingLeft: "10px" }}>
+            <Flex
+              JustifyContent="center"
+              style={{
+                width: "60%",
+                alignItems: "center",
+                paddingLeft: "10px",
+              }}
+            >
               <Flex style={{ justifyContent: "space-between", width: "50%" }}>
                 <label className="container">
                   Odd
-                  <input type="checkbox" checked={checked1} onChange={() => handleCheckChange(1, 1)} />
+                  <input
+                    type="checkbox"
+                    checked={checked1}
+                    onChange={() => handleCheckChange(1, 1)}
+                  />
                   <span className="checkmark"></span>
                 </label>
               </Flex>
               <Flex style={{ justifyContent: "space-between", width: "50%" }}>
                 <label className="container">
                   Even
-                  <input type="checkbox" checked={checked2} onChange={() => handleCheckChange(2, 2)} />
+                  <input
+                    type="checkbox"
+                    checked={checked2}
+                    onChange={() => handleCheckChange(2, 2)}
+                  />
                   <span className="checkmark"></span>
                 </label>
               </Flex>
@@ -690,8 +750,19 @@ const Betting = () => {
           </Flex>
           <Flex>
             <H2>Select Range</H2>
-            <Flex style={{ width: "60%", justifyContent: "space-between", alignItems: "center" }}>
-              <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue}>
+            <Flex
+              style={{
+                width: "60%",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Select
+                id="rangeFrom"
+                name=""
+                style={{ width: "100%" }}
+                onChange={handleSelectValue}
+              >
                 {Numbers.map((data, index) => {
                   return (
                     <Option value={data} key={"rf" + index}>
@@ -729,7 +800,9 @@ const Betting = () => {
         </Flex>
         <Flex>
           <H2 style={{ fontSize: "18px" }}>Profit </H2>
-          <H1 color={colors.primary}>+{convertToEther(Profit.toString())} PLS</H1>
+          <H1 color={colors.primary}>
+            +{convertToEther(Profit.toString())} PLS
+          </H1>
         </Flex>
       </BetMiddle>
       <BetBottom>
@@ -745,7 +818,10 @@ const Betting = () => {
         )}
       </BetBottom>
 
-      <WaitingModal show={loader && !success && !error} toggleModal={() => toggleModal()} />
+      <WaitingModal
+        show={loader && !success && !error}
+        toggleModal={() => toggleModal()}
+      />
       <WinModal
         // show={true}
         show={!loader && success && win && !error}
@@ -762,27 +838,48 @@ const Betting = () => {
         LossAmount={BetAmount}
       />
 
-      <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />
-      <CustomModal show={showHowToPlay} heading="HOW TO PLAY" toggleModal={() => setshowHowToPlay(false)}>
-        <h3 style={{ marginTop: "30px", color: "white", fontSize: "12px", margin: "40px 0px" }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-          et dolnc non blandit.
+      <Alertmsg
+        show={AlertModalState}
+        toggleModal={() => toggleModal()}
+        alertText={AlertText}
+      />
+      <CustomModal
+        show={showHowToPlay}
+        heading="HOW TO PLAY"
+        toggleModal={() => setshowHowToPlay(false)}
+      >
+        <h3
+          style={{
+            marginTop: "30px",
+            color: "white",
+            fontSize: "12px",
+            margin: "40px 0px",
+          }}
+        >
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolnc non blandit.
           <br />
           <br />
-          Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae
-          sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis
-          enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.
+          Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet.
+          Venenatis a condimentum vitae sapien pellentesque habitant morbi
+          tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim
+          ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla
+          aliquet.
           <br />
           <br />
-          Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque
-          pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.
+          Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est
+          ultricies Pellentesque pulvinar pellentesque habitant morbi tristique
+          senectus. Cursus risus at ultrices mi.
           <br />
           <br />
-          Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus
-          purus in massa tempor.
+          Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat
+          scelerisqu attis aliquam faucibus purus in massa tempor.
         </h3>
       </CustomModal>
-      <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
+      <Disclaimer
+        show={showDisclaimer}
+        toggleModal={() => setshowDisclaimer(false)}
+      />
     </BetBox>
   );
 };
