@@ -191,8 +191,8 @@ const HousePoolWithdrawModal = (props: any) => {
                     > MAX</span>  <img src={pulseIcon} alt="" /> PLS</FlexCont>
                 </FlexCont>
             </InputCont>
-            {/* <div>pendingRewards: { convertToEther(depositSelected.pendingRewards)}</div> */}
-            <PrimaryButton onClick={handleWithdraw}>Withdraw</PrimaryButton>
+            <div style={{margin:"10px 0", color:"#fff", textAlign:"right"}}>pendingRewards: { depositSelected.pendingRewards ?  parseFloat(convertToEther(depositSelected.pendingRewards)).toFixed(6): 0.00} PLS</div>
+            <PrimaryButton margin={"30px 0 0 0"} onClick={handleWithdraw}>Withdraw</PrimaryButton>
         </HousePoolCont >
     );
 };
