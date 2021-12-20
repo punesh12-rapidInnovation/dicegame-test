@@ -43,7 +43,6 @@ import WaitingModal from "./modals/WaitingModal";
 import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
 import Alertmsg from "./modals/Alertmsg";
-import Sliderthumb from "assets/icons/sliderthumb.svg";
 import HelpIcon from "assets/icons/helpIcon.svg";
 import howtoplay from "../../assets/icons/HowToPlay.svg";
 import CustomModal from "shared/custom-modal";
@@ -795,7 +794,9 @@ const Betting = () => {
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
-          <PrimaryButton onClick={() => CallingPlaceBet()}>
+          <PrimaryButton
+            disabled={rangeLow > rangeHigh}
+            onClick={() => CallingPlaceBet()}>
             {/* // <PrimaryButton onClick={() => handlePlaceBet(userAddress, BetAmount, RangeValue + 1)}> */}
             {ButtonText()}
           </PrimaryButton>
