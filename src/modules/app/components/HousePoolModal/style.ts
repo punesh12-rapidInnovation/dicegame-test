@@ -10,7 +10,6 @@ display:flex;
 flex-direction: column;
 width: 100%;
 justify-content: center;
-align-items: center;
 `
 
 export const H1 = styled.h1`
@@ -29,7 +28,7 @@ height:90px;
 background: #2A1966;
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7;
 border-radius: 20px;
-margin:8% 0 ;
+margin:8% 0 0 0 ;
 
 opacity:${(props:any) => (props.isDisabled ? '0.4' : 1)};
 pointer-events:${(props:any) => (props.isDisabled ? 'none' : 'unset')};
@@ -69,7 +68,7 @@ export const Input = styled.input`
 
     ::placeholder{
         color: ${colors.white};
-
+        opacity: 0.5;
     }
 
 	@media (min-width: ${screenSizes.mediaM}px) {

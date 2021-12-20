@@ -82,7 +82,7 @@ const HousePool = () => {
                     <H1>HOUSE POOL</H1>
                     <H3>Pulse Token (PLS) </H3>
                     <p>Choose your odds and roll the dice to win pulse and prizes. Play, Invest, Exchange <br />
-                        and Join the Contest with high rewards at Pulseroll</p>
+                        and join the Contest with high rewards at Pulseroll</p>
                     <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
                 </FlexCont>
                 <FlexCont
@@ -186,7 +186,7 @@ const HousePool = () => {
                                             : null
                             }
                         </>
-                        <div style={{ width: '100%', height: "300px" }}>
+                        <div style={{ width: '100%', height: "400px" }}>
                             <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
                         </div>
                     </div>
@@ -265,21 +265,23 @@ const HousePool = () => {
 
             </TransactionContainer>
 
+            {showDepositModal &&
             <CustomModal
                 show={showDepositModal}
                 toggleModal={() => setshowDepositModal(false)}
                 heading={ActionType === "deposit" ? "DEPOSIT FUNDS" : "WITHDRAW FUNDS"}
             >
                 <HousePoolModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} />
-            </CustomModal>
+            </CustomModal>}
 
+            {showWithdrawModal &&
             <CustomModal
                 show={showWithdrawModal}
                 toggleModal={() => setshowWithdrawModal(false)}
                 heading={"WITHDRAW FUNDS"}
             >
                 <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} />
-            </CustomModal>
+            </CustomModal>}
 
             
             <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />

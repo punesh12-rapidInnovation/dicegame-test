@@ -5,25 +5,26 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { DataContainer, PaginationCont, TABLE, TableStyles, TD, THead, TBody, TR, TimerWrapper } from './style';
 import axios from 'axios';
 import { convertToEther, dateFromTimestamp, timeFromTimestamp } from 'utils/helper';
+import CircleTimer from 'shared/circleTimer/CircleTimer';
 
 
 const HousePoolTransaction = () => {
 
 
 
-    const [TokenData, setTokenData] = useState<any>([
-        {
-            'action': "Deposit",
-            "_sender": "0x6531B1e3745802bb92F3BaFcE20dBb547f39f222",
-            "_amount": "100000000000000000",
-            "_depositedTime": "1639378776",
-            "_boxNum": "30",
-            "_releaseTime": "1639378836",
-            'locked': 20,
+    // const [TokenData, setTokenData] = useState<any>([
+    //     {
+    //         'action': "Deposit",
+    //         "_sender": "0x6531B1e3745802bb92F3BaFcE20dBb547f39f222",
+    //         "_amount": "100000000000000000",
+    //         "_depositedTime": "1639378776",
+    //         "_boxNum": "30",
+    //         "_releaseTime": "1639378836",
+    //         'locked': 20,
 
-        },
+    //     },
         
-    ])
+    // ])
     const [depositTxs, setDepositTxs] = useState<any>([])
     const [withdrawTxs, setWithdrawTxs] = useState<any>([])
     const  { userAddress } = useSelector((state: any) => state.wallet);
@@ -128,28 +129,30 @@ const HousePoolTransaction = () => {
                                                 if (cell.column.id === 'locked') return <td {...cell.getCellProps()}>
 
                                                     {cell.value &&
-                                                      <TimerWrapper >
-                                                        <CountdownCircleTimer
-                                                            isPlaying
-                                                            isLinearGradient={true}
-                                                            duration={cell.value}
-                                                            colors={[
-                                                                ["#EF0896", 0],
-                                                                ["#7007FF", 1],
-                                                            ]}
-                                                            size={55}
-                                                            strokeWidth={4}
-                                                        >
-                                                            {renderTime}
-                                                        </CountdownCircleTimer>
-                                                    </TimerWrapper>}
+                                                    //   <TimerWrapper >
+                                                    //     <CountdownCircleTimer
+                                                    //         isPlaying
+                                                    //         isLinearGradient={true}
+                                                    //         duration={cell.value}
+                                                    //         colors={[
+                                                    //             ["#EF0896", 0],
+                                                    //             ["#7007FF", 1],
+                                                    //         ]}
+                                                    //         size={55}
+                                                    //         strokeWidth={4}
+                                                    //     >
+                                                    //         {renderTime}
+                                                    //     </CountdownCircleTimer>
+                                                    // </TimerWrapper>
+                                                    <CircleTimer value={cell.value}></CircleTimer>
+                                                    }
 
                                                     {/* {cell.value} */}
                                                 </td>
 
                                                 if(cell.column.Header==="TOTAL VALUE") return <TD {...cell.getCellProps()}>{parseFloat(convertToEther(cell.value))} PLS</TD>
                                                 if(cell.column.Header==="ACCOUNT") return <TD {...cell.getCellProps()}>{cell.value.slice(0,4)}...{cell.value.slice(-4)}</TD>
-                                                if(cell.column.Header==="TIME") return <TD {...cell.getCellProps()}>{dateFromTimestamp(cell.value*1000)} {timeFromTimestamp(cell.value*1000)}</TD>
+                                                if(cell.column.Header==="TIME") return <TD {...cell.getCellProps()}>{dateFromTimestamp(cell.value)} {timeFromTimestamp(cell.value)}</TD>
 
                                                 return <TD {...cell.getCellProps()}>{cell.render('Cell')}</TD>
                                             })}
@@ -214,7 +217,7 @@ const HousePoolTransaction = () => {
             },
             {
                 Header: 'TIME',
-                accessor: '_depositedTime',
+                accessor: 'createdAt',
             },
         ],
         []
@@ -240,14 +243,15 @@ const HousePoolTransaction = () => {
         return `${minutes}:${seconds}`;
     };
     return (
+        <>
         <DataContainer>
-            HousePoolTransaction
             <TableStyles  >
 
                 {depositTxs && <Table columns={columns} data={[...depositTxs, ...withdrawTxs]} />}
             </TableStyles>
 
         </DataContainer >
+        </>
     );
 };
 
