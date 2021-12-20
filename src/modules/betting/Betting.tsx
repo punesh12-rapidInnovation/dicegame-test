@@ -77,8 +77,8 @@ const Betting = () => {
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(false);
   const [evenOdd, setEvenOdd] = useState(0);
-  const [rangeLow, setRangeLow] = useState(1);
-  const [rangeHigh, setRangeHigh] = useState(1);
+  const [rangeLow, setRangeLow] = useState(0);
+  const [rangeHigh, setRangeHigh] = useState(0);
   const [showToolTip1, setShowToolTip1] = useState(false);
   const [showToolTip2, setShowToolTip2] = useState(false);
   const [evenOddProfit, setEvenOddProfit] = useState(0);
@@ -94,7 +94,7 @@ const Betting = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    for (let index = 0; index < 100; index++) {
+    for (let index = 0; index <= 100; index++) {
       //@ts-ignore
       // setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
       setNumbers((prev: any) => [...prev, index])
