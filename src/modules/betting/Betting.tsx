@@ -490,16 +490,20 @@ const Betting = () => {
     rangeLow: number,
     rangeHigh: number
   ) => {
-    const totalChances: number = 99;
     const rollUnder: number = RangeValue + 1;
-    let multiplier: number = totalChances / rollUnder;
+    const totalChances: number = 100 - rollUnder;
+
+    let multiplier: number = totalChances / (rollUnder - 1);
     if (_OddEvenStatus == 0) {
       multiplier = multiplier;
     } else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
-      multiplier = multiplier + rollUnder / (rollUnder / 2); //The multiplier has fixed as 2
+      multiplier = multiplier + (rollUnder / (rollUnder / 2)); //The multiplier has fixed as 2
     }
     if (isRangeTrue === true) {
       multiplier += 2;
+      let range = (rangeHigh - rangeLow)//3-1
+      let totalChances = 100 - range //2
+      multiplier += totalChances / range;//2/98
       // multiplier = multiplier + (toalChanges/(rangeHigh-rangeLow));//Want to Fix the multiplier
     }
     return multiplier;
