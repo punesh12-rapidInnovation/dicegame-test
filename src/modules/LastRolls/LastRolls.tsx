@@ -49,9 +49,7 @@ function LastRolls() {
               <TD>GAIN/LOSS</TD>
             </TR>
 
-            <TR>
-              <TD>{NoResultMessage()}</TD>
-            </TR>
+            {NoResultMessage()}
             {LastRolls.slice(0, 4).map((Roll: any, index: any) => (
               <TR key={"lr" + index}>
                 <TD style={{ textAlign: "left" }}>
