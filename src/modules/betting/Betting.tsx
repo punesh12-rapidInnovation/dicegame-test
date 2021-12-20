@@ -78,13 +78,13 @@ const Betting = () => {
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(false);
   const [evenOdd, setEvenOdd] = useState(0);
-  const [rangeLow, setRangeLow] = useState(0);
-  const [rangeHigh, setRangeHigh] = useState(0);
+  const [rangeLow, setRangeLow] = useState(1);
+  const [rangeHigh, setRangeHigh] = useState(1);
   const [showToolTip1, setShowToolTip1] = useState(false);
   const [showToolTip2, setShowToolTip2] = useState(false);
   const [evenOddProfit, setEvenOddProfit] = useState(0);
   const [rangeProfit, setRangeProfit] = useState(0);
-  const [Numbers, setNumbers] = useState(["0-0"]);
+  const [Numbers, setNumbers] = useState([])
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
@@ -95,9 +95,10 @@ const Betting = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    for (let index = 0; index < 100; index += 10) {
+    for (let index = 0; index < 100; index++) {
       //@ts-ignore
-      setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
+      // setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
+      setNumbers((prev: any) => [...prev, index])
     }
     if (localStorage.getItem("Loading") === "true") {
       setLoader(true);
@@ -459,52 +460,21 @@ const Betting = () => {
   }, [evenOdd, rangeLow, rangeHigh]);
 
   const handleRangeProfit = (rangeLow: any, rangeHigh: any) => {
-    const range: any = `${rangeLow}-${rangeHigh}`;
-
-    switch (range) {
-      case "0-10":
-        setRangeProfit(2);
-        break;
-      case "10-20":
-        setRangeProfit(2);
-        break;
-      case "20-30":
-        console.log("3");
-        setRangeProfit(2);
-        break;
-      case "30-40":
-        setRangeProfit(2);
-        break;
-      case "40-50":
-        setRangeProfit(2);
-        break;
-      case "50-60":
-        setRangeProfit(2);
-        break;
-      case "60-70":
-        setRangeProfit(2);
-        break;
-      case "70-80":
-        setRangeProfit(2);
-        break;
-      case "80-90":
-        setRangeProfit(2);
-        break;
-      case "90-100":
-        setRangeProfit(2);
-        break;
-      default:
-        setRangeProfit(0);
-        break;
+    // const range: any = `${rangeLow}-${rangeHigh}`;
+    if (rangeLow >= 1 && rangeHigh <= 99 && rangeLow !== rangeHigh) {
+      setRangeProfit(2);
     }
+    else
+      setRangeProfit(0);
   };
 
-  const handleSelectValue = (e: any) => {
+  const handleSelectValue1 = (e: any) => {
     const value = e.target.value;
-    const first: any = value.split("-")[0];
-    const second: any = value.split("-")[1];
-    setRangeLow(first);
-    setRangeHigh(second);
+    setRangeLow(value);
+  };
+  const handleSelectValue2 = (e: any) => {
+    const value = e.target.value;
+    setRangeHigh(value);
   };
 
   // new approcah for betting -start
@@ -526,11 +496,11 @@ const Betting = () => {
       multiplier = multiplier + (rollUnder / (rollUnder / 2)); //The multiplier has fixed as 2
     }
     if (isRangeTrue === true) {
-      multiplier += 2;
       let range = (rangeHigh - rangeLow)//3-1
-      let totalChances = 100 - range //2
-      multiplier += totalChances / range;//2/98
-      // multiplier = multiplier + (toalChanges/(rangeHigh-rangeLow));//Want to Fix the multiplier
+      // let totalchances=100-range //2
+      let totalchances = range / 2;
+      // multiplier +=totalchances/range;//2/98
+      multiplier += totalchances;
     }
     return multiplier;
   };
@@ -560,7 +530,7 @@ const Betting = () => {
   useEffect(() => {
     const multiplier = Multiplier(
       RangeValue,
-      rangeLow > 0 && rangeHigh > 0,
+      rangeLow >= 0 && rangeHigh > 0,
       evenOddProfit,
       rangeLow,
       rangeHigh
@@ -568,7 +538,7 @@ const Betting = () => {
 
     setMaxBet(multiplier);
     calcTempPlayerProfit(multiplier, BetAmount);
-  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow]);
+  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow, rangeHigh]);
 
   // function SetMinimumBet(){
   //     // uint contractBalance=address(this).balance;
@@ -576,7 +546,9 @@ const Betting = () => {
   // }
   const calcTempPlayerProfit = async (multiplier: number, betValue: number) => {
     try {
-      const returnedAmount: number = betValue * multiplier;
+      // const returnedAmount: number = betValue * multiplier;
+      const returnedAmount = (betValue * multiplier) + betValue;
+
       const House: any = await CutHouseEdge(returnedAmount);
       const profit: number = House - betValue;
 
@@ -761,7 +733,23 @@ const Betting = () => {
                 id="rangeFrom"
                 name=""
                 style={{ width: "100%" }}
-                onChange={handleSelectValue}
+                onChange={handleSelectValue1}
+              >
+                {Numbers.map((data, index) => {
+                  return (
+                    <Option value={data} key={"rf" + index}>
+                      {data}
+                      {/* {index} */}
+                    </Option>
+                  );
+                })}
+              </Select>
+
+              <Select
+                id="rangeFrom"
+                name=""
+                style={{ width: "100%" }}
+                onChange={handleSelectValue2}
               >
                 {Numbers.map((data, index) => {
                   return (
@@ -782,7 +770,7 @@ const Betting = () => {
                     onMouseOver={() => setShowToolTip2(true)}
                     onMouseOut={() => setShowToolTip2(false)}
                   />
-                  {showToolTip1 && (
+                  {showToolTip2 && (
                     <ToolTipCont>
                       <p>Additional Profit(in %)</p>
                     </ToolTipCont>
