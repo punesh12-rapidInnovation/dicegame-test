@@ -32,7 +32,13 @@ export const PopupModal = styled.button`
   border-radius: 20px;
 `;
 
-export const Report = styled.div``;
+export const Report = styled.div`
+  position: absolute;
+  right: -45px;
+  top: 50%;
+  transform: translatey(-50%);
+  cursor: pointer;
+`;
 
 export const ChatBox = styled.div`
   background: linear-gradient(
