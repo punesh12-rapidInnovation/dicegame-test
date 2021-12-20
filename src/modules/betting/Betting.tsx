@@ -486,9 +486,11 @@ const Betting = () => {
     rangeHigh: number
   ) => {
     const rollUnder: number = RangeValue + 1;
-    const totalChances: number = 100 - rollUnder;
+    // const totalChances: number = 100 - rollUnder;
+    const totalChances: number = 99;
 
-    let multiplier: number = totalChances / (rollUnder - 1);
+    // let multiplier: number = totalChances / (rollUnder - 1);
+    let multiplier: number = totalChances / (RangeValue);
     if (_OddEvenStatus == 0) {
       multiplier = multiplier;
     } else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
@@ -518,6 +520,8 @@ const Betting = () => {
     const HOUSEPOOL_INSTANCE = await selectInstances(instanceType.HOUSEPOOL);
     const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
 
+    console.log('multiplier max profit', convertToEther(maxProfit));
+
     if (maxProfit) {
       const maxBet = convertToEther(maxProfit) / multiplier;
       setOnLoadMax(maxBet);
@@ -545,13 +549,14 @@ const Betting = () => {
   // }
   const calcTempPlayerProfit = async (multiplier: number, betValue: number) => {
     try {
-      // const returnedAmount: number = betValue * multiplier;
-      const returnedAmount = (betValue * multiplier) + betValue;
+      const returnedAmount: number = betValue * multiplier;
+      // const returnedAmount = (betValue * multiplier) + betValue;
 
       const House: any = await CutHouseEdge(returnedAmount);
       const profit: number = House - betValue;
 
       const finalProfit = convertToWei(profit.toFixed(18).toString());
+      console.log('multiplier', multiplier, 'profit', profit);
 
       if (finalProfit === "0") {
         setProfit(0);
@@ -712,7 +717,7 @@ const Betting = () => {
                   />
                   {showToolTip1 && (
                     <ToolTipCont>
-                      <p>Additional Profit(in %)</p>
+                      <p>Additional Profit(in X)</p>
                     </ToolTipCont>
                   )}
                 </div>
@@ -771,7 +776,7 @@ const Betting = () => {
                   />
                   {showToolTip2 && (
                     <ToolTipCont>
-                      <p>Additional Profit(in %)</p>
+                      <p>Additional Profit(in X)</p>
                     </ToolTipCont>
                   )}
                 </div>
