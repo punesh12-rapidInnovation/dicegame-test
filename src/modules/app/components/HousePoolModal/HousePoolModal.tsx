@@ -91,7 +91,7 @@ const HousePoolModal = (props: any) => {
                     > MAX</span>  <img src={pulseIcon} alt="" /> PLS</FlexCont>
                 </FlexCont>
             </InputCont>
-            <PrimaryButton onClick={handleDeposit}>{ActionType === "deposit" ? "Deposit" : "Withdraw"}</PrimaryButton>
+            <PrimaryButton margin={"30px 0 0 0"} onClick={handleDeposit}>{ActionType === "deposit" ? "Deposit" : "Withdraw"}</PrimaryButton>
         </HousePoolCont >
     );
 };
