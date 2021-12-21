@@ -4,16 +4,26 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 
 const CircleTimer = (props: any) => {
-    const { value } = props;
-    const [counter, setCounter] = useState(value);
+    const { value, rowIndex } = props;
+    const lockedTime:any = localStorage.getItem(`lockedTime${rowIndex}`);
+    const [counter, setCounter] = useState(lockedTime);
   
     useEffect(() => {
-        if (!counter) return;
-
-        const intervalId = setInterval(() => {
-            console.log(value);
-            setCounter(counter - 1);
-          }, 1000);
+      
+      
+      if (!parseFloat(counter)) return;
+      
+      const intervalId = setInterval(() => {
+          // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
+          // let lockedTime = parseFloat(lockedTimeString);
+          console.log(counter);
+          // setLockedTimeLeft(newValue);
+          // const lockedTimeArrayString:any = localStorage.getItem("lockedTimeArray");
+          // let lockedTimeArray = JSON.parse(lockedTimeArrayString);
+          // localStorage.setItem(`lockedTime${rowIndex}`, `${counter - 1}`)
+          
+          setCounter(localStorage.getItem(`lockedTime${rowIndex}`));
+        }, 1000);
 
         return () => clearInterval(intervalId);
     },[counter])
