@@ -35,7 +35,7 @@ const HousePoolModal = (props: any) => {
         //     // setDepositAmount(lpBalance)
         //     setDepositAmount('')
         // else
-            setDepositAmount(Number(walletBalance).toFixed(6));
+        setDepositAmount(Number(walletBalance).toFixed(6));
         // setDepositAmount(dataForStaking.staked)
     }
 
@@ -50,11 +50,11 @@ const HousePoolModal = (props: any) => {
                 from: userAddress,
                 value: convertToWei(value),
             })
-            console.log("receipt",receipt);
-            
+            console.log("receipt", receipt);
+
         } catch (error) {
             console.log(error);
-            
+
         }
     }
 

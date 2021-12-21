@@ -1,4 +1,4 @@
-import {useState, useEffect, memo} from "react";
+import { useState, useEffect, memo } from "react";
 import { TimerWrapper } from "modules/app/components/HousePoolTransaction/style";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { CircleTimerCont, Inner, Outer } from './style';
@@ -13,8 +13,7 @@ const CircleTimer = (props: any) => {
     const [circleDashoffset, setCircleDashoffset] = useState(0);
   
     useEffect(() => {
-      
-      
+
       if (!parseFloat(counter)) return;
       
       const intervalId = setInterval(() => {
@@ -33,34 +32,54 @@ const CircleTimer = (props: any) => {
             setCircleDashoffset(circleDashoffset+(circleDasharray/parseFloat(value)));
           }
         }, 1000);
-
-        return () => clearInterval(intervalId);
     },[counter])
+      
+      
 
-    // const renderTime = ({ remainingTime }:{remainingTime:any}) => {
-    //     //   console.log("value",value);
-    //     //   console.log("rendered");
-          
-    //     if (remainingTime === 0) {
-    //         return <div className="timer">0</div>;
-    //     }
-    //     else
-    //         return (
-    //             <div className="timer">
-    //                 {/* <div className="text">Remaining time</div> */}
-    //                 <div className="value">{formatRemainingTime(remainingTime)}</div>
-    //             </div>
-    //         );
-    // }
+  // useEffect(() => {
 
-    // const formatRemainingTime = (time: any) => {
-    //     const minutes = Math.floor((time % 3600) / 60);
-    //     const seconds = time % 60;
 
-    //     return `${minutes}:${seconds}`;
-    // };
-  
-    return (
+  //   if (!parseFloat(counter)) return;
+
+  //   const intervalId = setInterval(() => {
+  //     // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
+  //     // let lockedTime = parseFloat(lockedTimeString);
+  //     console.log(counter);
+  //     // setLockedTimeLeft(newValue);
+  //     // const lockedTimeArrayString:any = localStorage.getItem("lockedTimeArray");
+  //     // let lockedTimeArray = JSON.parse(lockedTimeArrayString);
+  //     // localStorage.setItem(`lockedTime${rowIndex}`, `${counter - 1}`)
+
+  //     setCounter(localStorage.getItem(`lockedTime${rowIndex}`));
+  //   }, 1000);
+
+  //   return () => clearInterval(intervalId);
+  // }, [counter])
+
+  // const renderTime = ({ remainingTime }:{remainingTime:any}) => {
+  //     //   console.log("value",value);
+  //     //   console.log("rendered");
+
+  //     if (remainingTime === 0) {
+  //         return <div className="timer">0</div>;
+  //     }
+  //     else
+  //         return (
+  //             <div className="timer">
+  //                 {/* <div className="text">Remaining time</div> */}
+  //                 <div className="value">{formatRemainingTime(remainingTime)}</div>
+  //             </div>
+  //         );
+  // }
+
+  // const formatRemainingTime = (time: any) => {
+  //     const minutes = Math.floor((time % 3600) / 60);
+  //     const seconds = time % 60;
+
+  //     return `${minutes}:${seconds}`;
+  // };
+
+  return (
     //     <TimerWrapper >
     //     <CountdownCircleTimer
     //         isPlaying
