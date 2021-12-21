@@ -28,7 +28,7 @@ const RangeSlider = (props: any) => {
         <p>Profit <span>+{Profit && Number(convertToEther(Profit.toString())).toFixed(10)} PLS</span></p>
       </SliderCalloutBox>
       <ValueRange>
-        <p>1%</p> <p>99%</p>
+        <p>1%</p> <p>98%</p>
       </ValueRange>
     </RangeSliderCont >
   );

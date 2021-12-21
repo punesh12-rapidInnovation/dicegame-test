@@ -36,7 +36,8 @@ function LastRolls() {
       }}
     >
       <BoxTitle>
-        YOUR LAST ROLLS <img src={Diceicon} alt="" style={{ marginLeft: "10px" }} />
+        YOUR LAST ROLLS{" "}
+        <img src={Diceicon} alt="" style={{ marginLeft: "10px" }} />
       </BoxTitle>
       <TableBox>
         <table style={{ width: "100%" }}>
@@ -48,15 +49,13 @@ function LastRolls() {
               <TD>GAIN/LOSS</TD>
             </TR>
 
-            <TR>
-              <TD>{NoResultMessage()}</TD>
-            </TR>
+            {NoResultMessage()}
             {LastRolls.slice(0, 4).map((Roll: any, index: any) => (
               <TR key={"lr" + index}>
                 <TD style={{ textAlign: "left" }}>
                   #{index + 1} - {Roll.Date}
                 </TD>
-                <TD>{Roll.BetAmount}</TD>
+                <TD>{Roll.BetAmount.substring(0, 8)}</TD>
                 <TD>{Roll.Playernumber - 1}%</TD>
                 {Roll.Status === "1" ? (
                   <TD>
@@ -82,7 +81,10 @@ function LastRolls() {
         SHOW MORE
       </PrimaryButton>
 
-      <ResultsModal show={resultsmodal} toggleModal={() => setresultsmodal(false)} />
+      <ResultsModal
+        show={resultsmodal}
+        toggleModal={() => setresultsmodal(false)}
+      />
     </Box>
   );
 }

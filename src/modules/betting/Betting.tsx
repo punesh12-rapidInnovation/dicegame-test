@@ -24,7 +24,12 @@ import {
   ToolTipCont,
   HowToPlay,
 } from "./style";
-import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
+import {
+  MinBetAmount,
+  MaxBetAmount,
+  HouseEdge,
+  HouseEdgeDiviser,
+} from "../blockChain/bettingMethods";
 import { convertToEther, convertToWei } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
@@ -38,7 +43,6 @@ import WaitingModal from "./modals/WaitingModal";
 import WinModal from "./modals/WinModal";
 import LooseModal from "./modals/LooseModal";
 import Alertmsg from "./modals/Alertmsg";
-import Sliderthumb from "assets/icons/sliderthumb.svg";
 import HelpIcon from "assets/icons/helpIcon.svg";
 import howtoplay from "../../assets/icons/HowToPlay.svg";
 import CustomModal from "shared/custom-modal";
@@ -79,18 +83,21 @@ const Betting = () => {
   const [showToolTip2, setShowToolTip2] = useState(false);
   const [evenOddProfit, setEvenOddProfit] = useState(0);
   const [rangeProfit, setRangeProfit] = useState(0);
-  const [Numbers, setNumbers] = useState(["0-0"]);
+  const [Numbers, setNumbers] = useState([]);
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
 
-  const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
+  const { walletBalance, userAddress } = useSelector(
+    (state: any) => state.wallet
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    for (let index = 0; index < 100; index += 10) {
+    for (let index = 0; index <= 100; index++) {
       //@ts-ignore
-      setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
+      // setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
+      setNumbers((prev: any) => [...prev, index]);
     }
     if (localStorage.getItem("Loading") === "true") {
       setLoader(true);
@@ -124,7 +131,7 @@ const Betting = () => {
           // Replace event name with connection event name
           console.log("websocket connected");
         });
-        socket.on("betevent", (data: any) => {
+        socket.on("betting", (data: any) => {
           console.log(data);
           const LocalBetId = localStorage.getItem("PlacingBetId");
           console.log(LocalBetId);
@@ -143,7 +150,6 @@ const Betting = () => {
           } else {
             console.log(data.BetID);
           }
-
         });
       } catch (err) {
         console.log("err", err);
@@ -172,7 +178,8 @@ const Betting = () => {
 
   useEffect(() => {
     if (BetAmount === 0 || BetAmount === "") setBetRightOrNotAlert(false);
-    else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) setBetRightOrNotAlert(true);
+    else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax)
+      setBetRightOrNotAlert(true);
     else setBetRightOrNotAlert(false);
   }, [BetAmount]);
 
@@ -212,10 +219,18 @@ const Betting = () => {
     } else {
       if (userAddress) {
         const RollUnder: any = RangeValue + 1;
-        const BetId = await PlaceBet(userAddress, BetAmount, RollUnder, evenOdd);
+        const BetId = await PlaceBet(
+          userAddress,
+          BetAmount,
+          RollUnder,
+          evenOdd
+        );
         console.log(BetId);
         setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
-        localStorage.setItem("PlacingBetId", BetId?.events.LogBet.returnValues.BetID);
+        localStorage.setItem(
+          "PlacingBetId",
+          BetId?.events.LogBet.returnValues.BetID
+        );
       }
     }
   };
@@ -223,7 +238,10 @@ const Betting = () => {
   useEffect(() => {
     const CheckAllowanceStatus = async () => {
       if (userAddress) {
-        const CheckAllowanceResult = await CheckAllowance(userAddress, BETTING_ADDRESS);
+        const CheckAllowanceResult = await CheckAllowance(
+          userAddress,
+          BETTING_ADDRESS
+        );
         if (CheckAllowanceResult >= 1) setUserAllowance(true);
         else setUserAllowance(false);
       }
@@ -289,8 +307,12 @@ const Betting = () => {
   };
   //#endregion
 
-
-  const PlaceBet = async (myAccount: string | null, Amount: any, Rollunder: number, evenOdd: number) => {
+  const PlaceBet = async (
+    myAccount: string | null,
+    Amount: any,
+    Rollunder: number,
+    evenOdd: number
+  ) => {
     const Ethervalue = convertToWei(Number(Amount).toFixed(8).toString());
 
     const lpInstance = await selectInstances(
@@ -313,6 +335,7 @@ const Betting = () => {
           setBetplacedLoading(true);
           localStorage.setItem("Loading", "true");
           localStorage.setItem("BetAmount", BetAmount);
+          window.location.reload();
         });
       console.log(RollDice);
       return RollDice;
@@ -374,18 +397,21 @@ const Betting = () => {
       // console.log("not exist ran");
     } else {
       // console.log("exist ran");
-      const Resulttillnow = JSON.parse(localStorage.getItem("LastRolls") || "[]");
+      const Resulttillnow = JSON.parse(
+        localStorage.getItem("LastRolls") || "[]"
+      );
       if (Resulttillnow.length === 10) {
         Resulttillnow.splice(-1);
         // console.log(Resulttillnow);
         localStorage.setItem("LastRolls", JSON.stringify(Resulttillnow));
       }
-      const PreviousResults = JSON.parse(localStorage.getItem("LastRolls") || "[]");
+      const PreviousResults = JSON.parse(
+        localStorage.getItem("LastRolls") || "[]"
+      );
       PreviousResults.unshift(ResultObject);
       localStorage.setItem("LastRolls", JSON.stringify(PreviousResults));
     }
   };
-
 
   useEffect(() => {
     const getWalletBalance = async () => {
@@ -433,52 +459,19 @@ const Betting = () => {
   }, [evenOdd, rangeLow, rangeHigh]);
 
   const handleRangeProfit = (rangeLow: any, rangeHigh: any) => {
-    const range: any = `${rangeLow}-${rangeHigh}`;
-
-    switch (range) {
-      case "0-10":
-        setRangeProfit(2);
-        break;
-      case "10-20":
-        setRangeProfit(2);
-        break;
-      case "20-30":
-        console.log("3");
-        setRangeProfit(2);
-        break;
-      case "30-40":
-        setRangeProfit(2);
-        break;
-      case "40-50":
-        setRangeProfit(2);
-        break;
-      case "50-60":
-        setRangeProfit(2);
-        break;
-      case "60-70":
-        setRangeProfit(2);
-        break;
-      case "70-80":
-        setRangeProfit(2);
-        break;
-      case "80-90":
-        setRangeProfit(2);
-        break;
-      case "90-100":
-        setRangeProfit(2);
-        break;
-      default:
-        setRangeProfit(0);
-        break;
-    }
+    // const range: any = `${rangeLow}-${rangeHigh}`;
+    if (rangeLow >= 1 && rangeHigh <= 99 && rangeLow !== rangeHigh) {
+      setRangeProfit(2);
+    } else setRangeProfit(0);
   };
 
-  const handleSelectValue = (e: any) => {
+  const handleSelectValue1 = (e: any) => {
     const value = e.target.value;
-    const first: any = value.split("-")[0];
-    const second: any = value.split("-")[1];
-    setRangeLow(first);
-    setRangeHigh(second);
+    setRangeLow(value);
+  };
+  const handleSelectValue2 = (e: any) => {
+    const value = e.target.value;
+    setRangeHigh(value);
   };
 
   // new approcah for betting -start
@@ -490,17 +483,23 @@ const Betting = () => {
     rangeLow: number,
     rangeHigh: number
   ) => {
-    const totalChances: number = 99;
     const rollUnder: number = RangeValue + 1;
-    let multiplier: number = totalChances / rollUnder;
+    // const totalChances: number = 100 - rollUnder;
+    const totalChances: number = 99;
+
+    // let multiplier: number = totalChances / (rollUnder - 1);
+    let multiplier: number = totalChances / RangeValue;
     if (_OddEvenStatus == 0) {
       multiplier = multiplier;
     } else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
       multiplier = multiplier + rollUnder / (rollUnder / 2); //The multiplier has fixed as 2
     }
     if (isRangeTrue === true) {
-      multiplier += 2;
-      // multiplier = multiplier + (toalChanges/(rangeHigh-rangeLow));//Want to Fix the multiplier
+      let range = rangeHigh - rangeLow; //3-1
+      // let totalchances=100-range //2
+      let totalchances = range / 2;
+      // multiplier +=totalchances/range;//2/98
+      multiplier += totalchances;
     }
     return multiplier;
   };
@@ -519,6 +518,8 @@ const Betting = () => {
     const HOUSEPOOL_INSTANCE = await selectInstances(instanceType.HOUSEPOOL);
     const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
 
+    console.log("multiplier max profit", convertToEther(maxProfit));
+
     if (maxProfit) {
       const maxBet = convertToEther(maxProfit) / multiplier;
       setOnLoadMax(maxBet);
@@ -530,7 +531,7 @@ const Betting = () => {
   useEffect(() => {
     const multiplier = Multiplier(
       RangeValue,
-      rangeLow > 0 && rangeHigh > 0,
+      rangeLow >= 0 && rangeHigh > 0,
       evenOddProfit,
       rangeLow,
       rangeHigh
@@ -538,7 +539,7 @@ const Betting = () => {
 
     setMaxBet(multiplier);
     calcTempPlayerProfit(multiplier, BetAmount);
-  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow]);
+  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow, rangeHigh]);
 
   // function SetMinimumBet(){
   //     // uint contractBalance=address(this).balance;
@@ -547,10 +548,13 @@ const Betting = () => {
   const calcTempPlayerProfit = async (multiplier: number, betValue: number) => {
     try {
       const returnedAmount: number = betValue * multiplier;
+      // const returnedAmount = (betValue * multiplier) + betValue;
+
       const House: any = await CutHouseEdge(returnedAmount);
       const profit: number = House - betValue;
 
       const finalProfit = convertToWei(profit.toFixed(18).toString());
+      console.log("multiplier", multiplier, "profit", profit);
 
       if (finalProfit === "0") {
         setProfit(0);
@@ -570,13 +574,18 @@ const Betting = () => {
 
   return (
     <BetBox>
-      <HowToPlay onClick={() => setshowHowToPlay(true)} style={{ color: "rgba(0, 234, 255, 1)" }}>
+      <HowToPlay
+        onClick={() => setshowHowToPlay(true)}
+        style={{ color: "rgba(0, 234, 255, 1)" }}
+      >
         <img src={howtoplay} width="20px" height="15px" />
         How to Play
       </HowToPlay>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
-          <H2 MarginBottom="16px">BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS</H2>
+          <H2 MarginBottom="16px">
+            BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS
+          </H2>
           <Flex>
             <Chance
               value={BetAmount}
@@ -587,19 +596,31 @@ const Betting = () => {
             <Flex Width="75%">
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
               <TransChance
-                onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 6))}
+                onClick={() =>
+                  setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 6)
+                }
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(5) : "-"}
+                {OnLoadMin && OnLoadMax
+                  ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(5)
+                  : "-"}
               </TransChance>
               <TransChance
-                onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 4))}
+                onClick={() =>
+                  setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 4)
+                }
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(5) : "-"}
+                {OnLoadMin && OnLoadMax
+                  ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(5)
+                  : "-"}
               </TransChance>
               <TransChance
-                onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 2))}
+                onClick={() =>
+                  setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 2)
+                }
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(5) : "-"}
+                {OnLoadMin && OnLoadMax
+                  ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(5)
+                  : "-"}
               </TransChance>
 
               <TransChance onClick={SetMaxBetAmount}>MAX</TransChance>
@@ -635,11 +656,13 @@ const Betting = () => {
         </FlexColumn>
 
         <FlexColumn>
-          <H2 FontSize="16px" style={{ marginBottom: "40px", marginTop: "30px" }}>
+          <H2
+            FontSize="16px"
+            style={{ marginBottom: "40px", marginTop: "30px" }}
+          >
             CHANCE OF WINNING
           </H2>
-          <Flex
-          >
+          <Flex>
             <RangeSlider
               value={RangeValue}
               onChange={RangeValueChanger}
@@ -651,18 +674,33 @@ const Betting = () => {
         <OddEvenDiv style={{ width: "100%" }}>
           <Flex>
             <H2>Select</H2>
-            <Flex JustifyContent="center" style={{ width: "60%", alignItems: "center", paddingLeft: "10px" }}>
+            <Flex
+              JustifyContent="center"
+              style={{
+                width: "60%",
+                alignItems: "center",
+                paddingLeft: "10px",
+              }}
+            >
               <Flex style={{ justifyContent: "space-between", width: "50%" }}>
                 <label className="container">
                   Odd
-                  <input type="checkbox" checked={checked1} onChange={() => handleCheckChange(1, 1)} />
+                  <input
+                    type="checkbox"
+                    checked={checked1}
+                    onChange={() => handleCheckChange(1, 1)}
+                  />
                   <span className="checkmark"></span>
                 </label>
               </Flex>
               <Flex style={{ justifyContent: "space-between", width: "50%" }}>
                 <label className="container">
                   Even
-                  <input type="checkbox" checked={checked2} onChange={() => handleCheckChange(2, 2)} />
+                  <input
+                    type="checkbox"
+                    checked={checked2}
+                    onChange={() => handleCheckChange(2, 2)}
+                  />
                   <span className="checkmark"></span>
                 </label>
               </Flex>
@@ -677,7 +715,7 @@ const Betting = () => {
                   />
                   {showToolTip1 && (
                     <ToolTipCont>
-                      <p>Additional Profit(in %)</p>
+                      <p>Additional Profit(in X)</p>
                     </ToolTipCont>
                   )}
                 </div>
@@ -686,8 +724,35 @@ const Betting = () => {
           </Flex>
           <Flex>
             <H2>Select Range</H2>
-            <Flex style={{ width: "60%", justifyContent: "space-between", alignItems: "center" }}>
-              <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue}>
+            <Flex
+              style={{
+                width: "60%",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Select
+                id="rangeFrom"
+                name=""
+                style={{ width: "100%" }}
+                onChange={handleSelectValue1}
+              >
+                {Numbers.map((data, index) => {
+                  return (
+                    <Option value={data} key={"rf" + index}>
+                      {data}
+                      {/* {index} */}
+                    </Option>
+                  );
+                })}
+              </Select>
+
+              <Select
+                id="rangeFrom"
+                name=""
+                style={{ width: "100%" }}
+                onChange={handleSelectValue2}
+              >
                 {Numbers.map((data, index) => {
                   return (
                     <Option value={data} key={"rf" + index}>
@@ -707,9 +772,9 @@ const Betting = () => {
                     onMouseOver={() => setShowToolTip2(true)}
                     onMouseOut={() => setShowToolTip2(false)}
                   />
-                  {showToolTip1 && (
+                  {showToolTip2 && (
                     <ToolTipCont>
-                      <p>Additional Profit(in %)</p>
+                      <p>Additional Profit(in X)</p>
                     </ToolTipCont>
                   )}
                 </div>
@@ -725,12 +790,17 @@ const Betting = () => {
         </Flex>
         <Flex>
           <H2 style={{ fontSize: "18px" }}>Profit </H2>
-          <H1 color={colors.primary}>+{convertToEther(Profit.toString())} PLS</H1>
+          <H1 color={colors.primary}>
+            +{convertToEther(Profit.toString())} PLS
+          </H1>
         </Flex>
       </BetMiddle>
       <BetBottom>
         {UserAllowance ? (
-          <PrimaryButton onClick={() => CallingPlaceBet()}>
+          <PrimaryButton
+            disabled={rangeLow > rangeHigh}
+            onClick={() => CallingPlaceBet()}
+          >
             {/* // <PrimaryButton onClick={() => handlePlaceBet(userAddress, BetAmount, RangeValue + 1)}> */}
             {ButtonText()}
           </PrimaryButton>
@@ -741,7 +811,10 @@ const Betting = () => {
         )}
       </BetBottom>
 
-      <WaitingModal show={loader && !success && !error} toggleModal={() => toggleModal()} />
+      <WaitingModal
+        show={loader && !success && !error}
+        toggleModal={() => toggleModal()}
+      />
       <WinModal
         // show={true}
         show={!loader && success && win && !error}
@@ -758,27 +831,48 @@ const Betting = () => {
         LossAmount={BetAmount}
       />
 
-      <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />
-      <CustomModal show={showHowToPlay} heading="HOW TO PLAY" toggleModal={() => setshowHowToPlay(false)}>
-        <h3 style={{ marginTop: "30px", color: "white", fontSize: "12px", margin: "40px 0px" }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-          et dolnc non blandit.
+      <Alertmsg
+        show={AlertModalState}
+        toggleModal={() => toggleModal()}
+        alertText={AlertText}
+      />
+      <CustomModal
+        show={showHowToPlay}
+        heading="HOW TO PLAY"
+        toggleModal={() => setshowHowToPlay(false)}
+      >
+        <h3
+          style={{
+            marginTop: "30px",
+            color: "white",
+            fontSize: "12px",
+            margin: "40px 0px",
+          }}
+        >
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolnc non blandit.
           <br />
           <br />
-          Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum vitae
-          sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis
-          enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.
+          Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet.
+          Venenatis a condimentum vitae sapien pellentesque habitant morbi
+          tristique. Nisl nunc mi ipsum faucibus vitae aliquet nec. Mattis enim
+          ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla
+          aliquet.
           <br />
           <br />
-          Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque
-          pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.
+          Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est
+          ultricies Pellentesque pulvinar pellentesque habitant morbi tristique
+          senectus. Cursus risus at ultrices mi.
           <br />
           <br />
-          Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus
-          purus in massa tempor.
+          Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat
+          scelerisqu attis aliquam faucibus purus in massa tempor.
         </h3>
       </CustomModal>
-      <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
+      <Disclaimer
+        show={showDisclaimer}
+        toggleModal={() => setshowDisclaimer(false)}
+      />
     </BetBox>
   );
 };
