@@ -197,7 +197,7 @@ const HousePoolTransaction = (props:any) => {
                                 })
                                 :
                                 <tr>
-                                    <td colSpan={5} style={{ textAlign: "center" }}>No Data Available</td>
+                                    <td colSpan={5}> <div style={{ textAlign: "center", color:'#fff', marginTop:"20px" }}>No Data Available</div></td>
                                 </tr>
                         }
                     </TBody>
