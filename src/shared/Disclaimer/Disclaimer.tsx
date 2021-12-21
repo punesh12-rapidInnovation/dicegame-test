@@ -41,17 +41,10 @@ const Disclaimer = (props: any) => {
     AgreedOrNot();
   }, []);
 
-  const crossFunction = () => {
-    if (LocalAgree) {
-      toggleModal(!show);
-    } else {
-      setAlertModalState(true);
-    }
-  };
-
   const setAgree = () => {
     localStorage.setItem("Agree", "true");
     toggleModal(!show);
+    window.location.reload();
   };
 
   const SetLocalShowDisclaimer = () => {
@@ -68,7 +61,7 @@ const Disclaimer = (props: any) => {
       <ModalContent style={{ width: "600px" }}>
         <ModelHead>
           <h2>Disclaimer</h2>
-          <Close src={Cross} onClick={() => crossFunction()} />
+          <Close src={Cross} onClick={() => toggleModal()} />
         </ModelHead>
         <DisclaimerCont>
           <ul>
