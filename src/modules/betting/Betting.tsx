@@ -496,10 +496,10 @@ const Betting = () => {
     }
     if (isRangeTrue === true) {
       let range = rangeHigh - rangeLow; //3-1
-      // let totalchances=100-range //2
-      let totalchances = range / 2;
-      // multiplier +=totalchances/range;//2/98
-      multiplier += totalchances;
+      let totalChances = (100 - range) / 2;
+      // let totalChances = range / 2;
+      // multiplier +=totalChances/range;//2/98
+      multiplier += totalChances;
     }
     return multiplier;
   };
