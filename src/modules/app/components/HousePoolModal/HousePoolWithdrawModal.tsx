@@ -148,6 +148,7 @@ const HousePoolWithdrawModal = (props: any) => {
                         width: '100%',
                         top: '80px',
                         transform: 'translateX(-4%)',
+                        zIndex:"9",
                     }}>
                         {depositList.map((item: any, i: number) =>
                             <>

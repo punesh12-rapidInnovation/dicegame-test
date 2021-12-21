@@ -29,6 +29,9 @@ const HousePool = () => {
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("")
     const [ActionType, setActionType] = useState('');
 
+    const [txLockedTimeLeft, setTxLockedTimeLeft] = useState<any>([]);
+
+
     const { userAddress, walletBalance } = useSelector((state: any) => state.wallet);
     useEffect(() => {
         const axiosInstance = axios.create({
@@ -116,7 +119,7 @@ const HousePool = () => {
                             >
                                 <h3>liquidity</h3>
                                 <h1>${parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</h1>
-                                <p>{parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</p>
+                                <p>{parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)} PLS</p>
                             </FlexCont>
                             {/* <img src={verticalLine} alt="" style={{width:'30%',height:'40px'}}/>
                             <FlexCont
@@ -261,7 +264,7 @@ const HousePool = () => {
             </PoolDetailsContainer> */}
             <TransactionContainer>
                 <h1 style={{color:"#fff"}}>Transactions</h1>
-                <HousePoolTransaction />
+                <HousePoolTransaction txLockedTimeLeft={txLockedTimeLeft} setTxLockedTimeLeft={setTxLockedTimeLeft} />
 
             </TransactionContainer>
 

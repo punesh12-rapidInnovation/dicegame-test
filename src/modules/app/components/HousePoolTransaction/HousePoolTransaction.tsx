@@ -8,8 +8,8 @@ import { convertToEther, dateFromTimestamp, timeFromTimestamp } from 'utils/help
 import CircleTimer from 'shared/circleTimer/CircleTimer';
 
 
-const HousePoolTransaction = () => {
-
+const HousePoolTransaction = (props:any) => {
+    const {txLockedTimeLeft, setTxLockedTimeLeft} = props;
 
 
     // const [TokenData, setTokenData] = useState<any>([
@@ -27,6 +27,9 @@ const HousePoolTransaction = () => {
     // ])
     const [depositTxs, setDepositTxs] = useState<any>([])
     const [withdrawTxs, setWithdrawTxs] = useState<any>([])
+    const [lockedTimeLeft, setLockedTimeLeft] = useState<any>([]);
+    const [lockedTimeIntervalId, setLockedTimeIntervalId] = useState<any>([]);
+
     const  { userAddress } = useSelector((state: any) => state.wallet);
 
     useEffect(() => {
@@ -41,6 +44,7 @@ const HousePoolTransaction = () => {
                 
                 const depositTxs:any[] = Array.isArray(res2.data) ? res2.data : [];
                 setDepositTxs(depositTxs.map((item:any) => ({...item, action: "Deposit", locked: item._releaseTime-item._depositedTime,})));
+ 
 
                 const res3 = await axiosInstance.get(`/allwithdraw/${userAddress}`)
                 const withdrawTxs:any[] = Array.isArray(res3.data) ? res3.data : [];
@@ -49,10 +53,37 @@ const HousePoolTransaction = () => {
             }
         } //
         
-        getdata();
-
-        
+        getdata();        
     }, [userAddress])
+
+
+    useEffect(() => {        
+        depositTxs.forEach((item:any,i:number) => {
+            localStorage.setItem(`lockedTime${i}`, `${item._releaseTime-item._depositedTime}`);
+            const intervalId = setInterval(() => {
+                const lockedTimeString:any = localStorage.getItem(`lockedTime${i}`);
+                let lockedTime = parseFloat(lockedTimeString);
+                if (!lockedTime) {
+                    clearInterval(intervalId)
+                } else{
+                    localStorage.setItem(`lockedTime${i}`, `${lockedTime - 1}`)
+                }
+              }, 1000);
+            setLockedTimeIntervalId([...lockedTimeIntervalId, intervalId])  
+        })
+  
+        return () => {
+            depositTxs.forEach((item:any,i:number) => {
+                localStorage.removeItem(`lockedTime${i}`);
+                clearInterval(lockedTimeIntervalId[i])
+            }) 
+        }
+      },[depositTxs])
+
+
+
+
+    
 
     function Table({ columns, data }: { columns: any, data: any }) {
         // Use the state and functions returned from useTable to build your UI
@@ -123,7 +154,7 @@ const HousePoolTransaction = () => {
 
                                     return (
                                         <TR className="table-row" {...row.getRowProps()}>
-                                            {row.cells.map((cell: any) => {
+                                            {row.cells.map((cell: any, rowIndex:number) => {
                                                 
                                                 // else
                                                 if (cell.column.id === 'locked') return <td {...cell.getCellProps()}>
@@ -144,7 +175,12 @@ const HousePoolTransaction = () => {
                                                     //         {renderTime}
                                                     //     </CountdownCircleTimer>
                                                     // </TimerWrapper>
-                                                    <CircleTimer value={cell.value}></CircleTimer>
+                                                    <CircleTimer 
+                                                    value={cell.value} 
+                                                    // value={lockedTimeLeft} 
+                                                    rowIndex={rowIndex} 
+                                                    ></CircleTimer>
+                                                    // <p>7</p>
                                                     }
 
                                                     {/* {cell.value} */}

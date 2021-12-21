@@ -31,10 +31,10 @@ const HousePoolModal = (props: any) => {
 
     const handleMaxDeposit = () => {
 
-        if (ActionType === "deposit")
-            // setDepositAmount(lpBalance)
-            setDepositAmount('')
-        else
+        // if (ActionType === "deposit")
+        //     // setDepositAmount(lpBalance)
+        //     setDepositAmount('')
+        // else
             setDepositAmount(Number(walletBalance).toFixed(6));
         // setDepositAmount(dataForStaking.staked)
     }
