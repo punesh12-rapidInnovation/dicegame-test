@@ -148,6 +148,7 @@ const HousePoolWithdrawModal = (props: any) => {
                         width: '100%',
                         top: '80px',
                         transform: 'translateX(-4%)',
+                        zIndex:"9",
                     }}>
                         {depositList.map((item: any, i: number) =>
                             <>
@@ -166,14 +167,18 @@ const HousePoolWithdrawModal = (props: any) => {
                     flexDirection="row"
                     justifyContent="space-between"
                     alignItems="center"
+                    margin="0 0 10px 0"
+                    width="100%"
                 >
-                    <p>Input</p>
-                    <p>Balance With Loss: {depositSelected.presentBalance ? parseFloat(convertToEther(depositSelected.presentBalance)) : 0.00}</p>
+                    <div>Input</div>
+                    <div>Balance With Loss: {depositSelected.presentBalance ? parseFloat(convertToEther(depositSelected.presentBalance)) : 0.00}</div>
                 </FlexCont>
                 <FlexCont
                     flexDirection="row"
                     justifyContent="space-between"
                     alignItems="center"
+                    margin="0"
+                    width="100%"
                 >
                     <Input
                         placeholder="0.00"

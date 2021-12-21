@@ -48,6 +48,7 @@ import howtoplay from "../../assets/icons/HowToPlay.svg";
 import CustomModal from "shared/custom-modal";
 import { CheckCont } from "shared/Disclaimer/style";
 import RangeSlider from "shared/range-slider/RangeSlider";
+import DisableModal from "shared/DisableModal/Disable";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
@@ -87,6 +88,7 @@ const Betting = () => {
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
+  const [Disable, setDisable] = useState<boolean>();
 
   const { walletBalance, userAddress } = useSelector(
     (state: any) => state.wallet
@@ -107,10 +109,24 @@ const Betting = () => {
   //@ts-ignore
   useEffect(() => {
     const localChecked = localStorage.getItem("ShowDisclaimer");
-    if (localChecked === null || localChecked === "false") {
+    const Loading = localStorage.getItem("Loading");
+    console.log(Loading);
+    if (Loading === "true") {
+      setshowDisclaimer(false);
+    } else if (localChecked === null || localChecked === "false") {
       setshowDisclaimer(true);
     } else {
       setshowDisclaimer(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const LocalAgree = localStorage.getItem("Agree");
+    console.log(LocalAgree, !showDisclaimer);
+    if (!showDisclaimer || LocalAgree === "True") {
+      setDisable(false);
+    } else {
+      setDisable(true);
     }
   }, []);
 
@@ -131,7 +147,7 @@ const Betting = () => {
           // Replace event name with connection event name
           console.log("websocket connected");
         });
-        socket.on("betting", (data: any) => {
+        socket.on("betevent", (data: any) => {
           console.log(data);
           const LocalBetId = localStorage.getItem("PlacingBetId");
           console.log(LocalBetId);
