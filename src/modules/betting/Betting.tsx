@@ -149,9 +149,9 @@ const Betting = () => {
         });
         socket.on("betevent", (data: any) => {
           console.log(data);
-          const LocalBetId = localStorage.getItem("PlacingBetId");
-          console.log(LocalBetId);
-          if (LocalBetId === data.BetID) {
+          // const LocalBetId = localStorage.getItem("PlacingBetId");
+          // console.log(LocalBetId);
+          if (PlacingBetId === data.BetID) {
             console.log("ResultObjectupdated");
             setResultObject({
               Betid: data.BetID,
@@ -174,11 +174,14 @@ const Betting = () => {
 
     connect();
 
+
     const disconnect = () => {
       socket.disconnect();
     };
-    return () => disconnect();
-  }, []);
+    return () => {
+      disconnect();
+    }
+  }, [PlacingBetId]);
 
   window.onbeforeunload = function () {
     if (PlacingBet) return "Leaving this page will reset the wizard";
@@ -351,7 +354,7 @@ const Betting = () => {
           setBetplacedLoading(true);
           localStorage.setItem("Loading", "true");
           localStorage.setItem("BetAmount", BetAmount);
-          window.location.reload();
+          // window.location.reload();
         });
       console.log(RollDice);
       return RollDice;
