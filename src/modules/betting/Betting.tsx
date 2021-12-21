@@ -96,7 +96,7 @@ const Betting = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    for (let index = 0; index < 100; index++) {
+    for (let index = 0; index <= 100; index++) {
       //@ts-ignore
       // setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
       setNumbers((prev: any) => [...prev, index]);
