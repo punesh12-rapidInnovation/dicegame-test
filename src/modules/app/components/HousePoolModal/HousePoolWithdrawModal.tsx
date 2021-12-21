@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { PrimaryButton } from 'shared/button/Button';
-import { FlexCont, H1, HousePoolCont, Input, InputCont } from './style';
+import { FlexCont, H1, HousePoolCont, Input, InputCont, Dropdown } from './style';
 
 import pulseIcon from "assets/icons/pulseIcon.svg";
 import downCarotIcon from 'assets/icons/downCarot.svg'
@@ -142,14 +142,7 @@ const HousePoolWithdrawModal = (props: any) => {
                 </div>
 
                 {showDepositList &&
-                    <div style={{
-                        background: '#fff', color: "#000", position: "absolute",
-                        borderRadius: "10px",
-                        width: '100%',
-                        top: '80px',
-                        transform: 'translateX(-4%)',
-                        zIndex:"9",
-                    }}>
+                    <Dropdown>
                         {depositList.map((item: any, i: number) =>
                             <>
                                 <div key={i} style={{ padding: "10px", display: "flex", alignItems: "center" }}
@@ -160,7 +153,7 @@ const HousePoolWithdrawModal = (props: any) => {
 
                             </>
                         )}
-                    </div>}
+                    </Dropdown>}
             </div>
             <InputCont isDisabled={!Object.values(depositSelected).filter(x => x).length}>
                 <FlexCont

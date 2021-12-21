@@ -132,6 +132,9 @@ const HousePoolTransaction = (props: any) => {
             usePagination
         )
 
+        console.log("pageOptions",pageOptions);
+        console.log("page",page);
+        
         // Render the UI for your table
         return (
             <>
@@ -210,13 +213,13 @@ const HousePoolTransaction = (props: any) => {
                     page.length ?
                         <PaginationCont className="pagination">
 
-                            <div className="dataCount">Showing 1 to 5 of 35 elements</div>
+                            <div className="dataCount">Showing {parseFloat(page[0].id) + 1} to {parseFloat(page[page.length-1 ].id) + 1} of {data.length} elements</div>
                             <div className="pageCount">
                                 <button onClick={() => previousPage()} disabled={!canPreviousPage}>
                                     {'<'}
                                 </button>{' '}
                                 <strong>
-                                    Page {pageIndex + 1} of {pageOptions.length}
+                                    Page {pageIndex + 1} of {pageCount}
                                 </strong>
                                 <button onClick={() => nextPage()} disabled={!canNextPage}>
                                     {'>'}
