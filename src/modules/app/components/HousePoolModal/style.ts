@@ -76,3 +76,13 @@ export const Input = styled.input`
 		font-size: 14px;
 		line-height: 30px;
 	}`
+	export const Dropdown = styled.div<any>`
+	background: #fff;
+	color: #000; 
+	position: absolute;
+	border-radius: 10px;
+	width: 100%;
+	top: 80px;
+	transform: translateX(-4%);
+	z-index: 9;
+	`
