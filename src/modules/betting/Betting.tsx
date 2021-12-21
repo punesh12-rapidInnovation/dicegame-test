@@ -49,6 +49,7 @@ import CustomModal from "shared/custom-modal";
 import { CheckCont } from "shared/Disclaimer/style";
 import RangeSlider from "shared/range-slider/RangeSlider";
 import DisableModal from "shared/DisableModal/Disable";
+import { rangeSliderSound, rollingDiceSound } from "./Sound";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
@@ -207,7 +208,14 @@ const Betting = () => {
     if (RangePercent > 98) setRangeValue(98);
     else if (RangePercent < 1) setRangeValue(1);
     else setRangeValue(RangePercent);
+
+    // let speed = (Number(RangePercent) / 50)
+    let speed = (50 / Number(RangePercent))
+    console.log('speed', speed);
+    rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
+
   };
+
 
   const BetSetThroughInput = (e: any) => {
     const { value } = e.target;
@@ -446,11 +454,6 @@ const Betting = () => {
     getWalletBalance();
   }, [userAddress, showResultModal]);
 
-  // useEffect(() => {
-  //   let speed = (Number(RangeValue) / 100)
-  //   if (RangeValue !== 1 && !loader)
-  //     rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
-  // }, [RangeValue, loader])
 
   const handleCheckChange = (value: any, checkNum: Number) => {
     if (checkNum === 1 && !checked1) {
