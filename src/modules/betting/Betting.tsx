@@ -89,7 +89,7 @@ const Betting = () => {
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
-  const [Disable, setDisable] = useState<boolean>();
+  const [Disable, setDisable] = useState<boolean>(false);
 
   const { walletBalance, userAddress } = useSelector(
     (state: any) => state.wallet
@@ -118,16 +118,6 @@ const Betting = () => {
       setshowDisclaimer(true);
     } else {
       setshowDisclaimer(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const LocalAgree = localStorage.getItem("Agree");
-    console.log(LocalAgree, !showDisclaimer);
-    if (!showDisclaimer || LocalAgree === "True") {
-      setDisable(false);
-    } else {
-      setDisable(true);
     }
   }, []);
 
@@ -175,13 +165,12 @@ const Betting = () => {
 
     connect();
 
-
     const disconnect = () => {
       socket.disconnect();
     };
     return () => {
       disconnect();
-    }
+    };
   }, [PlacingBetId]);
 
   window.onbeforeunload = function () {
@@ -210,12 +199,10 @@ const Betting = () => {
     else setRangeValue(RangePercent);
 
     // let speed = (Number(RangePercent) / 50)
-    let speed = (50 / Number(RangePercent))
-    console.log('speed', speed);
-    rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
-
+    let speed = 50 / Number(RangePercent);
+    console.log("speed", speed);
+    rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag);
   };
-
 
   const BetSetThroughInput = (e: any) => {
     const { value } = e.target;
@@ -236,6 +223,8 @@ const Betting = () => {
       return;
     } else if (PlacingBet) {
       return;
+    } else if (localStorage.getItem("Agree") !== "true") {
+      setshowDisclaimer(true);
     } else if (BetAmount === 0) {
       setAlertText("BET AMOUNT CANNOT BE 0");
       setAlertModalState(true);
@@ -453,7 +442,6 @@ const Betting = () => {
     };
     getWalletBalance();
   }, [userAddress, showResultModal]);
-
 
   const handleCheckChange = (value: any, checkNum: Number) => {
     if (checkNum === 1 && !checked1) {

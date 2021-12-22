@@ -178,49 +178,51 @@ const LiveChat = (props: any) => {
 
   const sendTOAPI = async () => {
     if (UserBlockedOrNot) {
+      console.log(UserBlockedOrNot);
       setAlertModaltext("You Have Been Blocked From Global Chat");
       setAlertModalState(true);
       return;
-    }
-    setUserTyping(false);
-    var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
-    var localISOTime = new Date(Date.now() - tzoffset)
-      .toISOString()
-      .slice(0, -1);
+    } else {
+      setUserTyping(false);
+      var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+      var localISOTime = new Date(Date.now() - tzoffset)
+        .toISOString()
+        .slice(0, -1);
 
-    console.log("time", localISOTime);
+      console.log("time", localISOTime);
 
-    const walletConnectOrNot = localStorage.getItem("walletConnected");
-    if (inputMessage.trim() === "" || walletConnectOrNot !== "true") {
-      if (walletConnectOrNot !== "true") {
-        setAlertModalState(true);
+      const walletConnectOrNot = localStorage.getItem("walletConnected");
+      if (inputMessage.trim() === "" || walletConnectOrNot !== "true") {
+        if (walletConnectOrNot !== "true") {
+          setAlertModalState(true);
+        }
+        return;
       }
-      return;
-    }
-    const data: any = {
-      username: userAddress,
-      content: inputMessage,
-      time: localISOTime,
-    };
-
-    try {
-      const config: any = {
-        method: "post",
-        url: BASE_URL,
-        data: data,
+      const data: any = {
+        username: userAddress,
+        content: inputMessage,
+        time: localISOTime,
       };
-      axios(config)
-        .then(function (res) {
-          console.log("response", res);
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setInputMessage("");
-      setshowEmojis("none");
+
+      try {
+        const config: any = {
+          method: "post",
+          url: BASE_URL,
+          data: data,
+        };
+        axios(config)
+          .then(function (res) {
+            console.log("response", res);
+          })
+          .catch(function (err) {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setInputMessage("");
+        setshowEmojis("none");
+      }
     }
   };
 
@@ -374,8 +376,8 @@ const LiveChat = (props: any) => {
           >
             <BoxTitle>House Pool Size 24 H</BoxTitle>
             {!hoverLiquidityChartValue &&
-              !hoverLiquidityChartDate &&
-              liquidityChartData.length ? (
+            !hoverLiquidityChartDate &&
+            liquidityChartData.length ? (
               <>
                 <HousePoolChartLabel>
                   $
