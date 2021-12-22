@@ -71,59 +71,6 @@ const LiveChat = (props: any) => {
         setMessages(updatedData);
         setUserTyping(false);
       });
-    } catch (err) {
-      console.log("err", err);
-    }
-    return () => {
-      socket.disconnect();
-    };
-  }, [messages]);
-
-  //@ts-ignore
-  useEffect(async () => {
-    //@ts-ignore
-    const address = JSON.parse(localStorage.getItem("address"));
-    if (address !== null) {
-      const axiosInstance = axios.create({
-        baseURL: "https://diceroll.rapidinnovation.tech/pool",
-      });
-
-      await axiosInstance
-        .get(`/allBlockUser/${address}`)
-        .then(function (response) {
-          //@ts-ignore
-          const counter = response.data.result?.counter;
-          if (counter > 4) {
-            setUserBlockedOrNot(true);
-          }
-        });
-    }
-  }, []);
-  const HandleReport = async (address: string) => {
-    const axiosInstance = axios.create({
-      baseURL: "https://diceroll.rapidinnovation.tech/pool",
-    });
-    await axiosInstance
-      .post("/blockUser", {
-        publicAddress: address,
-      })
-      .then(function (response) {
-        console.log(response.status);
-        if (response.status === 200) {
-          setAlertModaltext(
-            "You have reported this user successfully we will take a look into it"
-          );
-          setAlertModalState(true);
-        }
-      });
-  };
-
-  useEffect(() => {
-    try {
-      socket.on("connection", () => {
-        // Replace event name with connection event name
-        console.log("websocket connected");
-      });
       socket.on("typing", (data) => {
         // console.log("typingdata", data);
         if (data === "stop") {
@@ -141,6 +88,63 @@ const LiveChat = (props: any) => {
       socket.disconnect();
     };
   }, [messages]);
+
+  
+  //@ts-ignore
+  const address = JSON.parse(localStorage.getItem("address"));
+
+  //@ts-ignore
+  useEffect(async () => {
+    //@ts-ignore
+    const address = JSON.parse(localStorage.getItem("address"));
+    if (address !== null) {
+      const axiosInstance = axios.create({
+        baseURL: "https://diceroll.rapidinnovation.tech/pool",
+      });
+
+      await axiosInstance
+        .get(`/allBlockUser/${address}`)
+        .then(function (response) {
+          //@ts-ignore
+          const counter = response.data.result?.counter;
+          if (counter > 4) {
+            setUserBlockedOrNot(true);
+            console.log(UserBlockedOrNot);
+            console.log(counter)
+          } else {
+            console.log(UserBlockedOrNot);
+            console.log(counter)
+            
+          }
+        });
+    }
+  }, [address]);
+
+
+  const HandleReport = async (address: string) => {
+    if (!UserBlockedOrNot) {
+      const axiosInstance = axios.create({
+      baseURL: "https://diceroll.rapidinnovation.tech/pool",
+    });
+    await axiosInstance
+      .post("/blockUser", {
+        publicAddress: address,
+      })
+      .then(function (response) {
+        console.log(response.status);
+        if (response.status === 200) {
+          setAlertModaltext(
+            "You have reported this user successfully we will take a look into it"
+          );
+          setAlertModalState(true);
+        }
+      }); 
+    } else {
+      setAlertModaltext("Global Chat Access Blocked")
+      setAlertModalState(true);
+    }
+  };
+
   //@ts-ignore
   const pickEmoji = (e: any, { emoji }) => {
     console.log(e.target);
@@ -170,7 +174,6 @@ const LiveChat = (props: any) => {
     });
     const getdata = async () => {
       const res = await axiosInstance.get("/allLiquidity");
-      console.log("dataaaa", res);
       setLiquidityChartData(res.data);
     }; //
     getdata();
@@ -194,6 +197,7 @@ const LiveChat = (props: any) => {
       const walletConnectOrNot = localStorage.getItem("walletConnected");
       if (inputMessage.trim() === "" || walletConnectOrNot !== "true") {
         if (walletConnectOrNot !== "true") {
+          setAlertModaltext("Connect Wallet to Send Message To Global Chat");
           setAlertModalState(true);
         }
         return;
@@ -324,7 +328,6 @@ const LiveChat = (props: any) => {
             </ChatTopdiv>
             <ChatMiddlediv>
               {renderChat()}
-              {console.log("check", userTypingAddress !== userAddress)}
               {userTyping && userTypingAddress !== userAddress ? (
                 <Messagediv>
                   <OthersMsgIcon src={ChatProfile} alt="" />
@@ -342,8 +345,6 @@ const LiveChat = (props: any) => {
                 value={inputMessage}
                 //@ts-ignore
                 ref={inputRef}
-                onKeyPress={handleKeyPress}
-                onKeyUp={handleKeyUp}
                 style={{ width: "100%", height: "100%" }}
                 type="text"
                 placeholder="Type message..."
@@ -436,7 +437,6 @@ const LiveChat = (props: any) => {
                     gridColumnGap: '10px',
                     gridRowGap: '10px',
                 }}>
-
                     <div style={{display:"flex",width: '100%'}}>
                         <Box style={{width: '100%',minHeight: "50vh",display: "flex",justifyContent: "center",alignItems: "center"}}>
                             <BarChart chartData={[{created_at:19,volume_24:987},{created_at:20,volume_24:387},{created_at:21,volume_24:687}]} setHoverValue={() => {}} setHoverDate={() => {}} />
@@ -480,7 +480,7 @@ const LiveChat = (props: any) => {
         <Alertmsg
           show={AlertModalState}
           toggleModal={() => Closealert()}
-          alertText="Connect Wallet to Send Message"
+          alertText={AlertModaltext}
         />
       </>
     </GlobalChatSection>
