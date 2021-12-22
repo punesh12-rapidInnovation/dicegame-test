@@ -472,15 +472,9 @@ const Betting = () => {
     // if (evenOdd === 0)
     //   setEvenOddProfit(0);
 
-    handleRangeProfit(rangeLow, rangeHigh);
   }, [evenOdd, rangeLow, rangeHigh]);
 
-  const handleRangeProfit = (rangeLow: any, rangeHigh: any) => {
-    // const range: any = `${rangeLow}-${rangeHigh}`;
-    if (rangeLow >= 1 && rangeHigh <= 99 && rangeLow !== rangeHigh) {
-      // setRangeProfit(2);
-    } else setRangeProfit(0);
-  };
+
 
   const handleSelectValue1 = (e: any) => {
     const value = e.target.value;
@@ -520,7 +514,7 @@ const Betting = () => {
       let range = rangeHigh - rangeLow; //3-1
       let totalChances = (100 - range) / 2;
 
-      if (rangeLow < rangeHigh)
+      if (Number(rangeLow) < Number(rangeHigh))
         setRangeProfit(totalChances)
       else
         setRangeProfit(0)
@@ -827,7 +821,7 @@ const Betting = () => {
       <BetBottom>
         {UserAllowance ? (
           <PrimaryButton
-            disabled={rangeLow > rangeHigh}
+            disabled={rangeLow > rangeHigh || rangeLow === rangeHigh}
             onClick={() => CallingPlaceBet()}
           >
             {/* // <PrimaryButton onClick={() => handlePlaceBet(userAddress, BetAmount, RangeValue + 1)}> */}
