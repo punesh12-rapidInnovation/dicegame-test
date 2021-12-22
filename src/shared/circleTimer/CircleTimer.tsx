@@ -32,6 +32,8 @@ const CircleTimer = (props: any) => {
             setCircleDashoffset(circleDashoffset+(circleDasharray/parseFloat(value)));
           }
         }, 1000);
+
+        return () => clearInterval(intervalId);
     },[counter])
       
       

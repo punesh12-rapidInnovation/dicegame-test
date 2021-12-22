@@ -9,7 +9,7 @@ import CircleTimer from 'shared/circleTimer/CircleTimer';
 
 
 const HousePoolTransaction = (props: any) => {
-    const { txLockedTimeLeft, setTxLockedTimeLeft } = props;
+    const { depositDoneNumber, withdrawDoneNumber } = props;
 
 
     // const [TokenData, setTokenData] = useState<any>([
@@ -54,7 +54,7 @@ const HousePoolTransaction = (props: any) => {
         } //
 
         getdata();
-    }, [userAddress])
+    }, [userAddress,depositDoneNumber,withdrawDoneNumber])
 
 
     useEffect(() => {
