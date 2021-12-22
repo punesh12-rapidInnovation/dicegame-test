@@ -7,6 +7,7 @@ import downCarotIcon from 'assets/icons/downCarot.svg'
 import { floatNumRegex } from 'shared/helpers/regrexConstants';
 import { instanceType, selectInstances } from 'utils/contracts';
 import { convertToEther, convertToWei } from 'utils/helper';
+import CircleTimer from 'shared/circleTimer/CircleTimer';
 
 const HousePoolWithdrawModal = (props: any) => {
     const { show, toggleModal, styles, userAddress, walletBalance, ActionType,withdrawDoneSuccess,closeModal } = props;
@@ -118,8 +119,11 @@ const HousePoolWithdrawModal = (props: any) => {
     }
 
     return (
+        <>
         <HousePoolCont>
             <H1>HOUSE POOL</H1>
+            {Object.values(depositSelected).filter(x => x).length ? <CircleTimer value={(depositSelected.DepositTime+depositSelected.releaseTime)-(Date.now()/1000)}></CircleTimer> 
+            : null}
             <div style={{
                 width: '100%',
                 background: '#2A1966',
@@ -207,6 +211,7 @@ const HousePoolWithdrawModal = (props: any) => {
             <div style={{margin:"10px 0", color:"#fff", textAlign:"right"}}>Pending Rewards: { depositSelected.pendingRewards ?  parseFloat(convertToEther(depositSelected.pendingRewards)): 0.00} PLS</div>
             <PrimaryButton margin={"30px 0 0 0"} onClick={handleWithdraw} disabled={!parseFloat(withdrawAmount)}>Withdraw</PrimaryButton>
         </HousePoolCont >
+        </>
     );
 };
 

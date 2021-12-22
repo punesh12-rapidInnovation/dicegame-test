@@ -20,6 +20,7 @@ const HousePool = () => {
     const [showDepositModal, setshowDepositModal] = useState(false)
     const [showWithdrawModal, setshowWithdrawModal] = useState(false)
     const [showDisclaimer, setshowDisclaimer] = useState(false)
+    const [showConnectWalletAlert, setShowConnectWalletAlert] = useState<boolean>(false);
     // const [depositTxs, setDepositTxs] = useState<any>([])
     // const [withdrawTxs, setWithdrawTxs] = useState<any>([])
     const [totalValueLocked, setTotalValueLocked] = useState<any>("0")
@@ -97,7 +98,10 @@ const HousePool = () => {
                 >
                     <PrimaryButton width="300px"
                         style={{ padding: '25px', fontSize: '18px' }}
-                        onClick={() => { setshowDepositModal(true); setActionType('deposit') }}
+                        onClick={() => { 
+                            if(!userAddress) setShowConnectWalletAlert(true);
+                            else setshowDepositModal(true); setActionType('deposit'); 
+                        }}
                     >DEPOSIT FUNDS (PLS)</PrimaryButton>
                 </FlexCont>
             </InfoContainer>
@@ -152,7 +156,10 @@ const HousePool = () => {
                             <PrimaryButton
                                 width="40%"
                                 margin="0 10px"
-                                onClick={() => { setshowDepositModal(true); setActionType('deposit') }}
+                                onClick={() => { 
+                                    if(!userAddress) setShowConnectWalletAlert(true);
+                                    else setshowDepositModal(true); setActionType('deposit') 
+                                }}
                                 style={{ padding: '18px' }}
 
                             >DEPOSIT FUNDS
@@ -161,7 +168,10 @@ const HousePool = () => {
                                 width="45%"
                                 margin="0 10px"
                                 color={colors.primary}
-                                onClick={() => { setshowWithdrawModal(true); setActionType('withdraw') }}
+                                onClick={() => { 
+                                    if(!userAddress) setShowConnectWalletAlert(true);
+                                    else setshowWithdrawModal(true); setActionType('withdraw') 
+                                }}
                                 style={{ padding: '18px' }}
 
                             >WITHDRAW FUNDS</PrimaryButton>
@@ -291,6 +301,15 @@ const HousePool = () => {
                 heading={"WITHDRAW FUNDS"}
             >
                 <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} withdrawDoneSuccess={() => setWithdrawDoneNumber(withdrawDoneNumber+1)}  closeModal={() => setshowWithdrawModal(false)}  />
+            </CustomModal>}
+
+            {showConnectWalletAlert &&
+            <CustomModal
+                show={showConnectWalletAlert}
+                toggleModal={() => setShowConnectWalletAlert(false)}
+                heading={"Connect To Wallet First"}
+            >
+                {/* <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} withdrawDoneSuccess={() => setWithdrawDoneNumber(withdrawDoneNumber+1)}  closeModal={() => setshowWithdrawModal(false)}  /> */}
             </CustomModal>}
 
             

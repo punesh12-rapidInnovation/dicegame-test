@@ -57,28 +57,28 @@ const HousePoolTransaction = (props: any) => {
     }, [userAddress,depositDoneNumber,withdrawDoneNumber])
 
 
-    useEffect(() => {
-        depositTxs.forEach((item: any, i: number) => {
-            localStorage.setItem(`lockedTime${i}`, `${item._releaseTime - item._depositedTime}`);
-            const intervalId = setInterval(() => {
-                const lockedTimeString: any = localStorage.getItem(`lockedTime${i}`);
-                let lockedTime = parseFloat(lockedTimeString);
-                if (!lockedTime) {
-                    clearInterval(intervalId)
-                } else {
-                    localStorage.setItem(`lockedTime${i}`, `${lockedTime - 1}`)
-                }
-            }, 1000);
-            setLockedTimeIntervalId([...lockedTimeIntervalId, intervalId])
-        })
+    // useEffect(() => {
+    //     depositTxs.forEach((item: any, i: number) => {
+    //         localStorage.setItem(`lockedTime${i}`, `${item._releaseTime - item._depositedTime}`);
+    //         const intervalId = setInterval(() => {
+    //             const lockedTimeString: any = localStorage.getItem(`lockedTime${i}`);
+    //             let lockedTime = parseFloat(lockedTimeString);
+    //             if (!lockedTime) {
+    //                 clearInterval(intervalId)
+    //             } else {
+    //                 localStorage.setItem(`lockedTime${i}`, `${lockedTime - 1}`)
+    //             }
+    //         }, 1000);
+    //         setLockedTimeIntervalId([...lockedTimeIntervalId, intervalId])
+    //     })
 
-        return () => {
-            depositTxs.forEach((item: any, i: number) => {
-                localStorage.removeItem(`lockedTime${i}`);
-                clearInterval(lockedTimeIntervalId[i])
-            })
-        }
-    }, [depositTxs])
+    //     return () => {
+    //         depositTxs.forEach((item: any, i: number) => {
+    //             localStorage.removeItem(`lockedTime${i}`);
+    //             clearInterval(lockedTimeIntervalId[i])
+    //         })
+    //     }
+    // }, [depositTxs])
 
 
 
@@ -160,34 +160,34 @@ const HousePoolTransaction = (props: any) => {
                                             {row.cells.map((cell: any, rowIndex: number) => {
 
                                                 // else
-                                                if (cell.column.id === 'locked') return <td {...cell.getCellProps()}>
+                                                // if (cell.column.id === 'locked') return <td {...cell.getCellProps()}>
 
-                                                    {cell.value &&
-                                                        //   <TimerWrapper >
-                                                        //     <CountdownCircleTimer
-                                                        //         isPlaying
-                                                        //         isLinearGradient={true}
-                                                        //         duration={cell.value}
-                                                        //         colors={[
-                                                        //             ["#EF0896", 0],
-                                                        //             ["#7007FF", 1],
-                                                        //         ]}
-                                                        //         size={55}
-                                                        //         strokeWidth={4}
-                                                        //     >
-                                                        //         {renderTime}
-                                                        //     </CountdownCircleTimer>
-                                                        // </TimerWrapper>
-                                                        <CircleTimer
-                                                            value={cell.value}
-                                                            // value={lockedTimeLeft} 
-                                                            rowIndex={rowIndex}
-                                                        ></CircleTimer>
-                                                        // <p>7</p>
-                                                    }
+                                                //     {cell.value &&
+                                                //         //   <TimerWrapper >
+                                                //         //     <CountdownCircleTimer
+                                                //         //         isPlaying
+                                                //         //         isLinearGradient={true}
+                                                //         //         duration={cell.value}
+                                                //         //         colors={[
+                                                //         //             ["#EF0896", 0],
+                                                //         //             ["#7007FF", 1],
+                                                //         //         ]}
+                                                //         //         size={55}
+                                                //         //         strokeWidth={4}
+                                                //         //     >
+                                                //         //         {renderTime}
+                                                //         //     </CountdownCircleTimer>
+                                                //         // </TimerWrapper>
+                                                //         <CircleTimer
+                                                //             value={cell.value}
+                                                //             // value={lockedTimeLeft} 
+                                                //             rowIndex={rowIndex}
+                                                //         ></CircleTimer>
+                                                //         // <p>7</p>
+                                                //     }
 
-                                                    {/* {cell.value} */}
-                                                </td>
+                                                //     {/* {cell.value} */}
+                                                // </td>
 
                                                 if (cell.column.Header === "TOTAL VALUE") return <TD {...cell.getCellProps()}>{parseFloat(convertToEther(cell.value))} PLS</TD>
                                                 if (cell.column.Header === "ACCOUNT") return <TD {...cell.getCellProps()}>{cell.value.slice(0, 4)}...{cell.value.slice(-4)}</TD>
@@ -250,10 +250,10 @@ const HousePoolTransaction = (props: any) => {
                 Header: 'ACCOUNT',
                 accessor: '_sender',
             },
-            {
-                Header: 'LOCKED FOR',
-                accessor: 'locked',
-            },
+            // {
+            //     Header: 'LOCKED FOR',
+            //     accessor: 'locked',
+            // },
             {
                 Header: 'TIME',
                 accessor: 'createdAt',
@@ -281,12 +281,18 @@ const HousePoolTransaction = (props: any) => {
 
         return `${minutes}:${seconds}`;
     };
+
+    const getSortedTxsAccToTime = (txs:any) => {
+       const sortedTxs = txs.sort((a:any, b:any)  => b.createdAt - a.createdAt);
+       console.log("sortedTxs",sortedTxs);
+       return sortedTxs;
+    }
     return (
         <>
             <DataContainer>
                 <TableStyles  >
 
-                    {depositTxs && <Table columns={columns} data={[...depositTxs, ...withdrawTxs]} />}
+                    {depositTxs && <Table columns={columns} data={getSortedTxsAccToTime([...depositTxs, ...withdrawTxs])} />}
                 </TableStyles>
 
             </DataContainer >

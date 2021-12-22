@@ -21,6 +21,7 @@ import WrongNetwork from "shared/wrong-network";
 import wallet from "utils/wallet";
 import CustomModal from "shared/custom-modal";
 import Disclaimer from "shared/Disclaimer/Disclaimer";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -111,7 +112,7 @@ const Header = () => {
         <div style={{ width: "100%" }}></div>
 
         <div style={{ width: "100%" }}>
-          <img src={siteLogo} alt="" />
+          <Link to='/landing'> <img src={siteLogo} alt="" /></Link>
         </div>
 
         <Walletcontainer>
