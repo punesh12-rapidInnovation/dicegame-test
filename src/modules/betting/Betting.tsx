@@ -140,9 +140,18 @@ const Betting = () => {
         });
         socket.on("betevent", (data: any) => {
           console.log(data);
-          // const LocalBetId = localStorage.getItem("PlacingBetId");
-          // console.log(LocalBetId);
-          if (PlacingBetId === data.BetID) {
+          const LocalBetId = localStorage.getItem("PlacingBetId");
+
+          let betId;
+
+          if (PlacingBetId)
+            betId = PlacingBetId;
+          else
+            betId = LocalBetId;
+
+
+
+          if (betId === data.BetID) {
             console.log("ResultObjectupdated");
             setResultObject({
               Betid: data.BetID,
