@@ -1,9 +1,8 @@
-import { ThemeProvider } from 'styled-components';
-import { GlobalStyle, theme } from '../../shared/styles/theme';
-import Routes from './components/routes/Routes';
+import { ThemeProvider } from "styled-components";
+import { GlobalStyle, theme } from "../../shared/styles/theme";
+import Routes from "./components/routes/Routes";
 
 const App = (props: any) => {
-
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -12,6 +11,6 @@ const App = (props: any) => {
       </ThemeProvider>
     </div>
   );
-}
+};
 
 export default App;

@@ -88,7 +88,7 @@ const Betting = () => {
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
-  const [Disable, setDisable] = useState<boolean>();
+  const [Disable, setDisable] = useState<boolean>(false);
 
   const { walletBalance, userAddress } = useSelector(
     (state: any) => state.wallet
@@ -117,16 +117,6 @@ const Betting = () => {
       setshowDisclaimer(true);
     } else {
       setshowDisclaimer(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const LocalAgree = localStorage.getItem("Agree");
-    console.log(LocalAgree, !showDisclaimer);
-    if (!showDisclaimer || LocalAgree === "True") {
-      setDisable(false);
-    } else {
-      setDisable(true);
     }
   }, []);
 
@@ -178,7 +168,7 @@ const Betting = () => {
       socket.disconnect();
     };
     return () => disconnect();
-  }, []);
+  }, [PlacingBet]);
 
   window.onbeforeunload = function () {
     if (PlacingBet) return "Leaving this page will reset the wizard";
@@ -225,6 +215,8 @@ const Betting = () => {
       return;
     } else if (PlacingBet) {
       return;
+    } else if (localStorage.getItem("Agree") !== "true") {
+      setshowDisclaimer(true);
     } else if (BetAmount === 0) {
       setAlertText("BET AMOUNT CANNOT BE 0");
       setAlertModalState(true);
@@ -351,7 +343,6 @@ const Betting = () => {
           setBetplacedLoading(true);
           localStorage.setItem("Loading", "true");
           localStorage.setItem("BetAmount", BetAmount);
-          window.location.reload();
         });
       console.log(RollDice);
       return RollDice;
