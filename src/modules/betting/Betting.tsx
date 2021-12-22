@@ -821,7 +821,7 @@ const Betting = () => {
       <BetBottom>
         {UserAllowance ? (
           <PrimaryButton
-            disabled={rangeLow > rangeHigh || rangeLow === rangeHigh}
+            disabled={rangeLow > rangeHigh || (rangeLow === rangeHigh && rangeHigh > 0 && rangeHigh > 0)}
             onClick={() => CallingPlaceBet()}
           >
             {/* // <PrimaryButton onClick={() => handlePlaceBet(userAddress, BetAmount, RangeValue + 1)}> */}
