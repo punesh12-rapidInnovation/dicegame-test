@@ -474,8 +474,11 @@ const Betting = () => {
   };
 
   useEffect(() => {
-    if (evenOdd !== 0) setEvenOddProfit(2);
-    else setEvenOddProfit(0);
+    // if (evenOdd !== 0) setEvenOddProfit(2);
+    // else setEvenOddProfit(0);
+
+    // if (evenOdd === 0)
+    //   setEvenOddProfit(0);
 
     handleRangeProfit(rangeLow, rangeHigh);
   }, [evenOdd, rangeLow, rangeHigh]);
@@ -483,7 +486,7 @@ const Betting = () => {
   const handleRangeProfit = (rangeLow: any, rangeHigh: any) => {
     // const range: any = `${rangeLow}-${rangeHigh}`;
     if (rangeLow >= 1 && rangeHigh <= 99 && rangeLow !== rangeHigh) {
-      setRangeProfit(2);
+      // setRangeProfit(2);
     } else setRangeProfit(0);
   };
 
@@ -513,12 +516,23 @@ const Betting = () => {
     let multiplier: number = totalChances / RangeValue;
     if (_OddEvenStatus == 0) {
       multiplier = multiplier;
+      setEvenOddProfit(0);
+
     } else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
-      multiplier = multiplier + rollUnder / (rollUnder / 2); //The multiplier has fixed as 2
+
+      let oddEvenMultiplier = rollUnder / (rollUnder / 2)
+      setEvenOddProfit(oddEvenMultiplier)
+      multiplier = multiplier + oddEvenMultiplier; //The multiplier has fixed as 2
     }
     if (isRangeTrue === true) {
       let range = rangeHigh - rangeLow; //3-1
       let totalChances = (100 - range) / 2;
+
+      if (rangeLow < rangeHigh)
+        setRangeProfit(totalChances)
+      else
+        setRangeProfit(0)
+
       // let totalChances = range / 2;
       // multiplier +=totalChances/range;//2/98
       multiplier += totalChances;
@@ -554,14 +568,14 @@ const Betting = () => {
     const multiplier = Multiplier(
       RangeValue,
       rangeLow >= 0 && rangeHigh > 0,
-      evenOddProfit,
+      evenOdd,
       rangeLow,
       rangeHigh
     );
 
     setMaxBet(multiplier);
     calcTempPlayerProfit(multiplier, BetAmount);
-  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow, rangeHigh]);
+  }, [RangeValue, BetAmount, userAddress, evenOdd, rangeLow, rangeHigh,]);
 
   // function SetMinimumBet(){
   //     // uint contractBalance=address(this).balance;
@@ -704,7 +718,7 @@ const Betting = () => {
                 paddingLeft: "10px",
               }}
             >
-              <Flex style={{ justifyContent: "space-between", width: "50%" }}>
+              <Flex style={{ justifyContent: "space-between", width: "60%" }}>
                 <label className="container">
                   Odd
                   <input
