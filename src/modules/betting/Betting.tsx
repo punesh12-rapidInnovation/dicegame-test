@@ -49,6 +49,7 @@ import CustomModal from "shared/custom-modal";
 import { CheckCont } from "shared/Disclaimer/style";
 import RangeSlider from "shared/range-slider/RangeSlider";
 import DisableModal from "shared/DisableModal/Disable";
+import { rangeSliderSound, rollingDiceSound } from "./Sound";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
@@ -88,7 +89,7 @@ const Betting = () => {
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
-  const [Disable, setDisable] = useState<boolean>();
+  const [Disable, setDisable] = useState<boolean>(false);
 
   const { walletBalance, userAddress } = useSelector(
     (state: any) => state.wallet
@@ -110,23 +111,12 @@ const Betting = () => {
   useEffect(() => {
     const localChecked = localStorage.getItem("ShowDisclaimer");
     const Loading = localStorage.getItem("Loading");
-    console.log(Loading);
     if (Loading === "true") {
       setshowDisclaimer(false);
     } else if (localChecked === null || localChecked === "false") {
       setshowDisclaimer(true);
     } else {
       setshowDisclaimer(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const LocalAgree = localStorage.getItem("Agree");
-    console.log(LocalAgree, !showDisclaimer);
-    if (!showDisclaimer || LocalAgree === "True") {
-      setDisable(false);
-    } else {
-      setDisable(true);
     }
   }, []);
 
@@ -149,9 +139,18 @@ const Betting = () => {
         });
         socket.on("betevent", (data: any) => {
           console.log(data);
-          // const LocalBetId = localStorage.getItem("PlacingBetId");
-          // console.log(LocalBetId);
-          if (PlacingBetId === data.BetID) {
+          const LocalBetId = localStorage.getItem("PlacingBetId");
+
+          let betId;
+
+          if (PlacingBetId)
+            betId = PlacingBetId;
+          else
+            betId = LocalBetId;
+
+
+
+          if (betId === data.BetID) {
             console.log("ResultObjectupdated");
             setResultObject({
               Betid: data.BetID,
@@ -174,13 +173,9 @@ const Betting = () => {
 
     connect();
 
-
-    const disconnect = () => {
+    return () => {
       socket.disconnect();
     };
-    return () => {
-      disconnect();
-    }
   }, [PlacingBetId]);
 
   window.onbeforeunload = function () {
@@ -207,6 +202,10 @@ const Betting = () => {
     if (RangePercent > 98) setRangeValue(98);
     else if (RangePercent < 1) setRangeValue(1);
     else setRangeValue(RangePercent);
+
+    // let speed = (Number(RangePercent) / 50)
+    let speed = 50 / Number(RangePercent);
+    rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag);
   };
 
   const BetSetThroughInput = (e: any) => {
@@ -228,6 +227,8 @@ const Betting = () => {
       return;
     } else if (PlacingBet) {
       return;
+    } else if (localStorage.getItem("Agree") !== "true") {
+      setshowDisclaimer(true);
     } else if (BetAmount === 0) {
       setAlertText("BET AMOUNT CANNOT BE 0");
       setAlertModalState(true);
@@ -446,12 +447,6 @@ const Betting = () => {
     getWalletBalance();
   }, [userAddress, showResultModal]);
 
-  // useEffect(() => {
-  //   let speed = (Number(RangeValue) / 100)
-  //   if (RangeValue !== 1 && !loader)
-  //     rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
-  // }, [RangeValue, loader])
-
   const handleCheckChange = (value: any, checkNum: Number) => {
     if (checkNum === 1 && !checked1) {
       setChecked1(!checked1);
@@ -471,8 +466,11 @@ const Betting = () => {
   };
 
   useEffect(() => {
-    if (evenOdd !== 0) setEvenOddProfit(2);
-    else setEvenOddProfit(0);
+    // if (evenOdd !== 0) setEvenOddProfit(2);
+    // else setEvenOddProfit(0);
+
+    // if (evenOdd === 0)
+    //   setEvenOddProfit(0);
 
     handleRangeProfit(rangeLow, rangeHigh);
   }, [evenOdd, rangeLow, rangeHigh]);
@@ -480,7 +478,7 @@ const Betting = () => {
   const handleRangeProfit = (rangeLow: any, rangeHigh: any) => {
     // const range: any = `${rangeLow}-${rangeHigh}`;
     if (rangeLow >= 1 && rangeHigh <= 99 && rangeLow !== rangeHigh) {
-      setRangeProfit(2);
+      // setRangeProfit(2);
     } else setRangeProfit(0);
   };
 
@@ -510,12 +508,23 @@ const Betting = () => {
     let multiplier: number = totalChances / RangeValue;
     if (_OddEvenStatus == 0) {
       multiplier = multiplier;
+      setEvenOddProfit(0);
+
     } else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
-      multiplier = multiplier + rollUnder / (rollUnder / 2); //The multiplier has fixed as 2
+
+      let oddEvenMultiplier = rollUnder / (rollUnder / 2)
+      setEvenOddProfit(oddEvenMultiplier)
+      multiplier = multiplier + oddEvenMultiplier; //The multiplier has fixed as 2
     }
     if (isRangeTrue === true) {
       let range = rangeHigh - rangeLow; //3-1
       let totalChances = (100 - range) / 2;
+
+      if (rangeLow < rangeHigh)
+        setRangeProfit(totalChances)
+      else
+        setRangeProfit(0)
+
       // let totalChances = range / 2;
       // multiplier +=totalChances/range;//2/98
       multiplier += totalChances;
@@ -537,7 +546,6 @@ const Betting = () => {
     const HOUSEPOOL_INSTANCE = await selectInstances(instanceType.HOUSEPOOL);
     const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
 
-    console.log("multiplier max profit", convertToEther(maxProfit));
 
     if (maxProfit) {
       const maxBet = convertToEther(maxProfit) / multiplier;
@@ -551,14 +559,14 @@ const Betting = () => {
     const multiplier = Multiplier(
       RangeValue,
       rangeLow >= 0 && rangeHigh > 0,
-      evenOddProfit,
+      evenOdd,
       rangeLow,
       rangeHigh
     );
 
     setMaxBet(multiplier);
     calcTempPlayerProfit(multiplier, BetAmount);
-  }, [RangeValue, BetAmount, userAddress, evenOddProfit, rangeLow, rangeHigh]);
+  }, [RangeValue, BetAmount, userAddress, evenOdd, rangeLow, rangeHigh,]);
 
   // function SetMinimumBet(){
   //     // uint contractBalance=address(this).balance;
@@ -573,17 +581,19 @@ const Betting = () => {
       const profit: number = House - betValue;
 
       const finalProfit = convertToWei(profit.toFixed(18).toString());
-      console.log("multiplier", multiplier, "profit", profit);
 
-      if (finalProfit === "0") {
-        setProfit(0);
-        return 0;
-      } else {
-        // setProfit(finalProfit - 1);
-        // return finalProfit - 1;
-        setProfit(Math.abs(finalProfit - 1));
-        return finalProfit - 1;
-      }
+      setProfit(finalProfit);
+
+
+      // if (finalProfit === "0") {
+      //   setProfit(0);
+      //   return 0;
+      // } else {
+      //   // setProfit(finalProfit - 1);
+      //   // return finalProfit - 1;
+      //   setProfit(Math.abs(finalProfit - 1));
+      //   return finalProfit - 1;
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -701,7 +711,7 @@ const Betting = () => {
                 paddingLeft: "10px",
               }}
             >
-              <Flex style={{ justifyContent: "space-between", width: "50%" }}>
+              <Flex style={{ justifyContent: "space-between", width: "60%" }}>
                 <label className="container">
                   Odd
                   <input

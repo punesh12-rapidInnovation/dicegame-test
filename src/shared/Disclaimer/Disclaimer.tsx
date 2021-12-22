@@ -17,7 +17,6 @@ const Disclaimer = (props: any) => {
 
   const CheckedOrNot = () => {
     const localChecked = localStorage.getItem("ShowDisclaimer");
-    console.log(localChecked);
     if (localChecked === null || localChecked === "false") {
       return false;
     } else {
@@ -33,6 +32,10 @@ const Disclaimer = (props: any) => {
     }
   };
 
+  const crossFunction = () => {
+    toggleModal();
+  };
+
   const closingAgreeModal = () => {
     setAlertModalState(false);
   };
@@ -43,8 +46,8 @@ const Disclaimer = (props: any) => {
 
   const setAgree = () => {
     localStorage.setItem("Agree", "true");
-    toggleModal(!show);
     window.location.reload();
+    toggleModal();
   };
 
   const SetLocalShowDisclaimer = () => {
@@ -61,7 +64,7 @@ const Disclaimer = (props: any) => {
       <ModalContent style={{ width: "600px" }}>
         <ModelHead>
           <h2>Disclaimer</h2>
-          <Close src={Cross} onClick={() => toggleModal()} />
+          <Close src={Cross} onClick={() => crossFunction()} />
         </ModelHead>
         <DisclaimerCont>
           <ul>
@@ -90,19 +93,20 @@ const Disclaimer = (props: any) => {
           {LocalAgree ? (
             ""
           ) : (
-            <PrimaryButton onClick={() => setAgree()}>AGREE</PrimaryButton>
+            <div>
+              <PrimaryButton onClick={() => setAgree()}>AGREE</PrimaryButton>
+              <p
+                style={{
+                  marginTop: "10px",
+                  color: "white",
+                  fontSize: "14px",
+                  textAlign: "right",
+                }}
+              >
+                Please read the disclaimer to proceed
+              </p>
+            </div>
           )}
-
-          <p
-            style={{
-              marginTop: "10px",
-              color: "white",
-              fontSize: "14px",
-              textAlign: "right",
-            }}
-          >
-            Please read the disclaimer to proceed
-          </p>
 
           <CheckCont>
             <label className="container" style={{ color: "white" }}>

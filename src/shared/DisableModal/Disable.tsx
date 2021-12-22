@@ -2,8 +2,14 @@ import React from "react";
 import { ModalBody } from "modules/betting/modals/style";
 
 const DisableModal = (props: any) => {
-  const { show, set } = props;
-  return <ModalBody show={show} onMouseDown={set(true)}></ModalBody>;
+  const { show, setdisclaimer, setDisable } = props;
+
+  const showDisclaimer = () => {
+    setDisable(false);
+    setdisclaimer(true);
+  };
+
+  return <ModalBody show={show} onMouseDown={showDisclaimer}></ModalBody>;
 };
 
 export default DisableModal;

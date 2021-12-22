@@ -20,7 +20,7 @@ const RangeSlider = (props: any) => {
         style={{
           position: "absolute",
           top: "-30px",
-          left: `${value + 1.5}%`,
+          left: `${value + 1}%`,
           transform: "translate(-50%,-50%)",
         }}
         value={value} >
