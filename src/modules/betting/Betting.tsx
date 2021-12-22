@@ -582,15 +582,18 @@ const Betting = () => {
 
       const finalProfit = convertToWei(profit.toFixed(18).toString());
 
-      if (finalProfit === "0") {
-        setProfit(0);
-        return 0;
-      } else {
-        // setProfit(finalProfit - 1);
-        // return finalProfit - 1;
-        setProfit(Math.abs(finalProfit - 1));
-        return finalProfit - 1;
-      }
+      setProfit(finalProfit);
+
+
+      // if (finalProfit === "0") {
+      //   setProfit(0);
+      //   return 0;
+      // } else {
+      //   // setProfit(finalProfit - 1);
+      //   // return finalProfit - 1;
+      //   setProfit(Math.abs(finalProfit - 1));
+      //   return finalProfit - 1;
+      // }
     } catch (error) {
       console.log(error);
     }

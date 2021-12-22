@@ -89,7 +89,7 @@ const LiveChat = (props: any) => {
     };
   }, [messages]);
 
-  
+
   //@ts-ignore
   const address = JSON.parse(localStorage.getItem("address"));
 
@@ -114,31 +114,42 @@ const LiveChat = (props: any) => {
           } else {
             console.log(UserBlockedOrNot);
             console.log(counter)
-            
+
           }
         });
     }
   }, [address]);
 
 
+  const removeReportedUserMessages = (reportAddress: any) => {
+    let messageData: any = [];
+    messages.map((message: any, index: any) => {
+      if (message.username !== reportAddress) {
+        messageData = [...messageData, message];
+      }
+    })
+    setMessages(messageData)
+  }
+
   const HandleReport = async (address: string) => {
     if (!UserBlockedOrNot) {
       const axiosInstance = axios.create({
-      baseURL: "https://diceroll.rapidinnovation.tech/pool",
-    });
-    await axiosInstance
-      .post("/blockUser", {
-        publicAddress: address,
-      })
-      .then(function (response) {
-        console.log(response.status);
-        if (response.status === 200) {
-          setAlertModaltext(
-            "You have reported this user successfully we will take a look into it"
-          );
-          setAlertModalState(true);
-        }
-      }); 
+        baseURL: "https://diceroll.rapidinnovation.tech/pool",
+      });
+      await axiosInstance
+        .post("/blockUser", {
+          publicAddress: address,
+        })
+        .then(function (response) {
+          console.log(response.status);
+          if (response.status === 200) {
+            setAlertModaltext(
+              "You have reported this user successfully we will take a look into it"
+            );
+            setAlertModalState(true);
+            removeReportedUserMessages(address)
+          }
+        });
     } else {
       setAlertModaltext("Global Chat Access Blocked")
       setAlertModalState(true);
@@ -377,8 +388,8 @@ const LiveChat = (props: any) => {
           >
             <BoxTitle>House Pool Size 24 H</BoxTitle>
             {!hoverLiquidityChartValue &&
-            !hoverLiquidityChartDate &&
-            liquidityChartData.length ? (
+              !hoverLiquidityChartDate &&
+              liquidityChartData.length ? (
               <>
                 <HousePoolChartLabel>
                   $
