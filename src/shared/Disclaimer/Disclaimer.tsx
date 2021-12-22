@@ -12,6 +12,7 @@ import Cross from "assets/icons/Cross.svg";
 
 const Disclaimer = (props: any) => {
   const [LocalAgree, setLocalAgree] = useState<boolean>();
+  const [ReactAgree, setReactAgree] = useState<boolean>();
   const [AlertModalState, setAlertModalState] = useState(false);
   const { show, toggleModal } = props;
 
@@ -25,12 +26,13 @@ const Disclaimer = (props: any) => {
   };
 
   const AgreedOrNot = () => {
-    if (localStorage.getItem("Agree") === "true") {
+    if (localStorage.getItem("Agree") === "true" || ReactAgree) {
       setLocalAgree(true);
-    } else {
+    } else{
       setLocalAgree(false);
     }
   };
+  console.log(ReactAgree);
 
   const crossFunction = () => {
     toggleModal();
@@ -42,12 +44,13 @@ const Disclaimer = (props: any) => {
 
   useEffect(() => {
     AgreedOrNot();
-  }, []);
+  }, [ReactAgree]);
 
   const setAgree = () => {
     localStorage.setItem("Agree", "true");
-    window.location.reload();
+    setReactAgree(true);
     toggleModal();
+    
   };
 
   const SetLocalShowDisclaimer = () => {

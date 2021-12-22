@@ -84,8 +84,11 @@ const LiveChat = (props: any) => {
       socketRef.current.on("typing", (data) => {
         // console.log("typingdata", data);
         if (data === "stop") {
-          setUserTyping(false);
-          setUserTypingAddress("0");
+          setTimeout(() => {
+            setUserTyping(false);
+            setUserTypingAddress("0");
+          }, 5000);
+          
         } else {
           setUserTyping(true);
           setUserTypingAddress(data);

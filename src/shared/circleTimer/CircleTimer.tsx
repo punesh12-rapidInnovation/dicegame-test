@@ -5,9 +5,10 @@ import { CircleTimerCont, Inner, Outer } from './style';
 
 
 const CircleTimer = (props: any) => {
-    const { value, rowIndex } = props;
-    const lockedTime:any = localStorage.getItem(`lockedTime${rowIndex}`);
-    const [counter, setCounter] = useState(lockedTime);
+    const { value } = props;
+    // const { value, rowIndex } = props;
+    // const lockedTime:any = localStorage.getItem(`lockedTime${rowIndex}`);
+    const [counter, setCounter] = useState(value);
 
     const [circleDasharray, setCircleDasharray] = useState(200);
     const [circleDashoffset, setCircleDashoffset] = useState(0);
@@ -27,11 +28,13 @@ const CircleTimer = (props: any) => {
           if (!counter) {
             clearInterval(intervalId)
           } else {
-            const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
-            setCounter(lockedTimeString);
-            setCircleDashoffset(circleDashoffset+(circleDasharray/parseFloat(value)));
+            // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
+            setCounter(counter-1);
+            setCircleDashoffset(circleDashoffset+(circleDasharray/parseFloat(counter)));
           }
         }, 1000);
+
+        return () => clearInterval(intervalId);
     },[counter])
       
       
