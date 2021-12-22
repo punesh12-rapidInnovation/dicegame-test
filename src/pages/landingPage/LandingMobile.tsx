@@ -1,11 +1,17 @@
 import Betting from 'modules/betting';
 import React from 'react';
-import { LandingMobileContainer } from './styleMobile';
+import { LandingMobileContainer, SwapFunctionCont } from './styleMobile';
 
 const LandingMobile = () => {
     return (
         <LandingMobileContainer>
-            <Betting />
+            {/* <Betting /> */}
+            mobile view
+
+            <SwapFunctionCont>
+                <div>Bet</div>
+                <div>chat</div>
+            </SwapFunctionCont>
         </LandingMobileContainer>
     );
 };
