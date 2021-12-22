@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, useEffect, createRef,useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
 import Betting from "../betting";
@@ -56,22 +56,30 @@ const LiveChat = (props: any) => {
   const [UserBlockedOrNot, setUserBlockedOrNot] = useState(false);
 
   const BASE_URL = "https://diceroll.rapidinnovation.tech/api/message";
-  const socket = io("wss://diceroll.rapidinnovation.tech");
+
+  const socketRef = useRef();
+  
 
   useEffect(() => {
+    //@ts-ignore
+    socketRef.current = io("wss://diceroll.rapidinnovation.tech");
+
     try {
-      socket.on("connection", () => {
+      //@ts-ignore
+      socketRef.current.on("connection", () => {
         // Replace event name with connection event name
         console.log("websocket connected");
       });
       // socket.emit('message');
-      socket.on("message", (data) => {
+      //@ts-ignore
+      socketRef.current.on("message", (data) => {
         console.log("data", data);
         const updatedData = [...messages, data];
         setMessages(updatedData);
         setUserTyping(false);
       });
-      socket.on("typing", (data) => {
+      //@ts-ignore
+      socketRef.current.on("typing", (data) => {
         // console.log("typingdata", data);
         if (data === "stop") {
           setUserTyping(false);
@@ -85,7 +93,8 @@ const LiveChat = (props: any) => {
       console.log("err", err);
     }
     return () => {
-      socket.disconnect();
+      //@ts-ignore
+      socketRef.current.disconnect();
     };
   }, [messages]);
 
@@ -105,7 +114,7 @@ const LiveChat = (props: any) => {
       await axiosInstance
         .get(`/allBlockUser/${address}`)
         .then(function (response) {
-          //@ts-ignore
+          //@ts-ignore  
           const counter = response.data.result?.counter;
           if (counter > 4) {
             setUserBlockedOrNot(true);
@@ -294,7 +303,9 @@ const LiveChat = (props: any) => {
   }, [cursorPosition]);
 
   const handleKeyPress = (e: any) => {
-    socket.emit("typing", userAddress);
+    if (!socketRef.current) return;
+    //@ts-ignore
+     socketRef.current.emit("typing", userAddress);
     // socket.broadcast.emit('typing', userAddress);
   };
   const Closealert = () => {
@@ -302,9 +313,13 @@ const LiveChat = (props: any) => {
   };
 
   const handleKeyUp = (e: any) => {
-    socket.emit("typing", "stop");
+    if (!socketRef.current) return;
+    //@ts-ignore
+     socketRef.current.emit("typing", "stop");
     // socket.broadcast.emit('typing', 'stop');
   };
+
+
   return (
     <GlobalChatSection>
       <>
@@ -353,6 +368,8 @@ const LiveChat = (props: any) => {
               <Input
                 onChange={handleInputMessage}
                 onKeyDown={handleKeyDown}
+                onKeyPress={handleKeyPress}
+                onKeyUp={handleKeyUp}
                 value={inputMessage}
                 //@ts-ignore
                 ref={inputRef}
