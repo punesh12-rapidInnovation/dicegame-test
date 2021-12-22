@@ -17,7 +17,6 @@ const Disclaimer = (props: any) => {
 
   const CheckedOrNot = () => {
     const localChecked = localStorage.getItem("ShowDisclaimer");
-    console.log(localChecked);
     if (localChecked === null || localChecked === "false") {
       return false;
     } else {

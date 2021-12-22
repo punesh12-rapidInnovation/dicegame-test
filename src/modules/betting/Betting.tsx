@@ -111,7 +111,6 @@ const Betting = () => {
   useEffect(() => {
     const localChecked = localStorage.getItem("ShowDisclaimer");
     const Loading = localStorage.getItem("Loading");
-    console.log(Loading);
     if (Loading === "true") {
       setshowDisclaimer(false);
     } else if (localChecked === null || localChecked === "false") {
@@ -165,11 +164,8 @@ const Betting = () => {
 
     connect();
 
-    const disconnect = () => {
-      socket.disconnect();
-    };
     return () => {
-      disconnect();
+      socket.disconnect();
     };
   }, [PlacingBetId]);
 
@@ -200,7 +196,6 @@ const Betting = () => {
 
     // let speed = (Number(RangePercent) / 50)
     let speed = 50 / Number(RangePercent);
-    console.log("speed", speed);
     rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag);
   };
 
@@ -528,7 +523,6 @@ const Betting = () => {
     const HOUSEPOOL_INSTANCE = await selectInstances(instanceType.HOUSEPOOL);
     const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
 
-    console.log("multiplier max profit", convertToEther(maxProfit));
 
     if (maxProfit) {
       const maxBet = convertToEther(maxProfit) / multiplier;
@@ -564,7 +558,6 @@ const Betting = () => {
       const profit: number = House - betValue;
 
       const finalProfit = convertToWei(profit.toFixed(18).toString());
-      console.log("multiplier", multiplier, "profit", profit);
 
       if (finalProfit === "0") {
         setProfit(0);
