@@ -41,6 +41,15 @@ const Header = () => {
       const address = JSON.parse(localStorage.getItem("address"));
       setWalletAddress(address);
       dispatch(Login(address));
+
+      const getBalance = async () => {
+        if (address) {
+          const balance = await web3.eth.getBalance(address);
+          dispatch(setWalletBalance(convertToEther(balance)));
+        }
+      }
+      getBalance();
+
     } catch (err: any) {
       console.log(err);
     }

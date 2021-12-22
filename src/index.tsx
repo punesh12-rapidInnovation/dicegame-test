@@ -5,6 +5,7 @@ import './index.css';
 import store from './logic/store';
 import App from './modules/app/App';
 import reportWebVitals from './reportWebVitals';
+console.log('width', window.innerWidth);
 
 ReactDOM.render(
   <Provider store={store}>
