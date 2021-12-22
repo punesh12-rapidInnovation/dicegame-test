@@ -21,13 +21,36 @@ import history from "shared/helpers/history";
 import { Paths } from "modules/app/components/routes/types";
 import Header from "modules/app/components/header";
 import { Link } from "pages/housePool/style";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Disclaimer from "shared/Disclaimer/Disclaimer";
+import { screenSizes } from "shared/styles/theme";
+import LandingMobile from "./LandingMobile";
+import LandingDesktop from "./LandingDesktop";
 
 const LandingPage = () => {
   const [showDisclaimer, setshowDisclaimer] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
+
+  const updateWidthAndHeight = () => {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", updateWidthAndHeight);
+    return () => window.removeEventListener("resize", updateWidthAndHeight);
+  })
+
+  console.log('width', width, 'height', height);
 
   return (
+    // width < screenSizes.mediaS ?
+    //   <LandingMobile />
+    //   :
+
+    //   <LandingDesktop />
+
     <Landingdiv>
       <Header />
       <Beonediv>
