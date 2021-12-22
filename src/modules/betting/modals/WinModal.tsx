@@ -77,7 +77,7 @@ const WinModal = (props: any) => {
           <img src={Coins} alt="coins" />
           <p>You’ve won {
             userAddress && LocalBetIt === ResultObject?.Betid ?
-              Number(Profit).toFixed(6)
+              Number(Profit).toFixed(12)
               : 0
           } pulse coins</p>
           <img src={HappyFace} alt="coins" style={{ marginRight: "20px" }} />

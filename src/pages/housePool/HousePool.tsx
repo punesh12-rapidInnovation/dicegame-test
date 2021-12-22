@@ -29,6 +29,9 @@ const HousePool = () => {
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("")
     const [ActionType, setActionType] = useState('');
 
+    const [txLockedTimeLeft, setTxLockedTimeLeft] = useState<any>([]);
+
+
     const { userAddress, walletBalance } = useSelector((state: any) => state.wallet);
     useEffect(() => {
         const axiosInstance = axios.create({
@@ -82,7 +85,7 @@ const HousePool = () => {
                     <H1>HOUSE POOL</H1>
                     <H3>Pulse Token (PLS) </H3>
                     <p>Choose your odds and roll the dice to win pulse and prizes. Play, Invest, Exchange <br />
-                        and Join the Contest with high rewards at Pulseroll</p>
+                        and join the Contest with high rewards at Pulseroll</p>
                     <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
                 </FlexCont>
                 <FlexCont
@@ -116,7 +119,7 @@ const HousePool = () => {
                             >
                                 <h3>liquidity</h3>
                                 <h1>${parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</h1>
-                                <p>{parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</p>
+                                <p>{parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)} PLS</p>
                             </FlexCont>
                             {/* <img src={verticalLine} alt="" style={{width:'30%',height:'40px'}}/>
                             <FlexCont
@@ -186,8 +189,11 @@ const HousePool = () => {
                                             : null
                             }
                         </>
-                        <div style={{ width: '100%', height: "300px" }}>
-                            <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
+                        <div style={{ width: '100%', height: "400px" }}>
+                            { liquidityChartData && liquidityChartData.length ?
+                              <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
+                              :null
+                            }
                         </div>
                     </div>
                 </div>
@@ -261,25 +267,27 @@ const HousePool = () => {
             </PoolDetailsContainer> */}
             <TransactionContainer>
                 <h1 style={{color:"#fff"}}>Transactions</h1>
-                <HousePoolTransaction />
+                <HousePoolTransaction txLockedTimeLeft={txLockedTimeLeft} setTxLockedTimeLeft={setTxLockedTimeLeft} />
 
             </TransactionContainer>
 
+            {showDepositModal &&
             <CustomModal
                 show={showDepositModal}
                 toggleModal={() => setshowDepositModal(false)}
                 heading={ActionType === "deposit" ? "DEPOSIT FUNDS" : "WITHDRAW FUNDS"}
             >
                 <HousePoolModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} />
-            </CustomModal>
+            </CustomModal>}
 
+            {showWithdrawModal &&
             <CustomModal
                 show={showWithdrawModal}
                 toggleModal={() => setshowWithdrawModal(false)}
                 heading={"WITHDRAW FUNDS"}
             >
                 <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} />
-            </CustomModal>
+            </CustomModal>}
 
             
             <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />

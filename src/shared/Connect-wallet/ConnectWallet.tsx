@@ -10,12 +10,23 @@ import { WalletTypes } from "../../utils/constant";
 import { convertToEther } from "../../utils/helper";
 import wallet from "../../utils/wallet";
 import CustomModal from "../custom-modal";
-import { AddressInfo, ConnectWalletButton, WalletCont, WalletList, WalletOption } from "./style";
+import {
+  AddressInfo,
+  ConnectWalletButton,
+  WalletCont,
+  WalletList,
+  WalletOption,
+} from "./style";
 
 const ConnectWallet = (props: any) => {
-  const { connectWallet, setConnectWallet, setWalletAddress, showWalletContent } = props;
+  const {
+    connectWallet,
+    setConnectWallet,
+    setWalletAddress,
+    showWalletContent,
+  } = props;
   const dispatch = useDispatch();
-  const { walletBalance } = useSelector((state: any) => state.wallet);
+  const { walletBalance, chainId } = useSelector((state: any) => state.wallet);
   const [showModal, setShowModal] = useState(false);
   const [disconnectWallet, setDisconnectWallet] = useState(false);
   const [walletType] = useState(false);
@@ -56,21 +67,35 @@ const ConnectWallet = (props: any) => {
       {showWalletContent ? (
         connectWallet ? (
           <AddressInfo onClick={() => setDisconnectWallet(true)}>
-            {isNaN(walletBalance) || walletBalance === "" ? "0" : parseFloat(walletBalance).toFixed(4)} PLS
+            {isNaN(walletBalance) || walletBalance === ""
+              ? "0"
+              : parseFloat(walletBalance).toFixed(4)}{" "}
+            PLS
           </AddressInfo>
         ) : (
-          <ConnectWalletButton onClick={() => setShowModal(true)}>Connect Wallet</ConnectWalletButton>
+          <ConnectWalletButton onClick={() => setShowModal(true)}>
+            Connect Wallet
+          </ConnectWalletButton>
         )
       ) : null}
 
       <CustomModal show={showModal} toggleModal={() => setShowModal(false)}>
         <WalletList>
-          <WalletOption onClick={() => connect(WalletTypes.metamask)}>Metamask</WalletOption>
-          <WalletOption onClick={() => connect(WalletTypes.walletConnect)}>Wallet connect</WalletOption>
+          {chainId === 0 ? null : (
+            <WalletOption onClick={() => connect(WalletTypes.metamask)}>
+              Metamask
+            </WalletOption>
+          )}
+          <WalletOption onClick={() => connect(WalletTypes.walletConnect)}>
+            Wallet connect
+          </WalletOption>
         </WalletList>
       </CustomModal>
 
-      <CustomModal show={disconnectWallet} toggleModal={() => setDisconnectWallet(false)}>
+      <CustomModal
+        show={disconnectWallet}
+        toggleModal={() => setDisconnectWallet(false)}
+      >
         <WalletOption onClick={() => connect(walletType)}>Logout</WalletOption>
       </CustomModal>
     </WalletCont>

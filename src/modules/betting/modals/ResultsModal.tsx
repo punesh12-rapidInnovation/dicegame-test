@@ -26,7 +26,11 @@ const ResultsModal = (props: any) => {
   };
 
   return (
-    <ModalBody show={show} onMouseDown={handleClickOutside} style={{ ...styles }}>
+    <ModalBody
+      show={show}
+      onMouseDown={handleClickOutside}
+      style={{ ...styles }}
+    >
       <Box
         style={{
           width: "600px",
@@ -44,7 +48,8 @@ const ResultsModal = (props: any) => {
         }}
       >
         <BoxTitle>
-          YOUR LAST ROLLS <img src={Diceicon} alt="" style={{ marginLeft: "10px" }} />
+          YOUR LAST ROLLS{" "}
+          <img src={Diceicon} alt="" style={{ marginLeft: "10px" }} />
         </BoxTitle>
 
         <TableBox style={{ height: "85%", width: "95%" }}>
@@ -57,14 +62,16 @@ const ResultsModal = (props: any) => {
                 <TD>GAIN/LOSS</TD>
               </TR>
 
-              {NoResultMessage()}
+              <TR>
+                <TD>{NoResultMessage()}</TD>
+              </TR>
 
               {LastRolls.slice(0, 10).map((Roll: any, index: any) => (
                 <TR key={"k" + index}>
                   <TD style={{ textAlign: "left" }}>
                     #{index + 1} - {Roll.Date}
                   </TD>
-                  <TD>{Roll.BetAmount}</TD>
+                  <TD>{Roll.BetAmount.substring(0, 8)}</TD>
                   <TD>{Roll.Playernumber - 1}%</TD>
                   {Roll.Status === "1" ? (
                     <TD>

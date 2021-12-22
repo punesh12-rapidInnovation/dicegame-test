@@ -92,7 +92,8 @@ cursor: pointer;
 export const FlexCont = styled.div<any>`
 display: flex;
 flex-direction: column;
-align-items: flex-start;
+justify-content: ${(props) => (props.justifyContent ? props.justifyContent : 'center')};
+align-items: ${(props) => (props.alignItems ? props.alignItems : 'flex-start')};
 color:${colors.white};
 
 

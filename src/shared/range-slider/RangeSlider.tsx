@@ -11,7 +11,7 @@ const RangeSlider = (props: any) => {
         style={{
           position: "absolute",
           top: "-20px",
-          left: `${value - 5}%`,
+          left: `${value - 7}%`,
           transform: "translate(-50%,-50%)",
         }}
         duration={HeartBeatSpeed}
@@ -28,7 +28,7 @@ const RangeSlider = (props: any) => {
         <p>Profit <span>+{Profit && Number(convertToEther(Profit.toString())).toFixed(10)} PLS</span></p>
       </SliderCalloutBox>
       <ValueRange>
-        <p>1%</p> <p>99%</p>
+        <p>1%</p> <p>98%</p>
       </ValueRange>
     </RangeSliderCont >
   );
