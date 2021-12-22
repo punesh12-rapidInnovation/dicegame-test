@@ -17,6 +17,7 @@ export const PrimaryButton = styled.button<any>`
 
   &:disabled {
     opacity:0.5;
+    cursor: not-allowed;
   }
 `;
 
