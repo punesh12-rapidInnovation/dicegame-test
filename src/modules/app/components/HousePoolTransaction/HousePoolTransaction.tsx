@@ -8,8 +8,8 @@ import { convertToEther, dateFromTimestamp, timeFromTimestamp } from 'utils/help
 import CircleTimer from 'shared/circleTimer/CircleTimer';
 
 
-const HousePoolTransaction = () => {
-
+const HousePoolTransaction = (props: any) => {
+    const { txLockedTimeLeft, setTxLockedTimeLeft } = props;
 
 
     // const [TokenData, setTokenData] = useState<any>([
@@ -23,11 +23,14 @@ const HousePoolTransaction = () => {
     //         'locked': 20,
 
     //     },
-        
+
     // ])
     const [depositTxs, setDepositTxs] = useState<any>([])
     const [withdrawTxs, setWithdrawTxs] = useState<any>([])
-    const  { userAddress } = useSelector((state: any) => state.wallet);
+    const [lockedTimeLeft, setLockedTimeLeft] = useState<any>([]);
+    const [lockedTimeIntervalId, setLockedTimeIntervalId] = useState<any>([]);
+
+    const { userAddress } = useSelector((state: any) => state.wallet);
 
     useEffect(() => {
         const axiosInstance = axios.create({
@@ -35,24 +38,52 @@ const HousePoolTransaction = () => {
         });
         const getdata = async () => {
             console.log(userAddress);
-            if(userAddress){
+            if (userAddress) {
                 const res2 = await axiosInstance.get(`/alldeposit/${userAddress}`)
-                console.log("deposit api",res2);
-                
-                const depositTxs:any[] = Array.isArray(res2.data) ? res2.data : [];
-                setDepositTxs(depositTxs.map((item:any) => ({...item, action: "Deposit", locked: item._releaseTime-item._depositedTime,})));
+                console.log("deposit api", res2);
+
+                const depositTxs: any[] = Array.isArray(res2.data) ? res2.data : [];
+                setDepositTxs(depositTxs.map((item: any) => ({ ...item, action: "Deposit", locked: item._releaseTime - item._depositedTime, })));
+
 
                 const res3 = await axiosInstance.get(`/allwithdraw/${userAddress}`)
-                const withdrawTxs:any[] = Array.isArray(res3.data) ? res3.data : [];
-                setWithdrawTxs(withdrawTxs.map((item:any) => ({...item, action: "Withdraw"})));
-                
+                const withdrawTxs: any[] = Array.isArray(res3.data) ? res3.data : [];
+                setWithdrawTxs(withdrawTxs.map((item: any) => ({ ...item, action: "Withdraw" })));
+
             }
         } //
-        
-        getdata();
 
-        
+        getdata();
     }, [userAddress])
+
+
+    useEffect(() => {
+        depositTxs.forEach((item: any, i: number) => {
+            localStorage.setItem(`lockedTime${i}`, `${item._releaseTime - item._depositedTime}`);
+            const intervalId = setInterval(() => {
+                const lockedTimeString: any = localStorage.getItem(`lockedTime${i}`);
+                let lockedTime = parseFloat(lockedTimeString);
+                if (!lockedTime) {
+                    clearInterval(intervalId)
+                } else {
+                    localStorage.setItem(`lockedTime${i}`, `${lockedTime - 1}`)
+                }
+            }, 1000);
+            setLockedTimeIntervalId([...lockedTimeIntervalId, intervalId])
+        })
+
+        return () => {
+            depositTxs.forEach((item: any, i: number) => {
+                localStorage.removeItem(`lockedTime${i}`);
+                clearInterval(lockedTimeIntervalId[i])
+            })
+        }
+    }, [depositTxs])
+
+
+
+
+
 
     function Table({ columns, data }: { columns: any, data: any }) {
         // Use the state and functions returned from useTable to build your UI
@@ -101,6 +132,9 @@ const HousePoolTransaction = () => {
             usePagination
         )
 
+        console.log("pageOptions",pageOptions);
+        console.log("page",page);
+        
         // Render the UI for your table
         return (
             <>
@@ -123,36 +157,41 @@ const HousePoolTransaction = () => {
 
                                     return (
                                         <TR className="table-row" {...row.getRowProps()}>
-                                            {row.cells.map((cell: any) => {
-                                                
+                                            {row.cells.map((cell: any, rowIndex: number) => {
+
                                                 // else
                                                 if (cell.column.id === 'locked') return <td {...cell.getCellProps()}>
 
                                                     {cell.value &&
-                                                    //   <TimerWrapper >
-                                                    //     <CountdownCircleTimer
-                                                    //         isPlaying
-                                                    //         isLinearGradient={true}
-                                                    //         duration={cell.value}
-                                                    //         colors={[
-                                                    //             ["#EF0896", 0],
-                                                    //             ["#7007FF", 1],
-                                                    //         ]}
-                                                    //         size={55}
-                                                    //         strokeWidth={4}
-                                                    //     >
-                                                    //         {renderTime}
-                                                    //     </CountdownCircleTimer>
-                                                    // </TimerWrapper>
-                                                    <CircleTimer value={cell.value}></CircleTimer>
+                                                        //   <TimerWrapper >
+                                                        //     <CountdownCircleTimer
+                                                        //         isPlaying
+                                                        //         isLinearGradient={true}
+                                                        //         duration={cell.value}
+                                                        //         colors={[
+                                                        //             ["#EF0896", 0],
+                                                        //             ["#7007FF", 1],
+                                                        //         ]}
+                                                        //         size={55}
+                                                        //         strokeWidth={4}
+                                                        //     >
+                                                        //         {renderTime}
+                                                        //     </CountdownCircleTimer>
+                                                        // </TimerWrapper>
+                                                        <CircleTimer
+                                                            value={cell.value}
+                                                            // value={lockedTimeLeft} 
+                                                            rowIndex={rowIndex}
+                                                        ></CircleTimer>
+                                                        // <p>7</p>
                                                     }
 
                                                     {/* {cell.value} */}
                                                 </td>
 
-                                                if(cell.column.Header==="TOTAL VALUE") return <TD {...cell.getCellProps()}>{parseFloat(convertToEther(cell.value))} PLS</TD>
-                                                if(cell.column.Header==="ACCOUNT") return <TD {...cell.getCellProps()}>{cell.value.slice(0,4)}...{cell.value.slice(-4)}</TD>
-                                                if(cell.column.Header==="TIME") return <TD {...cell.getCellProps()}>{dateFromTimestamp(cell.value)} {timeFromTimestamp(cell.value)}</TD>
+                                                if (cell.column.Header === "TOTAL VALUE") return <TD {...cell.getCellProps()}>{parseFloat(convertToEther(cell.value))} PLS</TD>
+                                                if (cell.column.Header === "ACCOUNT") return <TD {...cell.getCellProps()}>{cell.value.slice(0, 4)}...{cell.value.slice(-4)}</TD>
+                                                if (cell.column.Header === "TIME") return <TD {...cell.getCellProps()}>{dateFromTimestamp(cell.value)} {timeFromTimestamp(cell.value)}</TD>
 
                                                 return <TD {...cell.getCellProps()}>{cell.render('Cell')}</TD>
                                             })}
@@ -161,7 +200,7 @@ const HousePoolTransaction = () => {
                                 })
                                 :
                                 <tr>
-                                    <td colSpan={5} style={{ textAlign: "center" }}>No Data Available</td>
+                                    <td colSpan={5}> <div style={{ textAlign: "center", color: '#fff', marginTop: "20px" }}>No Data Available</div></td>
                                 </tr>
                         }
                     </TBody>
@@ -174,13 +213,13 @@ const HousePoolTransaction = () => {
                     page.length ?
                         <PaginationCont className="pagination">
 
-                            <div className="dataCount">Showing 1 to 5 of 35 elements</div>
+                            <div className="dataCount">Showing {parseFloat(page[0].id) + 1} to {parseFloat(page[page.length-1 ].id) + 1} of {data.length} elements</div>
                             <div className="pageCount">
                                 <button onClick={() => previousPage()} disabled={!canPreviousPage}>
                                     {'<'}
                                 </button>{' '}
                                 <strong>
-                                    Page {pageIndex + 1} of {pageOptions.length}
+                                    Page {pageIndex + 1} of {pageCount}
                                 </strong>
                                 <button onClick={() => nextPage()} disabled={!canNextPage}>
                                     {'>'}
@@ -244,13 +283,13 @@ const HousePoolTransaction = () => {
     };
     return (
         <>
-        <DataContainer>
-            <TableStyles  >
+            <DataContainer>
+                <TableStyles  >
 
-                {depositTxs && <Table columns={columns} data={[...depositTxs, ...withdrawTxs]} />}
-            </TableStyles>
+                    {depositTxs && <Table columns={columns} data={[...depositTxs, ...withdrawTxs]} />}
+                </TableStyles>
 
-        </DataContainer >
+            </DataContainer >
         </>
     );
 };

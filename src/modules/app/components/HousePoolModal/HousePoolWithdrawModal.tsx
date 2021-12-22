@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { PrimaryButton } from 'shared/button/Button';
-import { FlexCont, H1, HousePoolCont, Input, InputCont } from './style';
+import { FlexCont, H1, HousePoolCont, Input, InputCont, Dropdown } from './style';
 
 import pulseIcon from "assets/icons/pulseIcon.svg";
 import downCarotIcon from 'assets/icons/downCarot.svg'
@@ -142,13 +142,7 @@ const HousePoolWithdrawModal = (props: any) => {
                 </div>
 
                 {showDepositList &&
-                    <div style={{
-                        background: '#fff', color: "#000", position: "absolute",
-                        borderRadius: "10px",
-                        width: '100%',
-                        top: '80px',
-                        transform: 'translateX(-4%)',
-                    }}>
+                    <Dropdown>
                         {depositList.map((item: any, i: number) =>
                             <>
                                 <div key={i} style={{ padding: "10px", display: "flex", alignItems: "center" }}
@@ -159,21 +153,25 @@ const HousePoolWithdrawModal = (props: any) => {
 
                             </>
                         )}
-                    </div>}
+                    </Dropdown>}
             </div>
             <InputCont isDisabled={!Object.values(depositSelected).filter(x => x).length}>
                 <FlexCont
                     flexDirection="row"
                     justifyContent="space-between"
                     alignItems="center"
+                    margin="0 0 10px 0"
+                    width="100%"
                 >
-                    <p>Input</p>
-                    <p>Balance With Loss: {depositSelected.presentBalance ? parseFloat(convertToEther(depositSelected.presentBalance)) : 0.00}</p>
+                    <div>Input</div>
+                    <div>Balance With Loss: {depositSelected.presentBalance ? parseFloat(convertToEther(depositSelected.presentBalance)) : 0.00}</div>
                 </FlexCont>
                 <FlexCont
                     flexDirection="row"
                     justifyContent="space-between"
                     alignItems="center"
+                    margin="0"
+                    width="100%"
                 >
                     <Input
                         placeholder="0.00"

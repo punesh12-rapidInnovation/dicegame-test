@@ -49,6 +49,7 @@ import CustomModal from "shared/custom-modal";
 import { CheckCont } from "shared/Disclaimer/style";
 import RangeSlider from "shared/range-slider/RangeSlider";
 import DisableModal from "shared/DisableModal/Disable";
+import { rangeSliderSound, rollingDiceSound } from "./Sound";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
@@ -139,9 +140,9 @@ const Betting = () => {
         });
         socket.on("betevent", (data: any) => {
           console.log(data);
-          const LocalBetId = localStorage.getItem("PlacingBetId");
-          console.log(LocalBetId);
-          if (LocalBetId === data.BetID) {
+          // const LocalBetId = localStorage.getItem("PlacingBetId");
+          // console.log(LocalBetId);
+          if (PlacingBetId === data.BetID) {
             console.log("ResultObjectupdated");
             setResultObject({
               Betid: data.BetID,
@@ -167,8 +168,10 @@ const Betting = () => {
     const disconnect = () => {
       socket.disconnect();
     };
-    return () => disconnect();
-  }, [PlacingBet]);
+    return () => {
+      disconnect();
+    };
+  }, [PlacingBetId]);
 
   window.onbeforeunload = function () {
     if (PlacingBet) return "Leaving this page will reset the wizard";
@@ -194,6 +197,11 @@ const Betting = () => {
     if (RangePercent > 98) setRangeValue(98);
     else if (RangePercent < 1) setRangeValue(1);
     else setRangeValue(RangePercent);
+
+    // let speed = (Number(RangePercent) / 50)
+    let speed = 50 / Number(RangePercent);
+    console.log("speed", speed);
+    rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag);
   };
 
   const BetSetThroughInput = (e: any) => {
@@ -343,6 +351,7 @@ const Betting = () => {
           setBetplacedLoading(true);
           localStorage.setItem("Loading", "true");
           localStorage.setItem("BetAmount", BetAmount);
+          // window.location.reload();
         });
       console.log(RollDice);
       return RollDice;
@@ -434,12 +443,6 @@ const Betting = () => {
     getWalletBalance();
   }, [userAddress, showResultModal]);
 
-  // useEffect(() => {
-  //   let speed = (Number(RangeValue) / 100)
-  //   if (RangeValue !== 1 && !loader)
-  //     rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag)
-  // }, [RangeValue, loader])
-
   const handleCheckChange = (value: any, checkNum: Number) => {
     if (checkNum === 1 && !checked1) {
       setChecked1(!checked1);
@@ -503,10 +506,10 @@ const Betting = () => {
     }
     if (isRangeTrue === true) {
       let range = rangeHigh - rangeLow; //3-1
-      // let totalchances=100-range //2
-      let totalchances = range / 2;
-      // multiplier +=totalchances/range;//2/98
-      multiplier += totalchances;
+      let totalChances = (100 - range) / 2;
+      // let totalChances = range / 2;
+      // multiplier +=totalChances/range;//2/98
+      multiplier += totalChances;
     }
     return multiplier;
   };
