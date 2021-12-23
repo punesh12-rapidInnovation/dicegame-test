@@ -18,7 +18,7 @@ import walletLogo from "assets/icons/walleticon.png";
 import { convertToEther } from "utils/helper";
 import { networkTestChainId } from "config";
 import WrongNetwork from "shared/wrong-network";
-import wallet from "utils/wallet";
+import wallet, { removeLocalData } from "utils/wallet";
 import CustomModal from "shared/custom-modal";
 import Disclaimer from "shared/Disclaimer/Disclaimer";
 import { Link } from "react-router-dom";
@@ -101,7 +101,8 @@ const Header = () => {
   const disconnectWallet = async () => {
     // await web3.disconnect();
     await wallet.disconnect();
-    localStorage.clear();
+    // localStorage.clear();
+    removeLocalData();
     dispatch(walletConnectCheck(false));
     window.location.reload();
   };

@@ -8,7 +8,7 @@ import {
 } from "../../logic/action/wallet.action";
 import { WalletTypes } from "../../utils/constant";
 import { convertToEther } from "../../utils/helper";
-import wallet from "../../utils/wallet";
+import wallet, { removeLocalData } from "../../utils/wallet";
 import CustomModal from "../custom-modal";
 import {
   AddressInfo,
@@ -34,7 +34,8 @@ const ConnectWallet = (props: any) => {
   const connect = async (type: any) => {
     if (connectWallet) {
       await wallet.disconnect();
-      localStorage.clear();
+      // localStorage.clear();
+      removeLocalData();
       dispatch(walletConnectCheck(false));
     } else {
       try {
