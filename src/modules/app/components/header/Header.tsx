@@ -110,10 +110,10 @@ const Header = () => {
   return (
     <HeaderDiv>
       <HeaderContainer>
-        <div style={{ width: "100%" }}></div>
+        <div className="invisibleDiv" style={{ width: "100%" }}></div>
 
         <div style={{ width: "100%" }}>
-          <Link to='/landing'> <img src={siteLogo} alt="" /></Link>
+          <Link to='/landing'> <img className="siteLogo" src={siteLogo} alt="" /></Link>
         </div>
 
         <Walletcontainer>

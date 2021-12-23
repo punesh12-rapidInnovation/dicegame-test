@@ -1,6 +1,6 @@
 import Betting from 'modules/betting';
 import React, { useState } from 'react';
-import { LandingMobileContainer, FunctionCont, FunctionStatus, ModuleCont } from './styleMobile';
+import { LandingMobileContainer, FunctionCont, FunctionStatus, ModuleCont, BetActiveTab } from './styleMobile';
 
 const LandingMobile = () => {
 
@@ -9,16 +9,18 @@ const LandingMobile = () => {
 
     return (
         <LandingMobileContainer>
-            {/* <Betting /> */}
-            mobile view
 
             <FunctionCont>
                 <FunctionStatus activeStatus={activeTab === 'bet'} onClick={() => setActiveTab('bet')} >Bet</FunctionStatus>
                 <FunctionStatus activeStatus={activeTab === 'chat'} onClick={() => setActiveTab('chat')}>chat</FunctionStatus>
             </FunctionCont>
             <ModuleCont>
-                {activeTab === 'bet' && "bet"}
-                {activeTab === 'chat' && "chat"}
+                {activeTab === 'bet' && <BetActiveTab >
+                    <div>Betting</div>
+                    <div>Last 10 rolls</div>
+                    <div>Graph</div>
+                </BetActiveTab>}
+                {activeTab === 'chat' && 'chat'}
             </ModuleCont>
         </LandingMobileContainer>
     );
