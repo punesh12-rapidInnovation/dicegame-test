@@ -2,7 +2,8 @@
 import PulseRoll from "assets/icons/loadingPulseroll.svg";
 import RollingDice from "assets/icons/twoRollingDice.gif";
 import { useEffect, useState } from "react";
-import { rollingDiceSound } from '../Sound';
+import useSound from "use-sound";
+import { heart, rollingDiceSound } from '../Sound';
 
 
 import {
@@ -15,6 +16,8 @@ import {
 const WaitingModal = (props: any) => {
     const { show, toggleModal, styles } = props;
 
+
+    const [play, { stop }] = useSound(heart, { interrupt: true });
 
     const handleClickOutside = (e: any) => {
         if (e.target === e.currentTarget) {

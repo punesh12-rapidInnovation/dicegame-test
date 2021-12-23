@@ -26,7 +26,6 @@ export const ModelHead = styled.div`
 		font-weight: 600;
 		font-size: 16px;
 		line-height: 25px;
-		font-family: AvenirLTStd;
 		margin: 0;
 
 		@media (max-width: ${screenSizes.mediaM}px) {

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from '../styles/theme';
+import { colors, screenSizes } from '../styles/theme';
 
 export const WalletCont = styled.div`
 color:${colors.white};
@@ -35,6 +35,10 @@ export const AddressInfo = styled.div`
 
 	border-radius:4px;
 	padding: 10px;
+	
+	@media (max-width: ${screenSizes.mediaS}px) {
+		font-size:10px;   
+}
 `;
 export const ConnectWalletButton = styled.button`
 	background: transparent;
@@ -45,5 +49,6 @@ export const ConnectWalletButton = styled.button`
 	padding: 0;
 	margin:0;
 	width:80%;
+
 
 `;

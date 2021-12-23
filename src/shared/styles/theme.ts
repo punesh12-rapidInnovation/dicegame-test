@@ -3,7 +3,6 @@ import { createGlobalStyle } from "styled-components";
 import ThemeBackground from "assets/images/theme-background.svg";
 
 const BalooDa = require("assets/fonts/BalooDa2.ttf");
-const AvenirLTStd = require("assets/fonts/AvenirLTStd.ttf");
 
 export interface Colors {
   themeBackground: string;
@@ -75,7 +74,7 @@ export const GlobalStyle = createGlobalStyle`
 
 @font-face {
   font-family: AvenirLTStd;
-src: AvenirLTStd format('truetype'), AvenirLTStd format('woff2'),  url('https://fonts.cdnfonts.com/css/avenir-lt-std') format('truetype'), url('https://fonts.cdnfonts.com/css/avenir-lt-std') format('woff2');
+src: AvenirLTStd format('truetype'), AvenirLTStd format('woff2'),  url('https://fonts.cdnfonts.com/css/avenir-lt-std') format('truetype'), url('http://fonts.cdnfonts.com/css/avenir-lt-std') format('woff2');
 
 }
 }

@@ -63,8 +63,8 @@ const Alertmsg = (props: any) => {
 
   return (
     <ModalBody show={show} onMouseDown={handleClickOutside} style={{ ...styles }}>
-          <ModalContent style={{width:'600px',height:'150px',position:'absolute',top:'10%',left:'50%'}}>
-              <InfoText style={{fontSize:'18px',color:'red'}}>{alertText}</InfoText>
+          <ModalContent style={{width:'600px',height:'150px',position:'absolute',top:'50%',left:'50%'}}>
+              <InfoText style={{fontSize:'18px',color:'white'}}>{alertText}</InfoText>
         
       </ModalContent>
 

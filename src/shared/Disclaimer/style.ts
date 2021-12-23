@@ -1,23 +1,69 @@
-import { colors } from "shared/styles/theme";
+import { colors, screenSizes } from "shared/styles/theme";
 import styled from "styled-components";
 
-export const DisclaimerCont = styled.div<any>`
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  font-family: AvenirLTStd;
-  color: ${colors.white};
 
-  ul,
+interface ModalBodyProps {
+  show: boolean;
+}
+
+
+export const ModalBody = styled.div<ModalBodyProps>`
+display: ${(props) => (props.show ? 'block' : 'none')};
+position: fixed;
+z-index: 100;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background: rgba(26, 39, 50, 0.7);
+-webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(5px);
+
+`;
+
+export const ModalContent = styled.div<any>`
+	background-color: ${colors.primary};
+	padding: 40px;
+	display: inline-block;
+	border-radius: 8px;
+	margin: 0 auto;
+	border: none;
+	overflow: auto;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	        transform: translate(-50%, -50%);
+	max-height: 100%;
+	background: #2A1966;
+    -webkit-box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7;
+            box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7;
+    border-radius:20px;
+	::-webkit-scrollbar {
+		width: 0 !important;
+	}
+	overflow: -moz-scrollbars-none;
+	-ms-overflow-style: none;
+	width: 80%;
+	
+	@media (min-width: ${screenSizes.mediaL}px) {
+		width: 524px;
+	}
+`;
+
+export const DisclaimerCont = styled.div<any>`
+display:flex;
+flex-direction: column;
+color: ${colors.white};
+
+ul,
   li {
-    font-size: 14px;
+    font-size: 13px;
     list-style: none;
-    font-family: AvenirLTStd;
   }
+
   ul {
     margin: 30px 0;
   }
@@ -25,14 +71,7 @@ export const DisclaimerCont = styled.div<any>`
     margin: 10px;
   }
 
-  p {
-    font-size: 14px;
-    text-align: right;
-    margin: 5px 0;
-    opacity: 0.8;
-    font-family: AvenirLTStd;
-  }
-`;
+`
 
 export const CheckCont = styled.div<any>`
   display: -webkit-box;

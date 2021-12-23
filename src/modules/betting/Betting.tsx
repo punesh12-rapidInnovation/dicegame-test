@@ -49,7 +49,8 @@ import CustomModal from "shared/custom-modal";
 import { CheckCont } from "shared/Disclaimer/style";
 import RangeSlider from "shared/range-slider/RangeSlider";
 import DisableModal from "shared/DisableModal/Disable";
-import { rangeSliderSound, rollingDiceSound } from "./Sound";
+import { heart, rangeSliderSound, rollingDiceSound } from "./Sound";
+import useSound from "use-sound";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
@@ -90,6 +91,11 @@ const Betting = () => {
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
   const [Disable, setDisable] = useState<boolean>(false);
+  const [rollDiceDisableOrNot, setrollDiceDisableOrNot] = useState<Boolean>(false)
+
+
+  const [play] = useSound(heart);
+
 
   const { walletBalance, userAddress } = useSelector(
     (state: any) => state.wallet
@@ -471,8 +477,22 @@ const Betting = () => {
 
     // if (evenOdd === 0)
     //   setEvenOddProfit(0);
+    console.log("RangeCheckRan")
+    //@ts-ignore
+    const numberRangeLow = parseInt(rangeLow);
+    //@ts-ignore
+    const numberRangeHigh = parseInt(rangeHigh);
+    if (numberRangeLow === numberRangeHigh && numberRangeLow !== 0) {
+      setrollDiceDisableOrNot(true);
+    }
+    else if (numberRangeLow > numberRangeHigh) {
+      setrollDiceDisableOrNot(true);
+    } else {
+      setrollDiceDisableOrNot(false);
+      console.log(numberRangeLow, numberRangeHigh);
+    }
 
-  }, [evenOdd, rangeLow, rangeHigh]);
+  }, [rangeLow,rangeHigh]);
 
 
 
@@ -821,7 +841,7 @@ const Betting = () => {
       <BetBottom>
         {UserAllowance ? (
           <PrimaryButton
-            disabled={rangeLow > rangeHigh || (rangeLow === rangeHigh && rangeHigh > 0 && rangeHigh > 0)}
+            disabled={rollDiceDisableOrNot}
             onClick={() => CallingPlaceBet()}
           >
             {/* // <PrimaryButton onClick={() => handlePlaceBet(userAddress, BetAmount, RangeValue + 1)}> */}
@@ -896,6 +916,7 @@ const Betting = () => {
         show={showDisclaimer}
         toggleModal={() => setshowDisclaimer(false)}
       />
+
     </BetBox>
   );
 };

@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 import landingTop from '../../../../assets/images/landingtop.png'
 import walletoutline from '../../../../assets/icons/walletoutline.png';
+import { screenSizes } from 'shared/styles/theme';
 
 export const HeaderDiv = styled.div`
 position: absolute;
 height: 10vh;
 width: 100%;
+
+
 `
 
 
@@ -29,6 +32,20 @@ background-position:right;
 margin:0;
 padding:0;
 background: rgba(0,0,0,0.5);
+
+@media (max-width: ${screenSizes.mediaS}px) {
+        height:60px;
+
+        .siteLogo{
+                height:15px;
+                margin:0 10px;
+        }
+        .invisibleDiv{
+                display:none;
+        }
+}
+
+
 `;
 
 export const Walletcontainer = styled.div`
@@ -49,11 +66,21 @@ background: #121213;
         box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 14px rgba(202, 26, 231, 0.9);
 border-radius: 100px;
 margin-right: 20px;
+
+@media (max-width: ${screenSizes.mediaS}px) {
+        height:25px;   
+        width:160px;   
+}
 `
 
 export const WalletLogo = styled.img`
 z-index: 2;
 margin-left:-10px;
+@media (max-width: ${screenSizes.mediaS}px) {
+        width:35px;
+                margin-top:3px;
+   
+}
 `
 export const Walletoutline = styled.img`
 width: 130px;
@@ -62,6 +89,11 @@ width: 130px;
         transform: translatex(-30px);
 -o-object-fit: contain;
    object-fit: contain;
+
+   @media (max-width: ${screenSizes.mediaS}px) {
+                width:10px;
+                height:10px;   
+}
 `
 
 export const H1 = styled.h1`

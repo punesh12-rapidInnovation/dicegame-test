@@ -18,6 +18,7 @@ import HousePoolWithdrawModal from 'modules/app/components/HousePoolModal/HouseP
 import TransactionWaiting from 'shared/transactionWaiting/TransactionWaiting';
 import TransactionError from 'shared/transactionError/TransactionError';
 import TransactionSuccess from 'shared/transactionSucess/TransactionSuccess';
+import Alertmsg from 'modules/betting/modals/Alertmsg';
 const HousePool = () => {
 
     const [showDepositModal, setshowDepositModal] = useState(false)
@@ -49,8 +50,8 @@ const HousePool = () => {
         const getdata = async () => {
             console.log(userAddress);
             const res1 = await axiosInstance.get('/allLiquidity');
-            setLiquidityChartData(res1.data); 
-            if(userAddress){
+            setLiquidityChartData(res1.data);
+            if (userAddress) {
 
                 // const res1 = await axiosInstance.get('/allLiquidity');
                 // setLiquidityChartData(res1.data);          
@@ -62,19 +63,19 @@ const HousePool = () => {
                 const housepoolInstance = await selectInstances(
                     instanceType.HOUSEPOOL, // type of instance
                 );
-                let userItemlength= await housepoolInstance.methods.UserItemlength(`${userAddress}`).call()
+                let userItemlength = await housepoolInstance.methods.UserItemlength(`${userAddress}`).call()
                 // let y = await housepoolInstance.methods.Users("0x0DBEbDe22004369a8456a020c684cfDf6B81DC66", 0).call()
                 console.log("userItemlength", userItemlength);
                 let promiseArray = [];
-                if (parseFloat(`${userItemlength}`)>0){
-                    for(let i = 0; i<userItemlength; i++){
+                if (parseFloat(`${userItemlength}`) > 0) {
+                    for (let i = 0; i < userItemlength; i++) {
                         promiseArray.push(housepoolInstance.methods.Users(`${userAddress}`, i).call());
                     }
                 }
                 const usersArray = await Promise.all(promiseArray)
-                console.log("TotalFunds",usersArray.reduce((a:any,c:any) => a + parseFloat(c.Balance), 0));
-                
-                setTotalFunds(usersArray.reduce((a:any,c:any) => a + parseFloat(c.Balance), 0));
+                console.log("TotalFunds", usersArray.reduce((a: any, c: any) => a + parseFloat(c.Balance), 0));
+
+                setTotalFunds(usersArray.reduce((a: any, c: any) => a + parseFloat(c.Balance), 0));
                 let totalValueLocked = await housepoolInstance.methods.TotalValueLocked().call();
                 setTotalValueLocked(totalValueLocked)
                 // console.log("totalValueLocked",totalValueLocked);
@@ -83,14 +84,49 @@ const HousePool = () => {
 
         getdata();
 
-        
+
     }, [userAddress, depositDoneNumber, withdrawDoneNumber])
+
+
+
+    //@ts-ignore
+    useEffect(() => {
+        const localChecked = localStorage.getItem("ShowDisclaimer");
+        const Loading = localStorage.getItem("Loading");
+        if (Loading === "true") {
+            setshowDisclaimer(false);
+        } else if (localChecked === null || localChecked === "false") {
+            setshowDisclaimer(true);
+        } else {
+            setshowDisclaimer(false);
+        }
+    }, []);
+
+    const handleDeposit = () => {
+        const localChecked = localStorage.getItem("ShowDisclaimer");
+
+        if (localChecked === null || localChecked === "false")
+            setshowDisclaimer(true)
+        else
+            if (!userAddress) setShowConnectWalletAlert(true);
+            else setshowDepositModal(true); setActionType('deposit');
+    }
+
+    const handleWithDraw = () => {
+        const localChecked = localStorage.getItem("ShowDisclaimer");
+
+        if (localChecked === null || localChecked === "false")
+            setshowDisclaimer(true)
+        else
+            if (!userAddress) setShowConnectWalletAlert(true);
+            else setshowWithdrawModal(true); setActionType('withdraw')
+    }
     return (
         <HousePoolCont>
             <Header />
             <InfoContainer>
                 <FlexCont
-                    style={{ padding:"30px 0" }}
+                    style={{ padding: "30px 0" }}
                 >
                     <H3>Wallet {'>'} Liquidity</H3>
                     <H1>HOUSE POOL</H1>
@@ -100,14 +136,11 @@ const HousePool = () => {
                     <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
                 </FlexCont>
                 <FlexCont
-                
+
                 >
                     <PrimaryButton width="300px"
                         style={{ padding: '25px', fontSize: '18px' }}
-                        onClick={() => { 
-                            if(!userAddress) setShowConnectWalletAlert(true);
-                            else setshowDepositModal(true); setActionType('deposit'); 
-                        }}
+                        onClick={() => handleDeposit()}
                     >DEPOSIT FUNDS (PLS)</PrimaryButton>
                 </FlexCont>
             </InfoContainer>
@@ -118,7 +151,7 @@ const HousePool = () => {
                     gridColumnGap: '20px',
                     gridRowGap: '20px',
 
-                    paddingTop:"50px",
+                    paddingTop: "50px",
                 }}>
                     <div style={{
                         background: "linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%)",
@@ -129,7 +162,7 @@ const HousePool = () => {
                             <FlexCont
                                 justifyContent="center"
                                 alignItems="center"
-                                
+
                             >
                                 <h3>liquidity</h3>
                                 <h1>${parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</h1>
@@ -162,10 +195,7 @@ const HousePool = () => {
                             <PrimaryButton
                                 width="40%"
                                 margin="0 10px"
-                                onClick={() => { 
-                                    if(!userAddress) setShowConnectWalletAlert(true);
-                                    else setshowDepositModal(true); setActionType('deposit') 
-                                }}
+                                onClick={() => handleDeposit()}
                                 style={{ padding: '18px' }}
 
                             >DEPOSIT FUNDS
@@ -174,10 +204,7 @@ const HousePool = () => {
                                 width="45%"
                                 margin="0 10px"
                                 color={colors.primary}
-                                onClick={() => { 
-                                    if(!userAddress) setShowConnectWalletAlert(true);
-                                    else setshowWithdrawModal(true); setActionType('withdraw') 
-                                }}
+                                onClick={() => handleWithDraw()}
                                 style={{ padding: '18px' }}
 
                             >WITHDRAW FUNDS</PrimaryButton>
@@ -210,9 +237,9 @@ const HousePool = () => {
                             }
                         </>
                         <div style={{ width: '100%', height: "400px" }}>
-                            { liquidityChartData && liquidityChartData.length ?
-                              <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
-                              :null
+                            {liquidityChartData && liquidityChartData.length ?
+                                <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
+                                : null
                             }
                         </div>
                     </div>
@@ -286,7 +313,7 @@ const HousePool = () => {
                 </FlexCont>
             </PoolDetailsContainer> */}
             <TransactionContainer>
-                <h1 style={{color:"#fff"}}>Transactions</h1>
+                <h1 style={{ color: "#fff" }}>Transactions</h1>
                 <HousePoolTransaction depositDoneNumber={depositDoneNumber} withdrawDoneNumber={withdrawDoneNumber} />
 
             </TransactionContainer>
@@ -334,8 +361,20 @@ const HousePool = () => {
             >
             </TransactionError>
             
+
+            {showConnectWalletAlert &&
+                <Alertmsg
+                    show={showConnectWalletAlert}
+                    toggleModal={() => setShowConnectWalletAlert(false)}
+                    alertText={'Connect To Wallet First'}
+
+                >
+                    {/* <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} withdrawDoneSuccess={() => setWithdrawDoneNumber(withdrawDoneNumber+1)}  closeModal={() => setshowWithdrawModal(false)}  /> */}
+                </Alertmsg>}
+
+
             <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
-         
+
         </HousePoolCont >
     );
 };

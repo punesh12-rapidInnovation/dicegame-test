@@ -59,6 +59,7 @@ function getRouteRenderWithAuth(route: RouteDefinition, i: number) {
 const Routes = () => {
     return (
         <Router history={history}>
+            <Header />
             <Switch>
                 <Redirect exact from="/" to={Paths.landing} />
                 {routes.map((route, i) => {

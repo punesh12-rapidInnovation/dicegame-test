@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef,useRef } from "react";
+import React, { useState, useEffect, createRef, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
 import Betting from "../betting";
@@ -54,10 +54,21 @@ const LiveChat = (props: any) => {
   const [AlertModalState, setAlertModalState] = useState(false);
   const [AlertModaltext, setAlertModaltext] = useState("");
   const [UserBlockedOrNot, setUserBlockedOrNot] = useState(false);
+  const [blockedUsers, setBlockedUsers] = useState<any>([])
+
 
   const BASE_URL = "https://diceroll.rapidinnovation.tech/api/message";
 
   const socketRef = useRef();
+
+  const StoppedTyping: ReturnType<any>  = () => {
+    
+    setTimeout(() => {
+            setUserTyping(false);
+            setUserTypingAddress("0");
+            console.log("setted false")
+          }, 8000);
+  }
   
 
   useEffect(() => {
@@ -77,17 +88,16 @@ const LiveChat = (props: any) => {
         const updatedData = [...messages, data];
         setMessages(updatedData);
         setUserTyping(false);
+        
       });
       //@ts-ignore
       socketRef.current.on("typing", (data) => {
         // console.log("typingdata", data);
         if (data === "stop") {
-          setTimeout(() => {
-            setUserTyping(false);
-            setUserTypingAddress("0");
-          }, 5000);
-          
+          clearTimeout(StoppedTyping)
+          StoppedTyping()
         } else {
+          clearTimeout(StoppedTyping)
           setUserTyping(true);
           setUserTypingAddress(data);
         }
@@ -144,6 +154,40 @@ const LiveChat = (props: any) => {
   }
 
   const HandleReport = async (address: string) => {
+     const walletConnectOrNot = localStorage.getItem("walletConnected");
+      if (inputMessage.trim() === "" || walletConnectOrNot !== "true") {
+        if (walletConnectOrNot !== "true") {
+          setAlertModaltext("Connect Wallet to Send Message To Global Chat");
+          setAlertModalState(true);
+        }
+        return;
+      }
+    const ReportedUsers = JSON.parse(localStorage.getItem("ReportedUsers") || "[]");
+    console.log(ReportedUsers);
+    let Reported = false;
+
+    ReportedUsers.map((user: any) => {
+      if (user === address) {
+        setAlertModalState(true);
+        setAlertModaltext("You have already reported this user! ");
+        Reported = true;
+        console.log("already reported")
+      }
+
+    })
+
+    if (Reported) {
+      return;
+    }
+
+    for (let index = 0; !!blockedUsers && index < blockedUsers.length; index++) {
+      if (address == blockedUsers[index]) {
+        setAlertModaltext("You have already reported this user! ");
+        setAlertModalState(true);
+        return;
+      }
+    }
+
     if (!UserBlockedOrNot) {
       const axiosInstance = axios.create({
         baseURL: "https://diceroll.rapidinnovation.tech/pool",
@@ -160,6 +204,15 @@ const LiveChat = (props: any) => {
             );
             setAlertModalState(true);
             removeReportedUserMessages(address)
+            if (localStorage.getItem("ReportedUsers") === null) {
+              localStorage.setItem("ReportedUsers", JSON.stringify([address]));
+            }else {
+              const Reportedtillnow = JSON.parse(
+                localStorage.getItem("ReportedUsers") || "[]"
+              );
+              Reportedtillnow.unshift(address);
+              localStorage.setItem("ReportedUsers", JSON.stringify(Reportedtillnow));
+    }
           }
         });
     } else {
@@ -272,20 +325,24 @@ const LiveChat = (props: any) => {
           {m.content}
           <Time>{m.time.substring(11, 16)}</Time>
         </OwnMsg>
-      ) : (
-        <Messagediv key={index}>
-          <OthersMsgIcon src={ChatProfile} alt="" />
-          <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
-          {m.content}
-          <Time>{m.time.substring(11, 16)}</Time>
-          <Report onClick={(e) => HandleReport(m.username)}>
-            <img src={ReportIcon} alt="" />
-            <p> Report Spam</p>
-          </Report>
-        </Messagediv>
-      )
-    );
-  };
+      ) :
+        (
+          <Messagediv key={index}>
+            <OthersMsgIcon src={ChatProfile} alt="" />
+            <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
+            {m.content}
+            <Time>{m.time.substring(11, 16)}</Time>
+            <Report onClick={(e) => HandleReport(m.username)}>
+              <img src={ReportIcon} alt="" />
+              <p> Report Spam</p>
+            </Report>
+          </Messagediv>
+        )
+    )
+  }
+
+  console.log('blockedUsers', blockedUsers);
+
 
   const scrollToBottom = () => {
     //@ts-ignore
@@ -298,7 +355,7 @@ const LiveChat = (props: any) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages,userTyping]);
 
   useEffect(() => {
     //@ts-ignore
@@ -306,9 +363,9 @@ const LiveChat = (props: any) => {
   }, [cursorPosition]);
 
   const handleKeyPress = (e: any) => {
-    if (!socketRef.current) return;
+    if (!socketRef.current || UserBlockedOrNot) return;
     //@ts-ignore
-     socketRef.current.emit("typing", userAddress);
+    socketRef.current.emit("typing", userAddress);
     // socket.broadcast.emit('typing', userAddress);
   };
   const Closealert = () => {
@@ -318,7 +375,7 @@ const LiveChat = (props: any) => {
   const handleKeyUp = (e: any) => {
     if (!socketRef.current) return;
     //@ts-ignore
-     socketRef.current.emit("typing", "stop");
+    socketRef.current.emit("typing", "stop");
     // socket.broadcast.emit('typing', 'stop');
   };
 
