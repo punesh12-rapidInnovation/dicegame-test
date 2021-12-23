@@ -7,13 +7,14 @@ import downCarotIcon from 'assets/icons/downCarot.svg'
 import { floatNumRegex } from 'shared/helpers/regrexConstants';
 import { instanceType, selectInstances } from 'utils/contracts';
 import { convertToEther, convertToWei } from 'utils/helper';
+import CircleTimer from 'shared/circleTimer/CircleTimer';
 
 const HousePoolWithdrawModal = (props: any) => {
-    const { show, toggleModal, styles, userAddress, walletBalance, ActionType } = props;
+    const { show, toggleModal, styles, userAddress, walletBalance, ActionType,withdrawDoneSuccess,closeModal } = props;
     const [withdrawAmount, setWithdrawAmount] = useState('')
     const [depositList, setDepositList] = useState<any>([]);
     const [showDepositList, setShowDepositList] = useState(false)
-    const [depositSelected, setDepositSelected] = useState({ presentBalance: 0.00, Balance: 0.00, pendingRewards: 0.00, index: 0 })
+    const [depositSelected, setDepositSelected] = useState<any>({ presentBalance: 0.00, Balance: 0.00, pendingRewards: 0.00, index: 0 })
 
 
     useEffect(() => {
@@ -52,8 +53,11 @@ const HousePoolWithdrawModal = (props: any) => {
                     }
                     const pendingRewards = await Promise.all(promiseArray);
                     console.log("PendingRewards", pendingRewards);
+                    //ReleaseTime
+                    const releaseTime = await housepoolInstance.methods.releaseTime().call();
+                    console.log("releaseTime", releaseTime);
 
-                    setDepositList(depositsArray.map((item: object, i: number) => ({ ...item, presentBalance: mypresentBalances[i], pendingRewards: pendingRewards[i], index: i })))
+                    setDepositList(depositsArray.map((item: object, i: number) => ({ ...item, releaseTime: releaseTime, presentBalance: mypresentBalances[i], pendingRewards: pendingRewards[i], index: i })))
                 }
             } catch (error) {
                 console.log(error);
@@ -87,12 +91,13 @@ const HousePoolWithdrawModal = (props: any) => {
         //     // setWithdrawAmount(lpBalance)
         //     setWithdrawAmount('')
         // else
-        setWithdrawAmount(Number(convertToEther(depositSelected.presentBalance)).toFixed(6));
+        setWithdrawAmount(convertToEther(depositSelected.presentBalance));
         // setWithdrawAmount(dataForStaking.staked)
     }
 
     const handleWithdraw = async () => {
         try {
+
             const value = withdrawAmount;
 
             const housepoolInstance = await selectInstances(
@@ -103,15 +108,22 @@ const HousePoolWithdrawModal = (props: any) => {
             })
             console.log("receipt", receipt);
 
+            withdrawDoneSuccess();
+            closeModal();
+
         } catch (error) {
+            closeModal();
             console.log(error);
 
         }
     }
 
     return (
+        <>
         <HousePoolCont>
             <H1>HOUSE POOL</H1>
+            {Object.values(depositSelected).filter(x => x).length ? <CircleTimer value={(depositSelected.DepositTime+depositSelected.releaseTime)-(Date.now()/1000)}></CircleTimer> 
+            : null}
             <div style={{
                 width: '100%',
                 background: '#2A1966',
@@ -143,7 +155,8 @@ const HousePoolWithdrawModal = (props: any) => {
 
                 {showDepositList &&
                     <Dropdown>
-                        {depositList.map((item: any, i: number) =>
+                        {depositList.length ?
+                        depositList.map((item: any, i: number) =>
                             <>
                                 <div key={i} style={{ padding: "10px", display: "flex", alignItems: "center" }}
                                     onClick={() => { setDepositSelected(item); setShowDepositList(false) }}>
@@ -152,7 +165,12 @@ const HousePoolWithdrawModal = (props: any) => {
                                 </div>
 
                             </>
-                        )}
+                        )
+                        :
+                        <div style={{ padding: "10px", display: "flex", alignItems: "center" }}>
+                          <span>No Deposits</span>
+                        </div>
+                        }
                     </Dropdown>}
             </div>
             <InputCont isDisabled={!Object.values(depositSelected).filter(x => x).length}>
@@ -190,9 +208,10 @@ const HousePoolWithdrawModal = (props: any) => {
                     > MAX</span>  <img src={pulseIcon} alt="" /> PLS</FlexCont>
                 </FlexCont>
             </InputCont>
-            <div style={{margin:"10px 0", color:"#fff", textAlign:"right"}}>pendingRewards: { depositSelected.pendingRewards ?  parseFloat(convertToEther(depositSelected.pendingRewards)).toFixed(6): 0.00} PLS</div>
-            <PrimaryButton margin={"30px 0 0 0"} onClick={handleWithdraw}>Withdraw</PrimaryButton>
+            <div style={{margin:"10px 0", color:"#fff", textAlign:"right"}}>Pending Rewards: { depositSelected.pendingRewards ?  parseFloat(convertToEther(depositSelected.pendingRewards)): 0.00} PLS</div>
+            <PrimaryButton margin={"30px 0 0 0"} onClick={handleWithdraw} disabled={!parseFloat(withdrawAmount)}>Withdraw</PrimaryButton>
         </HousePoolCont >
+        </>
     );
 };
 

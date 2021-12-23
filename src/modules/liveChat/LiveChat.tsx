@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef,useRef } from "react";
+import React, { useState, useEffect, createRef, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
 import Betting from "../betting";
@@ -54,6 +54,8 @@ const LiveChat = (props: any) => {
   const [AlertModalState, setAlertModalState] = useState(false);
   const [AlertModaltext, setAlertModaltext] = useState("");
   const [UserBlockedOrNot, setUserBlockedOrNot] = useState(false);
+  const [blockedUsers, setBlockedUsers] = useState<any>([])
+
 
   const BASE_URL = "https://diceroll.rapidinnovation.tech/api/message";
 
@@ -151,6 +153,15 @@ const LiveChat = (props: any) => {
   }
 
   const HandleReport = async (address: string) => {
+
+    for (let index = 0; !!blockedUsers && index < blockedUsers.length; index++) {
+      if (address == blockedUsers[index]) {
+        setAlertModaltext("You have already reported this user! ");
+        setAlertModalState(true);
+        return;
+      }
+    }
+
     if (!UserBlockedOrNot) {
       const axiosInstance = axios.create({
         baseURL: "https://diceroll.rapidinnovation.tech/pool",
@@ -167,6 +178,7 @@ const LiveChat = (props: any) => {
             );
             setAlertModalState(true);
             removeReportedUserMessages(address)
+            setBlockedUsers([...blockedUsers, address]);
           }
         });
     } else {
@@ -279,20 +291,24 @@ const LiveChat = (props: any) => {
           {m.content}
           <Time>{m.time.substring(11, 16)}</Time>
         </OwnMsg>
-      ) : (
-        <Messagediv key={index}>
-          <OthersMsgIcon src={ChatProfile} alt="" />
-          <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
-          {m.content}
-          <Time>{m.time.substring(11, 16)}</Time>
-          <Report onClick={(e) => HandleReport(m.username)}>
-            <img src={ReportIcon} alt="" />
-            <p> Report Spam</p>
-          </Report>
-        </Messagediv>
-      )
-    );
-  };
+      ) :
+        (
+          <Messagediv key={index}>
+            <OthersMsgIcon src={ChatProfile} alt="" />
+            <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
+            {m.content}
+            <Time>{m.time.substring(11, 16)}</Time>
+            <Report onClick={(e) => HandleReport(m.username)}>
+              <img src={ReportIcon} alt="" />
+              <p> Report Spam</p>
+            </Report>
+          </Messagediv>
+        )
+    )
+  }
+
+  console.log('blockedUsers', blockedUsers);
+
 
   const scrollToBottom = () => {
     //@ts-ignore
@@ -315,7 +331,7 @@ const LiveChat = (props: any) => {
   const handleKeyPress = (e: any) => {
     if (!socketRef.current || UserBlockedOrNot) return;
     //@ts-ignore
-     socketRef.current.emit("typing", userAddress);
+    socketRef.current.emit("typing", userAddress);
     // socket.broadcast.emit('typing', userAddress);
   };
   const Closealert = () => {
@@ -325,7 +341,7 @@ const LiveChat = (props: any) => {
   const handleKeyUp = (e: any) => {
     if (!socketRef.current) return;
     //@ts-ignore
-     socketRef.current.emit("typing", "stop");
+    socketRef.current.emit("typing", "stop");
     // socket.broadcast.emit('typing', 'stop');
   };
 

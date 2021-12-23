@@ -49,7 +49,8 @@ import CustomModal from "shared/custom-modal";
 import { CheckCont } from "shared/Disclaimer/style";
 import RangeSlider from "shared/range-slider/RangeSlider";
 import DisableModal from "shared/DisableModal/Disable";
-import { rangeSliderSound, rollingDiceSound } from "./Sound";
+import { heart, rangeSliderSound, rollingDiceSound } from "./Sound";
+import useSound from "use-sound";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
@@ -90,6 +91,10 @@ const Betting = () => {
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
   const [Disable, setDisable] = useState<boolean>(false);
+
+
+  const [play] = useSound(heart);
+
 
   const { walletBalance, userAddress } = useSelector(
     (state: any) => state.wallet
@@ -896,6 +901,7 @@ const Betting = () => {
         show={showDisclaimer}
         toggleModal={() => setshowDisclaimer(false)}
       />
+
     </BetBox>
   );
 };

@@ -8,7 +8,7 @@ import { instanceType, selectInstances } from 'utils/contracts';
 import { convertToWei } from 'utils/helper';
 
 const HousePoolModal = (props: any) => {
-    const { show, toggleModal, styles, userAddress, walletBalance, ActionType } = props;
+    const { show, toggleModal, styles, userAddress, walletBalance, ActionType, depositDoneSuccess, closeModal } = props;
     const [depositAmount, setDepositAmount] = useState('')
 
 
@@ -41,18 +41,23 @@ const HousePoolModal = (props: any) => {
 
     const handleDeposit = async () => {
         try {
+            
             const value = depositAmount;
-
+            
             const housepoolInstance = await selectInstances(
                 instanceType.HOUSEPOOL, // type of instance
-            );
+                );
             const receipt = await housepoolInstance.methods.deposit().send({
                 from: userAddress,
                 value: convertToWei(value),
             })
             console.log("receipt", receipt);
+    
+            depositDoneSuccess();
+            closeModal();
 
         } catch (error) {
+            closeModal();
             console.log(error);
 
         }
@@ -95,7 +100,7 @@ const HousePoolModal = (props: any) => {
                     > MAX</span>  <img src={pulseIcon} alt="" /> PLS</FlexCont>
                 </FlexCont>
             </InputCont>
-            <PrimaryButton margin={"30px 0 0 0"} onClick={handleDeposit}>{ActionType === "deposit" ? "Deposit" : "Withdraw"}</PrimaryButton>
+            <PrimaryButton margin={"30px 0 0 0"} onClick={handleDeposit} disabled={!parseFloat(depositAmount)} >{ActionType === "deposit" ? "Deposit" : "Withdraw"}</PrimaryButton>
         </HousePoolCont >
     );
 };

@@ -165,7 +165,9 @@ class Wallet {
 				this.web3.currentProvider.on(
 					'disconnect',
 					(code: number, reason: string) => {
-						localStorage.clear();
+						// localStorage.clear();
+						removeLocalData()
+
 						window.location.reload();
 					}
 				);
@@ -237,22 +239,29 @@ class Wallet {
 		return address;
 	};
 
+
+
 	disconnect = async () => {
 		switch (this.walletType) {
 			case WalletTypes.metamask:
 				//@ts-ignore
 				await this.web3.currentProvider._handleDisconnect();
-				localStorage.clear();
+				// localStorage.clear();
+				removeLocalData()
 				window.location.reload();
 				break;
 
 			case WalletTypes.walletConnect:
-				localStorage.clear();
+				// localStorage.clear();
+				removeLocalData()
+
 				window.location.reload();
 				break;
 
 			case WalletTypes.binance:
-				localStorage.clear();
+				// localStorage.clear();
+				removeLocalData()
+
 				window.location.reload();
 				break;
 
@@ -269,7 +278,9 @@ class Wallet {
 			//     break;
 
 			default:
-				localStorage.clear();
+				// localStorage.clear();
+				removeLocalData()
+
 				window.location.reload();
 				throw new Error('Invalid wallet type');
 		}
@@ -328,3 +339,13 @@ export const setupNetwork = async (dispatch: any, walletType: any) => {
 };
 
 export default new Wallet();
+
+
+export const removeLocalData = () => {
+
+	localStorage.removeItem('address')
+	localStorage.removeItem('walletType')
+	localStorage.removeItem('walletConnected')
+	localStorage.removeItem('PlacingBetId')
+	localStorage.removeItem('Loading')
+}

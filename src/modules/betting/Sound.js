@@ -4,6 +4,8 @@ import RollingDice from '../../assets/sound/Dice2.wav';
 import bigWin from '../../assets/sound/bigWin.wav';
 import bigLoose from '../../assets/sound/bigLoose.wav';
 
+export { heart, bigWin, bigLoose };
+
 export const Sound = (audioSource, play, loop) => {
 	const audio = new Audio(audioSource);
 
