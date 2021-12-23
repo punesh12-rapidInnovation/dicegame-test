@@ -348,4 +348,7 @@ export const removeLocalData = () => {
 	localStorage.removeItem('walletConnected')
 	localStorage.removeItem('PlacingBetId')
 	localStorage.removeItem('Loading')
+	localStorage.removeItem('Agree')
+	localStorage.removeItem('ShowDisclaimer')
+
 }

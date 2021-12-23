@@ -28,7 +28,6 @@ const Disclaimer = (props: any) => {
             setLocalAgree(false);
         }
     };
-    console.log(ReactAgree);
 
     const crossFunction = () => {
         toggleModal();
