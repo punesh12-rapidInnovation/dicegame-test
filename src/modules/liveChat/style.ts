@@ -39,17 +39,17 @@ flex-direction: column;
 justify-content: center;
 
   position: absolute;
-  right: -70px;
+  right: -60px;
   top: 50%;
   transform: translatey(-50%);
   cursor: pointer;
 
   img{
-    height:20px;
+    height:18px;
     margin:5px 0;
   }
   p{
-    font-size:10px;
+    font-size:8px;
   }
 `;
 
@@ -148,7 +148,7 @@ export const Messagediv = styled.div`
   padding: 15px;
   display: flex;
   font-size: 14px;
-  max-width: 400px;
+  max-width: 350px;
   border-top-left-radius: 0;
   margin: 10px 0;
   align-self: flex-start;
