@@ -66,7 +66,6 @@ const WaitingModal = (props: any) => {
                 <InfoText>
                     Result is loading...
                 </InfoText>
-                <button onClick={() => play()}>play</button>
             </ModalContent>
 
         </ModalBody>
