@@ -8,7 +8,7 @@ import { instanceType, selectInstances } from 'utils/contracts';
 import { convertToWei } from 'utils/helper';
 
 const HousePoolModal = (props: any) => {
-    const { show, toggleModal, styles, userAddress, walletBalance, ActionType, depositDoneSuccess, closeModal } = props;
+    const { show, toggleModal, styles, userAddress, walletBalance, ActionType, depositDoneSuccess, closeModal,setTxWaiting, setTxSuccess, setTxError } = props;
     const [depositAmount, setDepositAmount] = useState('')
 
 
@@ -41,7 +41,7 @@ const HousePoolModal = (props: any) => {
 
     const handleDeposit = async () => {
         try {
-            
+            setTxWaiting(true); setTxSuccess(false); setTxError(false);
             const value = depositAmount;
             
             const housepoolInstance = await selectInstances(
@@ -54,11 +54,15 @@ const HousePoolModal = (props: any) => {
             console.log("receipt", receipt);
     
             depositDoneSuccess();
+            setTxWaiting(false); setTxSuccess(true); setTxError(false);
+            // setDepositAmount("");
             closeModal();
 
         } catch (error) {
-            closeModal();
             console.log(error);
+            setTxWaiting(false); setTxSuccess(false); setTxError(true);
+            // setDepositAmount("");
+            closeModal();
 
         }
     }

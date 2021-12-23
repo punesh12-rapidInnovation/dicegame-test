@@ -5,22 +5,28 @@ import { CircleTimerCont, Inner, Outer } from './style';
 
 
 const CircleTimer = (props: any) => {
-    const { value } = props;
+    const { value,depositSelected } = props;
     // const { value, rowIndex } = props;
     // const lockedTime:any = localStorage.getItem(`lockedTime${rowIndex}`);
-    const [counter, setCounter] = useState(value);
+    // const value = 2;
+    const [counter, setCounter] = useState(0);//value>0?value:0
 
     const [circleDasharray, setCircleDasharray] = useState(200);
-    const [circleDashoffset, setCircleDashoffset] = useState(0);
+    const [circleDashoffset, setCircleDashoffset] = useState(200);
   
     useEffect(() => {
+      setCounter(value>0?value:0);
+    },[depositSelected])
 
-      if (!parseFloat(counter)) return;
+
+    useEffect(() => {
+
+      if (!counter) return;
       
       const intervalId = setInterval(() => {
           // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
           // let lockedTime = parseFloat(lockedTimeString);
-          console.log(counter);
+          // console.log(counter);
           // setLockedTimeLeft(newValue);
           // const lockedTimeArrayString:any = localStorage.getItem("lockedTimeArray");
           // let lockedTimeArray = JSON.parse(lockedTimeArrayString);
@@ -30,7 +36,7 @@ const CircleTimer = (props: any) => {
           } else {
             // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
             setCounter(counter-1);
-            setCircleDashoffset(circleDashoffset+(circleDasharray/parseFloat(counter)));
+            // setCircleDashoffset(circleDashoffset+(circleDasharray/counter));
           }
         }, 1000);
 
@@ -99,8 +105,10 @@ const CircleTimer = (props: any) => {
     //     </CountdownCircleTimer>
     // </TimerWrapper>
     <CircleTimerCont
-    circleDasharray={`${circleDasharray}`}
-    circleDashoffset={`${circleDashoffset}`}
+    // circleDasharray={`${circleDasharray}`}
+    // circleDashoffset={`${circleDashoffset}`}
+    totalTime={value}
+    // totalOffsetToBeDone={200}
     >
       <Outer>
         <Inner>
@@ -122,5 +130,5 @@ const CircleTimer = (props: any) => {
     </CircleTimerCont>
     );
   };
-  export default memo(CircleTimer);
+  export default CircleTimer;
   
