@@ -65,8 +65,8 @@ const LiveChat = (props: any) => {
     
     setTimeout(() => {
             setUserTyping(false);
-      setUserTypingAddress("0");
-      console.log("setted false")
+            setUserTypingAddress("0");
+            console.log("setted false")
           }, 8000);
   }
   
@@ -88,6 +88,7 @@ const LiveChat = (props: any) => {
         const updatedData = [...messages, data];
         setMessages(updatedData);
         setUserTyping(false);
+        
       });
       //@ts-ignore
       socketRef.current.on("typing", (data) => {
@@ -153,6 +154,31 @@ const LiveChat = (props: any) => {
   }
 
   const HandleReport = async (address: string) => {
+     const walletConnectOrNot = localStorage.getItem("walletConnected");
+      if (inputMessage.trim() === "" || walletConnectOrNot !== "true") {
+        if (walletConnectOrNot !== "true") {
+          setAlertModaltext("Connect Wallet to Send Message To Global Chat");
+          setAlertModalState(true);
+        }
+        return;
+      }
+    const ReportedUsers = JSON.parse(localStorage.getItem("ReportedUsers") || "[]");
+    console.log(ReportedUsers);
+    let Reported = false;
+
+    ReportedUsers.map((user: any) => {
+      if (user === address) {
+        setAlertModalState(true);
+        setAlertModaltext("You have already reported this user! ");
+        Reported = true;
+        console.log("already reported")
+      }
+
+    })
+
+    if (Reported) {
+      return;
+    }
 
     for (let index = 0; !!blockedUsers && index < blockedUsers.length; index++) {
       if (address == blockedUsers[index]) {
@@ -178,7 +204,15 @@ const LiveChat = (props: any) => {
             );
             setAlertModalState(true);
             removeReportedUserMessages(address)
-            setBlockedUsers([...blockedUsers, address]);
+            if (localStorage.getItem("ReportedUsers") === null) {
+              localStorage.setItem("ReportedUsers", JSON.stringify([address]));
+            }else {
+              const Reportedtillnow = JSON.parse(
+                localStorage.getItem("ReportedUsers") || "[]"
+              );
+              Reportedtillnow.unshift(address);
+              localStorage.setItem("ReportedUsers", JSON.stringify(Reportedtillnow));
+    }
           }
         });
     } else {
