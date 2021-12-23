@@ -1,17 +1,33 @@
 import { colors } from "shared/styles/theme";
 import styled, { keyframes } from "styled-components";
 
+export const TransImgCircle = styled.div`
+	margin: 0 0 30px 0;
 
-const Anim = (totalOffsetToBeDone:any) => keyframes`
-from {
-    stroke-dashoffset: 0;
-  }
-  to {
-    stroke-dashoffset: 200;
-  }
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
+
+	/* Safari */
+	@-webkit-keyframes spin {
+		0% 
+			-webkit-transform: rotate(0deg);
+		}
+		100% {
+			-webkit-transform: rotate(360deg);
+		}
+	}
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
 `;
 
-export const CircleTimerCont = styled.div<any>`
+export const Ring = styled.div<any>`
 width: 80px;
 height: 80px;
 position: relative;
@@ -28,8 +44,7 @@ circle {
     stroke: url(#GradientColor);
     stroke-width: 8px;
     stroke-dasharray: ${(props) => (props.circleDasharray ? props.circleDasharray : '200')};
-    stroke-dashoffset: ${(props) => (props.totalOffsetToBeDone ? props.totalOffsetToBeDone : '200')};
-    animation: ${props => Anim(props.start)} ${props => props.totalTime}s linear normal;
+    stroke-dashoffset: ${(props) => (props.circleDashoffset ? props.circleDashoffset : '50')};
     
 }
 `
