@@ -7,6 +7,7 @@ import Background from 'assets/images/poolDetailsBg.png'
 export const LandingMobileContainer = styled.div`
 width:100%;
 height:auto;
+min-height:100vh;
 display: flex;
 flex-direction: column;
 align-items:center;
@@ -15,7 +16,6 @@ background-repeat: no-repeat;
 background-color: #000;
 background-image:url(${Background});
 padding-top:25%;
-
 `
 export const FunctionCont = styled.div`
 display: flex;
@@ -58,13 +58,13 @@ margin:10px 0;
 color:${colors.white};
 `
 export const BetActiveTab = styled.div<any>`
-border:1px solid ${colors.primary};
+// border:1px solid ${colors.primary};
 Width:100%;
 display: flex;
 flex-direction: column;
 justify-content:center;
 align-items:center;
-margin:10px 0;
+margin:10px;
 color:${colors.white};
 
 div{

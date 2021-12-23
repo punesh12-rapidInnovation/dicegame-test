@@ -1,4 +1,5 @@
 import Betting from 'modules/betting';
+import LiveChatNew from 'modules/liveChat/LiveChatNew';
 import React, { useState } from 'react';
 import { LandingMobileContainer, FunctionCont, FunctionStatus, ModuleCont, BetActiveTab } from './styleMobile';
 
@@ -20,7 +21,10 @@ const LandingMobile = () => {
                     <div>Last 10 rolls</div>
                     <div>Graph</div>
                 </BetActiveTab>}
-                {activeTab === 'chat' && 'chat'}
+                {activeTab === 'chat' &&
+                    <BetActiveTab>
+                        <LiveChatNew />
+                    </BetActiveTab>}
             </ModuleCont>
         </LandingMobileContainer>
     );
