@@ -86,3 +86,10 @@ export const Input = styled.input`
 	transform: translateX(-4%);
 	z-index: 9;
 	`
+
+	export const WithdrawTimer = styled.div<any>`
+	position: ${(props:any) => (props.isShown ? "static" : "absolute")};
+	visibility: ${(props:any) => (props.isShown ? "visible" : "hidden")};
+	/*display: ${(props:any) => (props.timeInSec>0 ? "block" : "none")};*/
+	`
+	

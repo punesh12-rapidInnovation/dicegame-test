@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { PrimaryButton } from 'shared/button/Button';
-import { FlexCont, H1, HousePoolCont, Input, InputCont, Dropdown } from './style';
+import { FlexCont, H1, HousePoolCont, Input, InputCont, Dropdown, WithdrawTimer } from './style';
 
 import pulseIcon from "assets/icons/pulseIcon.svg";
 import downCarotIcon from 'assets/icons/downCarot.svg'
@@ -10,16 +10,14 @@ import { convertToEther, convertToWei } from 'utils/helper';
 import CircleTimer from 'shared/circleTimer/CircleTimer';
 
 const HousePoolWithdrawModal = (props: any) => {
-    const { show, toggleModal, styles, userAddress, walletBalance, ActionType,withdrawDoneSuccess,closeModal,setTxWaiting, setTxSuccess, setTxError } = props;
+    const { show, toggleModal, styles, userAddress, walletBalance, ActionType, txWaiting, withdrawDoneSuccess,closeModal,setTxWaiting, setTxSuccess, setTxError } = props;
     const [withdrawAmount, setWithdrawAmount] = useState('')
     const [depositList, setDepositList] = useState<any>([]);
     const [showDepositList, setShowDepositList] = useState(false)
     const [depositSelected, setDepositSelected] = useState<any>({ presentBalance: 0.00, Balance: 0.00, pendingRewards: 0.00, index: 0 })
     const [loading, setLoading] = useState<any>(false);
 
-
-    useEffect(() => {
-        const getdata = async () => {
+    const getdata = async () => {
             try {
                 setLoading(true);
                 console.log(userAddress);
@@ -59,7 +57,10 @@ const HousePoolWithdrawModal = (props: any) => {
                     const releaseTime = await housepoolInstance.methods.releaseTime().call();
                     console.log("releaseTime", releaseTime);
 
-                    setDepositList(depositsArray.map((item: object, i: number) => ({ ...item, releaseTime: releaseTime, presentBalance: mypresentBalances[i], pendingRewards: pendingRewards[i], index: i })))
+                    setDepositList(depositsArray.map((item: any, i: number) => ({ ...item, releaseTime: releaseTime, presentBalance: mypresentBalances[i], pendingRewards: pendingRewards[i], 
+                        lockedTimePeriod: (parseFloat(item.DepositTime)+parseFloat(releaseTime))-(Date.now()/1000), 
+                        isUnlocked:(parseFloat(item.DepositTime)+parseFloat(releaseTime))-(Date.now()/1000)<=0,
+                        index: i })))//   10 + (10*i)
                 }
                 setLoading(false);
 
@@ -68,9 +69,22 @@ const HousePoolWithdrawModal = (props: any) => {
                 console.log(error);
             }
         }
-        getdata();
-    }, [userAddress,depositSelected])
 
+    useEffect(() => {
+        getdata();
+    }, [userAddress])
+
+    const unlockDeposit = (depositIndex:number) => {
+        const newDepositList = depositList.map((item:any,i:number) => {
+            if(i===depositIndex) return ({...item, isUnlocked:true})
+            else return item;
+        });
+        setDepositList(newDepositList);
+
+        if(Object.values(depositSelected).filter(x => x).length){
+            setDepositSelected(newDepositList[depositSelected.index]);
+        }
+    }
 
     const handleClickOutside = (e: any) => {
         if (e.target === e.currentTarget) {
@@ -133,14 +147,14 @@ const HousePoolWithdrawModal = (props: any) => {
     //     setShowDepositList(false);
     // }
 
-    const getLockedTimePeriod = () => {
-        console.log("lockedTimePeriod",depositSelected.DepositTime+depositSelected.releaseTime);
-        console.log(Date.now()/1000);
+    // const getLockedTimePeriod = (item:any) => {
+    //     console.log("lockedTimePeriod",item.DepositTime+item.releaseTime);
+    //     console.log(Date.now()/1000);
         
-        // const lockedTimePeriod = (parseFloat(depositSelected.DepositTime)+parseFloat(depositSelected.releaseTime))-(Date.now()/1000);
-        const lockedTimePeriod = 10;
-      return lockedTimePeriod
-    }
+    //     // const lockedTimePeriod = (parseFloat(item.DepositTime)+parseFloat(item.releaseTime))-(Date.now()/1000);
+    //     const lockedTimePeriod = 10 + (item.index*20);
+    //   return lockedTimePeriod
+    // }
     return (
         <>
         <HousePoolCont>
@@ -152,9 +166,16 @@ const HousePoolWithdrawModal = (props: any) => {
             margin="0"
             >
                 <H1>HOUSE POOL</H1>
-                {Object.values(depositSelected).filter(x => x).length ? <CircleTimer value={getLockedTimePeriod()} depositSelected={depositSelected} ></CircleTimer> 
-                : null}
+                {
+                depositList.map((item:any) => 
+                <WithdrawTimer timeInSec={item.lockedTimePeriod} isShown={Object.values(depositSelected).filter(x => x).length && item.index === depositSelected.index } >
+                  <CircleTimer value={item.lockedTimePeriod} actionAfterTimerOver={() => unlockDeposit(item.index)} ></CircleTimer>
+                </WithdrawTimer>
+                )}
             </FlexCont>
+            <div style={{color:"#fff"}}>
+            Withdrawing your funds leads to resetting your remaining balance with Loss and all your rewards will be distributed.
+            </div>
             <div style={{
                 width: '100%',
                 background: '#2A1966',
@@ -208,7 +229,7 @@ const HousePoolWithdrawModal = (props: any) => {
                         }
                     </Dropdown>}
             </div>
-            <InputCont isDisabled={!Object.values(depositSelected).filter(x => x).length}>
+            <InputCont isDisabled={!Object.values(depositSelected).filter(x => x).length || !depositSelected.isUnlocked}>
                 <FlexCont
                     flexDirection="row"
                     justifyContent="space-between"
@@ -244,7 +265,7 @@ const HousePoolWithdrawModal = (props: any) => {
                 </FlexCont>
             </InputCont>
             <div style={{margin:"10px 0", color:"#fff", textAlign:"right"}}>Pending Rewards: { depositSelected.pendingRewards ?  parseFloat(convertToEther(depositSelected.pendingRewards)): 0.00} PLS</div>
-            <PrimaryButton margin={"30px 0 0 0"} onClick={handleWithdraw} disabled={!parseFloat(withdrawAmount)}>Withdraw</PrimaryButton>
+            <PrimaryButton margin={"30px 0 0 0"} onClick={handleWithdraw} disabled={!parseFloat(withdrawAmount) || txWaiting}>Withdraw</PrimaryButton>
         </HousePoolCont >
         </>
     );
