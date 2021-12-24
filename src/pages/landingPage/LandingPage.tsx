@@ -25,6 +25,7 @@ import { useState, useEffect } from "react";
 import Disclaimer from "shared/Disclaimer/Disclaimer";
 import { screenSizes } from "shared/styles/theme";
 import LandingMobile from "./LandingMobile";
+import LandingDesktop from "./LandingDesktop";
 
 const LandingPage = () => {
   const [showDisclaimer, setshowDisclaimer] = useState(false);
@@ -47,6 +48,7 @@ const LandingPage = () => {
     width < screenSizes.mediaS ?
       <LandingMobile />
       :
+      // <LandingDesktop />
 
       <Landingdiv>
         <Header />

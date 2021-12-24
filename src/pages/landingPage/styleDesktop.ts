@@ -24,7 +24,7 @@ background-image:url(${Background});
 export const ModuleCont = styled.div`
 Width:90%;
 margin:5rem;
-padding:2rem;
+padding:4rem;
 background: linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%);
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9);
 border-radius: 20px;
@@ -34,14 +34,14 @@ display: flex;
 justify-content:center;
 align-items:center;
 margin:20px 0;
-height:120%;
+// height:120%;
 `
 export const LowerModuleCont = styled.div`
 display: flex;
 justify-content:center;
 align-items:center;
 margin:20px 0;
-height:120%;
+// height:100%;
 `
 
 

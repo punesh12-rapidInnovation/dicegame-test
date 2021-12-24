@@ -38,8 +38,6 @@ import { dateFromTimestamp } from "utils/helper";
 const LiveChat = (props: any) => {
   const { userAddress, chatMessage } = useSelector((state: any) => state.wallet);
 
-  console.log('chatMessage', chatMessage);
-
   const inputRef = createRef<HTMLInputElement>();
   const messagesEndRef = createRef<HTMLDivElement>();
   const { connectWallet, setToggleModal, toggleModal } = props;
