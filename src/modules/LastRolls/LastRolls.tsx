@@ -12,8 +12,10 @@ function LastRolls() {
   const [LastRolls, setLastRolls] = useState<any>([])
 
   useEffect(() => {
-    const lastRolls = JSON.parse(localStorage.getItem("LastRolls") || '');
-    setLastRolls(lastRolls)
+    if (localStorage.getItem("LastRolls") !== null) {
+      const lastRolls = JSON.parse(localStorage.getItem("LastRolls") || "");
+      setLastRolls(lastRolls)
+    }
   }, [localStorage.getItem("LastRolls")])
 
   const NoResultMessage = () => {

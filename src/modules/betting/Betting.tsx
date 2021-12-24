@@ -223,12 +223,12 @@ const Betting = () => {
     } else setBetAmount("");
   };
 
-  const OutFocusSetBetamount = () => {
-    if (BetAmount === "") {
-      setBetAmount(0);
-      console.log("set 0");
-    }
-  };
+  // const OutFocusSetBetamount = () => {
+  //   if (BetAmount === "") {
+  //     setBetAmount(0);
+  //     console.log("set 0");
+  //   }
+  // };
 
   const CallingPlaceBet = async () => {
     if (localStorage.getItem("Loading") === "true") {
@@ -241,7 +241,7 @@ const Betting = () => {
       setAlertText("BET AMOUNT CANNOT BE 0");
       setAlertModalState(true);
       return;
-    } else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax) {
+    } else if (Number(BetAmount) < Number(OnLoadMin) || Number(BetAmount) > Number(OnLoadMax)) {
       setAlertText("Amount Not Under Minimum And Maximum Amount Allowed");
       setAlertModalState(true);
     } else {
@@ -635,7 +635,7 @@ const Betting = () => {
             <Chance
               value={BetAmount}
               onChange={BetSetThroughInput}
-              onBlur={OutFocusSetBetamount}
+              // onBlur={OutFocusSetBetamount}
               placeholder="0"
             />
             <Flex Width="75%">
