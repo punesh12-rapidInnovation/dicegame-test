@@ -3,6 +3,7 @@ import {
 	LOGIN,
 	SET_CHAINID,
 	WALLET_CONNECT_CHECK,
+	SET_MESSAGE
 } from '../reducer/constants';
 
 export const walletConnectCheck = (value: any) => {
@@ -28,5 +29,13 @@ export const setWalletBalance = (amount: any) => {
 	return {
 		type: GET_BALANCE,
 		value: amount,
+	};
+};
+
+export const setChatMessage = (message: any) => {
+
+	return {
+		type: SET_MESSAGE,
+		value: message,
 	};
 };

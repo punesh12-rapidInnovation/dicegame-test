@@ -126,7 +126,7 @@ const Header = () => {
       // socket.emit('message');
       //@ts-ignore
       socketRef.current.on("message", (data) => {
-        console.log("data", data);
+        // console.log("data", data);
         const updatedData = [...messages, data];
         setMessages(updatedData);
 
@@ -155,8 +155,6 @@ const Header = () => {
       socketRef.current.disconnect();
     };
   }, [messages]);
-
-  console.log('messages', messages);
 
 
   return (
