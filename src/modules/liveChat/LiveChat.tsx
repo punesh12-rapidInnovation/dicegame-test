@@ -36,10 +36,13 @@ import BarChart from "modules/app/components/barChart/BarChart";
 import { dateFromTimestamp } from "utils/helper";
 
 const LiveChat = (props: any) => {
+  const { userAddress, chatMessage } = useSelector((state: any) => state.wallet);
+
+  console.log('chatMessage', chatMessage);
+
   const inputRef = createRef<HTMLInputElement>();
   const messagesEndRef = createRef<HTMLDivElement>();
   const { connectWallet, setToggleModal, toggleModal } = props;
-  const { userAddress } = useSelector((state: any) => state.wallet);
   const [showEmojis, setshowEmojis] = useState("none");
   const [cursorPosition, setcursorPosition] = useState();
   const [messages, setMessages] = useState<any>([]);
@@ -61,15 +64,20 @@ const LiveChat = (props: any) => {
 
   const socketRef = useRef();
 
-  const StoppedTyping: ReturnType<any>  = () => {
-    
+  const StoppedTyping: ReturnType<any> = () => {
+
     setTimeout(() => {
-            setUserTyping(false);
-            setUserTypingAddress("0");
-            console.log("setted false")
-          }, 8000);
+      setUserTyping(false);
+      setUserTypingAddress("0");
+      console.log("setted false")
+    }, 8000);
   }
-  
+
+  useEffect(() => {
+    setMessages(chatMessage)
+    setUserTyping(false);
+  }, [chatMessage])
+
 
   useEffect(() => {
     //@ts-ignore
@@ -83,13 +91,13 @@ const LiveChat = (props: any) => {
       });
       // socket.emit('message');
       //@ts-ignore
-      socketRef.current.on("message", (data) => {
-        console.log("data", data);
-        const updatedData = [...messages, data];
-        setMessages(updatedData);
-        setUserTyping(false);
-        
-      });
+      //socketRef.current.on("message", (data) => {
+      //   console.log("data", data);
+      //   const updatedData = [...messages, data];
+      //   setMessages(updatedData);
+      //setUserTyping(false);
+
+      //});
       //@ts-ignore
       socketRef.current.on("typing", (data) => {
         // console.log("typingdata", data);
@@ -154,14 +162,13 @@ const LiveChat = (props: any) => {
   }
 
   const HandleReport = async (address: string) => {
-     const walletConnectOrNot = localStorage.getItem("walletConnected");
-      if (inputMessage.trim() === "" || walletConnectOrNot !== "true") {
-        if (walletConnectOrNot !== "true") {
-          setAlertModaltext("Connect Wallet to Send Message To Global Chat");
-          setAlertModalState(true);
-        }
-        return;
-      }
+    const walletConnectOrNot = localStorage.getItem("walletConnected");
+    if ( walletConnectOrNot !== "true") {
+     
+        setAlertModaltext("Connect Wallet to Send Message To Global Chat");
+        setAlertModalState(true);
+      return;
+    }
     const ReportedUsers = JSON.parse(localStorage.getItem("ReportedUsers") || "[]");
     console.log(ReportedUsers);
     let Reported = false;
@@ -203,16 +210,15 @@ const LiveChat = (props: any) => {
               "You have reported this user successfully we will take a look into it"
             );
             setAlertModalState(true);
-            removeReportedUserMessages(address)
             if (localStorage.getItem("ReportedUsers") === null) {
               localStorage.setItem("ReportedUsers", JSON.stringify([address]));
-            }else {
+            } else {
               const Reportedtillnow = JSON.parse(
                 localStorage.getItem("ReportedUsers") || "[]"
               );
               Reportedtillnow.unshift(address);
               localStorage.setItem("ReportedUsers", JSON.stringify(Reportedtillnow));
-    }
+            }
           }
         });
     } else {
@@ -355,7 +361,7 @@ const LiveChat = (props: any) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages,userTyping]);
+  }, [messages, userTyping]);
 
   useEffect(() => {
     //@ts-ignore

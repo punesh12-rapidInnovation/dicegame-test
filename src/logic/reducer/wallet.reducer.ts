@@ -3,12 +3,14 @@ import {
 	LOGIN,
 	SET_CHAINID,
 	WALLET_CONNECT_CHECK,
+	SET_MESSAGE
 } from './constants';
 
 const initialState = {
 	userAddress: '',
 	chainId: '',
 	walletBalance: '',
+	chatMessage: []
 };
 
 const walletReducer = (state = initialState, action: any) => {
@@ -34,6 +36,11 @@ const walletReducer = (state = initialState, action: any) => {
 			return {
 				...state,
 				walletBalance: action.value,
+			};
+		case SET_MESSAGE:
+			return {
+				...state,
+				chatMessage: action.value,
 			};
 
 		default:
