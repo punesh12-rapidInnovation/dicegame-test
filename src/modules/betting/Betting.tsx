@@ -216,8 +216,10 @@ const Betting = () => {
 
   const BetSetThroughInput = (e: any) => {
     const { value } = e.target;
-    if (value < 20 && floatNumRegex.test(value.toString())) {
-      setBetAmount(e.target.value);
+    console.log('value', value);
+
+    if (floatNumRegex.test(value.toString())) {
+      setBetAmount(value);
     } else setBetAmount("");
   };
 
