@@ -24,6 +24,8 @@ import { Paths } from 'modules/app/components/routes/types';
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import LiveChat from 'modules/liveChat';
 import LiveChatNew from 'modules/liveChat/LiveChatNew';
+import LastRolls from 'modules/LastRolls/LastRolls';
+import LastRollsNew from 'modules/LastRolls/LastRollsNew';
 
 const LandingDesktop = () => {
     const [showDisclaimer, setshowDisclaimer] = useState(false);
@@ -76,6 +78,7 @@ const LandingDesktop = () => {
                     </PrimaryButton>
                 </Flex>
             </Playerrank>
+
             <ModuleCont>
                 <UpperModuleCont>
                     <Betting />
@@ -86,11 +89,12 @@ const LandingDesktop = () => {
                 <LowerModuleCont>
                     {/* <p>last 10 rolls</p> */}
                     {/* <p>liquidity graph</p> */}
-                    <LiveChatNew />
+                    <LastRollsNew />
                     <LiveChatNew />
 
                 </LowerModuleCont>
             </ModuleCont>
+
 
             <Disclaimer
                 show={showDisclaimer}

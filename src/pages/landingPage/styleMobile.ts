@@ -67,7 +67,4 @@ align-items:center;
 margin:10px;
 color:${colors.white};
 
-div{
-    height:50vh;
-}
 `
