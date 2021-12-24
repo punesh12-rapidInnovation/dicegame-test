@@ -75,6 +75,7 @@ const LiveChat = (props: any) => {
 
   useEffect(() => {
     setMessages(chatMessage)
+    setUserTyping(false);
   }, [chatMessage])
 
 
@@ -90,13 +91,13 @@ const LiveChat = (props: any) => {
       });
       // socket.emit('message');
       //@ts-ignore
-      // socketRef.current.on("message", (data) => {
+      //socketRef.current.on("message", (data) => {
       //   console.log("data", data);
       //   const updatedData = [...messages, data];
       //   setMessages(updatedData);
-      //   setUserTyping(false);
+      //setUserTyping(false);
 
-      // });
+      //});
       //@ts-ignore
       socketRef.current.on("typing", (data) => {
         // console.log("typingdata", data);
@@ -162,11 +163,10 @@ const LiveChat = (props: any) => {
 
   const HandleReport = async (address: string) => {
     const walletConnectOrNot = localStorage.getItem("walletConnected");
-    if (inputMessage.trim() === "" || walletConnectOrNot !== "true") {
-      if (walletConnectOrNot !== "true") {
+    if ( walletConnectOrNot !== "true") {
+     
         setAlertModaltext("Connect Wallet to Send Message To Global Chat");
         setAlertModalState(true);
-      }
       return;
     }
     const ReportedUsers = JSON.parse(localStorage.getItem("ReportedUsers") || "[]");
@@ -210,7 +210,6 @@ const LiveChat = (props: any) => {
               "You have reported this user successfully we will take a look into it"
             );
             setAlertModalState(true);
-            removeReportedUserMessages(address)
             if (localStorage.getItem("ReportedUsers") === null) {
               localStorage.setItem("ReportedUsers", JSON.stringify([address]));
             } else {
