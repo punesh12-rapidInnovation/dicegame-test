@@ -236,7 +236,7 @@ const HousePool = () => {
                                             : null
                             }
                         </>
-                        <div style={{ width: '100%', height: "300px" }}>
+                        <div style={{ width: '100%', height: "400px" }}>
                             {liquidityChartData && liquidityChartData.length ?
                                 <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
                                 : null
