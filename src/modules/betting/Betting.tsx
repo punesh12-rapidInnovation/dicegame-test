@@ -143,7 +143,7 @@ const Betting = () => {
           // Replace event name with connection event name
           console.log("websocket connected");
         });
-        socket.on("betevent", (data: any) => {
+        socket.on("betting", (data: any) => {
           console.log(data);
           const LocalBetId = localStorage.getItem("PlacingBetId");
 
@@ -492,7 +492,7 @@ const Betting = () => {
       console.log(numberRangeLow, numberRangeHigh);
     }
 
-  }, [rangeLow,rangeHigh]);
+  }, [rangeLow, rangeHigh]);
 
 
 
