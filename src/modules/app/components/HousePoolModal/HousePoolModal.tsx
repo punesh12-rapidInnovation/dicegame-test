@@ -8,7 +8,7 @@ import { instanceType, selectInstances } from 'utils/contracts';
 import { convertToWei } from 'utils/helper';
 
 const HousePoolModal = (props: any) => {
-    const { show, toggleModal, styles, userAddress, walletBalance, ActionType, depositDoneSuccess, closeModal,setTxWaiting, setTxSuccess, setTxError } = props;
+    const { show, toggleModal, styles, userAddress, walletBalance, ActionType,txWaiting, depositDoneSuccess, closeModal,setTxWaiting, setTxSuccess, setTxError } = props;
     const [depositAmount, setDepositAmount] = useState('')
 
 
@@ -104,7 +104,7 @@ const HousePoolModal = (props: any) => {
                     > MAX</span>  <img src={pulseIcon} alt="" /> PLS</FlexCont>
                 </FlexCont>
             </InputCont>
-            <PrimaryButton margin={"30px 0 0 0"} onClick={handleDeposit} disabled={!parseFloat(depositAmount)} >{ActionType === "deposit" ? "Deposit" : "Withdraw"}</PrimaryButton>
+            <PrimaryButton margin={"30px 0 0 0"} onClick={handleDeposit} disabled={!parseFloat(depositAmount) || txWaiting} >{ActionType === "deposit" ? "Deposit" : "Withdraw"}</PrimaryButton>
         </HousePoolCont >
     );
 };
