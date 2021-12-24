@@ -22,7 +22,7 @@ const CircleTimer = (props: any) => {
 
     useEffect(() => {
 
-      if (!counter) return;
+      if (counter<=0) return;
       
       const intervalId = setInterval(() => {
           // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
@@ -32,7 +32,9 @@ const CircleTimer = (props: any) => {
           // const lockedTimeArrayString:any = localStorage.getItem("lockedTimeArray");
           // let lockedTimeArray = JSON.parse(lockedTimeArrayString);
           // localStorage.setItem(`lockedTime${rowIndex}`, `${counter - 1}`)
-          if (!counter) {
+          if (counter<=0) {
+            console.log("interval clear");
+            
             clearInterval(intervalId)
           } else {
             // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
@@ -40,6 +42,8 @@ const CircleTimer = (props: any) => {
             // setCircleDashoffset(circleDashoffset+(circleDasharray/counter));
           }
         }, 1000);
+        
+        if (counter<=0) clearInterval(intervalId);
 
         return () => clearInterval(intervalId);
     },[counter])
@@ -47,7 +51,7 @@ const CircleTimer = (props: any) => {
       
     useEffect(() => {
 
-      if (counter===0) {
+      if (counter<=0) {
         actionAfterTimerOver()
       };
 
@@ -92,9 +96,13 @@ const CircleTimer = (props: any) => {
 
   const formatTime = (timeInSec: any) => {
 
-      const h = Math.floor(timeInSec / 3600);
-      const m = Math.floor(timeInSec % 3600 / 60);
-      const s = Math.floor(timeInSec % 3600 % 60);
+      let h = Math.floor(timeInSec / 3600);
+      let m = Math.floor(timeInSec % 3600 / 60);
+      let s = Math.floor(timeInSec % 3600 % 60);
+
+      h = h >=0 ? h : 0;
+      m = m >=0 ? m : 0;
+      s = s >=0 ? s : 0;
 
       return `${pad(h)}:${pad(m)}:${pad(s)}`;
   };
