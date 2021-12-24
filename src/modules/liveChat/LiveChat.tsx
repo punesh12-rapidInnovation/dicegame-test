@@ -78,45 +78,45 @@ const LiveChat = (props: any) => {
   }, [chatMessage])
 
 
-  // useEffect(() => {
-  //   //@ts-ignore
-  //   socketRef.current = io("wss://diceroll.rapidinnovation.tech");
+  useEffect(() => {
+    //@ts-ignore
+    socketRef.current = io("wss://diceroll.rapidinnovation.tech");
 
-  //   try {
-  //     //@ts-ignore
-  //     socketRef.current.on("connection", () => {
-  //       // Replace event name with connection event name
-  //       console.log("websocket connected");
-  //     });
-  //     // socket.emit('message');
-  //     //@ts-ignore
-  //     socketRef.current.on("message", (data) => {
-  //       console.log("data", data);
-  //       const updatedData = [...messages, data];
-  //       setMessages(updatedData);
-  //       setUserTyping(false);
+    try {
+      //@ts-ignore
+      socketRef.current.on("connection", () => {
+        // Replace event name with connection event name
+        console.log("websocket connected");
+      });
+      // socket.emit('message');
+      //@ts-ignore
+      // socketRef.current.on("message", (data) => {
+      //   console.log("data", data);
+      //   const updatedData = [...messages, data];
+      //   setMessages(updatedData);
+      //   setUserTyping(false);
 
-  //     });
-  //     //@ts-ignore
-  //     socketRef.current.on("typing", (data) => {
-  //       // console.log("typingdata", data);
-  //       if (data === "stop") {
-  //         clearTimeout(StoppedTyping)
-  //         StoppedTyping()
-  //       } else {
-  //         clearTimeout(StoppedTyping)
-  //         setUserTyping(true);
-  //         setUserTypingAddress(data);
-  //       }
-  //     });
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
-  //   return () => {
-  //     //@ts-ignore
-  //     socketRef.current.disconnect();
-  //   };
-  // }, [messages]);
+      // });
+      //@ts-ignore
+      socketRef.current.on("typing", (data) => {
+        // console.log("typingdata", data);
+        if (data === "stop") {
+          clearTimeout(StoppedTyping)
+          StoppedTyping()
+        } else {
+          clearTimeout(StoppedTyping)
+          setUserTyping(true);
+          setUserTypingAddress(data);
+        }
+      });
+    } catch (err) {
+      console.log("err", err);
+    }
+    return () => {
+      //@ts-ignore
+      socketRef.current.disconnect();
+    };
+  }, [messages]);
 
 
   //@ts-ignore
