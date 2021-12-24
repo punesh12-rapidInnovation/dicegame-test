@@ -4,13 +4,17 @@ import { FlexCont, H1, HousePoolCont, Input, InputCont } from './style';
 import pulseIcon from "assets/icons/pulseIcon.svg";
 import { useState } from 'react';
 import { floatNumRegex } from 'shared/helpers/regrexConstants';
+
 import { instanceType, selectInstances } from 'utils/contracts';
-import { convertToWei } from 'utils/helper';
+import { convertToWei, convertToEther } from 'utils/helper';
+import { setWalletBalance } from "logic/action/wallet.action";
+import web3 from 'utils/web3';
+import { useDispatch } from 'react-redux';
 
 const HousePoolModal = (props: any) => {
     const { show, toggleModal, styles, userAddress, walletBalance, ActionType,txWaiting, depositDoneSuccess, closeModal,setTxWaiting, setTxSuccess, setTxError } = props;
+    const dispatch = useDispatch();
     const [depositAmount, setDepositAmount] = useState('')
-
 
     const handleClickOutside = (e: any) => {
         if (e.target === e.currentTarget) {
@@ -52,6 +56,9 @@ const HousePoolModal = (props: any) => {
                 value: convertToWei(value),
             })
             console.log("receipt", receipt);
+            
+            const balance = await web3.eth.getBalance(userAddress);
+            dispatch(setWalletBalance(convertToEther(balance)));
     
             depositDoneSuccess();
             setTxWaiting(false); setTxSuccess(true); setTxError(false);

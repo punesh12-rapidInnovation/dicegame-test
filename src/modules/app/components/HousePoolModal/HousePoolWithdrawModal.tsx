@@ -8,9 +8,13 @@ import { floatNumRegex } from 'shared/helpers/regrexConstants';
 import { instanceType, selectInstances } from 'utils/contracts';
 import { convertToEther, convertToWei } from 'utils/helper';
 import CircleTimer from 'shared/circleTimer/CircleTimer';
+import { setWalletBalance } from "logic/action/wallet.action";
+import web3 from 'utils/web3';
+import { useDispatch } from 'react-redux';
 
 const HousePoolWithdrawModal = (props: any) => {
     const { show, toggleModal, styles, userAddress, walletBalance, ActionType, txWaiting, withdrawDoneSuccess,closeModal,setTxWaiting, setTxSuccess, setTxError } = props;
+    const dispatch = useDispatch();
     const [withdrawAmount, setWithdrawAmount] = useState('')
     const [depositList, setDepositList] = useState<any>([]);
     const [showDepositList, setShowDepositList] = useState(false)
@@ -126,6 +130,9 @@ const HousePoolWithdrawModal = (props: any) => {
                 from: userAddress,
             })
             console.log("receipt", receipt);
+            
+            const balance = await web3.eth.getBalance(userAddress);
+            dispatch(setWalletBalance(convertToEther(balance)));
 
             withdrawDoneSuccess();
             setTxWaiting(false); setTxSuccess(true); setTxError(false);
