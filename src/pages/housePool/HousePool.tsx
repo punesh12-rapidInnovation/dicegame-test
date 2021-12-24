@@ -324,7 +324,7 @@ const HousePool = () => {
                 toggleModal={() => setshowDepositModal(false)}
                 heading={ActionType === "deposit" ? "DEPOSIT FUNDS" : "WITHDRAW FUNDS"}
             >
-                <HousePoolModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} depositDoneSuccess={() => setDepositDoneNumber(depositDoneNumber+1)} closeModal={() => setshowDepositModal(false)} setTxWaiting={setTxWaiting} setTxSuccess={setTxSuccess} setTxError={setTxError} />
+                <HousePoolModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} txWaiting={txWaiting} depositDoneSuccess={() => setDepositDoneNumber(depositDoneNumber+1)} closeModal={() => setshowDepositModal(false)} setTxWaiting={setTxWaiting} setTxSuccess={setTxSuccess} setTxError={setTxError} />
             </CustomModal>}
 
             {showWithdrawModal &&
@@ -333,7 +333,7 @@ const HousePool = () => {
                 toggleModal={() => setshowWithdrawModal(false)}
                 heading={"WITHDRAW FUNDS"}
             >
-                <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} withdrawDoneSuccess={() => setWithdrawDoneNumber(withdrawDoneNumber+1)}  closeModal={() => setshowWithdrawModal(false)} setTxWaiting={setTxWaiting} setTxSuccess={setTxSuccess} setTxError={setTxError} />
+                <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} txWaiting={txWaiting} withdrawDoneSuccess={() => setWithdrawDoneNumber(withdrawDoneNumber+1)}  closeModal={() => setshowWithdrawModal(false)} setTxWaiting={setTxWaiting} setTxSuccess={setTxSuccess} setTxError={setTxError} />
             </CustomModal>}
 
             {showConnectWalletAlert &&
@@ -345,11 +345,11 @@ const HousePool = () => {
                 {/* <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} withdrawDoneSuccess={() => setWithdrawDoneNumber(withdrawDoneNumber+1)}  closeModal={() => setshowWithdrawModal(false)}  /> */}
             </CustomModal>}
 
-            <TransactionWaiting
+            {/* <TransactionWaiting
             show={txWaiting}
             toggleModal={() => setTxWaiting(false)}
             >
-            </TransactionWaiting>
+            </TransactionWaiting> */}
             <TransactionSuccess
             show={txSuccess}
             toggleModal={() => setTxSuccess(false)}

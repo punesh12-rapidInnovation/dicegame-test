@@ -2,21 +2,22 @@ import { useState, useEffect, memo } from "react";
 import { TimerWrapper } from "modules/app/components/HousePoolTransaction/style";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { CircleTimerCont, Inner, Outer } from './style';
+import { pad } from "utils/helper";
 
 
 const CircleTimer = (props: any) => {
-    const { value,depositSelected } = props;
+    const { value, actionAfterTimerOver } = props;
     // const { value, rowIndex } = props;
     // const lockedTime:any = localStorage.getItem(`lockedTime${rowIndex}`);
     // const value = 2;
-    const [counter, setCounter] = useState(0);//value>0?value:0
+    const [counter, setCounter] = useState(value>0?value:0);//value>0?value:0
 
-    const [circleDasharray, setCircleDasharray] = useState(200);
-    const [circleDashoffset, setCircleDashoffset] = useState(200);
+    // const [circleDasharray, setCircleDasharray] = useState(200);
+    // const [circleDashoffset, setCircleDashoffset] = useState(200);
   
-    useEffect(() => {
-      setCounter(value>0?value:0);
-    },[depositSelected])
+    // useEffect(() => {
+    //   setCounter(value>0?value:0);
+    // },[])
 
 
     useEffect(() => {
@@ -44,6 +45,14 @@ const CircleTimer = (props: any) => {
     },[counter])
       
       
+    useEffect(() => {
+
+      if (counter===0) {
+        actionAfterTimerOver()
+      };
+
+    },[counter])
+
 
   // useEffect(() => {
 
@@ -76,17 +85,19 @@ const CircleTimer = (props: any) => {
   //         return (
   //             <div className="timer">
   //                 {/* <div className="text">Remaining time</div> */}
-  //                 <div className="value">{formatRemainingTime(remainingTime)}</div>
+  //                 <div className="value">{formatTime(remainingTime)}</div>
   //             </div>
   //         );
   // }
 
-  // const formatRemainingTime = (time: any) => {
-  //     const minutes = Math.floor((time % 3600) / 60);
-  //     const seconds = time % 60;
+  const formatTime = (timeInSec: any) => {
 
-  //     return `${minutes}:${seconds}`;
-  // };
+      const h = Math.floor(timeInSec / 3600);
+      const m = Math.floor(timeInSec % 3600 / 60);
+      const s = Math.floor(timeInSec % 3600 % 60);
+
+      return `${pad(h)}:${pad(m)}:${pad(s)}`;
+  };
 
   return (
     //     <TimerWrapper >
@@ -113,11 +124,11 @@ const CircleTimer = (props: any) => {
       <Outer>
         <Inner>
           <div style={{color:"#fff"}}>
-              {counter}
+              {formatTime(counter)}
           </div>
         </Inner>
       </Outer>
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="80px" height="80px">
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100px" height="100px">
          <defs>
             <linearGradient id="GradientColor">
                <stop offset="0%" stop-color="#EF0896" />
@@ -125,7 +136,7 @@ const CircleTimer = (props: any) => {
                <stop offset="100%" stop-color="#00C8FF" />
             </linearGradient>
          </defs>
-         <circle cx="40" cy="40" r="30" stroke-linecap="round" />
+         <circle cx="50" cy="50" r="40" stroke-linecap="round" />
       </svg>
     </CircleTimerCont>
     );
