@@ -143,7 +143,7 @@ const Betting = () => {
           // Replace event name with connection event name
           console.log("websocket connected");
         });
-        socket.on("betting", (data: any) => {
+        socket.on("betevent", (data: any) => {
           console.log(data);
           const LocalBetId = localStorage.getItem("PlacingBetId");
 
@@ -220,7 +220,9 @@ const Betting = () => {
 
     if (floatNumRegex.test(value.toString())) {
       setBetAmount(value);
-    } else setBetAmount("");
+    }
+    if (!value)
+      setBetAmount("");
   };
 
   // const OutFocusSetBetamount = () => {
