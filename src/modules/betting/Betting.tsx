@@ -190,15 +190,15 @@ const Betting = () => {
 
   //#region Bet Amount
   const SetMinBetAmount = async () => {
-    setBetAmount((10 / 100) * OnLoadMax);
+    setBetAmount(((10 / 100) * Number(OnLoadMax)).toFixed(8));
   };
   const SetMaxBetAmount = async () => {
-    setBetAmount(OnLoadMax);
+    setBetAmount(OnLoadMax.toFixed(8));
   };
 
   useEffect(() => {
     if (BetAmount === 0 || BetAmount === "") setBetRightOrNotAlert(false);
-    else if (BetAmount < OnLoadMin || BetAmount > OnLoadMax)
+    else if (Number(BetAmount) < Number(OnLoadMin) || Number(BetAmount) > Number(OnLoadMax))
       setBetRightOrNotAlert(true);
     else setBetRightOrNotAlert(false);
   }, [BetAmount]);
@@ -568,7 +568,7 @@ const Betting = () => {
     if (maxProfit) {
       const maxBet = convertToEther(maxProfit) / multiplier;
       setOnLoadMax(maxBet);
-      setOnLoadMin((10 / 100) * maxBet);
+      setOnLoadMin(((10 / 100) * Number(maxBet)).toFixed(8));
       return maxBet;
     }
   };
@@ -644,7 +644,7 @@ const Betting = () => {
               <TransChance onClick={SetMinBetAmount}> MIN</TransChance>
               <TransChance
                 onClick={() =>
-                  setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 6)
+                  setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(8))
                 }
               >
                 {OnLoadMin && OnLoadMax
@@ -653,7 +653,7 @@ const Betting = () => {
               </TransChance>
               <TransChance
                 onClick={() =>
-                  setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 4)
+                  setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(8))
                 }
               >
                 {OnLoadMin && OnLoadMax
@@ -662,7 +662,7 @@ const Betting = () => {
               </TransChance>
               <TransChance
                 onClick={() =>
-                  setBetAmount((Number(OnLoadMin) + Number(OnLoadMax)) / 2)
+                  setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(8))
                 }
               >
                 {OnLoadMin && OnLoadMax
