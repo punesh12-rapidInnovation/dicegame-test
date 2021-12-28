@@ -342,7 +342,7 @@ const LiveChat = (props: any) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [ userTyping ,sendTOAPI,messages]);
+  }, [ userTyping ,messages]);
 
   useEffect(() => {
     //@ts-ignore
