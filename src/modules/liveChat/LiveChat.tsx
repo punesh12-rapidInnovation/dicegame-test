@@ -291,19 +291,15 @@ const LiveChat = (props: any) => {
         content: inputMessage,
         time: localISOTime,
       };
-      
+      setInputMessage('');
      //@ts-ignore
       socketRef.current.emit("message", data);
-      setInputMessage('');
-      cancelTyping();
-
-      console.log('msg emitted')
     }
   };
 
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
-      sendTOAPI();
+      handleSendMessage();
     }
   };
 
@@ -335,9 +331,6 @@ const LiveChat = (props: any) => {
         )
     )
   }
-
-
-
   const scrollToBottom = () => {
     //@ts-ignore
     messagesEndRef.current?.scrollIntoView({
@@ -349,7 +342,7 @@ const LiveChat = (props: any) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, userTyping]);
+  }, [ userTyping ,sendTOAPI,messages]);
 
   useEffect(() => {
     //@ts-ignore
@@ -386,6 +379,13 @@ const LiveChat = (props: any) => {
     socketRef.current.emit("typing", "stop");
   };
 
+
+   const handleSendMessage = () => {
+    cancelTyping();
+     sendTOAPI();
+     setInputMessage("");
+  };
+
   
 
   useEffect(() => {
@@ -397,11 +397,12 @@ const LiveChat = (props: any) => {
   useEffect(() => {
     let usersOnline:any = [];
     messages.map((m: any) => (
-      usersOnline.includes(m.username) ? console.log('already in array')
-        : usersOnline.push(m.username)
+      usersOnline.includes(m.username.toUpperCase()) ? console.log('already in array')
+        : usersOnline.push(m.username.toUpperCase())
           
     ));
     setPeopleOnline(usersOnline.length);
+    console.log(usersOnline);
   }, [messages])
 
 
