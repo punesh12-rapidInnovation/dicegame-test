@@ -61,7 +61,6 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
     for(let i=0; i<=6; i++){
       ticks.push((intervalOfSevenTicks*(i)).toFixed(2));
     }
-    console.log(ticks);
     
     return ticks.map((tick:any) => tick>1 ? Math.round(tick) : !parseFloat(tick) ? 0 : tick)
   }

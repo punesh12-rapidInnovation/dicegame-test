@@ -6,6 +6,7 @@ import LastRolls from "modules/LastRolls/LastRolls";
 import Emojis from "./EmojiComponent/Emojis";
 import ChatProfile from "../../assets/icons/ChatProfileIcon.svg";
 import Alertmsg from "modules/betting/modals/Alertmsg";
+import useTyping from "./hooks/useTyping";
 
 import {
   GlobalChatSection,
@@ -56,11 +57,14 @@ const LiveChat = (props: any) => {
   const [AlertModaltext, setAlertModaltext] = useState("");
   const [UserBlockedOrNot, setUserBlockedOrNot] = useState(false);
   const [blockedUsers, setBlockedUsers] = useState<any>([])
+  const [typingUsers, setTypingUsers] = useState([]);
 
 
   const BASE_URL = "https://diceroll.rapidinnovation.tech/api/message";
 
   const socketRef = useRef();
+
+  const { isTyping, startTyping, stopTyping, cancelTyping } = useTyping();
 
   const StoppedTyping: ReturnType<any> = () => {
 
@@ -100,10 +104,9 @@ const LiveChat = (props: any) => {
       socketRef.current.on("typing", (data) => {
         // console.log("typingdata", data);
         if (data === "stop") {
-          clearTimeout(StoppedTyping)
-          StoppedTyping()
+          setUserTyping(false);
+          setUserTypingAddress("0");
         } else {
-          clearTimeout(StoppedTyping)
           setUserTyping(true);
           setUserTypingAddress(data);
         }
@@ -287,26 +290,11 @@ const LiveChat = (props: any) => {
         content: inputMessage,
         time: localISOTime,
       };
-
-      try {
-        const config: any = {
-          method: "post",
-          url: BASE_URL,
-          data: data,
-        };
-        axios(config)
-          .then(function (res) {
-            console.log("response", res);
-          })
-          .catch(function (err) {
-            console.log(err);
-          });
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setInputMessage("");
-        setshowEmojis("none");
-      }
+      cancelTyping();
+     //@ts-ignore
+      socketRef.current.emit("message", data);
+      setInputMessage('');
+      console.log('msg emitted')
     }
   };
 
@@ -345,7 +333,6 @@ const LiveChat = (props: any) => {
     )
   }
 
-  console.log('blockedUsers', blockedUsers);
 
 
   const scrollToBottom = () => {
@@ -366,22 +353,41 @@ const LiveChat = (props: any) => {
     inputRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
 
-  const handleKeyPress = (e: any) => {
-    if (!socketRef.current || UserBlockedOrNot) return;
-    //@ts-ignore
-    socketRef.current.emit("typing", userAddress);
-    // socket.broadcast.emit('typing', userAddress);
-  };
+  // const handleKeyPress = (e: any) => {
+  //   if (!socketRef.current || UserBlockedOrNot) return;
+  //   //@ts-ignore
+  //   socketRef.current.emit("typing", userAddress);
+  //   // socket.broadcast.emit('typing', userAddress);
+  // };
   const Closealert = () => {
     setAlertModalState(false);
   };
 
-  const handleKeyUp = (e: any) => {
-    if (!socketRef.current) return;
-    //@ts-ignore
-    socketRef.current.emit("typing", "stop");
-    // socket.broadcast.emit('typing', 'stop');
+  // const handleKeyUp = (e: any) => {
+  //   if (!socketRef.current) return;
+  //   //@ts-ignore
+  //   socketRef.current.emit("typing", "stop");
+  //   // socket.broadcast.emit('typing', 'stop');
+  // };
+  const startTypingMessage = () => {
+      if (!socketRef.current || UserBlockedOrNot) return;
+       //@ts-ignore
+      socketRef.current.emit("typing", userAddress);
+     
   };
+
+  const stopTypingMessage = () => {
+   if (!socketRef.current) return;
+     //@ts-ignore
+    socketRef.current.emit("typing", "stop");
+  };
+
+  
+
+  useEffect(() => {
+    if (isTyping) startTypingMessage();
+    else stopTypingMessage();
+  }, [isTyping]);
 
 
   return (
@@ -432,8 +438,8 @@ const LiveChat = (props: any) => {
               <Input
                 onChange={handleInputMessage}
                 onKeyDown={handleKeyDown}
-                onKeyPress={handleKeyPress}
-                onKeyUp={handleKeyUp}
+                onKeyPress={startTyping}
+                onKeyUp={stopTyping}
                 value={inputMessage}
                 //@ts-ignore
                 ref={inputRef}
