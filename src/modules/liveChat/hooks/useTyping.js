@@ -6,9 +6,10 @@ const useTyping = () => {
   const [countdown, setCountdown] = useState(4);
 
   const startTyping = () => {
+    setIsTyping(true);
     setIsKeyPressed(true);
     setCountdown(4);
-    setIsTyping(true);
+    
   };
 
   const stopTyping = () => {

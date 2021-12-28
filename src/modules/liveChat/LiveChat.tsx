@@ -102,7 +102,7 @@ const LiveChat = (props: any) => {
       //});
       //@ts-ignore
       socketRef.current.on("typing", (data) => {
-        // console.log("typingdata", data);
+        console.log("typingdata", data);
         if (data === "stop") {
           setUserTyping(false);
           setUserTypingAddress("0");
@@ -294,6 +294,7 @@ const LiveChat = (props: any) => {
      //@ts-ignore
       socketRef.current.emit("message", data);
       setInputMessage('');
+
       console.log('msg emitted')
     }
   };
@@ -372,7 +373,8 @@ const LiveChat = (props: any) => {
   const startTypingMessage = () => {
       if (!socketRef.current || UserBlockedOrNot) return;
        //@ts-ignore
-      socketRef.current.emit("typing", userAddress);
+    socketRef.current.emit("typing", userAddress);
+    console.log('emiting typing')
      
   };
 
@@ -437,8 +439,8 @@ const LiveChat = (props: any) => {
             <InputParent>
               <Input
                 onChange={handleInputMessage}
-                onKeyDown={handleKeyDown}
-                onKeyPress={startTyping}
+                onKeyDown={startTyping}
+                onKeyPress={handleKeyDown}
                 onKeyUp={stopTyping}
                 value={inputMessage}
                 //@ts-ignore
