@@ -193,7 +193,7 @@ const Betting = () => {
     setBetAmount(((10 / 100) * Number(OnLoadMax)).toFixed(8));
   };
   const SetMaxBetAmount = async () => {
-    setBetAmount(OnLoadMax.toFixed(8));
+    setBetAmount(OnLoadMax);
   };
 
   useEffect(() => {
@@ -567,7 +567,7 @@ const Betting = () => {
 
     if (maxProfit) {
       const maxBet = convertToEther(maxProfit) / multiplier;
-      setOnLoadMax(maxBet);
+      setOnLoadMax(maxBet.toFixed(8));
       setOnLoadMin(((10 / 100) * Number(maxBet)).toFixed(8));
       return maxBet;
     }

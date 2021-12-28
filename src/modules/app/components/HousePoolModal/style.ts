@@ -2,7 +2,7 @@ import { colors, screenSizes } from 'shared/styles/theme';
 import styled from 'styled-components';
 
 interface ModalBodyProps {
-    show: boolean;
+	show: boolean;
 }
 
 export const HousePoolCont = styled.div`
@@ -31,8 +31,8 @@ border-radius: 20px;
 margin:8% 0 0 0 ;
 padding:20px;
 
-opacity:${(props:any) => (props.isDisabled ? '0.4' : 1)};
-pointer-events:${(props:any) => (props.isDisabled ? 'none' : 'unset')};
+opacity:${(props: any) => (props.isDisabled ? '0.4' : 1)};
+pointer-events:${(props: any) => (props.isDisabled ? 'none' : 'unset')};
 `
 export const FlexCont = styled.div<any>`
 display:flex;
@@ -76,7 +76,7 @@ export const Input = styled.input`
 		font-size: 14px;
 		line-height: 30px;
 	}`
-	export const Dropdown = styled.div<any>`
+export const Dropdown = styled.div<any>`
 	background: #fff;
 	color: #000; 
 	position: absolute;
@@ -87,9 +87,10 @@ export const Input = styled.input`
 	z-index: 9;
 	`
 
-	export const WithdrawTimer = styled.div<any>`
-	position: ${(props:any) => (props.isShown ? "static" : "absolute")};
-	visibility: ${(props:any) => (props.isShown ? "visible" : "hidden")};
-	/*display: ${(props:any) => (props.timeInSec>0 ? "block" : "none")};*/
+export const WithdrawTimer = styled.div<any>`
+	 position: ${(props: any) => (props.isShown ? "static" : "absolute")};
+	 visibility: ${(props: any) => (props.isShown ? "visible" : "hidden")};
+	/*display: ${(props: any) => (props.timeInSec > 0 ? "block" : "none")};*/
+		
+
 	`
-	
