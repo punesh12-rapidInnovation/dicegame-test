@@ -58,6 +58,7 @@ const LiveChat = (props: any) => {
   const [UserBlockedOrNot, setUserBlockedOrNot] = useState(false);
   const [blockedUsers, setBlockedUsers] = useState<any>([])
   const [typingUsers, setTypingUsers] = useState([]);
+  const [PeopleOnline, setPeopleOnline] = useState<number>(0);
 
 
   const BASE_URL = "https://diceroll.rapidinnovation.tech/api/message";
@@ -290,10 +291,11 @@ const LiveChat = (props: any) => {
         content: inputMessage,
         time: localISOTime,
       };
-      cancelTyping();
+      
      //@ts-ignore
       socketRef.current.emit("message", data);
       setInputMessage('');
+      cancelTyping();
 
       console.log('msg emitted')
     }
@@ -391,6 +393,17 @@ const LiveChat = (props: any) => {
     else stopTypingMessage();
   }, [isTyping]);
 
+  
+  useEffect(() => {
+    let usersOnline:any = [];
+    messages.map((m: any) => (
+      usersOnline.includes(m.username) ? console.log('already in array')
+        : usersOnline.push(m.username)
+          
+    ));
+    setPeopleOnline(usersOnline.length);
+  }, [messages])
+
 
   return (
     <GlobalChatSection>
@@ -419,7 +432,7 @@ const LiveChat = (props: any) => {
                 {" "}
                 <h3 style={{ fontSize: "14px" }}>GLOBAL CHAT</h3>
                 <h5 style={{ fontSize: "11px", color: "#18DEAE" }}>
-                  28 PLAYING
+                  {PeopleOnline} PLAYING
                 </h5>
               </div>{" "}
               <img src={threedot} alt="" />
