@@ -470,12 +470,7 @@ const LiveChat = (props: any) => {
                 </Emojisdiv>
               }
               <Button
-                onClick={() => sendTOAPI()}
-                disabled={
-                  userAddress === "" ||
-                  userAddress === null ||
-                  inputMessage === ""
-                }
+                onClick={handleSendMessage}
               ></Button>
             </InputParent>
           </ChatBox>
