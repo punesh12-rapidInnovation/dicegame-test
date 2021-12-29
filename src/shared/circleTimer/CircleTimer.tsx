@@ -16,48 +16,43 @@ const CircleTimer = (props: any) => {
 
   const [timeInSeconds, setTimeInSeconds] = useState(0);
   const [remainingTime, setRemainingTime] = useState('0:0:0')
-  console.log('timeInSeconds', timeInSeconds, remainingTime, depositedTime);
 
 
-  const countdownCalculation = (timestamp: number) => {
+  const countdownCalculation = (timestamp: number) => { // timestamp in seconds
 
     if (timestamp) {
-      let unixTime = timestamp * 1000; // multiply by 1000 to get time in milliseconds
-
-      let date_ob = new Date(unixTime + 86400000) // add  86400000  =  add 24hours to time
-
+      // let unixTime = timestamp * 1000; // multiply by 1000 to get time in milliseconds
+      let date_ob = new Date(Number(timestamp) + 60) // add  60 seconds to deposited time
 
       let timeToExpire = date_ob.getTime();
-      let CurrentTime = new Date().getTime();
+      let CurrentTime = new Date().getTime() / 1000; // current timestamp in seconds
 
       let difference = timeToExpire - CurrentTime;
 
       // let days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      let h: any = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      let m: any = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      let s: any = Math.floor((difference % (1000 * 60)) / 1000);
+      let h: any = Math.floor((difference % (60 * 60 * 24)) / (60 * 60));
+      let m: any = Math.floor((difference % (60 * 60)) / (60));
+      let s: any = Math.floor((difference % (60)));
 
       let countdown = `${h}:${m}:${s}`;
 
-      if (h > 0 && m > 0 && s > 0) {
+      if (h > 0 || m > 0 || s > 0) {
         setWithdrawCounter(countdown);
         setRemainingTime(countdown);
-        // return countdown;
       }
-      else
+      if (h <= 0 && m <= 0 && s <= 0) {
         setRemainingTime('0:0:0');
+        setWithdrawCounter(countdown);
+      }
     }
   }
 
   const convertToSec = (time: any) => {
-
     if (!!time && time !== undefined) {
       let tt = time.split(":");
-      let timeInSeconds = tt[0] * 3600 + tt[1] * 60 + tt[2] * 1;
+      let timeInSeconds = tt[0] * 3600 + tt[1] * 60 + tt[2];
       setTimeInSeconds(timeInSeconds);
-      // return timeInSeconds;
     }
-    // else setTimeInSeconds(0);;
   }
 
   useEffect(() => {
@@ -182,7 +177,8 @@ const CircleTimer = (props: any) => {
       // circleDasharray={`${circleDasharray}`}
       // circleDashoffset={`${circleDashoffset}`}
       totalTime={timeInSeconds}
-    // totalOffsetToBeDone={200}
+    // start={0}
+    // totalOffsetToBeDone={60}
     >
       <Outer>
         <Inner>
