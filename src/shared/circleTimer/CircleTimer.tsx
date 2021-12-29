@@ -3,6 +3,7 @@ import { TimerWrapper } from "modules/app/components/HousePoolTransaction/style"
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { CircleTimerCont, Inner, Outer } from './style';
 import { dateFromTimestamp, pad, timeFromTimestamp } from "utils/helper";
+import { setInterval } from "timers";
 
 
 const CircleTimer = (props: any) => {
@@ -12,6 +13,10 @@ const CircleTimer = (props: any) => {
   // const lockedTime:any = localStorage.getItem(`lockedTime${rowIndex}`);
   // const value = 2;
   const [counter, setCounter] = useState(Math.abs(value) > 0 ? Math.abs(value) : 0);//value>0?value:0
+
+  const [timeInSeconds, setTimeInSeconds] = useState(0);
+  const [remainingTime, setRemainingTime] = useState('0:0:0')
+  console.log('timeInSeconds', timeInSeconds, remainingTime, depositedTime);
 
 
   const countdownCalculation = (timestamp: number) => {
@@ -36,10 +41,11 @@ const CircleTimer = (props: any) => {
 
       if (h > 0 && m > 0 && s > 0) {
         setWithdrawCounter(countdown);
-        return countdown;
+        setRemainingTime(countdown);
+        // return countdown;
       }
       else
-        return '0:0:0';
+        setRemainingTime('0:0:0');
     }
   }
 
@@ -48,48 +54,59 @@ const CircleTimer = (props: any) => {
     if (!!time && time !== undefined) {
       let tt = time.split(":");
       let timeInSeconds = tt[0] * 3600 + tt[1] * 60 + tt[2] * 1;
-      return timeInSeconds;
+      setTimeInSeconds(timeInSeconds);
+      // return timeInSeconds;
     }
-    else return '0';
+    // else setTimeInSeconds(0);;
   }
 
-
   useEffect(() => {
-
-    if (counter <= 0) return;
-
-    const intervalId = setInterval(() => {
-      // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
-      // let lockedTime = parseFloat(lockedTimeString);
-      // console.log(counter);
-      // setLockedTimeLeft(newValue);
-      // const lockedTimeArrayString:any = localStorage.getItem("lockedTimeArray");
-      // let lockedTimeArray = JSON.parse(lockedTimeArrayString);
-      // localStorage.setItem(`lockedTime${rowIndex}`, `${counter - 1}`)
-      if (counter <= 0) {
-        console.log("interval clear");
-
-        clearInterval(intervalId)
-      } else {
-        // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
-        setCounter(counter - 1);
-        // setCircleDashoffset(circleDashoffset+(circleDasharray/counter));
-      }
+    const interval = setInterval(() => {
+      countdownCalculation(depositedTime)
     }, 1000);
-
-    if (counter <= 0) clearInterval(intervalId);
-
-    return () => clearInterval(intervalId);
-  }, [counter])
-
+    return () => clearInterval(interval);
+  }, [depositedTime]);
 
   useEffect(() => {
+    convertToSec(remainingTime)
+  }, [remainingTime]);
 
-    if (counter <= 0) {
-      actionAfterTimerOver()
-    };
+  // useEffect(() => {
 
-  }, [counter])
+  //   if (counter <= 0) return;
+
+  //   const intervalId = setInterval(() => {
+  //     // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
+  //     // let lockedTime = parseFloat(lockedTimeString);
+  //     // console.log(counter);
+  //     // setLockedTimeLeft(newValue);
+  //     // const lockedTimeArrayString:any = localStorage.getItem("lockedTimeArray");
+  //     // let lockedTimeArray = JSON.parse(lockedTimeArrayString);
+  //     // localStorage.setItem(`lockedTime${rowIndex}`, `${counter - 1}`)
+  //     if (counter <= 0) {
+  //       console.log("interval clear");
+
+  //       clearInterval(intervalId)
+  //     } else {
+  //       // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
+  //       setCounter(counter - 1);
+  //       // setCircleDashoffset(circleDashoffset+(circleDasharray/counter));
+  //     }
+  //   }, 1000);
+
+  //   if (counter <= 0) clearInterval(intervalId);
+
+  //   return () => clearInterval(intervalId);
+  // }, [counter])
+
+
+  // useEffect(() => {
+
+  //   if (counter <= 0) {
+  //     actionAfterTimerOver()
+  //   };
+
+  // }, [counter])
 
 
   // useEffect(() => {
@@ -128,19 +145,19 @@ const CircleTimer = (props: any) => {
   //         );
   // }
 
-  const formatTime = (timeInSec: any) => {
+  // const formatTime = (timeInSec: any) => {
 
 
-    let h = Math.floor(timeInSec / 3600);
-    let m = Math.floor(timeInSec % 3600 / 60);
-    let s = Math.floor(timeInSec % 3600 % 60);
+  //   let h = Math.floor(timeInSec / 3600);
+  //   let m = Math.floor(timeInSec % 3600 / 60);
+  //   let s = Math.floor(timeInSec % 3600 % 60);
 
-    h = h >= 0 ? h : 0;
-    m = m >= 0 ? m : 0;
-    s = s >= 0 ? s : 0;
+  //   h = h >= 0 ? h : 0;
+  //   m = m >= 0 ? m : 0;
+  //   s = s >= 0 ? s : 0;
 
-    return `${pad(h)}:${pad(m)}:${pad(s)}`;
-  };
+  //   return `${pad(h)}:${pad(m)}:${pad(s)}`;
+  // };
 
 
   return (
@@ -148,7 +165,7 @@ const CircleTimer = (props: any) => {
     //   <CountdownCircleTimer
     //     isPlaying
     //     isLinearGradient={true}
-    //     duration={timerInSecond}
+    //     duration={timeInSeconds}
     //     colors={[
     //       ["#EF0896", 0],
     //       ["#7007FF", 1],
@@ -156,7 +173,7 @@ const CircleTimer = (props: any) => {
     //     size={55}
     //     strokeWidth={4}
     //   >
-    //     {countdownCalculation(depositedTime)}
+    //     {remainingTime}
     //   </CountdownCircleTimer>
     // </TimerWrapper>
 
@@ -164,14 +181,13 @@ const CircleTimer = (props: any) => {
     <CircleTimerCont
       // circleDasharray={`${circleDasharray}`}
       // circleDashoffset={`${circleDashoffset}`}
-      totalTime={convertToSec(countdownCalculation(depositedTime))}
+      totalTime={timeInSeconds}
     // totalOffsetToBeDone={200}
     >
       <Outer>
         <Inner>
           <div style={{ color: "#fff", fontSize: "14px" }}>
-            {/* {formatTime(counter)} */}
-            {countdownCalculation(depositedTime)}
+            {remainingTime}
           </div>
         </Inner>
       </Outer>
