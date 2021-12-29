@@ -28,6 +28,7 @@ import {
   OtherMsgAddress,
   Time,
   Report,
+  TypingDiv,
 } from "./style";
 import threedot from "assets/images/threedot.svg";
 import ReportIcon from "assets/icons/reportIcon.svg";
@@ -449,10 +450,15 @@ const LiveChat = (props: any) => {
             <ChatMiddlediv>
               {renderChat()}
               {userTyping && userTypingAddress !== userAddress ? (
-                <Messagediv>
+                <TypingDiv>
                   <OthersMsgIcon src={ChatProfile} alt="" />
                   <OtherMsgAddress>Typing..</OtherMsgAddress>
-                </Messagediv>
+                </TypingDiv>
+
+                // <Messagediv>
+                //   <OthersMsgIcon src={ChatProfile} alt="" /> 
+                //   <OtherMsgAddress>Typing..</OtherMsgAddress>
+                // </Messagediv>
               ) : (
                 ""
               )}

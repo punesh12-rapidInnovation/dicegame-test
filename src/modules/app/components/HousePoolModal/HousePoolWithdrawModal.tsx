@@ -20,7 +20,8 @@ const HousePoolWithdrawModal = (props: any) => {
     const [showDepositList, setShowDepositList] = useState(false)
     const [depositSelected, setDepositSelected] = useState<any>({ presentBalance: 0.00, Balance: 0.00, pendingRewards: 0.00, index: 0 })
     const [loading, setLoading] = useState<any>(false);
-    const [withdrawCounter, setWithdrawCounter] = useState<any>()
+    const [withdrawCounter, setWithdrawCounter] = useState<any>();
+    const [timeInsec, setTimeInsec] = useState(0)
 
     const getdata = async () => {
         try {
@@ -179,12 +180,13 @@ const HousePoolWithdrawModal = (props: any) => {
                     <H1>HOUSE POOL</H1>
                     {
                         depositList.map((item: any) =>
-                            <WithdrawTimer timeInSec={item.lockedTimePeriod}
+                            <WithdrawTimer timeInSec={timeInsec}
                                 isShown={Object.values(depositSelected).filter(x => x).length && item.index === depositSelected.index}
                             >
                                 <CircleTimer value={item.lockedTimePeriod} actionAfterTimerOver={() => unlockDeposit(item.index)} depositedTime={depositSelected.DepositTime}
                                     setWithdrawCounter={setWithdrawCounter}
                                     withdrawCounter={withdrawCounter}
+                                    setTimeInsec={setTimeInsec}
                                 ></CircleTimer>
                             </WithdrawTimer>
                         )}

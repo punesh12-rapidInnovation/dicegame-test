@@ -7,7 +7,7 @@ import { setInterval } from "timers";
 
 
 const CircleTimer = (props: any) => {
-  const { value, actionAfterTimerOver, depositedTime, withdrawCounter, setWithdrawCounter } = props;
+  const { value, actionAfterTimerOver, depositedTime, setWithdrawCounter, setTimeInsec } = props;
 
   // const { value, rowIndex } = props;
   // const lockedTime:any = localStorage.getItem(`lockedTime${rowIndex}`);
@@ -16,6 +16,8 @@ const CircleTimer = (props: any) => {
 
   const [timeInSeconds, setTimeInSeconds] = useState(0);
   const [remainingTime, setRemainingTime] = useState('0:0:0')
+
+  console.log('timeInSeconds', timeInSeconds, remainingTime);
 
 
   const countdownCalculation = (timestamp: number) => { // timestamp in seconds
@@ -40,7 +42,7 @@ const CircleTimer = (props: any) => {
         setWithdrawCounter(countdown);
         setRemainingTime(countdown);
       }
-      if (h <= 0 && m <= 0 && s <= 0) {
+      else {
         setRemainingTime('0:0:0');
         setWithdrawCounter('0:0:0');
         return;
@@ -49,11 +51,10 @@ const CircleTimer = (props: any) => {
   }
 
   const convertToSec = (time: any) => {
-    if (!!time && time !== undefined) {
-      let tt = time.split(":");
-      let timeInSeconds = tt[0] * 3600 + tt[1] * 60 + tt[2];
-      setTimeInSeconds(timeInSeconds);
-    }
+    let tt = time.split(":");
+    let timeInSeconds = tt[0] * 3600 + tt[1] * 60 + tt[2];
+    setTimeInSeconds(timeInSeconds);
+    setTimeInsec(timeInSeconds);
   }
 
   useEffect(() => {

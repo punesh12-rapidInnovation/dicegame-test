@@ -160,6 +160,22 @@ export const Messagediv = styled.div`
   min-width: 100px;
   padding-bottom: 30px;
 `;
+export const TypingDiv = styled.div`
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  font-size: 14px;
+  max-width: 350px;
+  border-top-left-radius: 0;
+  margin: 10px 0 0 0 ;
+  align-self: flex-start;
+  text-align: left;
+  word-break: break-word;
+  position: relative;
+  margin-left: 40px;
+  margin-top: 30px;
+  min-width: 100px;
+`;
 
 export const OthersMsgIcon = styled.img`
   position: absolute;
