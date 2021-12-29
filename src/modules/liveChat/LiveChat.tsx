@@ -165,10 +165,10 @@ const LiveChat = (props: any) => {
 
   const HandleReport = async (address: string) => {
     const walletConnectOrNot = localStorage.getItem("walletConnected");
-    if ( walletConnectOrNot !== "true") {
-     
-        setAlertModaltext("Connect Wallet to Send Message To Global Chat");
-        setAlertModalState(true);
+    if (walletConnectOrNot !== "true") {
+
+      setAlertModaltext("Connect Wallet to Send Message To Global Chat");
+      setAlertModalState(true);
       return;
     }
     const ReportedUsers = JSON.parse(localStorage.getItem("ReportedUsers") || "[]");
@@ -292,7 +292,7 @@ const LiveChat = (props: any) => {
         time: localISOTime,
       };
       setInputMessage('');
-     //@ts-ignore
+      //@ts-ignore
       socketRef.current.emit("message", data);
     }
   };
@@ -342,7 +342,7 @@ const LiveChat = (props: any) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [ userTyping ,messages]);
+  }, [userTyping, messages]);
 
   useEffect(() => {
     //@ts-ignore
@@ -366,40 +366,48 @@ const LiveChat = (props: any) => {
   //   // socket.broadcast.emit('typing', 'stop');
   // };
   const startTypingMessage = () => {
-      if (!socketRef.current || UserBlockedOrNot) return;
-       //@ts-ignore
+    if (!socketRef.current || UserBlockedOrNot) return;
+    //@ts-ignore
     socketRef.current.emit("typing", userAddress);
     console.log('emiting typing')
-     
+
   };
 
   const stopTypingMessage = () => {
-   if (!socketRef.current) return;
-     //@ts-ignore
+    if (!socketRef.current) return;
+    //@ts-ignore
     socketRef.current.emit("typing", "stop");
   };
 
 
-   const handleSendMessage = () => {
+  const handleSendMessage = () => {
     cancelTyping();
-     sendTOAPI();
-     setInputMessage("");
+    sendTOAPI();
+    scrollToBottom();
+    setInputMessage("");
   };
 
-  
+
 
   useEffect(() => {
     if (isTyping) startTypingMessage();
     else stopTypingMessage();
   }, [isTyping]);
 
-  
   useEffect(() => {
-    let usersOnline:any = [];
+
+    window.onbeforeunload = function () {
+      stopTypingMessage();
+    };
+  })
+
+
+  useEffect(() => {
+    let usersOnline: any = [];
     messages.map((m: any) => (
       usersOnline.includes(m.username.toUpperCase()) ? console.log('already in array')
         : usersOnline.push(m.username.toUpperCase())
-          
+
     ));
     setPeopleOnline(usersOnline.length);
     console.log(usersOnline);

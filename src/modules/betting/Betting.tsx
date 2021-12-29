@@ -189,6 +189,8 @@ const Betting = () => {
     if (PlacingBet) return "Leaving this page will reset the wizard";
   };
 
+
+
   //#region Bet Amount
   const SetMinBetAmount = async () => {
     setBetAmount(((10 / 100) * Number(OnLoadMax)).toFixed(8));
