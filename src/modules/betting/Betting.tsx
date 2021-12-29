@@ -861,7 +861,7 @@ const Betting = () => {
                 />
                 {showToolTip2 && (
                   <ToolTipCont>
-                    <p>Additional Profit(in X)</p>
+                    <p>Multiplier(in X)</p>
                   </ToolTipCont>
                 )}
               </div>
