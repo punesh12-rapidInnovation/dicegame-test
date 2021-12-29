@@ -42,7 +42,8 @@ const CircleTimer = (props: any) => {
       }
       if (h <= 0 && m <= 0 && s <= 0) {
         setRemainingTime('0:0:0');
-        setWithdrawCounter(countdown);
+        setWithdrawCounter('0:0:0');
+        return;
       }
     }
   }
@@ -95,13 +96,16 @@ const CircleTimer = (props: any) => {
   // }, [counter])
 
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   if (counter <= 0) {
-  //     actionAfterTimerOver()
-  //   };
+    // if (counter <= 0) {
+    //   actionAfterTimerOver();
+    // };
+    if (remainingTime === '0:0:0') {
+      actionAfterTimerOver();
+    };
 
-  // }, [counter])
+  }, [remainingTime])
 
 
   // useEffect(() => {

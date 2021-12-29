@@ -22,8 +22,6 @@ const HousePoolWithdrawModal = (props: any) => {
     const [loading, setLoading] = useState<any>(false);
     const [withdrawCounter, setWithdrawCounter] = useState<any>()
 
-    console.log('depositList', depositList);
-
     const getdata = async () => {
         try {
             setLoading(true);
@@ -283,13 +281,8 @@ const HousePoolWithdrawModal = (props: any) => {
                     </FlexCont>
                 </InputCont>
                 <div style={{ margin: "10px 0", color: "#fff", textAlign: "right" }}>Pending Rewards: {depositSelected.pendingRewards ? parseFloat(convertToEther(depositSelected.pendingRewards)) : 0.00} PLS</div>
-                <PrimaryButton margin={"30px 0 0 0"} onClick={handleWithdraw} disabled={!parseFloat(withdrawAmount) || txWaiting || withdrawCounter !== "0:0:0"}>Withdraw</PrimaryButton>
+                <PrimaryButton margin={"30px 0 0 0"} onClick={handleWithdraw} disabled={!parseFloat(withdrawAmount) || txWaiting || withdrawCounter !== '0:0:0'}>Withdraw</PrimaryButton>
             </HousePoolCont >
-
-            {
-                console.log('withdrawCounter', withdrawCounter)
-
-            }
         </>
     );
 };
