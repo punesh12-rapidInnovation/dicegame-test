@@ -497,7 +497,7 @@ export const BetResult = styled.div`
 `;
 export const OddEvenDiv = styled.div`
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
