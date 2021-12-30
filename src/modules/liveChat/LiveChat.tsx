@@ -35,7 +35,7 @@ import ReportIcon from "assets/icons/reportIcon.svg";
 
 import { useSelector } from "react-redux";
 import BarChart from "modules/app/components/barChart/BarChart";
-import { dateFromTimestamp } from "utils/helper";
+import { dateFromTimestamp, formatAddress } from "utils/helper";
 
 const LiveChat = (props: any) => {
   const { userAddress, chatMessage } = useSelector((state: any) => state.wallet);
@@ -62,6 +62,7 @@ const LiveChat = (props: any) => {
   const [PeopleOnline, setPeopleOnline] = useState<number>(0);
 
 
+
   const BASE_URL = "https://diceroll.rapidinnovation.tech/api/message";
 
   const socketRef = useRef();
@@ -81,6 +82,7 @@ const LiveChat = (props: any) => {
     setMessages(chatMessage)
     setUserTyping(false);
   }, [chatMessage])
+
 
 
   useEffect(() => {
@@ -452,7 +454,7 @@ const LiveChat = (props: any) => {
               {userTyping && userTypingAddress !== userAddress ? (
                 <TypingDiv>
                   <OthersMsgIcon src={ChatProfile} alt="" />
-                  <OtherMsgAddress>Typing..</OtherMsgAddress>
+                  <OtherMsgAddress>{formatAddress(userTypingAddress)}<br /> is typing..</OtherMsgAddress>
                 </TypingDiv>
 
                 // <Messagediv>

@@ -165,7 +165,7 @@ export const TypingDiv = styled.div`
   padding: 15px;
   display: flex;
   font-size: 14px;
-  max-width: 350px;
+  max-width: 500px;
   border-top-left-radius: 0;
   margin: 10px 0 0 0 ;
   align-self: flex-start;
