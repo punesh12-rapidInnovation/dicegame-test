@@ -87,9 +87,12 @@ const Header = () => {
 
   useEffect(() => {
     const getWalletBalance = async () => {
+
+      let accounts = await web3.eth.getAccounts();
+
       try {
-        if (walletAddress) {
-          const address = walletAddress.toString();
+        if (accounts) {
+          const address = accounts[0].toString();
           const balance = await web3.eth.getBalance(address);
           dispatch(setWalletBalance(convertToEther(balance)));
         }
