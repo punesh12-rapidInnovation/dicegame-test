@@ -59,7 +59,7 @@ const Header = () => {
     } catch (err: any) {
       console.log(err);
     }
-  }, [connectWallet, setConnectWallet, walletConnectCheck]);
+  }, [connectWallet, setConnectWallet, walletConnectCheck, localStorage.getItem("address")]);
 
   React.useEffect(() => {
     const changedAccountAddress = async () => {
@@ -83,7 +83,7 @@ const Header = () => {
     };
 
     changedAccountAddress();
-  }, [dispatch]);
+  }, [dispatch, chainId]);
 
   useEffect(() => {
     const getWalletBalance = async () => {
