@@ -12,7 +12,7 @@ const Emojis: React.FC<FuncProps> = ({pickEmoji}) => {
     return (
         <Emojiscontainer>
             {
-                <EmojiPickerContainer onEmojiClick={pickEmoji} />
+                <EmojiPickerContainer onEmojiClick={pickEmoji} native={true}/>
             }
         </Emojiscontainer>
         

@@ -252,10 +252,12 @@ const LiveChat = (props: any) => {
   const handleShowEmojis = () => {
     if (showEmojis === "flex") {
       setshowEmojis("none");
+      stopTypingMessage()
     } else {
       //@ts-ignore
       inputRef.current.focus();
       setshowEmojis("flex");
+      startTypingMessage()
     }
   };
 
@@ -271,6 +273,7 @@ const LiveChat = (props: any) => {
   }, []);
 
   const sendTOAPI = async () => {
+    handleShowEmojis()
     if (UserBlockedOrNot) {
       console.log(UserBlockedOrNot);
       setAlertModaltext("You Have Been Blocked From Global Chat");
