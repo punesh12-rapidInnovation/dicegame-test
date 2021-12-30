@@ -349,10 +349,10 @@ const LiveChat = (props: any) => {
                 <h5 style={{ fontSize: "11px", color: "#18DEAE" }}>{PeopleOnline} PLAYING</h5>
               </div>{" "}
               <img src={warning} alt="" onMouseOver={() => setshowWarning(true)}
-                  onMouseOut={() => setshowWarning(false)} style={{cursor:'pointer'}}/>
+                onMouseOut={() => setshowWarning(false)} style={{ cursor: 'pointer' }} />
               {
-                showWarning? <Warningcont></Warningcont> : ''
-              }   
+                showWarning ? <Warningcont></Warningcont> : ''
+              }
             </ChatTopdiv>
             <ChatMiddlediv>
               {renderChat()}
