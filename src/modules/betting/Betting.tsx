@@ -494,6 +494,9 @@ const Betting = () => {
     }
     else if (numberRangeLow > numberRangeHigh) {
       setrollDiceDisableOrNot(true);
+    } else if (numberRangeLow === 0 && numberRangeHigh > numberRangeLow) {
+      setrollDiceDisableOrNot(true);
+      console.log(numberRangeLow, numberRangeHigh);
     } else {
       setrollDiceDisableOrNot(false);
       console.log(numberRangeLow, numberRangeHigh);
