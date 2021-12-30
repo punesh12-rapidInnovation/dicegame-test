@@ -9,7 +9,6 @@ const useTyping = () => {
     setIsTyping(true);
     setIsKeyPressed(true);
     setCountdown(4);
-    
   };
 
   const stopTyping = () => {
