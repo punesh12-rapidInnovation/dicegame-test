@@ -183,9 +183,8 @@ export const TypingDiv = styled.div`
 export const Warningcont = styled.div`
 background: url(${warningtext});
 position:absolute;
-top:50%;
+top:3%;
 right:12%;
-transform: translatey(-50%);
 z-index:10;
 width:230px;
 height:60px

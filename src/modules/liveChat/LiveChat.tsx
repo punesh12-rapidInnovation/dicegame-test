@@ -6,6 +6,8 @@ import Emojis from "./EmojiComponent/Emojis";
 import ChatProfile from "../../assets/icons/ChatProfileIcon.svg";
 import Alertmsg from "modules/betting/modals/Alertmsg";
 import useTyping from "./hooks/useTyping";
+import warning from '../../assets/icons/warning.svg';
+import warningtext from '../../assets/icons/warningtext.png';
 
 import {
   GlobalChatSection,
@@ -28,6 +30,7 @@ import {
   Time,
   Report,
   TypingDiv,
+  Warningcont,
 } from "./style";
 import threedot from "assets/images/threedot.svg";
 import ReportIcon from "assets/icons/reportIcon.svg";
@@ -57,6 +60,7 @@ const LiveChat = (props: any) => {
   const [UserBlockedOrNot, setUserBlockedOrNot] = useState(false);
   const [blockedUsers, setBlockedUsers] = useState<any>([]);
   const [PeopleOnline, setPeopleOnline] = useState<number>(0);
+  const [showWarning, setshowWarning] = useState<Boolean>(false);
 
   const { isTyping, startTyping, stopTyping, cancelTyping } = useTyping();
 
@@ -338,13 +342,17 @@ const LiveChat = (props: any) => {
         >
           <Betting />
           <ChatBox style={{ position: "relative" }}>
-            <ChatTopdiv>
+            <ChatTopdiv >
               <div style={{ textAlign: "left" }}>
                 {" "}
                 <h3 style={{ fontSize: "14px" }}>GLOBAL CHAT</h3>
                 <h5 style={{ fontSize: "11px", color: "#18DEAE" }}>{PeopleOnline} PLAYING</h5>
               </div>{" "}
-              <img src={threedot} alt="" />
+              <img src={warning} alt="" onMouseOver={() => setshowWarning(true)}
+                  onMouseOut={() => setshowWarning(false)} style={{cursor:'pointer'}}/>
+              {
+                showWarning? <Warningcont></Warningcont> : ''
+              }   
             </ChatTopdiv>
             <ChatMiddlediv>
               {renderChat()}
