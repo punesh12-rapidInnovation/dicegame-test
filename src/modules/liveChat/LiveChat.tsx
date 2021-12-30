@@ -348,7 +348,7 @@ const LiveChat = (props: any) => {
             </ChatTopdiv>
             <ChatMiddlediv>
               {renderChat()}
-              {userTyping && userTypingAddress !== userAddress ? (
+              {userTyping ? (
                 <TypingDiv>
                   <OthersMsgIcon src={ChatProfile} alt="" />
                   <OtherMsgAddress>
