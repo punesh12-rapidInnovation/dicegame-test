@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createRef, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
+
 import Betting from "../betting";
 import LastRolls from "modules/LastRolls/LastRolls";
 import Emojis from "./EmojiComponent/Emojis";
@@ -29,13 +30,15 @@ import {
   Time,
   Report,
   TypingDiv,
+  Warningcont
 } from "./style";
-import threedot from "assets/images/threedot.svg";
+import warning from '../../assets/icons/warning.svg';
 import ReportIcon from "assets/icons/reportIcon.svg";
 
 import { useSelector } from "react-redux";
 import BarChart from "modules/app/components/barChart/BarChart";
 import { dateFromTimestamp, formatAddress } from "utils/helper";
+import { ToolTipCont } from "modules/betting/style";
 
 const LiveChat = (props: any) => {
   const { userAddress, chatMessage } = useSelector((state: any) => state.wallet);
@@ -60,6 +63,7 @@ const LiveChat = (props: any) => {
   const [blockedUsers, setBlockedUsers] = useState<any>([])
   const [typingUsers, setTypingUsers] = useState([]);
   const [PeopleOnline, setPeopleOnline] = useState<number>(0);
+  const [ShowWarning, setShowWarning] = useState<Boolean>(false);
 
 
 
@@ -439,7 +443,7 @@ const LiveChat = (props: any) => {
         >
           <Betting />
           <ChatBox style={{ position: "relative" }}>
-            <ChatTopdiv>
+            <ChatTopdiv style={{position:'relative'}}>
               <div style={{ textAlign: "left" }}>
                 {" "}
                 <h3 style={{ fontSize: "14px" }}>GLOBAL CHAT</h3>
@@ -447,7 +451,11 @@ const LiveChat = (props: any) => {
                   {PeopleOnline} PLAYING
                 </h5>
               </div>{" "}
-              <img src={threedot} alt="" />
+              <img src={warning} alt="" style={{ cursor: 'pointer' }} onMouseOver={() => setShowWarning(true)}
+                onMouseOut={() => setShowWarning(false)} />
+              {ShowWarning && (
+                <Warningcont></Warningcont>
+              )}
             </ChatTopdiv>
             <ChatMiddlediv>
               {renderChat()}
