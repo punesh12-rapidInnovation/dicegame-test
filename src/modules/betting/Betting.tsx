@@ -87,6 +87,7 @@ const Betting = () => {
   const [disableButton, setDisableButton] = useState(false);
   const [Disable, setDisable] = useState<boolean>(false);
   const [rollDiceDisableOrNot, setrollDiceDisableOrNot] = useState<Boolean>(false);
+  const [multiplier, setMultiplier] = useState(0);
 
   const [play] = useSound(heart);
 
@@ -315,7 +316,7 @@ const Betting = () => {
     try {
       setPlacingBet(true);
       const RollDice = await lpInstance.methods
-        .playerRollDice(Rollunder, evenOdd, rangeLow, rangeHigh, Profit)
+        .playerRollDice(Rollunder, evenOdd, rangeLow, rangeHigh)
         .send({
           from: myAccount,
           value: Ethervalue,
@@ -449,6 +450,9 @@ const Betting = () => {
       setrollDiceDisableOrNot(true);
     } else if (numberRangeLow > numberRangeHigh) {
       setrollDiceDisableOrNot(true);
+    } else if (numberRangeLow === 0 && numberRangeHigh > numberRangeLow) {
+      setrollDiceDisableOrNot(true);
+      console.log(numberRangeLow, numberRangeHigh);
     } else {
       setrollDiceDisableOrNot(false);
       console.log(numberRangeLow, numberRangeHigh);
@@ -466,7 +470,7 @@ const Betting = () => {
 
   // new approcah for betting -start
 
-  const Multiplier = (
+  const Multiplier = async (
     RangeValue: number,
     isRangeTrue: boolean,
     _OddEvenStatus: number,
@@ -474,31 +478,43 @@ const Betting = () => {
     rangeHigh: number
   ) => {
     const rollUnder: number = RangeValue + 1;
-    // const totalChances: number = 100 - rollUnder;
-    const totalChances: number = 99;
+    // const totalChances: number = 99;
 
-    // let multiplier: number = totalChances / (rollUnder - 1);
-    let multiplier: number = totalChances / RangeValue;
-    if (_OddEvenStatus == 0) {
-      multiplier = multiplier;
-      setEvenOddProfit(0);
-    } else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
-      let oddEvenMultiplier = rollUnder / (rollUnder / 2);
-      setEvenOddProfit(oddEvenMultiplier);
-      multiplier = multiplier + oddEvenMultiplier; //The multiplier has fixed as 2
-    }
-    if (isRangeTrue === true) {
-      let range = rangeHigh - rangeLow; //3-1
-      let totalChances = (100 - range) / 2;
+    // let multiplier: number = totalChances / RangeValue;
+    // if (_OddEvenStatus == 0) {
+    //   multiplier = multiplier;
+    //   setEvenOddProfit(0);
 
-      if (Number(rangeLow) < Number(rangeHigh)) setRangeProfit(totalChances);
-      else setRangeProfit(0);
+    // } else if (_OddEvenStatus == 1 || _OddEvenStatus == 2) {
 
-      // let totalChances = range / 2;
-      // multiplier +=totalChances/range;//2/98
-      multiplier += totalChances;
-    }
-    return multiplier;
+    //   let oddEvenMultiplier = rollUnder / (rollUnder / 2)
+    //   setEvenOddProfit(oddEvenMultiplier)
+    //   multiplier = multiplier + oddEvenMultiplier; //The multiplier has fixed as 2
+    // }
+    // if (isRangeTrue === true) {
+    //   let range = rangeHigh - rangeLow; //3-1
+    //   let totalChances = (100 - range) / 2;
+
+    //   if (Number(rangeLow) < Number(rangeHigh))
+    //     setRangeProfit(totalChances)
+    //   else
+    //     setRangeProfit(0)
+
+    //   // let totalChances = range / 2;
+    //   // multiplier +=totalChances/range;//2/98
+    //   multiplier += totalChances;
+    // }
+
+    // return multiplier;
+
+    const BETTING_INSTANCE = await selectInstances(instanceType.BETTING);
+    // console.log('logs', rollUnder, _OddEvenStatus, isRangeTrue, rangeLow, rangeHigh);
+
+    const multiplier = await BETTING_INSTANCE.methods
+      .GetMultiplier(rollUnder, _OddEvenStatus, isRangeTrue, rangeLow, rangeHigh)
+      .call();
+
+    return convertToEther(multiplier);
   };
 
   const CutHouseEdge = async (payout: number) => {
@@ -524,41 +540,54 @@ const Betting = () => {
   };
 
   useEffect(() => {
-    const multiplier = Multiplier(RangeValue, rangeLow >= 0 && rangeHigh > 0, evenOdd, rangeLow, rangeHigh);
+    const getMultiplier = async () => {
+      const multiplier = await Multiplier(
+        RangeValue,
+        rangeLow >= 0 && rangeHigh > 0,
+        evenOdd,
+        rangeLow,
+        rangeHigh
+      );
+      setMultiplier(multiplier);
+    };
+    getMultiplier();
 
     setMaxBet(multiplier);
-    calcTempPlayerProfit(multiplier, BetAmount);
-  }, [RangeValue, BetAmount, userAddress, evenOdd, rangeLow, rangeHigh]);
 
-  // function SetMinimumBet(){
-  //     // uint contractBalance=address(this).balance;
-  //    minBet = (address(this).balance * minBetAspercent)/minBetDivisor;
-  // }
-  const calcTempPlayerProfit = async (multiplier: number, betValue: number) => {
+    calcTempPlayerProfit(RangeValue, evenOdd, BetAmount, rangeLow, rangeHigh);
+  }, [RangeValue, BetAmount, userAddress, evenOdd, rangeLow, rangeHigh, multiplier]);
+
+  const calcTempPlayerProfit = async (
+    rangeValue: any,
+    _OddEvenStatus: any,
+    betValue: number,
+    rangeLow: any,
+    rangeHigh: any
+  ) => {
+    const rollUnder: number = rangeValue + 1;
     try {
-      const returnedAmount: number = betValue * multiplier;
-      // const returnedAmount = (betValue * multiplier) + betValue;
+      // const returnedAmount: number = betValue * multiplier;
 
-      const House: any = await CutHouseEdge(returnedAmount);
-      const profit: number = House - betValue;
+      // const House: any = await CutHouseEdge(returnedAmount);
+      // const profit: number = House - betValue;
 
-      const finalProfit = convertToWei(profit.toFixed(18).toString());
+      // const finalProfit = convertToWei(profit.toFixed(18).toString());
 
-      setProfit(finalProfit);
+      // setProfit(finalProfit);
 
-      // if (finalProfit === "0") {
-      //   setProfit(0);
-      //   return 0;
-      // } else {
-      //   // setProfit(finalProfit - 1);
-      //   // return finalProfit - 1;
-      //   setProfit(Math.abs(finalProfit - 1));
-      //   return finalProfit - 1;
-      // }
+      const BETTING_INSTANCE = await selectInstances(instanceType.BETTING);
+
+      const profit = await BETTING_INSTANCE.methods
+        .GetProfit(rollUnder, _OddEvenStatus, rangeLow, rangeHigh, convertToWei(betValue))
+        .call();
+
+      setProfit(profit);
     } catch (error) {
       console.log(error);
     }
   };
+
+  // console.log('Profit', Profit);
 
   // new approcah for betting -end
 
@@ -642,98 +671,127 @@ const Betting = () => {
           </Flex>
         </FlexColumn>
         <OddEvenDiv style={{ width: "100%" }}>
-          <Flex>
-            <H2>Select</H2>
-            <Flex
-              JustifyContent="center"
-              style={{
-                width: "60%",
-                alignItems: "center",
-                paddingLeft: "10px",
-              }}
-            >
-              <Flex style={{ justifyContent: "space-between", width: "60%" }}>
-                <label className="container">
-                  Odd
-                  <input type="checkbox" checked={checked1} onChange={() => handleCheckChange(1, 1)} />
-                  <span className="checkmark"></span>
-                </label>
+          <Flex style={{ flexDirection: "column", width: "100%" }}>
+            <Flex>
+              <H2>Select</H2>
+              <Flex
+                JustifyContent="center"
+                style={{
+                  width: "60%",
+                  alignItems: "center",
+                  paddingLeft: "10px",
+                }}
+              >
+                <Flex style={{ justifyContent: "space-between", width: "60%" }}>
+                  <label className="container">
+                    Odd
+                    <input type="checkbox" checked={checked1} onChange={() => handleCheckChange(1, 1)} />
+                    <span className="checkmark"></span>
+                  </label>
+                </Flex>
+                <Flex style={{ justifyContent: "space-between", width: "50%" }}>
+                  <label className="container">
+                    Even
+                    <input type="checkbox" checked={checked2} onChange={() => handleCheckChange(2, 2)} />
+                    <span className="checkmark"></span>
+                  </label>
+                </Flex>
+                {/* <Flex style={{ width: "40%" }} JustifyContent="center">
+                  <P>+{evenOddProfit}x</P>
+                  <div style={{ position: "relative" }}>
+                    <img
+                      src={HelpIcon}
+                      alt="help"
+                      onMouseOver={() => setShowToolTip1(true)}
+                      onMouseOut={() => setShowToolTip1(false)}
+                    />
+                    {showToolTip1 && (
+                      <ToolTipCont>
+                        <p>Additional Profit(in X)</p>
+                      </ToolTipCont>
+                    )}
+                  </div>
+                </Flex> */}
               </Flex>
-              <Flex style={{ justifyContent: "space-between", width: "50%" }}>
-                <label className="container">
-                  Even
-                  <input type="checkbox" checked={checked2} onChange={() => handleCheckChange(2, 2)} />
-                  <span className="checkmark"></span>
-                </label>
-              </Flex>
-              <Flex style={{ width: "40%" }} JustifyContent="center">
-                <P>+{evenOddProfit}x</P>
-                <div style={{ position: "relative" }}>
-                  <img
-                    src={HelpIcon}
-                    alt="help"
-                    onMouseOver={() => setShowToolTip1(true)}
-                    onMouseOut={() => setShowToolTip1(false)}
-                  />
-                  {showToolTip1 && (
-                    <ToolTipCont>
-                      <p>Additional Profit(in X)</p>
-                    </ToolTipCont>
-                  )}
-                </div>
+            </Flex>
+            <Flex>
+              <H2>Select Range</H2>
+              <Flex
+                style={{
+                  width: "60%",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue1}>
+                  {Numbers.map((data, index) => {
+                    return (
+                      <Option value={data} key={"rf" + index}>
+                        {data}
+                        {/* {index} */}
+                      </Option>
+                    );
+                  })}
+                </Select>
+
+                <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue2}>
+                  {Numbers.map((data, index) => {
+                    return (
+                      <Option value={data} key={"rf" + index}>
+                        {data}
+                        {/* {index} */}
+                      </Option>
+                    );
+                  })}
+                </Select>
+
+                {/* <Flex style={{ width: "40%" }} JustifyContent="center">
+                  <P>+{rangeProfit}x</P>
+                  <div style={{ position: "relative" }}>
+                    <img
+                      src={HelpIcon}
+                      alt="help"
+                      onMouseOver={() => setShowToolTip2(true)}
+                      onMouseOut={() => setShowToolTip2(false)}
+                    />
+                    {showToolTip2 && (
+                      <ToolTipCont>
+                        <p>Additional Profit(in X)</p>
+                      </ToolTipCont>
+                    )}
+                  </div>
+                </Flex> */}
               </Flex>
             </Flex>
           </Flex>
-          <Flex>
-            <H2>Select Range</H2>
-            <Flex
-              style={{
-                width: "60%",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue1}>
-                {Numbers.map((data, index) => {
-                  return (
-                    <Option value={data} key={"rf" + index}>
-                      {data}
-                      {/* {index} */}
-                    </Option>
-                  );
-                })}
-              </Select>
-
-              <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue2}>
-                {Numbers.map((data, index) => {
-                  return (
-                    <Option value={data} key={"rf" + index}>
-                      {data}
-                      {/* {index} */}
-                    </Option>
-                  );
-                })}
-              </Select>
-
-              <Flex style={{ width: "40%" }} JustifyContent="center">
-                <P>+{rangeProfit}x</P>
-                <div style={{ position: "relative" }}>
-                  <img
-                    src={HelpIcon}
-                    alt="help"
-                    onMouseOver={() => setShowToolTip2(true)}
-                    onMouseOut={() => setShowToolTip2(false)}
-                  />
-                  {showToolTip2 && (
-                    <ToolTipCont>
-                      <p>Additional Profit(in X)</p>
-                    </ToolTipCont>
-                  )}
-                </div>
-              </Flex>
+          <Flex
+            style={{
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "30%",
+              padding: "0",
+            }}
+          >
+            <Flex style={{ width: "100%" }} JustifyContent="center">
+              <P>+{Number(multiplier).toFixed(3)}x</P>
+              <div style={{ position: "relative" }}>
+                <img
+                  src={HelpIcon}
+                  alt="help"
+                  onMouseOver={() => setShowToolTip2(true)}
+                  onMouseOut={() => setShowToolTip2(false)}
+                />
+                {showToolTip2 && (
+                  <ToolTipCont>
+                    <p>Multiplier(in X)</p>
+                  </ToolTipCont>
+                )}
+              </div>
             </Flex>
           </Flex>
         </OddEvenDiv>
+
         <Flex style={{ marginTop: "10px" }}>
           <H2 style={{ fontSize: "18px" }}>Roll Under </H2>
           <H1 FontSize="48px" color={colors.primary}>

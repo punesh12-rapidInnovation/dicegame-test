@@ -27,14 +27,15 @@ import {
   OtherMsgAddress,
   Time,
   Report,
+  TypingDiv,
 } from "./style";
 import threedot from "assets/images/threedot.svg";
 import ReportIcon from "assets/icons/reportIcon.svg";
 
 import { useSelector } from "react-redux";
 import BarChart from "modules/app/components/barChart/BarChart";
-import { dateFromTimestamp } from "utils/helper";
 import { SocketContext } from "modules/app/context/socket";
+import { dateFromTimestamp, formatAddress } from "utils/helper";
 
 const LiveChat = (props: any) => {
   const { userAddress } = useSelector((state: any) => state.wallet);
@@ -348,11 +349,18 @@ const LiveChat = (props: any) => {
             <ChatMiddlediv>
               {renderChat()}
               {userTyping && userTypingAddress !== userAddress ? (
-                <Messagediv>
+                <TypingDiv>
                   <OthersMsgIcon src={ChatProfile} alt="" />
-                  <OtherMsgAddress>Typing..</OtherMsgAddress>
-                </Messagediv>
+                  <OtherMsgAddress>
+                    {formatAddress(userTypingAddress)}
+                    <br /> is typing..
+                  </OtherMsgAddress>
+                </TypingDiv>
               ) : (
+                // <Messagediv>
+                //   <OthersMsgIcon src={ChatProfile} alt="" />
+                //   <OtherMsgAddress>Typing..</OtherMsgAddress>
+                // </Messagediv>
                 ""
               )}
               <div ref={messagesEndRef} />
