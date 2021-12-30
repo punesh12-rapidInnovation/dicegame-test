@@ -2,8 +2,8 @@ import socketio from "socket.io-client";
 import * as React from "react";
 import { io } from "socket.io-client";
 
-// const SOCKET_URL = "wss://diceroll.rapidinnovation.tech"
-const SOCKET_URL = "ws://localhost:4000";
+const SOCKET_URL = "wss://diceroll.rapidinnovation.tech";
+// const SOCKET_URL = "ws://localhost:4000";
 
 //@ts-ignore
 export const socket = socketio.connect(SOCKET_URL);
