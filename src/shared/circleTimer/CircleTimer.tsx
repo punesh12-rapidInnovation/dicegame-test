@@ -6,7 +6,7 @@ import { pad } from "utils/helper";
 
 
 const CircleTimer = (props: any) => {
-    const { value, actionAfterTimerOver } = props;
+    const { value, actionAfterTimerOver, getTimeLeft } = props;
     // const { value, rowIndex } = props;
     // const lockedTime:any = localStorage.getItem(`lockedTime${rowIndex}`);
     // const value = 2;
@@ -38,7 +38,10 @@ const CircleTimer = (props: any) => {
             clearInterval(intervalId)
           } else {
             // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
-            setCounter(counter-1);
+            // setCounter(counter-1);
+            console.log("timeLefrt",getTimeLeft());
+            
+            setCounter(getTimeLeft());
             // setCircleDashoffset(circleDashoffset+(circleDasharray/counter));
           }
         }, 1000);
