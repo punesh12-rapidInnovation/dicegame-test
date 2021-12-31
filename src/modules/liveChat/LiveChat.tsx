@@ -8,6 +8,10 @@ import Alertmsg from "modules/betting/modals/Alertmsg";
 import useTyping from "./hooks/useTyping";
 import warning from '../../assets/icons/warning.svg';
 import warningtext from '../../assets/icons/warningtext.png';
+import 'emoji-mart/css/emoji-mart.css';
+//@ts-ignore
+import { Picker } from 'emoji-mart';
+import useOutsideClick from "./hooks/useOutsideClick";
 
 import {
   GlobalChatSection,
@@ -62,7 +66,23 @@ const LiveChat = (props: any) => {
   const [PeopleOnline, setPeopleOnline] = useState<number>(0);
   const [showWarning, setshowWarning] = useState<Boolean>(false);
 
+  const { showEmoji, setShowEmoji, ref } = useOutsideClick(false)
+
   const { isTyping, startTyping, stopTyping, cancelTyping } = useTyping();
+
+
+  const handleEmojiShow = () => { setShowEmoji((v: any) => !v) }
+  const handleEmojiSelect = (e: any) => {
+    setInputMessage((InputMessage) => (InputMessage += e.native))
+    window.clearTimeout();
+    startTypingMessage();
+    setTimeout(() => {
+      stopTypingMessage()
+      console.log('timeoutran')
+      
+    }, 2000);
+  }
+  const handleNewMessageChange = (e:any) => { setInputMessage(e.target.value) };
 
   useEffect(() => {
     setUserTyping(false);
@@ -118,7 +138,7 @@ const LiveChat = (props: any) => {
   const sendTOAPI = (msg: string) => {
     if (UserBlockedOrNot) {
       console.log(UserBlockedOrNot);
-      setAlertModaltext("You Have Been Blocked From Global Chat");
+      setAlertModaltext("You Have Been Blocked From Global Chat for 3 days");
       setAlertModalState(true);
       return;
     } else {
@@ -386,11 +406,15 @@ const LiveChat = (props: any) => {
                 type="text"
                 placeholder="Type message..."
               />
-              <EmojiButton onClick={handleShowEmojis}></EmojiButton>
+              <EmojiButton onClick={handleEmojiShow}></EmojiButton>
               {
-                <Emojisdiv style={{ display: `${showEmojis}` }}>
-                  <Emojis pickEmoji={pickEmoji} />
+                showEmoji && (
+                <Emojisdiv ref={ref}>
+                <Picker
+                onSelect={handleEmojiSelect}
+                emojiSize={20} />
                 </Emojisdiv>
+              )
               }
               <Button onClick={handleSendMessage}></Button>
             </InputParent>

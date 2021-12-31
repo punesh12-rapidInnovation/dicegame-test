@@ -186,7 +186,7 @@ position:absolute;
 top:3%;
 right:12%;
 z-index:10;
-width:230px;
+width:250px;
 height:60px
 `
 
