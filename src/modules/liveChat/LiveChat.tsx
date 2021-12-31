@@ -90,16 +90,9 @@ const LiveChat = (props: any) => {
 
   useEffect(() => {
     return () => {
-      stopTypingMessage();
-    };
+      socket.emit("typing", "stop");
+    }
   }, []);
-
-  useEffect(() => {
-    window.onbeforeunload = function () {
-      stopTypingMessage();
-    };
-  })
-
 
   //@ts-ignore
   const address = JSON.parse(localStorage.getItem("address"));
@@ -145,7 +138,7 @@ const LiveChat = (props: any) => {
   const sendTOAPI = (msg: string) => {
     if (UserBlockedOrNot) {
       console.log(UserBlockedOrNot);
-      setAlertModaltext("You Have Been Blocked From Global Chat for 3 days");
+      setAlertModaltext("You Have Been Blocked From Global Chat");
       setAlertModalState(true);
       return;
     } else {
