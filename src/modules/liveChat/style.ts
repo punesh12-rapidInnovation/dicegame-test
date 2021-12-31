@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import Chatsection from "../../assets/images/Chatsection.png";
 import sendimage from "../../assets/images/send-icon.svg";
+import toolTip from "assets/icons/toolTip.png";
 import smilingFace from "../../assets/images/smiling-face.svg";
+import { colors } from "shared/styles/theme";
+import warningtext from '../../assets/icons/warningtext.png';
 
 export const Box = styled.div`
   background: linear-gradient(
@@ -176,6 +179,17 @@ export const TypingDiv = styled.div`
   margin-top: 30px;
   min-width: 100px;
 `;
+
+export const Warningcont = styled.div`
+background: url(${warningtext});
+position:absolute;
+top:3%;
+right:12%;
+z-index:10;
+width:250px;
+height:60px
+`
+
 
 export const OthersMsgIcon = styled.img`
   position: absolute;

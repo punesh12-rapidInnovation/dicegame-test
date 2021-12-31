@@ -1,5 +1,7 @@
-import React, { useState, useEffect, createRef, useRef } from "react";
-import { io } from "socket.io-client";
+import React, { useState, useEffect, createRef, useRef, useCallback, useContext } from "react";
+import { useBeforeunload } from 'react-beforeunload';
+
+
 import axios from "axios";
 import Betting from "../betting";
 import LastRolls from "modules/LastRolls/LastRolls";
@@ -7,6 +9,12 @@ import Emojis from "./EmojiComponent/Emojis";
 import ChatProfile from "../../assets/icons/ChatProfileIcon.svg";
 import Alertmsg from "modules/betting/modals/Alertmsg";
 import useTyping from "./hooks/useTyping";
+import warning from '../../assets/icons/warning.svg';
+import warningtext from '../../assets/icons/warningtext.png';
+import 'emoji-mart/css/emoji-mart.css';
+//@ts-ignore
+import { Picker } from 'emoji-mart';
+import useOutsideClick from "./hooks/useOutsideClick";
 
 import {
   GlobalChatSection,
@@ -29,147 +37,223 @@ import {
   Time,
   Report,
   TypingDiv,
+  Warningcont,
 } from "./style";
 import threedot from "assets/images/threedot.svg";
 import ReportIcon from "assets/icons/reportIcon.svg";
 
 import { useSelector } from "react-redux";
 import BarChart from "modules/app/components/barChart/BarChart";
+import { SocketContext } from "modules/app/context/socket";
 import { dateFromTimestamp, formatAddress } from "utils/helper";
 
 const LiveChat = (props: any) => {
-  const { userAddress, chatMessage } = useSelector((state: any) => state.wallet);
+  const { userAddress } = useSelector((state: any) => state.wallet);
+
+  const { socket, liveMessages, setLiveMessages, userTyping, setUserTyping, userTypingAddress } =
+    useContext(SocketContext);
 
   const inputRef = createRef<HTMLInputElement>();
   const messagesEndRef = createRef<HTMLDivElement>();
   const { connectWallet, setToggleModal, toggleModal } = props;
   const [showEmojis, setshowEmojis] = useState("none");
   const [cursorPosition, setcursorPosition] = useState();
-  const [messages, setMessages] = useState<any>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [liquidityChartData, setLiquidityChartData] = useState<any>([]);
-  const [hoverLiquidityChartValue, setHoverLiquidityChartValue] =
-    React.useState<any>("");
-  const [hoverLiquidityChartDate, setHoverLiquidityChartDate] =
-    React.useState<any>("");
-  const [userTyping, setUserTyping] = useState(false);
-  const [userTypingAddress, setUserTypingAddress] = useState("");
+  const [hoverLiquidityChartValue, setHoverLiquidityChartValue] = React.useState<any>("");
+  const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("");
   const [AlertModalState, setAlertModalState] = useState(false);
   const [AlertModaltext, setAlertModaltext] = useState("");
   const [UserBlockedOrNot, setUserBlockedOrNot] = useState(false);
-  const [blockedUsers, setBlockedUsers] = useState<any>([])
-  const [typingUsers, setTypingUsers] = useState([]);
+  const [blockedUsers, setBlockedUsers] = useState<any>([]);
   const [PeopleOnline, setPeopleOnline] = useState<number>(0);
+  const [showWarning, setshowWarning] = useState<Boolean>(false);
 
-
-
-  const BASE_URL = "https://diceroll.rapidinnovation.tech/api/message";
-
-  const socketRef = useRef();
+  const { showEmoji, setShowEmoji, ref } = useOutsideClick(false)
 
   const { isTyping, startTyping, stopTyping, cancelTyping } = useTyping();
 
-  const StoppedTyping: ReturnType<any> = () => {
 
-    setTimeout(() => {
-      setUserTyping(false);
-      setUserTypingAddress("0");
-      console.log("setted false")
-    }, 8000);
+  const handleEmojiShow = () => { setShowEmoji((v: any) => !v) }
+  const handleEmojiSelect = (e: any) => {
+    setInputMessage((InputMessage) => (InputMessage += e.native))
   }
+  const handleNewMessageChange = (e: any) => { setInputMessage(e.target.value) };
 
   useEffect(() => {
-    setMessages(chatMessage)
     setUserTyping(false);
-  }, [chatMessage])
+  }, [liveMessages]);
 
-
-
-  useEffect(() => {
-    //@ts-ignore
-    socketRef.current = io("wss://diceroll.rapidinnovation.tech");
-
-    try {
-      //@ts-ignore
-      socketRef.current.on("connection", () => {
-        // Replace event name with connection event name
-        console.log("websocket connected");
-      });
-      // socket.emit('message');
-      //@ts-ignore
-      //socketRef.current.on("message", (data) => {
-      //   console.log("data", data);
-      //   const updatedData = [...messages, data];
-      //   setMessages(updatedData);
-      //setUserTyping(false);
-
-      //});
-      //@ts-ignore
-      socketRef.current.on("typing", (data) => {
-        console.log("typingdata", data);
-        if (data === "stop") {
-          setUserTyping(false);
-          setUserTypingAddress("0");
-        } else {
-          setUserTyping(true);
-          setUserTypingAddress(data);
-        }
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
-    return () => {
-      //@ts-ignore
-      socketRef.current.disconnect();
-    };
-  }, [messages]);
-
+ useEffect(() => {
+  window.addEventListener('beforeunload', function (e) {
+     e.preventDefault();
+    socket.emit("typing", "stop");
+  });
+}, []);
 
   //@ts-ignore
   const address = JSON.parse(localStorage.getItem("address"));
 
-  //@ts-ignore
-  useEffect(async () => {
-    //@ts-ignore
-    const address = JSON.parse(localStorage.getItem("address"));
-    if (address !== null) {
-      const axiosInstance = axios.create({
-        baseURL: "https://diceroll.rapidinnovation.tech/pool",
-      });
+  useEffect(() => {
+    const getBlockStatus = async () => {
+      //@ts-ignore
+      const address = JSON.parse(localStorage.getItem("address"));
+      if (address !== null) {
+        const axiosInstance = axios.create({
+          baseURL: "https://diceroll.rapidinnovation.tech/pool",
+        });
 
-      await axiosInstance
-        .get(`/allBlockUser/${address}`)
-        .then(function (response) {
-          //@ts-ignore  
+        await axiosInstance.get(`/allBlockUser/${address}`).then(function (response) {
+          //@ts-ignore
           const counter = response.data.result?.counter;
           if (counter > 4) {
             setUserBlockedOrNot(true);
             console.log(UserBlockedOrNot);
-            console.log(counter)
+            console.log(counter);
           } else {
             console.log(UserBlockedOrNot);
-            console.log(counter)
-
+            console.log(counter);
           }
         });
-    }
+      }
+    };
+
+    getBlockStatus();
   }, [address]);
 
+  useEffect(() => {
+    const axiosInstance = axios.create({
+      baseURL: "https://diceroll.rapidinnovation.tech/pool",
+    });
+    const getdata = async () => {
+      const res = await axiosInstance.get("/allLiquidity");
+      setLiquidityChartData(res.data);
+    }; //
+    getdata();
+  }, []);
 
-  const removeReportedUserMessages = (reportAddress: any) => {
-    let messageData: any = [];
-    messages.map((message: any, index: any) => {
-      if (message.username !== reportAddress) {
-        messageData = [...messageData, message];
+  const sendTOAPI = (msg: string) => {
+    if (UserBlockedOrNot) {
+      console.log(UserBlockedOrNot);
+      setAlertModaltext("You Have Been Blocked From Global Chat");
+      setAlertModalState(true);
+      return;
+    } else {
+      setUserTyping(false);
+      var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+      var localISOTime = new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
+
+      const walletConnectOrNot = localStorage.getItem("walletConnected");
+      if (msg.trim() === "" || walletConnectOrNot !== "true") {
+        if (walletConnectOrNot !== "true") {
+          setAlertModaltext("Connect Wallet to Send Message To Global Chat");
+          setAlertModalState(true);
+        }
+        return;
       }
-    })
-    setMessages(messageData)
-  }
 
+      const data: any = {
+        username: userAddress,
+        content: msg,
+        time: localISOTime,
+      };
+      setInputMessage("");
+
+      try {
+        console.log("send api ", data);
+
+        //@ts-ignore
+        socket.emit("message", data);
+
+        let updatedMessages = liveMessages;
+        updatedMessages.push(data);
+
+        setLiveMessages([...updatedMessages]);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
+  const renderChat = useCallback(() => {
+    return liveMessages.map((m: any, index: any) =>
+      m.username === userAddress ? (
+        <OwnMsg key={index}>
+          {m.content}
+          <Time>{m.time.substring(11, 16)}</Time>
+        </OwnMsg>
+      ) : (
+        <Messagediv key={index}>
+          <OthersMsgIcon src={ChatProfile} alt="" />
+          <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
+          {m.content}
+          <Time>{m.time.substring(11, 16)}</Time>
+          <Report onClick={(e) => HandleReport(m.username)}>
+            <img src={ReportIcon} alt="" />
+            <p> Report Spam</p>
+          </Report>
+        </Messagediv>
+      )
+    );
+  }, [liveMessages]);
+
+  const scrollToBottom = () => {
+    //@ts-ignore
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [userTyping, liveMessages]);
+
+  useEffect(() => {
+    //@ts-ignore
+    inputRef.current.selectionEnd = cursorPosition;
+  }, [cursorPosition]);
+
+  const startTypingMessage = () => {
+    if (!socket || UserBlockedOrNot) return;
+    //@ts-ignore
+    socket.emit("typing", userAddress);
+    console.log("start typing");
+  };
+
+  const stopTypingMessage = () => {
+    if (!socket) return;
+    //@ts-ignore
+    socket.emit("typing", "stop");
+  };
+
+  const handleSendMessage = () => {
+    cancelTyping();
+    sendTOAPI(inputMessage);
+    setInputMessage("");
+  };
+
+  useEffect(() => {
+    if (isTyping || showEmoji) startTypingMessage();
+    else stopTypingMessage();
+  }, [isTyping,showEmoji]);
+
+  useEffect(() => {
+    let usersOnline: any = [];
+    liveMessages.map((m: any) => {
+      if (!usersOnline.includes(m.username.toUpperCase())) {
+        usersOnline.push(m.username.toUpperCase());
+      }
+    });
+    setPeopleOnline(usersOnline.length);
+    console.log(usersOnline);
+  }, [liveMessages]);
+
+  //#region Report
   const HandleReport = async (address: string) => {
     const walletConnectOrNot = localStorage.getItem("walletConnected");
     if (walletConnectOrNot !== "true") {
-
       setAlertModaltext("Connect Wallet to Send Message To Global Chat");
       setAlertModalState(true);
       return;
@@ -183,10 +267,9 @@ const LiveChat = (props: any) => {
         setAlertModalState(true);
         setAlertModaltext("You have already reported this user! ");
         Reported = true;
-        console.log("already reported")
+        console.log("already reported");
       }
-
-    })
+    });
 
     if (Reported) {
       return;
@@ -211,27 +294,25 @@ const LiveChat = (props: any) => {
         .then(function (response) {
           console.log(response.status);
           if (response.status === 200) {
-            setAlertModaltext(
-              "You have reported this user successfully we will take a look into it"
-            );
+            setAlertModaltext("You have reported this user successfully we will take a look into it");
             setAlertModalState(true);
             if (localStorage.getItem("ReportedUsers") === null) {
               localStorage.setItem("ReportedUsers", JSON.stringify([address]));
             } else {
-              const Reportedtillnow = JSON.parse(
-                localStorage.getItem("ReportedUsers") || "[]"
-              );
+              const Reportedtillnow = JSON.parse(localStorage.getItem("ReportedUsers") || "[]");
               Reportedtillnow.unshift(address);
               localStorage.setItem("ReportedUsers", JSON.stringify(Reportedtillnow));
             }
           }
         });
     } else {
-      setAlertModaltext("Global Chat Access Blocked")
+      setAlertModaltext("Global Chat Access Blocked");
       setAlertModalState(true);
     }
   };
+  //#endregion
 
+  //#region Emoji
   //@ts-ignore
   const pickEmoji = (e: any, { emoji }) => {
     console.log(e.target);
@@ -254,168 +335,7 @@ const LiveChat = (props: any) => {
       setshowEmojis("flex");
     }
   };
-
-  useEffect(() => {
-    const axiosInstance = axios.create({
-      baseURL: "https://diceroll.rapidinnovation.tech/pool",
-    });
-    const getdata = async () => {
-      const res = await axiosInstance.get("/allLiquidity");
-      setLiquidityChartData(res.data);
-    }; //
-    getdata();
-  }, []);
-
-  const sendTOAPI = async () => {
-    if (UserBlockedOrNot) {
-      console.log(UserBlockedOrNot);
-      setAlertModaltext("You Have Been Blocked From Global Chat");
-      setAlertModalState(true);
-      return;
-    } else {
-      setUserTyping(false);
-      var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
-      var localISOTime = new Date(Date.now() - tzoffset)
-        .toISOString()
-        .slice(0, -1);
-
-      console.log("time", localISOTime);
-
-      const walletConnectOrNot = localStorage.getItem("walletConnected");
-      if (inputMessage.trim() === "" || walletConnectOrNot !== "true") {
-        if (walletConnectOrNot !== "true") {
-          setAlertModaltext("Connect Wallet to Send Message To Global Chat");
-          setAlertModalState(true);
-        }
-        return;
-      }
-      const data: any = {
-        username: userAddress,
-        content: inputMessage,
-        time: localISOTime,
-      };
-      setInputMessage('');
-      //@ts-ignore
-      socketRef.current.emit("message", data);
-    }
-  };
-
-  const handleKeyDown = (e: any) => {
-    if (e.key === "Enter") {
-      handleSendMessage();
-    }
-  };
-
-  const handleInputMessage = (e: any) => {
-    const { value } = e.target;
-    setInputMessage(value);
-  };
-
-  const renderChat = () => {
-    var today = new Date();
-    return messages.map((m: any, index: any) =>
-      m.username === userAddress ? (
-        <OwnMsg key={index}>
-          {m.content}
-          <Time>{m.time.substring(11, 16)}</Time>
-        </OwnMsg>
-      ) :
-        (
-          <Messagediv key={index}>
-            <OthersMsgIcon src={ChatProfile} alt="" />
-            <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
-            {m.content}
-            <Time>{m.time.substring(11, 16)}</Time>
-            <Report onClick={(e) => HandleReport(m.username)}>
-              <img src={ReportIcon} alt="" />
-              <p> Report Spam</p>
-            </Report>
-          </Messagediv>
-        )
-    )
-  }
-  const scrollToBottom = () => {
-    //@ts-ignore
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-      inline: "start",
-    });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [userTyping, messages]);
-
-  useEffect(() => {
-    //@ts-ignore
-    inputRef.current.selectionEnd = cursorPosition;
-  }, [cursorPosition]);
-
-  // const handleKeyPress = (e: any) => {
-  //   if (!socketRef.current || UserBlockedOrNot) return;
-  //   //@ts-ignore
-  //   socketRef.current.emit("typing", userAddress);
-  //   // socket.broadcast.emit('typing', userAddress);
-  // };
-  const Closealert = () => {
-    setAlertModalState(false);
-  };
-
-  // const handleKeyUp = (e: any) => {
-  //   if (!socketRef.current) return;
-  //   //@ts-ignore
-  //   socketRef.current.emit("typing", "stop");
-  //   // socket.broadcast.emit('typing', 'stop');
-  // };
-  const startTypingMessage = () => {
-    if (!socketRef.current || UserBlockedOrNot) return;
-    //@ts-ignore
-    socketRef.current.emit("typing", userAddress);
-    console.log('emiting typing')
-
-  };
-
-  const stopTypingMessage = () => {
-    if (!socketRef.current) return;
-    //@ts-ignore
-    socketRef.current.emit("typing", "stop");
-  };
-
-
-  const handleSendMessage = () => {
-    cancelTyping();
-    sendTOAPI();
-    scrollToBottom();
-    setInputMessage("");
-  };
-
-
-
-  useEffect(() => {
-    if (isTyping) startTypingMessage();
-    else stopTypingMessage();
-  }, [isTyping]);
-
-  useEffect(() => {
-
-    window.onbeforeunload = function () {
-      stopTypingMessage();
-    };
-  })
-
-
-  useEffect(() => {
-    let usersOnline: any = [];
-    messages.map((m: any) => (
-      usersOnline.includes(m.username.toUpperCase()) ? console.log('already in array')
-        : usersOnline.push(m.username.toUpperCase())
-
-    ));
-    setPeopleOnline(usersOnline.length);
-    console.log(usersOnline);
-  }, [messages])
-
+  //#endregion
 
   return (
     <GlobalChatSection>
@@ -439,38 +359,42 @@ const LiveChat = (props: any) => {
         >
           <Betting />
           <ChatBox style={{ position: "relative" }}>
-            <ChatTopdiv>
+            <ChatTopdiv >
               <div style={{ textAlign: "left" }}>
                 {" "}
                 <h3 style={{ fontSize: "14px" }}>GLOBAL CHAT</h3>
-                <h5 style={{ fontSize: "11px", color: "#18DEAE" }}>
-                  {PeopleOnline} PLAYING
-                </h5>
+                <h5 style={{ fontSize: "11px", color: "#18DEAE" }}>{PeopleOnline} PLAYING</h5>
               </div>{" "}
-              <img src={threedot} alt="" />
+              <img src={warning} alt="" onMouseOver={() => setshowWarning(true)}
+                onMouseOut={() => setshowWarning(false)} style={{ cursor: 'pointer' }} />
+              {
+                showWarning ? <Warningcont></Warningcont> : ''
+              }
             </ChatTopdiv>
             <ChatMiddlediv>
               {renderChat()}
-              {userTyping && userTypingAddress !== userAddress ? (
+              {userTyping ? (
                 <TypingDiv>
                   <OthersMsgIcon src={ChatProfile} alt="" />
-                  <OtherMsgAddress>{formatAddress(userTypingAddress)}<br /> is typing..</OtherMsgAddress>
+                  <OtherMsgAddress>
+                    {formatAddress(userTypingAddress)}
+                    <br /> is typing..
+                  </OtherMsgAddress>
                 </TypingDiv>
-
+              ) : (
                 // <Messagediv>
-                //   <OthersMsgIcon src={ChatProfile} alt="" /> 
+                //   <OthersMsgIcon src={ChatProfile} alt="" />
                 //   <OtherMsgAddress>Typing..</OtherMsgAddress>
                 // </Messagediv>
-              ) : (
                 ""
               )}
               <div ref={messagesEndRef} />
             </ChatMiddlediv>
             <InputParent>
               <Input
-                onChange={handleInputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
                 onKeyDown={startTyping}
-                onKeyPress={handleKeyDown}
+                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                 onKeyUp={stopTyping}
                 value={inputMessage}
                 //@ts-ignore
@@ -479,15 +403,17 @@ const LiveChat = (props: any) => {
                 type="text"
                 placeholder="Type message..."
               />
-              <EmojiButton onClick={handleShowEmojis}></EmojiButton>
+              <EmojiButton onClick={handleEmojiShow}></EmojiButton>
               {
-                <Emojisdiv style={{ display: `${showEmojis}` }}>
-                  <Emojis pickEmoji={pickEmoji} />
-                </Emojisdiv>
+                showEmoji && (
+                  <Emojisdiv ref={ref}>
+                    <Picker
+                      onSelect={handleEmojiSelect}
+                      emojiSize={20} />
+                  </Emojisdiv>
+                )
               }
-              <Button
-                onClick={handleSendMessage}
-              ></Button>
+              <Button onClick={handleSendMessage}></Button>
             </InputParent>
           </ChatBox>
           <LastRolls />
@@ -501,15 +427,10 @@ const LiveChat = (props: any) => {
             }}
           >
             <BoxTitle>House Pool Size 24 H</BoxTitle>
-            {!hoverLiquidityChartValue &&
-              !hoverLiquidityChartDate &&
-              liquidityChartData.length ? (
+            {!hoverLiquidityChartValue && !hoverLiquidityChartDate && liquidityChartData.length ? (
               <>
                 <HousePoolChartLabel>
-                  $
-                  {parseFloat(
-                    liquidityChartData[liquidityChartData.length - 1].liquidity
-                  ).toFixed(5)}
+                  ${parseFloat(liquidityChartData[liquidityChartData.length - 1].liquidity).toFixed(5)}
                 </HousePoolChartLabel>
                 <HousePoolChartLabel
                   style={{
@@ -518,9 +439,7 @@ const LiveChat = (props: any) => {
                     fontWeight: 600,
                   }}
                 >
-                  {dateFromTimestamp(
-                    liquidityChartData[liquidityChartData.length - 1].created_at
-                  )}
+                  {dateFromTimestamp(liquidityChartData[liquidityChartData.length - 1].created_at)}
                 </HousePoolChartLabel>
               </>
             ) : !liquidityChartData.length ? null : hoverLiquidityChartDate ? (
@@ -595,16 +514,11 @@ const LiveChat = (props: any) => {
             </div>
           </div>
 
-          <input
-            onClick={() => setToggleModal(false)}
-            className="close"
-            type="button"
-            value="Close"
-          />
+          <input onClick={() => setToggleModal(false)} className="close" type="button" value="Close" />
         </PopupModal>
         <Alertmsg
           show={AlertModalState}
-          toggleModal={() => Closealert()}
+          toggleModal={() => setAlertModalState(false)}
           alertText={AlertModaltext}
         />
       </>
@@ -613,3 +527,34 @@ const LiveChat = (props: any) => {
 };
 
 export default LiveChat;
+
+// const StoppedTyping: ReturnType<any> = () => {
+//   setTimeout(() => {
+//     setUserTyping(false);
+//     setUserTypingAddress("0");
+//     console.log("setted false");
+//   }, 8000);
+// };
+
+// const removeReportedUserMessages = (reportAddress: any) => {
+//   let messageData: any = [];
+//   messages.map((message: any, index: any) => {
+//     if (message.username !== reportAddress) {
+//       messageData = [...messageData, message];
+//     }
+//   });
+//   setMessages(messageData);
+// };
+
+// const handleKeyPress = (e: any) => {
+//   if (!socketRef.current || UserBlockedOrNot) return;
+//   //@ts-ignore
+//   socketRef.current.emit("typing", userAddress);
+//   // socket.broadcast.emit('typing', userAddress);
+// };
+// const handleKeyUp = (e: any) => {
+//   if (!socketRef.current) return;
+//   //@ts-ignore
+//   socketRef.current.emit("typing", "stop");
+//   // socket.broadcast.emit('typing', 'stop');
+// };
