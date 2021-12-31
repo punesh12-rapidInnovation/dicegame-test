@@ -76,7 +76,7 @@ const LiveChat = (props: any) => {
 
   useEffect(() => {
     window.onbeforeunload = function () {
-      socket.emit("typing", "stop");
+      stopTypingMessage();
     };
   })
 
