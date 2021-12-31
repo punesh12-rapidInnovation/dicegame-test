@@ -2,7 +2,7 @@ import styled, { keyframes } from "styled-components";
 import Chatsection from "../../assets/images/Chatsection.png";
 import sendimage from "../../assets/images/send-icon.svg";
 import ModalBackground from "../../assets/images/ModalBackground.png";
-import { colors } from "shared/styles/theme";
+import { colors, screenSizes } from "shared/styles/theme";
 import Sliderthumb from "../../assets/icons/sliderthumb.svg";
 import toolTip from "assets/icons/toolTip.png";
 
@@ -194,13 +194,20 @@ export const BetBox = styled.div`
   width: 45%;
   max-width: 700px;
   height: 580px;
-  margin-right: 20px;
+   margin-right: 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: space-around;
   padding: 10px 0;
   position:relative;
+
+  @media (max-width: ${screenSizes.mediaS}px) {
+    width: 100%;
+    margin-right:0;
+    margin: 10px 0 ;
+}
+
 `;
 
 export const BetTop = styled.div`
@@ -288,6 +295,14 @@ export const H2 = styled.h2<any>`
     props.MarginBottom ? props.MarginBottom : "14px"};
   font-weight: 600;
   color: ${(props) => (props.color ? props.color : colors.white)};
+
+
+  
+  @media (max-width: ${screenSizes.mediaS}px) {
+    font-size: ${(props) => (props.FontSizeMobile ? props.FontSize : "12px")};
+    font-weight: 400;
+    margin:10px 0;
+}
 `;
 export const H1 = styled.h2<any>`
   font-size: ${(props) => (props.FontSize ? props.FontSize : "18px")};
@@ -318,6 +333,18 @@ export const Flex = styled.div<any>`
     height:20px;
     cursor:pointer;
   }
+
+  
+@media (max-width: ${screenSizes.mediaS}px) {
+  img{
+    height:12px;
+  }
+
+  label{
+    font-size:12px;
+    margin:0;    
+  }
+}
  
 `;
 
@@ -346,6 +373,13 @@ export const Chance = styled.input`
   ::placeholder {
     color: rgba(112, 7, 255, 1);
   }
+
+  
+  @media (max-width: ${screenSizes.mediaS}px) {
+    width: 60px;
+    font-size:10px;
+    padding: 10px;
+}
 `;
 export const PercentChance = styled.div<any>`
   font-size: ${(props) => (props.FontSize ? props.FontSize : "18px")};
@@ -381,6 +415,15 @@ export const TransChance = styled.button`
   :hover {
     background-color: rgba(0, 0, 0, 0.2);
   }
+  
+  @media (max-width: ${screenSizes.mediaS}px) {
+    width: 35px;
+    max-width: 45px;
+    font-size:9px;
+    font-weight: 400;
+    padding: 0;
+    margin-right: 5px;
+}
 `;
 
 
@@ -497,7 +540,6 @@ export const BetResult = styled.div`
 `;
 export const OddEvenDiv = styled.div`
   display: flex;
-  // flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
@@ -506,6 +548,11 @@ export const OddEvenDiv = styled.div`
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.4);
   margin-bottom: 10px;
+
+  
+  @media (max-width: ${screenSizes.mediaS}px) {
+    padding: 10px;
+}
 `;
 
 export const Select = styled.select`
@@ -515,7 +562,6 @@ height: 32px;
 color:${colors.white};
 margin:0 5px;
 background: linear-gradient(90deg, rgba(239, 8, 150, 0.2) -6.9%, rgba(112, 7, 255, 0.2) 55.31%, rgba(0, 200, 255, 0.2) 107.28%);
-// border: 2px solid linear-gradient(#53084d , #7007FF, #00C8FF);
 border: 2px solid #53084d;
 box-shadow: 0px 3px 5px rgba(23, 15, 24, 0.5), inset 0px 0px 14px rgba(202, 26, 231, 0.6);
 border-radius: 5px;
@@ -526,9 +572,18 @@ border-radius: 5px;
   border-radius: 10px;
   padding:20px;
   background:#53084d;
-  background-color: linear-gradient(lett,#53084d , #7007FF, #00C8FF);
   border: 2px solid #53084d;
  }
+
+ @media (max-width: ${screenSizes.mediaS}px) {
+  height:25px;
+  
+  Option{
+    height: 10px;
+    padding:0;
+    margin:0;
+  }
+}
 `
 
 export const Option = styled.option`
@@ -541,6 +596,12 @@ font-size:16px;
 margin:0 5px;
 min-width:50%;
 text-align:right;
+
+@media (max-width: ${screenSizes.mediaS}px) {
+  font-size:11px;
+  font-weight:600;
+  margin:0 2px;
+}
 `
 
 export const ToolTipCont = styled.div`
@@ -550,20 +611,35 @@ top:-30%;
 left:100%;
 z-index:10;
 cursor:pointer;
+background: url(${toolTip});
+background-size:cover;
+
 p{
   display:flex;
   justify-content:center;
   align-items:center;
-  background: url(${toolTip});
-  background-size:cover;
   min-width:180px;
   width:fit-content;
   height:30px;
   color:${colors.primary};
   font-size:14px;
-
-
 }
+
+@media (max-width: ${screenSizes.mediaS}px) {
+  top:-70%;
+  left:-820%;
+  -webkit-transform: scaleX(-1);;
+  -moz-transform: scaleX(-1);
+  p{
+    min-width:100px;
+    font-size:10px;
+    
+  -webkit-transform: scaleX(-1);;
+  -moz-transform: scaleX(-1);
+  }
+}
+
+
 
 `
 

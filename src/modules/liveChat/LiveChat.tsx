@@ -11,8 +11,6 @@ import Alertmsg from "modules/betting/modals/Alertmsg";
 import useTyping from "./hooks/useTyping";
 import warning from '../../assets/icons/warning.svg';
 import warningtext from '../../assets/icons/warningtext.png';
-import reporticonhover from '../../assets/icons/reporticonhover.png';
-
 import 'emoji-mart/css/emoji-mart.css';
 //@ts-ignore
 import { Picker } from 'emoji-mart';
@@ -70,7 +68,6 @@ const LiveChat = (props: any) => {
   const [blockedUsers, setBlockedUsers] = useState<any>([]);
   const [PeopleOnline, setPeopleOnline] = useState<number>(0);
   const [showWarning, setshowWarning] = useState<Boolean>(false);
-  const [ReportHover, setReportHover] = useState(false);
 
   const { showEmoji, setShowEmoji, ref } = useOutsideClick(false)
 
@@ -87,7 +84,13 @@ const LiveChat = (props: any) => {
     setUserTyping(false);
   }, [liveMessages]);
 
-  
+  useEffect(() => {
+    window.addEventListener('beforeunload', function (e) {
+      e.preventDefault();
+      socket.emit("typing", "stop");
+    });
+  }, []);
+
   //@ts-ignore
   const address = JSON.parse(localStorage.getItem("address"));
 
@@ -186,9 +189,7 @@ const LiveChat = (props: any) => {
           {m.content}
           <Time>{m.time.substring(11, 16)}</Time>
           <Report onClick={(e) => HandleReport(m.username)}>
-              {/* <img src={true ? reporticonhover : ReportIcon} alt="" onMouseOver={() => setReportHover(true)} onMouseOut={() => setReportHover(false)}/> */}
-              <img src={ReportIcon} alt="" />
-              
+            <img src={ReportIcon} alt="" />
             <p> Report Spam</p>
           </Report>
         </Messagediv>
@@ -236,7 +237,7 @@ const LiveChat = (props: any) => {
   useEffect(() => {
     if (isTyping || showEmoji) startTypingMessage();
     else stopTypingMessage();
-  }, [isTyping,showEmoji]);
+  }, [isTyping, showEmoji]);
 
   useEffect(() => {
     let usersOnline: any = [];
@@ -408,7 +409,9 @@ const LiveChat = (props: any) => {
                   <Emojisdiv ref={ref}>
                     <Picker
                       onSelect={handleEmojiSelect}
-                      emojiSize={20} />
+                      title='Pick your emoji…' emoji='point_up'
+                      emojiSize={20}
+                    />
                   </Emojisdiv>
                 )
               }

@@ -1,4 +1,4 @@
-import { colors } from "shared/styles/theme";
+import { colors, screenSizes } from "shared/styles/theme";
 import styled from "styled-components";
 
 import sendImage from "assets/images/send-icon.svg";
@@ -25,6 +25,7 @@ background: linear-gradient(
   align-items: center;
   flex-direction: column;
   justify-content: space-around;
+ 
 `
 export const ChatTopDiv = styled.div`
   display: flex;

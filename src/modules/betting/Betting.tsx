@@ -699,22 +699,6 @@ const Betting = () => {
                     <span className="checkmark"></span>
                   </label>
                 </Flex>
-                {/* <Flex style={{ width: "40%" }} JustifyContent="center">
-                  <P>+{evenOddProfit}x</P>
-                  <div style={{ position: "relative" }}>
-                    <img
-                      src={HelpIcon}
-                      alt="help"
-                      onMouseOver={() => setShowToolTip1(true)}
-                      onMouseOut={() => setShowToolTip1(false)}
-                    />
-                    {showToolTip1 && (
-                      <ToolTipCont>
-                        <p>Additional Profit(in X)</p>
-                      </ToolTipCont>
-                    )}
-                  </div>
-                </Flex> */}
               </Flex>
             </Flex>
             <Flex>
@@ -747,23 +731,6 @@ const Betting = () => {
                     );
                   })}
                 </Select>
-
-                {/* <Flex style={{ width: "40%" }} JustifyContent="center">
-                  <P>+{rangeProfit}x</P>
-                  <div style={{ position: "relative" }}>
-                    <img
-                      src={HelpIcon}
-                      alt="help"
-                      onMouseOver={() => setShowToolTip2(true)}
-                      onMouseOut={() => setShowToolTip2(false)}
-                    />
-                    {showToolTip2 && (
-                      <ToolTipCont>
-                        <p>Additional Profit(in X)</p>
-                      </ToolTipCont>
-                    )}
-                  </div>
-                </Flex> */}
               </Flex>
             </Flex>
           </Flex>
@@ -796,13 +763,13 @@ const Betting = () => {
         </OddEvenDiv>
 
         <Flex style={{ marginTop: "10px" }}>
-          <H2 style={{ fontSize: "18px" }}>Roll Under </H2>
+          <H2 fontSize="18px" FontSizeMobile="16px">Roll Under </H2>
           <H1 FontSize="48px" color={colors.primary}>
             {RangeValue + 1}
           </H1>
         </Flex>
-        <Flex>
-          <H2 style={{ fontSize: "18px" }}>Profit </H2>
+        <Flex style={{ alignItems: "center" }}>
+          <H2 fontSize="18px" FontSizeMobile="16px">Profit </H2>
           <H1 color={colors.primary}>+{convertToEther(Profit.toString())} PLS</H1>
         </Flex>
       </BetMiddle>

@@ -34,14 +34,12 @@ display: flex;
 justify-content:center;
 align-items:center;
 margin:20px 0;
-// height:120%;
 `
 export const LowerModuleCont = styled.div`
 display: flex;
 justify-content:center;
 align-items:center;
 margin:20px 0;
-// height:100%;
 `
 
 
@@ -115,7 +113,7 @@ font-weight: 400;
 max-width: 500px;
 `
 
-export const Playerrank = styled.div`
+export const PlayerRank = styled.div`
 height: 100px;
 width: 100%;
 background-size: cover;

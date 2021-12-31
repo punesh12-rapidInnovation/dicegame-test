@@ -2,8 +2,7 @@ import { colors, screenSizes } from "shared/styles/theme";
 import styled from "styled-components";
 
 
-export const LastRollCont = styled.div`
-background: #2A1966;
+export const ChartCont = styled.div`
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7;
 border-radius: 20px;
   width: 100%;
@@ -14,39 +13,26 @@ border-radius: 20px;
   flex-direction: column;
   justify-content: space-around;
   margin:0 10px;
-
-  
   @media (max-width: ${screenSizes.mediaS}px) {
     margin: 10px 0 ;
 }
-
 `
 export const LastRollHeader = styled.div`
 display: flex;
+flex-direction: column;
 justify-content: center;
-align-items: center;
+// align-items: center;
 width:100%;
+padding:0 5%;
 margin-top:10%;
 
-h1{
-    font-size:22px;
-    text-transform: uppercase;
-    color:${colors.white};
-}
-img{
-    margin:0 10px;
+h1, h2{
+  margin:0;
 }
 
-@media (max-width: ${screenSizes.mediaS}px) {
-    h1{
-        font-size:14px;
-    }
-    img{
-        margin:0 5px;
-    }
-}
+
 `
-export const LastRollDetailsCont = styled.div`
+export const BarChartCont = styled.div`
 flex-grow: 1;
 display: flex;
 flex-direction: column;
@@ -72,7 +58,6 @@ background: #2A1966;
 // opacity: 0.2;
 box-shadow: inset 0px 0px 24px #CA1AE730;
 border-radius: 20px;
-position:relative;
 `
 export const TABLE = styled.table`
 // background:lightgrey;
@@ -90,7 +75,7 @@ text-align: ${(props: any) => (props.header ? "left" : 'center')};
 width: ${(props: any) => (props.header ? "100px" : '20px')};
 height:30px;
 @media (max-width: ${screenSizes.mediaS}px) {
-    font-size:9px;
+    font-size:10px;
 }
 
 `
@@ -98,11 +83,21 @@ export const H1 = styled.h1`
   font-size: 15px;
   position: absolute;
   top: 50%;
-  left: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
 
-  @media (max-width: ${screenSizes.mediaS}px) {
-    font-size: 12px;
-    top: 50%;
-    left: 20%;
+export const HousePoolChartLabel = styled.h1`
+  font-size: 32px;
+  font-weight: 900;
+  color: #fff;
+
+  span{
+    font-size: 16px;
+  font-weight: 600;
+  margin:0 10px;
   }
 `;
+export const HousePoolChartHead = styled.h2`
+color:${colors.white};
+`
