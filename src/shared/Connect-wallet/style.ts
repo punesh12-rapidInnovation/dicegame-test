@@ -49,6 +49,4 @@ export const ConnectWalletButton = styled.button`
 	padding: 0;
 	margin:0;
 	width:80%;
-
-
 `;

@@ -72,6 +72,7 @@ background: #2A1966;
 // opacity: 0.2;
 box-shadow: inset 0px 0px 24px #CA1AE730;
 border-radius: 20px;
+position:relative;
 `
 export const TABLE = styled.table`
 // background:lightgrey;
@@ -97,6 +98,11 @@ export const H1 = styled.h1`
   font-size: 15px;
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 30%;
+
+  @media (max-width: ${screenSizes.mediaS}px) {
+    font-size: 12px;
+    top: 50%;
+    left: 20%;
+  }
 `;
