@@ -194,7 +194,7 @@ export const BetBox = styled.div`
   width: 45%;
   max-width: 700px;
   height: 580px;
-  margin-right: 20px;
+   margin-right: 20px; // remove for mobile
   display: flex;
   align-items: center;
   flex-direction: column;

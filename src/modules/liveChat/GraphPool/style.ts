@@ -2,11 +2,11 @@ import { colors, screenSizes } from "shared/styles/theme";
 import styled from "styled-components";
 
 
-export const LastRollCont = styled.div`
-background: #2A1966;
+export const ChartCont = styled.div`
+// background: ;
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7;
 border-radius: 20px;
-  width: 100%;-+
+  width: 100%;
   max-width: 700px;
   height: 500px;
   display: flex;
@@ -14,25 +14,23 @@ border-radius: 20px;
   flex-direction: column;
   justify-content: space-around;
   margin:0 10px;
-
 `
 export const LastRollHeader = styled.div`
 display: flex;
+flex-direction: column;
 justify-content: center;
-align-items: center;
+// align-items: center;
 width:100%;
+padding:0 5%;
 margin-top:10%;
 
-h1{
-    font-size:22px;
-    text-transform: uppercase;
-    color:${colors.white};
+h1, h2{
+  margin:0;
 }
-img{
-    margin:0 10px;
-}
+
+
 `
-export const LastRollDetailsCont = styled.div`
+export const BarChartCont = styled.div`
 flex-grow: 1;
 display: flex;
 flex-direction: column;
@@ -86,3 +84,18 @@ export const H1 = styled.h1`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
+
+export const HousePoolChartLabel = styled.h1`
+  font-size: 32px;
+  font-weight: 900;
+  color: #fff;
+
+  span{
+    font-size: 16px;
+  font-weight: 600;
+  margin:0 10px;
+  }
+`;
+export const HousePoolChartHead = styled.h2`
+color:${colors.white};
+`

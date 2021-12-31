@@ -1,34 +1,27 @@
+import { Paths } from 'modules/app/components/routes/types';
 import Betting from 'modules/betting';
+import { Flex, FlexColumn } from 'modules/betting/style';
+import LastRollsNew from 'modules/LastRolls/LastRollsNew';
+import GraphPool from 'modules/liveChat/GraphPool/GraphPool';
+import LiveChatNew from 'modules/liveChat/LiveChatNew';
+import { Link } from 'pages/housePool/style';
 import React, { useState } from 'react';
-import { LandingDesktopContainer, LowerModuleCont, UpperModuleCont } from './styleDesktop';
-import { ModuleCont } from './styleDesktop';
+import { PrimaryButton } from 'shared/button/Button';
+import Disclaimer from 'shared/Disclaimer/Disclaimer';
+import history from 'shared/helpers/history';
+import PlayerRankImg from "../../assets/icons/PlayerRank.svg";
 import Beoneimage from "../../assets/images/beoneimage.png";
-import playerrank from "../../assets/icons/playerrank.svg";
 import PlayersImage from "../../assets/images/PlayersImage.png";
 import {
-    Beonediv,
-    Flexcol,
-    Beoneimagediv,
-    Beoneimg,
-    H1,
+    Beonediv, Beoneimagediv,
+    Beoneimg, Flexcol, H1,
     H2,
-    H3,
-    Playerrank,
-    Rankimg,
-} from "./styleDesktop";
-import { Link } from 'pages/housePool/style';
-import { Flex, FlexColumn } from 'modules/betting/style';
-import { PrimaryButton } from 'shared/button/Button';
-import history from 'shared/helpers/history';
-import { Paths } from 'modules/app/components/routes/types';
-import Disclaimer from 'shared/Disclaimer/Disclaimer';
-import LiveChat from 'modules/liveChat';
-import LiveChatNew from 'modules/liveChat/LiveChatNew';
-import LastRolls from 'modules/LastRolls/LastRolls';
-import LastRollsNew from 'modules/LastRolls/LastRollsNew';
+    H3, LandingDesktopContainer, LowerModuleCont, ModuleCont, PlayerRank,
+    Rankimg, UpperModuleCont
+} from './styleDesktop';
 
 const LandingDesktop = () => {
-    const [showDisclaimer, setshowDisclaimer] = useState(false);
+    const [showDisclaimer, setShowDisclaimer] = useState(false);
 
     return (
         <LandingDesktopContainer>
@@ -44,7 +37,7 @@ const LandingDesktop = () => {
                     </H3>
                     <Link
                         style={{ marginTop: "20px" }}
-                        onClick={() => setshowDisclaimer(true)}
+                        onClick={() => setShowDisclaimer(true)}
                     >
                         Read our disclaimer to know more
                     </Link>
@@ -53,7 +46,7 @@ const LandingDesktop = () => {
                     <Beoneimg src={Beoneimage} alt="" />
                 </Beoneimagediv>
             </Beonediv>
-            <Playerrank>
+            <PlayerRank>
                 <FlexColumn
                     style={{
                         padding: "10px",
@@ -63,7 +56,7 @@ const LandingDesktop = () => {
                         width: "100px",
                     }}
                 >
-                    <Rankimg src={playerrank} alt="" />
+                    <Rankimg src={PlayersImage} alt="" />
                 </FlexColumn>
                 <Flex style={{
                     width: "50%", justifyContent: "flex-end", margin: " 0 5%",
@@ -77,28 +70,23 @@ const LandingDesktop = () => {
                         DEPOSIT FUNDS
                     </PrimaryButton>
                 </Flex>
-            </Playerrank>
+            </PlayerRank>
 
             <ModuleCont>
                 <UpperModuleCont>
                     <Betting />
-                    {/* <LiveChat /> */}
-                    {/* <p>Livechat</p> */}
                     <LiveChatNew />
                 </UpperModuleCont>
                 <LowerModuleCont>
-                    {/* <p>last 10 rolls</p> */}
-                    {/* <p>liquidity graph</p> */}
                     <LastRollsNew />
-                    <LiveChatNew />
-
+                    <GraphPool />
                 </LowerModuleCont>
             </ModuleCont>
 
 
             <Disclaimer
                 show={showDisclaimer}
-                toggleModal={() => setshowDisclaimer(false)}
+                toggleModal={() => setShowDisclaimer(false)}
             />
         </LandingDesktopContainer>
     );

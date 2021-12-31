@@ -1,5 +1,6 @@
 import Betting from 'modules/betting';
 import LastRollsNew from 'modules/LastRolls/LastRollsNew';
+import GraphPool from 'modules/liveChat/GraphPool/GraphPool';
 import LiveChatNew from 'modules/liveChat/LiveChatNew';
 import React, { useState } from 'react';
 import { LandingMobileContainer, FunctionCont, FunctionStatus, ModuleCont, BetActiveTab } from './styleMobile';
@@ -18,9 +19,9 @@ const LandingMobile = () => {
             </FunctionCont>
             <ModuleCont>
                 {activeTab === 'bet' && <BetActiveTab >
-                    <div>Betting</div>
+                    <Betting />
                     <LastRollsNew />
-                    <div>Graph</div>
+                    <GraphPool />
                 </BetActiveTab>}
                 {activeTab === 'chat' &&
                     <BetActiveTab>
