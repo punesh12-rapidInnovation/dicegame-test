@@ -77,13 +77,6 @@ const LiveChat = (props: any) => {
   const handleEmojiShow = () => { setShowEmoji((v: any) => !v) }
   const handleEmojiSelect = (e: any) => {
     setInputMessage((InputMessage) => (InputMessage += e.native))
-    window.clearTimeout();
-    startTypingMessage();
-    setTimeout(() => {
-      stopTypingMessage()
-      console.log('timeoutran')
-
-    }, 2000);
   }
   const handleNewMessageChange = (e: any) => { setInputMessage(e.target.value) };
 
@@ -91,23 +84,12 @@ const LiveChat = (props: any) => {
     setUserTyping(false);
   }, [liveMessages]);
 
-  useEffect(() => {
-    return () => {
-      socket.emit("typing", "stop");
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   window.onbeforeunload = function () {
-  //     stopTypingMessage();
-  //   };
-  // })
-
-
-  useBeforeunload((event: any) => {
-
-    stopTypingMessage();
+ useEffect(() => {
+  window.addEventListener('beforeunload', function (e) {
+     e.preventDefault();
+    socket.emit("typing", "stop");
   });
+}, []);
 
   //@ts-ignore
   const address = JSON.parse(localStorage.getItem("address"));
@@ -253,9 +235,9 @@ const LiveChat = (props: any) => {
   };
 
   useEffect(() => {
-    if (isTyping) startTypingMessage();
+    if (isTyping || showEmoji) startTypingMessage();
     else stopTypingMessage();
-  }, [isTyping]);
+  }, [isTyping,showEmoji]);
 
   useEffect(() => {
     let usersOnline: any = [];
