@@ -396,10 +396,13 @@ const Betting = () => {
         Resulttillnow.splice(-1);
         // console.log(Resulttillnow);
         localStorage.setItem("LastRolls", JSON.stringify(Resulttillnow));
+      } else {
+        const PreviousResults = JSON.parse(localStorage.getItem("LastRolls") || "[]");
+        PreviousResults.unshift(ResultObject);
+        localStorage.setItem("LastRolls", JSON.stringify(PreviousResults));
+        
       }
-      const PreviousResults = JSON.parse(localStorage.getItem("LastRolls") || "[]");
-      PreviousResults.unshift(ResultObject);
-      localStorage.setItem("LastRolls", JSON.stringify(PreviousResults));
+      
     }
   };
 

@@ -61,7 +61,6 @@ const SocketContextProvider = ({ children }: any) => {
     } catch (err) {
       console.log("err", err);
     }
-    
     return () => {
       socket.disconnect();
     };
