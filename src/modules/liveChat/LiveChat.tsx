@@ -74,6 +74,13 @@ const LiveChat = (props: any) => {
     };
   }, []);
 
+  useEffect(() => {
+    window.onbeforeunload = function () {
+      socket.emit("typing", "stop");
+    };
+  })
+
+
   //@ts-ignore
   const address = JSON.parse(localStorage.getItem("address"));
 
