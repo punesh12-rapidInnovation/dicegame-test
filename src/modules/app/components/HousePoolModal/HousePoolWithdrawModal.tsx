@@ -181,7 +181,7 @@ const HousePoolWithdrawModal = (props: any) => {
                 {
                 depositList.map((item:any) => 
                 <WithdrawTimer timeInSec={item.lockedTimePeriod} isShown={Object.values(depositSelected).filter(x => x).length && item.index === depositSelected.index } >
-                  <CircleTimer value={item.lockedTimePeriod} actionAfterTimerOver={() => unlockDeposit(item.index)} ></CircleTimer>
+                  <CircleTimer value={item.lockedTimePeriod} actionAfterTimerOver={() => unlockDeposit(item.index)} getTimeLeft={()=>(parseFloat(item.DepositTime)+parseFloat(item.releaseTime))-(new Date().getTime()/1000)} ></CircleTimer>
                 </WithdrawTimer>
                 )}
             </FlexCont>
