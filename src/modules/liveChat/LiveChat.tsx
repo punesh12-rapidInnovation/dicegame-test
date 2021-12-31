@@ -1,4 +1,7 @@
 import React, { useState, useEffect, createRef, useRef, useCallback, useContext } from "react";
+import { useBeforeunload } from 'react-beforeunload';
+
+
 import axios from "axios";
 import Betting from "../betting";
 import LastRolls from "modules/LastRolls/LastRolls";
@@ -79,10 +82,10 @@ const LiveChat = (props: any) => {
     setTimeout(() => {
       stopTypingMessage()
       console.log('timeoutran')
-      
+
     }, 2000);
   }
-  const handleNewMessageChange = (e:any) => { setInputMessage(e.target.value) };
+  const handleNewMessageChange = (e: any) => { setInputMessage(e.target.value) };
 
   useEffect(() => {
     setUserTyping(false);
@@ -93,6 +96,18 @@ const LiveChat = (props: any) => {
       socket.emit("typing", "stop");
     }
   }, []);
+
+  // useEffect(() => {
+  //   window.onbeforeunload = function () {
+  //     stopTypingMessage();
+  //   };
+  // })
+
+
+  useBeforeunload((event: any) => {
+
+    stopTypingMessage();
+  });
 
   //@ts-ignore
   const address = JSON.parse(localStorage.getItem("address"));
@@ -409,12 +424,12 @@ const LiveChat = (props: any) => {
               <EmojiButton onClick={handleEmojiShow}></EmojiButton>
               {
                 showEmoji && (
-                <Emojisdiv ref={ref}>
-                <Picker
-                onSelect={handleEmojiSelect}
-                emojiSize={20} />
-                </Emojisdiv>
-              )
+                  <Emojisdiv ref={ref}>
+                    <Picker
+                      onSelect={handleEmojiSelect}
+                      emojiSize={20} />
+                  </Emojisdiv>
+                )
               }
               <Button onClick={handleSendMessage}></Button>
             </InputParent>
