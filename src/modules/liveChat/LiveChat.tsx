@@ -252,7 +252,7 @@ const LiveChat = (props: any) => {
   useEffect(() => {
     let usersOnline: any = [];
     liveMessages.map((m: any) => {
-      if (usersOnline.includes(m.username.toUpperCase())) {
+      if (!usersOnline.includes(m.username.toUpperCase())) {
         usersOnline.push(m.username.toUpperCase());
       }
     });
