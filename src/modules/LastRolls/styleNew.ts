@@ -6,7 +6,7 @@ export const LastRollCont = styled.div`
 background: #2A1966;
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7;
 border-radius: 20px;
-  width: 100%;-+
+  width: 100%;
   max-width: 700px;
   height: 500px;
   display: flex;
@@ -14,6 +14,11 @@ border-radius: 20px;
   flex-direction: column;
   justify-content: space-around;
   margin:0 10px;
+
+  
+  @media (max-width: ${screenSizes.mediaS}px) {
+    margin: 10px 0 ;
+}
 
 `
 export const LastRollHeader = styled.div`
@@ -30,6 +35,15 @@ h1{
 }
 img{
     margin:0 10px;
+}
+
+@media (max-width: ${screenSizes.mediaS}px) {
+    h1{
+        font-size:14px;
+    }
+    img{
+        margin:0 5px;
+    }
 }
 `
 export const LastRollDetailsCont = styled.div`
@@ -75,7 +89,7 @@ text-align: ${(props: any) => (props.header ? "left" : 'center')};
 width: ${(props: any) => (props.header ? "100px" : '20px')};
 height:30px;
 @media (max-width: ${screenSizes.mediaS}px) {
-    font-size:10px;
+    font-size:9px;
 }
 
 `

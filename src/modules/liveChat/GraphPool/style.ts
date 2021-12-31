@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 
 export const ChartCont = styled.div`
-// background: ;
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7;
 border-radius: 20px;
   width: 100%;
@@ -14,6 +13,9 @@ border-radius: 20px;
   flex-direction: column;
   justify-content: space-around;
   margin:0 10px;
+  @media (max-width: ${screenSizes.mediaS}px) {
+    margin: 10px 0 ;
+}
 `
 export const LastRollHeader = styled.div`
 display: flex;

@@ -32,10 +32,7 @@ const LastRollsNew = () => {
     return (
         <LastRollCont>
             <LastRollHeader>
-                <h1>
-
-                    Your last rolls
-                </h1>
+                <h1>Your last rolls</h1>
                 <img src={DiceIcon} alt="dice-icon" />
 
             </LastRollHeader>

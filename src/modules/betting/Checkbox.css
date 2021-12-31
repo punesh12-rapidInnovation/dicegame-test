@@ -75,3 +75,25 @@
 	-ms-transform: rotate(45deg);
 	transform: rotate(45deg);
 }
+
+@media screen and (max-width: 640px) {
+	.container {
+		display: block;
+		position: relative;
+		padding-left: 18px;
+		margin-bottom: 12px;
+	}
+	.checkmark {
+		top: 20%;
+		left: 0;
+		height: 18px;
+		width: 18px;
+	}
+
+	.container .checkmark:after {
+		left: 6px;
+		top: 3px;
+		width: 3px;
+		height: 7px;
+	}
+}
