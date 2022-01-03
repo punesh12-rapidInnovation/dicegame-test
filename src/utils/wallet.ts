@@ -70,7 +70,7 @@ class Wallet {
 						[networkMainChainId]: walletMainConnectId,
 						[networkTestChainId]: walletTestConnectId,
 					},
-					chainId: 56,
+					chainId: networkTestChainId,
 					bridge: 'https://bridge.walletconnect.org',
 					qrcode: true,
 					pollingInterval: 12000,
@@ -90,7 +90,9 @@ class Wallet {
 
 				break;
 			default:
-				throw new Error('Invalid wallet type');
+				this.web3 = new Web3(new Web3.providers.HttpProvider(walletTestConnectId));
+				console.log('error reached');
+			// throw new Error('Invalid wallet type');
 		}
 	}
 
@@ -280,7 +282,6 @@ class Wallet {
 			default:
 				// localStorage.clear();
 				removeLocalData()
-
 				window.location.reload();
 				throw new Error('Invalid wallet type');
 		}
@@ -334,6 +335,7 @@ export const setupNetwork = async (dispatch: any, walletType: any) => {
 		console.error(
 			"Can't setup the BSC network on metamask because window.ethereum is undefined"
 		);
+
 		return false;
 	}
 };
