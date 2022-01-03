@@ -42,8 +42,6 @@ const LandingPage = () => {
     return () => window.removeEventListener("resize", updateWidthAndHeight);
   });
 
-  // console.log('width', width, 'height', height);
-
   return width < screenSizes.mediaS ? (
     <LandingMobile />
   ) : (
