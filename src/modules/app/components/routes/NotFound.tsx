@@ -1,13 +1,15 @@
-import React from 'react';
+import { Button, NotFoundCont } from './style';
+import Error404 from 'assets/images/Center404.svg'
+import history from 'shared/helpers/history';
+
 
 const NotFound = () => {
     return (
-        <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh'}}>
-            <h1>Page not found</h1>
-            <h2>The page you are looking for was moved, removed, renamed or might never existed</h2>
+        <NotFoundCont>
 
-
-        </div>
+            <img src={Error404} alt="" />
+            <Button onClick={() => history.push('/')}> Back to homepage</Button>
+        </NotFoundCont >
     );
 };
 
