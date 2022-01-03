@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components'
 import Sliderthumb from "assets/icons/sliderthumb.svg";
 import SliderCallout from "assets/icons/sliderCallout.svg";
-import { colors } from 'shared/styles/theme';
+import { colors, screenSizes } from 'shared/styles/theme';
 
 
 export const RangeSliderCont = styled.div`
@@ -122,6 +122,14 @@ export const SliderCalloutBox = styled.div<any>`
   span{
     color:${colors.primary};
   }
+
+  
+  @media (max-width: ${screenSizes.mediaS}px) {
+    padding:0px;
+  width:95px;
+  height:30px;
+}
+
 `
 export const ValueRange = styled.div<any>`
 display: flex;

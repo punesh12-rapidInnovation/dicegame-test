@@ -400,9 +400,9 @@ const Betting = () => {
         const PreviousResults = JSON.parse(localStorage.getItem("LastRolls") || "[]");
         PreviousResults.unshift(ResultObject);
         localStorage.setItem("LastRolls", JSON.stringify(PreviousResults));
-        
+
       }
-      
+
     }
   };
 
