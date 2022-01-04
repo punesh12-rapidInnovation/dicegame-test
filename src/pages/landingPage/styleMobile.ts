@@ -94,7 +94,7 @@ p{
 }
 
 button{
-    width:30%;
+    width:35%;
     font-size:12px;
 }
 `
