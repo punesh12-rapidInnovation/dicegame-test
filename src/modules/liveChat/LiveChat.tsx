@@ -84,13 +84,6 @@ const LiveChat = (props: any) => {
     setUserTyping(false);
   }, [liveMessages]);
 
-  useEffect(() => {
-    window.addEventListener('beforeunload', function (e) {
-      e.preventDefault();
-      socket.emit("typing", "stop");
-    });
-  }, []);
-
   //@ts-ignore
   const address = JSON.parse(localStorage.getItem("address"));
 
@@ -217,7 +210,9 @@ const LiveChat = (props: any) => {
 
   const startTypingMessage = () => {
     if (!socket || UserBlockedOrNot) return;
-    //@ts-ignore
+    if (userAddress == undefined) return;
+     //@ts-ignore
+    console.log(userAddress)
     socket.emit("typing", userAddress);
     console.log("start typing");
   };
@@ -226,8 +221,9 @@ const LiveChat = (props: any) => {
     if (!socket) return;
     //@ts-ignore
     socket.emit("typing", "stop");
+    console.log("stop typing");
   };
-
+  
   const handleSendMessage = () => {
     cancelTyping();
     sendTOAPI(inputMessage);
