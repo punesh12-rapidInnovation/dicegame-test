@@ -3,7 +3,8 @@ import LastRollsNew from 'modules/LastRolls/LastRollsNew';
 import GraphPool from 'modules/liveChat/GraphPool/GraphPool';
 import LiveChatNew from 'modules/liveChat/LiveChatNew';
 import React, { useState } from 'react';
-import { LandingMobileContainer, FunctionCont, FunctionStatus, ModuleCont, BetActiveTab } from './styleMobile';
+import { PrimaryButton } from 'shared/button/Button';
+import { LandingMobileContainer, FunctionCont, FunctionStatus, ModuleCont, BetActiveTab, DepositNavCont } from './styleMobile';
 
 const LandingMobile = () => {
 
@@ -12,6 +13,10 @@ const LandingMobile = () => {
 
     return (
         <LandingMobileContainer>
+            <DepositNavCont>
+                <p>Read disclaimer</p>
+                <PrimaryButton>Deposit funds</PrimaryButton>
+            </DepositNavCont>
 
             <FunctionCont>
                 <FunctionStatus activeStatus={activeTab === 'bet'} onClick={() => setActiveTab('bet')} >Bet</FunctionStatus>

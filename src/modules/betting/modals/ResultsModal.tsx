@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ModalContent, ModalBody } from "./style";
-import { BoxTitle, TR, TD, Box, H1, TableBox } from "modules/LastRolls/style";
+import { BoxTitle, TR, TD, Box, H1, TableBox, BoxCont } from "modules/LastRolls/style";
 import { convertToEther } from "utils/helper";
 import Diceicon from "../../../assets/icons/Diceicon.svg";
 import Lossicon from "../../../assets/icons/Lossicon.svg";
@@ -31,22 +31,7 @@ const ResultsModal = (props: any) => {
       onMouseDown={handleClickOutside}
       style={{ ...styles }}
     >
-      <Box
-        style={{
-          width: "600px",
-          height: "550px",
-          padding: "20px",
-          background: "#2A1966",
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          flexDirection: "column",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%,-50%)",
-        }}
-      >
+      <BoxCont>
         <BoxTitle>
           YOUR LAST ROLLS{" "}
           <img src={Diceicon} alt="" style={{ marginLeft: "10px" }} />
@@ -61,16 +46,12 @@ const ResultsModal = (props: any) => {
                 <TD>MIN CHANCE</TD>
                 <TD>GAIN/LOSS</TD>
               </TR>
-
-
               {
                 LastRolls.length == 0 &&
                 <TR>
                   <TD>{NoResultMessage()}</TD>
                 </TR>
               }
-
-
               {LastRolls.slice(0, 10).map((Roll: any, index: any) => (
                 <TR key={"k" + index}>
                   <TD style={{ textAlign: "left" }}>
@@ -95,7 +76,8 @@ const ResultsModal = (props: any) => {
             </tbody>
           </table>
         </TableBox>
-      </Box>
+      </BoxCont>
+
     </ModalBody>
   );
 };

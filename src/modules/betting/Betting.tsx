@@ -581,7 +581,7 @@ const Betting = () => {
       const BETTING_INSTANCE = await selectInstances(instanceType.BETTING);
 
       const profit = await BETTING_INSTANCE.methods
-        .GetProfit(rollUnder, _OddEvenStatus, rangeLow, rangeHigh, convertToWei(betValue))
+        .GetProfit(rollUnder, _OddEvenStatus, rangeLow, rangeHigh, convertToWei(betValue.toString()))
         .call();
 
       setProfit(profit);
