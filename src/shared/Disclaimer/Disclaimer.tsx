@@ -10,16 +10,21 @@ const Disclaimer = (props: any) => {
     const [LocalAgree, setLocalAgree] = useState<boolean>();
     const [ReactAgree, setReactAgree] = useState<boolean>();
     const [AlertModalState, setAlertModalState] = useState(false);
+    const [CheckedState, setCheckedState] = useState<boolean>(false);
     const { show, toggleModal } = props;
 
     const CheckedOrNot = () => {
         const localChecked = localStorage.getItem("ShowDisclaimer");
         if (localChecked === null || localChecked === "false") {
-            return false;
+            setCheckedState(false);
         } else {
-            return true;
+            setCheckedState(true);
         }
     };
+
+    useEffect(() => {
+        CheckedOrNot()
+    }, [localStorage.getItem("ShowDisclaimer")])
 
     useEffect(() => {
       if (localStorage.getItem("Agree") === "true" ) {
@@ -44,14 +49,15 @@ const Disclaimer = (props: any) => {
     };
 
     const SetLocalShowDisclaimer = () => {
-        const localChecked = localStorage.getItem("ShowDisclaimer");
-        if (localChecked === null || localChecked === "false") {
-            localStorage.setItem("ShowDisclaimer", "true");
-        } else {
+        if (CheckedState) {
             localStorage.setItem("ShowDisclaimer", "false");
+            setCheckedState(false);
+        } else{
+            localStorage.setItem("ShowDisclaimer", "true");
+             setCheckedState(true);
         }
     };
-
+    console.log(CheckedState);
     return (
         <ModalBody show={show}>
             <ModalContent>
@@ -110,8 +116,8 @@ const Disclaimer = (props: any) => {
                             Do not show this message again
                             <input
                                 type="checkbox"
-                                onChange={() => SetLocalShowDisclaimer()}
-                                defaultChecked={CheckedOrNot()}
+                                checked={CheckedState}
+                                onChange={SetLocalShowDisclaimer}
                             />
                             <span className="checkmark"></span>
                         </label>
