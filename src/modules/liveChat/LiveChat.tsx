@@ -459,10 +459,10 @@ const LiveChat = (props: any) => {
               </>
             ) : null}
 
-            <div style={{ width: "100%", height: "300px" }}>
+            <div style={{ width: "100%", height: "300px", display: "flex", justifyContent: "center", alignItems: "center" }}>
               {liquidityChartData && liquidityChartData.length ?
                 <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
-                : <p style={{ opacity: '0.5' }}>No data available</p>
+                : <p style={{ opacity: '0.5', color: "white" }}>No data available</p>
 
               }
             </div>
