@@ -5,7 +5,7 @@ import Header from 'modules/app/components/header';
 import { PrimaryButton } from 'shared/button/Button';
 import CustomModal from 'shared/custom-modal';
 import { colors } from 'shared/styles/theme';
-import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, PoolDetailsContainer, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle } from './style';
+import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, PoolDetailsContainer,PoolDetailsGridItem, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle } from './style';
 import verticalLine from "assets/icons/verticalLine.svg";
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import HousePoolTransaction from 'modules/app/components/HousePoolTransaction/HousePoolTransaction';
@@ -139,26 +139,27 @@ const HousePool = () => {
 
                 >
                     <PrimaryButton width="300px"
-                        style={{ padding: '25px', fontSize: '18px' }}
+                        style={{ padding: '25px', fontSize: '18px', marginBottom: "30px" }}
                         onClick={() => handleDeposit()}
                     >DEPOSIT FUNDS (PLS)</PrimaryButton>
                 </FlexCont>
             </InfoContainer>
             <PoolDetailsContainer>
-                <div style={{
+                {/* <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'minmax(450px, 450px) minmax(370px, 2fr)',
+                    gridTemplateColumns: 'minmax(300px, 450px) minmax(300px, 1fr)',
                     gridColumnGap: '20px',
                     gridRowGap: '20px',
 
                     paddingTop: "50px",
-                }}>
-                    <div style={{
+                }}> */}
+                <PoolDetailsGridItem>
+                    {/* <div style={{
                         background: "linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%)",
                         boxShadow: "0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9)",
                         borderRadius: "20px",
-                    }}>
-                        <FlexCont style={{ flexDirection: 'row', justifyContent: "space-around", height: '30%', alignItems: "center", width: '100%', padding: '20px 40px' }}>
+                    }}> */}
+                        <FlexCont style={{ flexDirection: 'row', justifyContent: "space-around", height: '30%', alignItems: "center", width: '100%', }}>
                             <FlexCont
                                 justifyContent="center"
                                 alignItems="center"
@@ -209,14 +210,15 @@ const HousePool = () => {
 
                             >WITHDRAW FUNDS</PrimaryButton>
                         </FlexCont>
-                    </div>
-
-                    <div style={{
+                    {/* </div> */}
+                </PoolDetailsGridItem>
+                <PoolDetailsGridItem>
+                    {/* <div style={{
                         background: "linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%)",
                         boxShadow: "0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9)",
                         borderRadius: "20px",
                         padding: "20px"
-                    }}>
+                    }}> */}
                         <BoxTitle>Liquidity 24 H</BoxTitle>
                         <>
                             {
@@ -242,8 +244,10 @@ const HousePool = () => {
                                 : null
                             }
                         </div>
-                    </div>
-                </div>
+                    {/* </div> */}
+                </PoolDetailsGridItem>
+
+                {/* </div> */}
             </PoolDetailsContainer>
             {/* <PoolDetailsContainer>
                 <PoolDetails style={{width:'450px',margin:'0',marginRight:'30px',height:'500px'}}>
