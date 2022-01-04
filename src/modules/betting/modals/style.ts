@@ -198,8 +198,14 @@ padding: 40px;
 	overflow: -moz-scrollbars-none;
 	-ms-overflow-style: none;
 	width: 80%;
-	@media (min-width: ${screenSizes.mediaL}px) {
-		width: 524px;
+	@media (max-width: ${screenSizes.mediaS}px) {
+		width: 90%;
+		padding:10px;
+
+		button{
+			margin-bottom:10px;
+		}
+
 	}
 `;
 
@@ -212,12 +218,13 @@ export const ModalContainerHeading = styled.p`
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
 	margin: 0;
+	
 `;
 
 export const Image = styled.img<any>`
-// background:red;
-height: ${(props) => props.height ? props.height : '60px'};
+	height: ${(props) => props.height ? props.height : '60px'};
 	@media (max-width: ${screenSizes.mediaM}px) {
+		height:30px;
 	}
 `;
 export const InfoText = styled.p<any>`
@@ -227,6 +234,7 @@ export const InfoText = styled.p<any>`
 	margin-bottom: 10px;
 	color: ${(props) => props.color ? props.color : colors.yellow};
     @media (max-width: ${screenSizes.mediaM}px) {
+		font-size:28px;
 	}
 `;
 export const InfoTextSecondary = styled.p`
@@ -237,6 +245,7 @@ export const InfoTextSecondary = styled.p`
 	color: ${(props) => props.color ? props.color : colors.yellow};
 
     @media (max-width: ${screenSizes.mediaM}px) {
+		font-size:14px;
 	}
 `;
 
@@ -245,6 +254,8 @@ display:block;
 position: relative;
 margin-left:3rem;
 margin-top:2rem;
+color:${colors.black};
+
 `
 
 export const FrontDice = styled.div`
@@ -258,11 +269,28 @@ p{
     font-family:AvenirLTStd;
     font-weight :750;
 }
+
+
+@media (max-width: ${screenSizes.mediaS}px) {
+	img{
+		height:50px;
+	}
+	p{
+		font-size:22px;
+	}
+}
 `
 export const RearDice = styled.div`
 position:absolute;
 top:-20%;
 right:60%;
+
+
+@media (max-width: ${screenSizes.mediaS}px) {
+	img{
+		height:50px;
+	}
+}
 
 `
 
@@ -288,6 +316,23 @@ p{
     font-weight:900;
     margin:0 10px;
 }
+
+@media (max-width: ${screenSizes.mediaS}px) {
+	width:95%;
+	height:40px;
+	margin:10px 0;
+	p{
+		flex-grow: 1;
+		font-size:11px;
+	}
+	img{
+		height:25px;
+		margin-left:10px;
+	}
+	.happyFace{
+		margin:0;
+	}
+}
 `
 
 export const UserAddress = styled.p`
@@ -301,6 +346,11 @@ cursor: default;
 img{
 	margin:0 5px;
 	cursor: pointer;
+}
+
+@media (max-width: ${screenSizes.mediaM}px) {
+font-size:10px;
+margin-bottom:10px;
 }
 `
 export const Text = styled.p`
