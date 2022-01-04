@@ -55,17 +55,17 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
   // console.log("chartData",chartData);
 
   const getYticks = () => {
-    if(chartData && Array.isArray(chartData) && chartData.length){
-      const intervalOfSevenTicks = Math.max(...chartData.map((item:any) => parseFloat(item.liquidity)))/6;
+    if (chartData && Array.isArray(chartData) && chartData.length) {
+      const intervalOfSevenTicks = Math.max(...chartData.map((item: any) => parseFloat(item.liquidity))) / 6;
       const ticks = [];
-  
-      for(let i=0; i<=6; i++){
-        ticks.push((intervalOfSevenTicks*(i)).toFixed(2));
+
+      for (let i = 0; i <= 6; i++) {
+        ticks.push((intervalOfSevenTicks * (i)).toFixed(2));
       }
-      
-      return ticks.map((tick:any) => tick>1 ? Math.round(tick) : !parseFloat(tick) ? 0 : tick)
+
+      return ticks.map((tick: any) => tick > 1 ? Math.round(tick) : !parseFloat(tick) ? 0 : tick)
     }
-    else{
+    else {
       return [];
     }
   }
@@ -89,7 +89,7 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
           dataKey="created_at"
           axisLine={false}
           tickLine={false}
-          tickFormatter={(timestamp:any) => `${dayFromTimestamp(timestamp)}`}
+          tickFormatter={(timestamp: any) => `${dayFromTimestamp(timestamp)}`}
           minTickGap={10}
           stroke='rgba(255,255,255,0.8)'
         />

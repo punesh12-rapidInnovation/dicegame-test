@@ -89,6 +89,8 @@ const Betting = () => {
   const [rollDiceDisableOrNot, setrollDiceDisableOrNot] = useState<Boolean>(false);
   const [multiplier, setMultiplier] = useState(0);
 
+
+
   const [play] = useSound(heart);
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
@@ -347,7 +349,8 @@ const Betting = () => {
 
   useEffect(() => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
-    // console.log(LocalBetIt);
+    console.log('result recieved');
+
 
     if (userAddress && LocalBetIt === ResultObject?.Betid) {
       if (ResultObject?.Status === "0") {
@@ -386,11 +389,21 @@ const Betting = () => {
   }, [ResultObject]);
 
   const StoringLastRolls = () => {
+    const AllValue = JSON.parse(localStorage.getItem("LastRolls") || "[]");
+    const FirstValue = AllValue[0]
+    if (FirstValue != undefined) {
+      if (FirstValue.Betid == ResultObject.Betid) {
+        return
+      } else {
+        console.log(FirstValue.Betid == ResultObject.Betid)
+      }
+    }
+    console.log('storingcalled')
     if (localStorage.getItem("LastRolls") === null) {
       localStorage.setItem("LastRolls", JSON.stringify([ResultObject]));
-      // console.log("not exist ran");
+      console.log("not exist ran");
     } else {
-      // console.log("exist ran");
+      console.log("exist ran");
       const Resulttillnow = JSON.parse(localStorage.getItem("LastRolls") || "[]");
       if (Resulttillnow.length === 10) {
         Resulttillnow.splice(-1);
@@ -400,6 +413,9 @@ const Betting = () => {
       const PreviousResults = JSON.parse(localStorage.getItem("LastRolls") || "[]");
       PreviousResults.unshift(ResultObject);
       localStorage.setItem("LastRolls", JSON.stringify(PreviousResults));
+
+
+
     }
   };
 
@@ -578,7 +594,7 @@ const Betting = () => {
       const BETTING_INSTANCE = await selectInstances(instanceType.BETTING);
 
       const profit = await BETTING_INSTANCE.methods
-        .GetProfit(rollUnder, _OddEvenStatus, rangeLow, rangeHigh, convertToWei(betValue))
+        .GetProfit(rollUnder, _OddEvenStatus, rangeLow, rangeHigh, convertToWei(betValue.toString()))
         .call();
 
       setProfit(profit);
@@ -696,22 +712,6 @@ const Betting = () => {
                     <span className="checkmark"></span>
                   </label>
                 </Flex>
-                {/* <Flex style={{ width: "40%" }} JustifyContent="center">
-                  <P>+{evenOddProfit}x</P>
-                  <div style={{ position: "relative" }}>
-                    <img
-                      src={HelpIcon}
-                      alt="help"
-                      onMouseOver={() => setShowToolTip1(true)}
-                      onMouseOut={() => setShowToolTip1(false)}
-                    />
-                    {showToolTip1 && (
-                      <ToolTipCont>
-                        <p>Additional Profit(in X)</p>
-                      </ToolTipCont>
-                    )}
-                  </div>
-                </Flex> */}
               </Flex>
             </Flex>
             <Flex>
@@ -744,23 +744,6 @@ const Betting = () => {
                     );
                   })}
                 </Select>
-
-                {/* <Flex style={{ width: "40%" }} JustifyContent="center">
-                  <P>+{rangeProfit}x</P>
-                  <div style={{ position: "relative" }}>
-                    <img
-                      src={HelpIcon}
-                      alt="help"
-                      onMouseOver={() => setShowToolTip2(true)}
-                      onMouseOut={() => setShowToolTip2(false)}
-                    />
-                    {showToolTip2 && (
-                      <ToolTipCont>
-                        <p>Additional Profit(in X)</p>
-                      </ToolTipCont>
-                    )}
-                  </div>
-                </Flex> */}
               </Flex>
             </Flex>
           </Flex>
@@ -793,14 +776,14 @@ const Betting = () => {
         </OddEvenDiv>
 
         <Flex style={{ marginTop: "10px" }}>
-          <H2 style={{ fontSize: "18px" }}>Roll Under </H2>
+          <H2 fontSize="18px" FontSizeMobile="16px">Roll Under </H2>
           <H1 FontSize="48px" color={colors.primary}>
             {RangeValue + 1}
           </H1>
         </Flex>
-        <Flex>
-          <H2 style={{ fontSize: "18px" }}>Profit </H2>
-          <H1 color={colors.primary}>+{convertToEther(Profit.toString())} PLS</H1>
+        <Flex style={{ alignItems: "center" }}>
+          <H2 fontSize="18px" FontSizeMobile="16px">Profit </H2>
+          <H1 MobileFontSize="13px" color={colors.primary}>+{convertToEther(Profit.toString())} PLS</H1>
         </Flex>
       </BetMiddle>
       <BetBottom>

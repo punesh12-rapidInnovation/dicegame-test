@@ -84,13 +84,6 @@ const LiveChat = (props: any) => {
     setUserTyping(false);
   }, [liveMessages]);
 
- useEffect(() => {
-  window.addEventListener('beforeunload', function (e) {
-     e.preventDefault();
-    socket.emit("typing", "stop");
-  });
-}, []);
-
   //@ts-ignore
   const address = JSON.parse(localStorage.getItem("address"));
 
@@ -217,7 +210,9 @@ const LiveChat = (props: any) => {
 
   const startTypingMessage = () => {
     if (!socket || UserBlockedOrNot) return;
+    if (userAddress == undefined) return;
     //@ts-ignore
+    console.log(userAddress)
     socket.emit("typing", userAddress);
     console.log("start typing");
   };
@@ -226,6 +221,7 @@ const LiveChat = (props: any) => {
     if (!socket) return;
     //@ts-ignore
     socket.emit("typing", "stop");
+    console.log("stop typing");
   };
 
   const handleSendMessage = () => {
@@ -237,7 +233,7 @@ const LiveChat = (props: any) => {
   useEffect(() => {
     if (isTyping || showEmoji) startTypingMessage();
     else stopTypingMessage();
-  }, [isTyping,showEmoji]);
+  }, [isTyping, showEmoji]);
 
   useEffect(() => {
     let usersOnline: any = [];
@@ -409,7 +405,9 @@ const LiveChat = (props: any) => {
                   <Emojisdiv ref={ref}>
                     <Picker
                       onSelect={handleEmojiSelect}
-                      emojiSize={20} />
+                      title='Pick your emoji…' emoji='point_up'
+                      emojiSize={20}
+                    />
                   </Emojisdiv>
                 )
               }
@@ -461,12 +459,12 @@ const LiveChat = (props: any) => {
               </>
             ) : null}
 
-            <div style={{ width: "100%", height: "300px" }}>
-              <BarChart
-                chartData={liquidityChartData}
-                setHoverValue={setHoverLiquidityChartValue}
-                setHoverDate={setHoverLiquidityChartDate}
-              />
+            <div style={{ width: "100%", height: "300px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+              {liquidityChartData && liquidityChartData.length ?
+                <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
+                : <p style={{ opacity: '0.5', color: "white" }}>No data available</p>
+
+              }
             </div>
           </Box>
           {/* </div> */}

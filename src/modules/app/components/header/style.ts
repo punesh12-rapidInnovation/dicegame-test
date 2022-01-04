@@ -37,8 +37,8 @@ background: rgba(0,0,0,0.5);
         height:60px;
 
         .siteLogo{
-                height:15px;
-                margin:0 10px;
+                height:20px;
+                margin:0 20px;
         }
         .invisibleDiv{
                 display:none;
@@ -68,7 +68,7 @@ border-radius: 100px;
 margin-right: 20px;
 
 @media (max-width: ${screenSizes.mediaS}px) {
-        height:25px;   
+        height:30px;   
         width:160px;   
 }
 `
@@ -77,8 +77,9 @@ export const WalletLogo = styled.img`
 z-index: 2;
 margin-left:-10px;
 @media (max-width: ${screenSizes.mediaS}px) {
-        width:35px;
-                margin-top:3px;
+        width:45px;
+        margin-top:3px;
+        margin-right:-10px;
    
 }
 `
