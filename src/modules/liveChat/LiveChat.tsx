@@ -210,7 +210,9 @@ const LiveChat = (props: any) => {
 
   const startTypingMessage = () => {
     if (!socket || UserBlockedOrNot) return;
-    //@ts-ignore
+    if (userAddress == undefined) return;
+     //@ts-ignore
+    console.log(userAddress)
     socket.emit("typing", userAddress);
     console.log("start typing");
   };

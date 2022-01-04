@@ -21,13 +21,14 @@ const Disclaimer = (props: any) => {
         }
     };
 
-    const AgreedOrNot = () => {
-        if (localStorage.getItem("Agree") === "true" || ReactAgree) {
+    useEffect(() => {
+      if (localStorage.getItem("Agree") === "true" ) {
             setLocalAgree(true);
         } else {
             setLocalAgree(false);
         }
-    };
+        
+    }, [localStorage.getItem("Agree")])
 
     const crossFunction = () => {
         toggleModal();
@@ -37,15 +38,9 @@ const Disclaimer = (props: any) => {
         setAlertModalState(false);
     };
 
-    useEffect(() => {
-        AgreedOrNot();
-    }, [ReactAgree]);
-
     const setAgree = () => {
         localStorage.setItem("Agree", "true");
-        setReactAgree(true);
-        toggleModal();
-
+        toggleModal()
     };
 
     const SetLocalShowDisclaimer = () => {
