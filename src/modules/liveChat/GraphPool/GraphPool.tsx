@@ -8,19 +8,25 @@ import { BarChartCont, ChartCont, HousePoolChartHead, HousePoolChartLabel, LastR
 
 const GraphPool = () => {
 
-    const [liquidityChartData, setLiquidityChartData] = useState<any>([]);
+    const [liquidityChartData, setLiquidityChartData] = useState<any>([{}]);
     const [hoverLiquidityChartValue, setHoverLiquidityChartValue] = useState<any>("");
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = useState<any>("");
 
     useEffect(() => {
-        const axiosInstance = axios.create({
-            baseURL: "https://diceroll.rapidinnovation.tech/pool",
-        });
-        const getData = async () => {
-            const res = await axiosInstance.get("/allLiquidity");
-            setLiquidityChartData(res.data);
-        }; //
-        getData();
+        try {
+
+            const axiosInstance = axios.create({
+                baseURL: "https://diceroll.rapidinnovation.tech/pool",
+            });
+            const getData = async () => {
+                const res = await axiosInstance.get("/allLiquidity");
+                setLiquidityChartData(res.data);
+            }; //
+            getData();
+
+        } catch (error) {
+
+        }
     }, []);
 
     return (
@@ -50,11 +56,10 @@ const GraphPool = () => {
 
             </LastRollHeader>
             <BarChartCont>
-                <BarChart
-                    chartData={liquidityChartData}
-                    setHoverValue={setHoverLiquidityChartValue}
-                    setHoverDate={setHoverLiquidityChartDate}
-                />
+                {liquidityChartData && liquidityChartData.length ?
+                    <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
+                    : <p style={{ opacity: '0.5' }}>No data available</p>
+                }
             </BarChartCont>
         </ChartCont>
     );

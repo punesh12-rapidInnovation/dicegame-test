@@ -4,6 +4,9 @@ export const PrimaryButton = styled.button<any>`
   width: ${(props) => props.width ? props.width : '100%'};
   margin: ${(props) => props.margin ? props.margin : '0'};
   color: ${(props) => props.color ? props.color : 'white'};
+  display:flex;
+  justify-content: center;
+  align-items: center;
 
   padding: 17px;
   cursor: pointer;

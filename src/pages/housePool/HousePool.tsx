@@ -319,31 +319,31 @@ const HousePool = () => {
             </TransactionContainer>
 
             {showDepositModal &&
-            <CustomModal
-                show={showDepositModal}
-                toggleModal={() => setshowDepositModal(false)}
-                heading={ActionType === "deposit" ? "DEPOSIT FUNDS" : "WITHDRAW FUNDS"}
-            >
-                <HousePoolModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} txWaiting={txWaiting} depositDoneSuccess={() => setDepositDoneNumber(depositDoneNumber+1)} closeModal={() => setshowDepositModal(false)} setTxWaiting={setTxWaiting} setTxSuccess={setTxSuccess} setTxError={setTxError} />
-            </CustomModal>}
+                <CustomModal
+                    show={showDepositModal}
+                    toggleModal={() => setshowDepositModal(false)}
+                    heading={ActionType === "deposit" ? "DEPOSIT FUNDS" : "WITHDRAW FUNDS"}
+                >
+                    <HousePoolModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} txWaiting={txWaiting} depositDoneSuccess={() => setDepositDoneNumber(depositDoneNumber + 1)} closeModal={() => setshowDepositModal(false)} setTxWaiting={setTxWaiting} setTxSuccess={setTxSuccess} setTxError={setTxError} />
+                </CustomModal>}
 
             {showWithdrawModal &&
-            <CustomModal
-                show={showWithdrawModal}
-                toggleModal={() => setshowWithdrawModal(false)}
-                heading={"WITHDRAW FUNDS"}
-            >
-                <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} txWaiting={txWaiting} withdrawDoneSuccess={() => setWithdrawDoneNumber(withdrawDoneNumber+1)}  closeModal={() => setshowWithdrawModal(false)} setTxWaiting={setTxWaiting} setTxSuccess={setTxSuccess} setTxError={setTxError} />
-            </CustomModal>}
+                <CustomModal
+                    show={showWithdrawModal}
+                    toggleModal={() => setshowWithdrawModal(false)}
+                    heading={"WITHDRAW FUNDS"}
+                >
+                    <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} txWaiting={txWaiting} withdrawDoneSuccess={() => setWithdrawDoneNumber(withdrawDoneNumber + 1)} closeModal={() => setshowWithdrawModal(false)} setTxWaiting={setTxWaiting} setTxSuccess={setTxSuccess} setTxError={setTxError} />
+                </CustomModal>}
 
             {showConnectWalletAlert &&
-            <CustomModal
-                show={showConnectWalletAlert}
-                toggleModal={() => setShowConnectWalletAlert(false)}
-                heading={"Connect To Wallet First"}
-            >
-                {/* <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} withdrawDoneSuccess={() => setWithdrawDoneNumber(withdrawDoneNumber+1)}  closeModal={() => setshowWithdrawModal(false)}  /> */}
-            </CustomModal>}
+                <CustomModal
+                    show={showConnectWalletAlert}
+                    toggleModal={() => setShowConnectWalletAlert(false)}
+                    heading={"Connect To Wallet First"}
+                >
+                    {/* <HousePoolWithdrawModal userAddress={userAddress} walletBalance={walletBalance} ActionType={ActionType} withdrawDoneSuccess={() => setWithdrawDoneNumber(withdrawDoneNumber+1)}  closeModal={() => setshowWithdrawModal(false)}  /> */}
+                </CustomModal>}
 
             {/* <TransactionWaiting
             show={txWaiting}
@@ -351,16 +351,16 @@ const HousePool = () => {
             >
             </TransactionWaiting> */}
             <TransactionSuccess
-            show={txSuccess}
-            toggleModal={() => setTxSuccess(false)}
+                show={txSuccess}
+                toggleModal={() => setTxSuccess(false)}
             >
             </TransactionSuccess>
             <TransactionError
-            show={txError}
-            toggleModal={() => setTxError(false)}
+                show={txError}
+                toggleModal={() => setTxError(false)}
             >
             </TransactionError>
-            
+
 
             {showConnectWalletAlert &&
                 <Alertmsg

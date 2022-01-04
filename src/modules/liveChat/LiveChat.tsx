@@ -211,7 +211,7 @@ const LiveChat = (props: any) => {
   const startTypingMessage = () => {
     if (!socket || UserBlockedOrNot) return;
     if (userAddress == undefined) return;
-     //@ts-ignore
+    //@ts-ignore
     console.log(userAddress)
     socket.emit("typing", userAddress);
     console.log("start typing");
@@ -223,7 +223,7 @@ const LiveChat = (props: any) => {
     socket.emit("typing", "stop");
     console.log("stop typing");
   };
-  
+
   const handleSendMessage = () => {
     cancelTyping();
     sendTOAPI(inputMessage);
@@ -460,11 +460,11 @@ const LiveChat = (props: any) => {
             ) : null}
 
             <div style={{ width: "100%", height: "300px" }}>
-              <BarChart
-                chartData={liquidityChartData}
-                setHoverValue={setHoverLiquidityChartValue}
-                setHoverDate={setHoverLiquidityChartDate}
-              />
+              {liquidityChartData && liquidityChartData.length ?
+                <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
+                : <p style={{ opacity: '0.5' }}>No data available</p>
+
+              }
             </div>
           </Box>
           {/* </div> */}

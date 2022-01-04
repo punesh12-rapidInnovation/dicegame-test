@@ -308,7 +308,9 @@ export const H1 = styled.h2<any>`
   font-size: ${(props) => (props.FontSize ? props.FontSize : "18px")};
   color: ${(props) => (props.color ? props.color : colors.white)};
 
-  // margin-bottom: 10px;
+  @media (max-width: ${screenSizes.mediaS}px) {
+    font-size: ${(props) => (props.MobileFontSize ? props.MobileFontSize : props.FontSize)};
+  }
 `;
 
 export const FlexColumn = styled.div<any>`
