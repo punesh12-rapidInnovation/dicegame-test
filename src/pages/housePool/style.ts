@@ -4,7 +4,7 @@ import poolDetailsBg from 'assets/images/poolDetailsBg.png';
 import tableBackground from 'assets/images/tableBackground.png';
 import semiCircle from 'assets/icons/semiCircle.png'
 
-import { colors } from 'shared/styles/theme';
+import { colors, screenSizes } from 'shared/styles/theme';
 
 
 export const HousePoolCont = styled.div`
@@ -25,6 +25,9 @@ background-position: 50% 50%;
 display: flex;
 justify-content: space-around;
 align-items: center;
+@media (max-width: ${screenSizes.mediaM}px) {
+    flex-direction: column;
+}
 `
 
 export const PoolDetailsContainer = styled.div`
@@ -35,10 +38,28 @@ background: url(${poolDetailsBg});
 background-size: cover;
 background-repeat: no-repeat;
 background-color: #000;
-width:100%;
-height: 600px;
-padding:0 5%;
+/*width:100%;*/
+/*height: 600px;*/padding:0 5%;
+display: grid;
+grid-template-columns: minmax(350px, 460px) minmax(350px, 1fr);
+grid-column-gap: 20px;
+grid-row-gap: 20px;
+
+padding-top: 50px;
+
+@media (max-width: ${screenSizes.mediaM}px) {
+    grid-template-columns: 1fr;
+}
 `
+export const PoolDetailsGridItem = styled.div`
+background: linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%);
+box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9);
+border-radius: 20px;
+padding: 20px;
+`
+
+
+
 export const TransactionContainer = styled.div`
 display:flex;
 flex-direction: column;
@@ -50,6 +71,7 @@ background-repeat: no-repeat;
 background-color: #000;
 width:100%;
 padding: 30px 5%;
+overflow-x: scroll;
 `
 
 
@@ -130,8 +152,8 @@ display:flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-background: url(${semiCircle});
-background-size: cover;
+background: url(${semiCircle}) no-repeat center;
+background-size: contain;
 background-repeat: no-repeat;
 // background-color: #000;
 width:100%;
