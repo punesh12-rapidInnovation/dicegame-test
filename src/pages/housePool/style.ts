@@ -15,7 +15,8 @@ export const InfoContainer = styled.div`
 background: url(${landingTop});
 /*height: 500px;*/
 width: 100%;
-padding-top:100px;
+padding-top:120px;
+padding-bottom:20px;
 background-size: contain;
 background-repeat: no-repeat;
 background-color: #000;

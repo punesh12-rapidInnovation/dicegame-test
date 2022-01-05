@@ -799,7 +799,10 @@ const Betting = () => {
         )}
       </BetBottom>
 
-      <WaitingModal show={loader && !success && !error} toggleModal={() => toggleModal()} />
+      <WaitingModal
+        // show={true}
+        show={loader && !success && !error}
+        toggleModal={() => toggleModal()} />
       <WinModal
         // show={true}
         show={!loader && success && win && !error}

@@ -1,3 +1,4 @@
+import { screenSizes } from "shared/styles/theme";
 import styled from "styled-components";
 
 export const PrimaryButton = styled.button<any>`
@@ -22,6 +23,11 @@ export const PrimaryButton = styled.button<any>`
     opacity:0.5;
     cursor: not-allowed;
   }
+
+  @media (max-width: ${screenSizes.mediaS}px) {
+    font-size: 10px;
+    // padding:5px 0;
+	}
 `;
 
 

@@ -90,9 +90,7 @@ class Wallet {
 
 				break;
 			default:
-				this.web3 = new Web3(new Web3.providers.HttpProvider(walletTestConnectId));
-				console.log('error reached');
-			// throw new Error('Invalid wallet type');
+				throw new Error('Invalid wallet type');
 		}
 	}
 
@@ -114,6 +112,8 @@ class Wallet {
 
 				if (accounts.length) {
 					address = accounts[0];
+					dispatch(Login(address.toString()));
+					localStorage.setItem('address', JSON.stringify(address));
 				} else {
 					throw new Error('No account found');
 				}
@@ -143,7 +143,8 @@ class Wallet {
 
 				if (accounts.length) {
 					address = accounts[0];
-					// window.location.reload();
+					dispatch(Login(address.toString()));
+					localStorage.setItem('address', JSON.stringify(address));
 				} else {
 					throw new Error('No account found');
 				}
@@ -348,6 +349,8 @@ export const removeLocalData = () => {
 	localStorage.removeItem('address')
 	localStorage.removeItem('walletType')
 	localStorage.removeItem('walletConnected')
+	localStorage.removeItem('walletconnect')
+	localStorage.removeItem('WALLETCONNECT_DEEPLINK_CHOICE')
 	localStorage.removeItem('PlacingBetId')
 	localStorage.removeItem('Loading')
 	localStorage.removeItem('Agree')

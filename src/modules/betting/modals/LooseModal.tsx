@@ -80,7 +80,7 @@ const LooseModal = (props: any) => {
                             Number(LossAmount).toFixed(6)
                             : 0
                     } pulse coins</p>
-                    <img src={sadFace} alt="coins" />
+                    <img className="sadFace" src={sadFace} alt="coins" />
                     <img
                         className="treasureBox"
                         style={{ marginTop: "-20%", height: '65px', }}
