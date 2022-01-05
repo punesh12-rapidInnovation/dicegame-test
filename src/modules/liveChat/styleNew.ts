@@ -1,5 +1,6 @@
 import { colors, screenSizes } from "shared/styles/theme";
 import styled from "styled-components";
+import sendimage from "../../assets/images/send-icon.svg";
 
 import sendImage from "assets/images/send-icon.svg";
 import smilingFace from "assets/images/smiling-face.svg";
@@ -25,7 +26,7 @@ background: linear-gradient(
   align-items: center;
   flex-direction: column;
   justify-content: space-around;
- 
+  position:relative;
 `
 export const ChatTopDiv = styled.div`
   display: flex;
@@ -50,7 +51,18 @@ h5{
 `;
 
 export const ChatMiddleDiv = styled.div`
-flex-grow: 1;
+ display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 70%;
+  justify-content: flex-start;
+  padding: 0px 20px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
  
 `;
@@ -89,6 +101,27 @@ export const EmojiButton = styled.button`
   border: none;
   margin:10px;
 `;
+
+export const Emojisdiv = styled.div`
+  position: absolute;
+  left: 20px;
+  bottom: 5%;
+`;
+
+export const Button = styled.button`
+  background-image: url(${sendimage});
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  position: absolute;
+  right: 12px;
+  bottom: 2%;
+`;
+
 export const Input = styled.input`
 flex-grow:1;
 background-color: transparent;
@@ -96,10 +129,32 @@ outline:none;
 border:none;
 color:${colors.white};
 font-size:14px;
+padding-right:60px;
 
 ::placeholder {
     color:${colors.white};
 }
 `
+
+export const OwnMsg = styled.div`
+  background: linear-gradient(
+    92.8deg,
+    rgba(30, 232, 183, 0.8) 2.13%,
+    rgba(172, 51, 191, 0.4) 102.29%
+  );
+  border-radius: 10px;
+  border-bottom-right-radius: 0;
+  padding: 15px;
+  display: flex;
+  font-size: 14px;
+  max-width: 300px;
+  margin: 10px 0;
+  align-self: flex-end;
+  text-align: left;
+  word-break: break-word;
+  min-width: 80px;
+  position: relative;
+  padding-bottom: 30px;
+`;
 
 

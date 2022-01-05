@@ -190,6 +190,16 @@ width:250px;
 height:60px
 `
 
+export const MobWarningcont = styled.div`
+background: url(${warningtext});
+position:absolute;
+top:3%;
+right:8%;
+z-index:10;
+width:250px;
+height:60px;
+transform:scale(0.8);
+`
 
 export const OthersMsgIcon = styled.img`
   position: absolute;
