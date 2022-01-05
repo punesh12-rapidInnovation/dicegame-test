@@ -31,7 +31,21 @@ export const rangeSliderSound = (
 		const audio = new Audio(heart);
 
 		audio.playbackRate = playbackRate;
-		audio.play();
+		const promise = audio.play();
+		console.log('promise', promise);
+
+		if (promise !== undefined) {
+			// On older browsers play() does not return anything, so the value would be undefined.
+			promise
+				.then(() => {
+					console.log('audio is playing');
+					// Audio is playing.
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
+
 		// if (soundFlag === 0) {
 		// 	audio
 		// 		.play()
@@ -52,3 +66,14 @@ export const rangeSliderSound = (
 		// });
 	} catch (error) {}
 };
+
+//     const promise = this.sound.play();
+// if (promise !== undefined) { // On older browsers play() does not return anything, so the value would be undefined.
+//   promise
+//     .then(() => {
+//       // Audio is playing.
+//     })
+//     .catch(error => {
+//       console.log(error);
+//     });
+// }
