@@ -20,6 +20,9 @@ background: linear-gradient(
              rgba(0, 200, 255, 1));
 -webkit-text-fill-color: transparent;
 -webkit-background-clip: text;
+@media (max-width: ${screenSizes.mediaM}px) {
+	font-size: 28px;
+}
 `
 
 export const InputCont = styled.div<any>`

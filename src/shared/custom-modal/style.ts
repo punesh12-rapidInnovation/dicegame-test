@@ -80,6 +80,9 @@ export const ModalContent = styled.div<any>`
 	@media (min-width: ${screenSizes.mediaL}px) {
 		width: 524px;
 	}
+	@media (max-width: ${screenSizes.mediaM}px) {
+		padding: 20px;
+	}
 `;
 
 export const ModalContainerHeading = styled.p`
