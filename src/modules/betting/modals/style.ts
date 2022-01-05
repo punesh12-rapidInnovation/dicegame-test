@@ -197,7 +197,7 @@ padding: 40px;
 	}
 	overflow: -moz-scrollbars-none;
 	-ms-overflow-style: none;
-	width: 80%;
+	width: 40%;
 	@media (max-width: ${screenSizes.mediaS}px) {
 		width: 90%;
 		padding:10px;
@@ -206,6 +206,9 @@ padding: 40px;
 			margin-bottom:10px;
 		}
 
+		.rollingDice{
+			height:150px;
+		}
 	}
 `;
 
@@ -224,8 +227,10 @@ export const ModalContainerHeading = styled.p`
 export const Image = styled.img<any>`
 	height: ${(props) => props.height ? props.height : '60px'};
 	@media (max-width: ${screenSizes.mediaM}px) {
-		height:30px;
+		height:40px;
 	}
+
+
 `;
 export const InfoText = styled.p<any>`
 	font-size: 43px;
@@ -331,6 +336,16 @@ p{
 	}
 	.happyFace{
 		margin:0;
+	}
+	.sadFace{
+		margin-right:10px;
+	}
+
+	.treasureBox{
+		width:80px;
+		height:80px;
+		position: absolute;
+		right:2%;
 	}
 }
 `
