@@ -27,6 +27,8 @@ import OpenTreasureBox from "assets/icons/openTreasureBox.svg";
 
 import { betWinSound } from "../Sound";
 import FramerMotionAnimation from "./FramerMotionAnimation";
+import { screenSizes } from "shared/styles/theme";
+import { formatAddress } from "utils/helper";
 
 const WinModal = (props: any) => {
   const { show, toggleModal, styles, ResultObject, Profit } = props;
@@ -80,7 +82,7 @@ const WinModal = (props: any) => {
               Number(Profit).toFixed(12)
               : 0
           } pulse coins</p>
-          <img src={HappyFace} alt="coins" style={{ marginRight: "20px" }} />
+          <img className="happyFace" src={HappyFace} alt="coins" style={{ marginRight: "20px" }} />
           {/* <img
                         style={{ marginTop: "-25%", height: '80px' }}
                         src={OpenTreasureBox} alt="treasureBox" /> */}
