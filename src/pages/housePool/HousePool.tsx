@@ -126,7 +126,7 @@ const HousePool = () => {
             <Header />
             <InfoContainer>
                 <FlexCont
-                    style={{ padding: "30px 0" }}
+                    style={{margin:"0 10px" }}
                 >
                     <H3>Wallet {'>'} Liquidity</H3>
                     <H1>HOUSE POOL</H1>
@@ -136,7 +136,7 @@ const HousePool = () => {
                     <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
                 </FlexCont>
                 <FlexCont
-
+                style={{ margin:"0 10px" }}
                 >
                     <PrimaryButton width="300px"
                         style={{ padding: '25px', fontSize: '18px', marginBottom: "30px" }}
