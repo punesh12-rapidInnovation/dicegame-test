@@ -48,27 +48,27 @@ const Alertmsg = (props: any) => {
 
   // console.log('number', Numbers);
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (show) betWinSound.play();
-      else
-        betWinSound.removeEventListener("ended", () => {
-          betWinSound.pause();
-          betWinSound.currentTime = 0;
-        });
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (show) betWinSound.play();
+  //     else
+  //       betWinSound.removeEventListener("ended", () => {
+  //         betWinSound.pause();
+  //         betWinSound.currentTime = 0;
+  //       });
 
-    }, 1000);
+  //   }, 1000);
 
-  }, [show]);
+  // }, [show]);
 
   return (
     <ModalBody show={show} onMouseDown={handleClickOutside} style={{ ...styles }}>
-          <ModalContent style={{width:'600px',height:'150px',position:'absolute',top:'50%',left:'50%'}}>
-              <InfoText style={{fontSize:'18px',color:'white'}}>{alertText}</InfoText>
-        
+      <ModalContent style={{ width: '600px', height: '150px', position: 'absolute', top: '50%', left: '50%' }}>
+        <InfoText style={{ fontSize: '18px', color: 'white' }}>{alertText}</InfoText>
+
       </ModalContent>
 
-   
+
     </ModalBody>
   );
 };
