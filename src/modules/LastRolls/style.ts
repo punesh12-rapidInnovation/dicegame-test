@@ -15,7 +15,7 @@ export const Box = styled.div`
   }
 `;
 export const BoxCont = styled.div`
-  width: 50%;
+  width: 524px;
   height: 550px;
   padding: 20px;
   background-color: #2A1966;
