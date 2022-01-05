@@ -24,6 +24,7 @@ const ConnectWallet = (props: any) => {
     setConnectWallet,
     setWalletAddress,
     showWalletContent,
+    walletAddress
   } = props;
   const dispatch = useDispatch();
   const { walletBalance, chainId } = useSelector((state: any) => state.wallet);
@@ -41,8 +42,10 @@ const ConnectWallet = (props: any) => {
       try {
         await wallet.setProvider(type);
         const address = await (await wallet.login(type, dispatch))?.toString();
+
         dispatch(Login(address));
         setWalletAddress(address);
+
         const chainId = await wallet.web3.eth.getChainId();
         dispatch(setChainIdValue(chainId));
         const balance = await wallet.web3.eth.getBalance(address);
@@ -66,7 +69,7 @@ const ConnectWallet = (props: any) => {
   return (
     <WalletCont>
       {showWalletContent ? (
-        connectWallet ? (
+        connectWallet && walletAddress !== null ? (
           <AddressInfo onClick={() => setDisconnectWallet(true)}>
             {isNaN(walletBalance) || walletBalance === ""
               ? "0"
