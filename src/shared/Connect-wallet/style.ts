@@ -49,4 +49,9 @@ export const ConnectWalletButton = styled.button`
 	padding: 0;
 	margin:0;
 	width:80%;
+		
+	@media (max-width: ${screenSizes.mediaS}px) {
+		font-size:10px;   
+		margin-left:10px;
+}
 `;

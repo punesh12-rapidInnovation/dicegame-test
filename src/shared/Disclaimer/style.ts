@@ -46,10 +46,12 @@ export const ModalContent = styled.div<any>`
 	}
 	overflow: -moz-scrollbars-none;
 	-ms-overflow-style: none;
-	width: 80%;
+  width: 524px;
+
 	
-	@media (min-width: ${screenSizes.mediaL}px) {
-		width: 524px;
+	@media (max-width: ${screenSizes.mediaS}px) {
+    width: 95%;
+    padding:20px;
 	}
 `;
 
@@ -70,6 +72,13 @@ ul,
   li {
     margin: 10px;
   }
+
+  
+	@media (max-width: ${screenSizes.mediaS}px) {
+    ul,li {
+    font-size: 12px;
+  }
+	}
 
 `
 
