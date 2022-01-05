@@ -64,8 +64,6 @@ const WinModal = (props: any) => {
     } catch (error) {
       console.log(error);
     }
-
-    // }, 1000);
   }, [show]);
 
   return (

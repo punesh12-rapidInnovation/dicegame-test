@@ -198,6 +198,11 @@ padding: 40px;
 	overflow: -moz-scrollbars-none;
 	-ms-overflow-style: none;
 	width: 40%;
+
+	@media (max-width: ${screenSizes.mediaL}px) {
+		width: 60%;
+
+	}
 	@media (max-width: ${screenSizes.mediaS}px) {
 		width: 90%;
 		padding:10px;
