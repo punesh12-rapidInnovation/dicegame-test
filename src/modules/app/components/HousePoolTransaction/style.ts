@@ -1,4 +1,4 @@
-import { colors } from "shared/styles/theme";
+import { colors, screenSizes } from "shared/styles/theme";
 import styled from "styled-components";
 
 import Rectangle from 'assets/images/rectangle.svg'
@@ -9,6 +9,9 @@ display: flex;
 flex-direction: column;
 // background: ${colors.black};
 width: 100%;
+@media (max-width: ${screenSizes.mediaM}px) {
+  overflow-x: scroll;
+}
 `;
 
 export const TableStyles = styled.div`
