@@ -56,14 +56,16 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
 
   const getYticks = () => {
     if (chartData && Array.isArray(chartData) && chartData.length) {
-      const intervalOfSevenTicks = Math.max(...chartData.map((item: any) => parseFloat(item.liquidity))) / 6;
-      const ticks = [];
+      const intervalOfSixTicks = Math.max(...chartData.map((item: any) => parseFloat(item.liquidity))) / 5;
+      let ticks = [];
 
-      for (let i = 0; i <= 6; i++) {
-        ticks.push((intervalOfSevenTicks * (i)).toFixed(2));
+      for (let i = 0; i <= 5; i++) {
+        ticks.push((intervalOfSixTicks * (i)).toFixed(2));
       }
-
-      return ticks.map((tick: any) => tick > 1 ? Math.round(tick) : !parseFloat(tick) ? 0 : tick)
+      ticks = ticks.map((tick: any) => tick > 1 ? tick : !parseFloat(tick) ? 0 : tick);
+      console.log("ticks",ticks);
+      
+      return ticks;
     }
     else {
       return [];
@@ -97,7 +99,7 @@ const Chart = ({ chartData, setHoverValue, setHoverDate }: { chartData: any, set
           dataKey="liquidity"
           ticks={getYticks()}
           // tickCount={6}
-          // scale="linear"
+          scale="linear"
           axisLine={false}
           tickLine={false}
           // color="red"
