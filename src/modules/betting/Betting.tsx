@@ -233,7 +233,8 @@ const Betting = () => {
       setAlertModalState(true);
       return;
     } else if (Number(BetAmount) < Number(OnLoadMin) || Number(BetAmount) > Number(OnLoadMax)) {
-      setAlertText("Amount Not Under Minimum And Maximum Amount Allowed");
+      let text = `Bet amount should be between ${OnLoadMin} and ${OnLoadMax} `
+      setAlertText(text);
       setAlertModalState(true);
     } else {
       if (userAddress) {
@@ -658,7 +659,8 @@ const Betting = () => {
                 bottom: "-20px",
               }}
             >
-              Bet Amount Not Between The Minimum And Maximum Allowed
+              Bet amount should be between {OnLoadMin} and {OnLoadMax}
+              {/* Bet Amount Not Between The Minimum And Maximum Allowed */}
             </H2>
           ) : (
             <H2
