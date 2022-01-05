@@ -94,6 +94,8 @@ const Betting = () => {
 
   const [play] = useSound(heart);
 
+  console.log("Sound check 1");
+
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
 
