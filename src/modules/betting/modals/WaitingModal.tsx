@@ -57,6 +57,7 @@ const WaitingModal = (props: any) => {
                     style={{ marginBottom: "10px" }}
                     src={PulseRoll} />
                 <Image
+                    className="rollingDice"
                     height={"200px"}
                     style={{ margin: "-30px", marginBottom: "5px" }}
 

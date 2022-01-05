@@ -44,6 +44,9 @@ import { CheckCont } from "shared/Disclaimer/style";
 import RangeSlider from "shared/range-slider/RangeSlider";
 import DisableModal from "shared/DisableModal/Disable";
 import { heart, rangeSliderSound, rollingDiceSound } from "./Sound";
+
+import betLooseSound from "../../assets/sound/heartbeat.mp3";
+
 import useSound from "use-sound";
 import { SocketContext } from "modules/app/context/socket";
 
@@ -89,9 +92,9 @@ const Betting = () => {
   const [rollDiceDisableOrNot, setrollDiceDisableOrNot] = useState<Boolean>(false);
   const [multiplier, setMultiplier] = useState(0);
 
-
-
   const [play] = useSound(heart);
+
+  console.log("Sound check 1");
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -172,8 +175,12 @@ const Betting = () => {
   };
 
   //#region Bet Amount
+  const [playBetSound] = useSound(betLooseSound);
+
   const SetMinBetAmount = async () => {
     setBetAmount(((10 / 100) * Number(OnLoadMax)).toFixed(8));
+
+    // playBetSound();
   };
   const SetMaxBetAmount = async () => {
     setBetAmount(OnLoadMax);
@@ -349,8 +356,7 @@ const Betting = () => {
 
   useEffect(() => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
-    console.log('result recieved');
-
+    console.log("result recieved");
 
     if (userAddress && LocalBetIt === ResultObject?.Betid) {
       if (ResultObject?.Status === "0") {
@@ -390,15 +396,15 @@ const Betting = () => {
 
   const StoringLastRolls = () => {
     const AllValue = JSON.parse(localStorage.getItem("LastRolls") || "[]");
-    const FirstValue = AllValue[0]
+    const FirstValue = AllValue[0];
     if (FirstValue != undefined) {
       if (FirstValue.Betid == ResultObject.Betid) {
-        return
+        return;
       } else {
-        console.log(FirstValue.Betid == ResultObject.Betid)
+        console.log(FirstValue.Betid == ResultObject.Betid);
       }
     }
-    console.log('storingcalled')
+    console.log("storingcalled");
     if (localStorage.getItem("LastRolls") === null) {
       localStorage.setItem("LastRolls", JSON.stringify([ResultObject]));
       console.log("not exist ran");
@@ -413,9 +419,6 @@ const Betting = () => {
       const PreviousResults = JSON.parse(localStorage.getItem("LastRolls") || "[]");
       PreviousResults.unshift(ResultObject);
       localStorage.setItem("LastRolls", JSON.stringify(PreviousResults));
-
-
-
     }
   };
 
@@ -776,14 +779,20 @@ const Betting = () => {
         </OddEvenDiv>
 
         <Flex style={{ marginTop: "10px" }}>
-          <H2 fontSize="18px" FontSizeMobile="16px">Roll Under </H2>
+          <H2 fontSize="18px" FontSizeMobile="16px">
+            Roll Under{" "}
+          </H2>
           <H1 FontSize="48px" color={colors.primary}>
             {RangeValue + 1}
           </H1>
         </Flex>
         <Flex style={{ alignItems: "center" }}>
-          <H2 fontSize="18px" FontSizeMobile="16px">Profit </H2>
-          <H1 MobileFontSize="13px" color={colors.primary}>+{convertToEther(Profit.toString())} PLS</H1>
+          <H2 fontSize="18px" FontSizeMobile="16px">
+            Profit{" "}
+          </H2>
+          <H1 MobileFontSize="13px" color={colors.primary}>
+            +{convertToEther(Profit.toString())} PLS
+          </H1>
         </Flex>
       </BetMiddle>
       <BetBottom>
@@ -799,7 +808,11 @@ const Betting = () => {
         )}
       </BetBottom>
 
-      <WaitingModal show={loader && !success && !error} toggleModal={() => toggleModal()} />
+      <WaitingModal
+        // show={true}
+        show={loader && !success && !error}
+        toggleModal={() => toggleModal()}
+      />
       <WinModal
         // show={true}
         show={!loader && success && win && !error}
