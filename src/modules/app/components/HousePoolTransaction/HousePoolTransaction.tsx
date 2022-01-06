@@ -4,7 +4,7 @@ import { usePagination, useTable } from 'react-table';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { DataContainer, PaginationCont, TABLE, TableStyles, TD, THead, TBody, TR, TimerWrapper } from './style';
 import axios from 'axios';
-import { convertToEther, dateFromTimestamp, timeFromTimestamp } from 'utils/helper';
+import { convertToEther, dateFromTimestamp, formatAddress, timeFromTimestamp } from 'utils/helper';
 import CircleTimer from 'shared/circleTimer/CircleTimer';
 
 
@@ -54,7 +54,7 @@ const HousePoolTransaction = (props: any) => {
         } //
 
         getdata();
-    }, [userAddress,depositDoneNumber,withdrawDoneNumber])
+    }, [userAddress, depositDoneNumber, withdrawDoneNumber])
 
 
     // useEffect(() => {
@@ -132,9 +132,9 @@ const HousePoolTransaction = (props: any) => {
             usePagination
         )
 
-        console.log("pageOptions",pageOptions);
-        console.log("page",page);
-        
+        console.log("pageOptions", pageOptions);
+        console.log("page", page);
+
         // Render the UI for your table
         return (
             <>
@@ -190,7 +190,7 @@ const HousePoolTransaction = (props: any) => {
                                                 // </td>
 
                                                 if (cell.column.Header === "TOTAL VALUE") return <TD {...cell.getCellProps()}>{parseFloat(convertToEther(cell.value))} PLS</TD>
-                                                if (cell.column.Header === "ACCOUNT") return <TD {...cell.getCellProps()}>{cell.value}</TD>
+                                                if (cell.column.Header === "ACCOUNT") return <TD {...cell.getCellProps()}>{formatAddress(cell.value)}</TD>
                                                 if (cell.column.Header === "TIME") return <TD {...cell.getCellProps()}>{dateFromTimestamp(cell.value)} {timeFromTimestamp(cell.value)}</TD>
 
                                                 return <TD {...cell.getCellProps()}>{cell.render('Cell')}</TD>
@@ -213,7 +213,7 @@ const HousePoolTransaction = (props: any) => {
                     page.length ?
                         <PaginationCont className="pagination">
 
-                            <div className="dataCount">Showing {parseFloat(page[0].id) + 1} to {parseFloat(page[page.length-1 ].id) + 1} of {data.length} elements</div>
+                            <div className="dataCount">Showing {parseFloat(page[0].id) + 1} to {parseFloat(page[page.length - 1].id) + 1} of {data.length} elements</div>
                             <div className="pageCount">
                                 <button onClick={() => previousPage()} disabled={!canPreviousPage}>
                                     {'<'}
@@ -282,10 +282,10 @@ const HousePoolTransaction = (props: any) => {
         return `${minutes}:${seconds}`;
     };
 
-    const getSortedTxsAccToTime = (txs:any) => {
-       const sortedTxs = txs.sort((a:any, b:any)  => b.createdAt - a.createdAt);
-       console.log("sortedTxs",sortedTxs);
-       return sortedTxs;
+    const getSortedTxsAccToTime = (txs: any) => {
+        const sortedTxs = txs.sort((a: any, b: any) => b.createdAt - a.createdAt);
+        console.log("sortedTxs", sortedTxs);
+        return sortedTxs;
     }
     return (
         <>

@@ -11,6 +11,7 @@ flex-direction: column;
 width: 100%;
 @media (max-width: ${screenSizes.mediaM}px) {
   overflow-x: scroll;
+  
 }
 `;
 
@@ -84,6 +85,10 @@ export const TableStyles = styled.div`
 export const TABLE = styled.table`
 width:100%;
 border-collapse:collapse;
+
+@media (max-width: ${screenSizes.mediaS}px) {
+  font-size:10px;
+}
 `
 export const THead = styled.thead`
 background:${colors.black};
@@ -95,6 +100,11 @@ outline-color:${colors.darkPurple};
 height:70px;
 border-radius:10px;
 text-align:center;
+
+
+@media (max-width: ${screenSizes.mediaS}px) {
+  font-size:10px;
+}
 `
 export const TR = styled.tr`
 border-radius:50px;
@@ -146,6 +156,12 @@ height:50px;
     box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9);
     border-radius: 4px;
   }
+
+  @media (max-width: ${screenSizes.mediaS}px) {
+    font-size:12px;
+}
+
+
 
 
 `
