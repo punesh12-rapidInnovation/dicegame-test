@@ -59,6 +59,7 @@ export const ChatMiddleDiv = styled.div`
   padding: 0px 20px;
   overflow-y: scroll;
   scrollbar-width: none;
+  color:${colors.white};
 
   ::-webkit-scrollbar {
     display: none;
