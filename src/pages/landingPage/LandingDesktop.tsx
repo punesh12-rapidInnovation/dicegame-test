@@ -1,3 +1,6 @@
+import PlayerRankImg from "assets/icons/playerrank.svg";
+import BeOneImage from "assets/images/beoneimage.png";
+import PlayersImage from "assets/images/PlayersImage.png";
 import { Paths } from 'modules/app/components/routes/types';
 import Betting from 'modules/betting';
 import { Flex, FlexColumn } from 'modules/betting/style';
@@ -5,18 +8,15 @@ import LastRollsNew from 'modules/LastRolls/LastRollsNew';
 import GraphPool from 'modules/liveChat/GraphPool/GraphPool';
 import LiveChatNew from 'modules/liveChat/LiveChatNew';
 import { Link } from 'pages/housePool/style';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PrimaryButton } from 'shared/button/Button';
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import history from 'shared/helpers/history';
-import PlayerRankImg from "../../assets/icons/PlayerRank.svg";
-import Beoneimage from "../../assets/images/beoneimage.png";
-import PlayersImage from "../../assets/images/PlayersImage.png";
 import {
     Beonediv, Beoneimagediv,
     Beoneimg, Flexcol, H1,
     H2,
-    H3, LandingDesktopContainer, LowerModuleCont, ModuleCont, PlayerRank,
+    H3, LandingDesktopContainer, LowerModuleCont, ModuleBox, ModuleCont, ModuleParentCont, PlayerRank,
     Rankimg, UpperModuleCont
 } from './styleDesktop';
 
@@ -25,9 +25,8 @@ const LandingDesktop = () => {
 
     return (
         <LandingDesktopContainer>
-
             <Beonediv>
-                <Flexcol style={{ transform: "translatey(15%)" }}>
+                <Flexcol style={{ transform: "translateY(15%)" }}>
                     <H2>EVERY DAY LOTS OF WINS</H2>
                     <H1>BE ONE OF THEM</H1>
                     <H3>
@@ -43,7 +42,7 @@ const LandingDesktop = () => {
                     </Link>
                 </Flexcol>
                 <Beoneimagediv>
-                    <Beoneimg src={Beoneimage} alt="" />
+                    <Beoneimg src={BeOneImage} alt="" />
                 </Beoneimagediv>
             </Beonediv>
             <PlayerRank>
@@ -56,7 +55,7 @@ const LandingDesktop = () => {
                         width: "100px",
                     }}
                 >
-                    <Rankimg src={PlayersImage} alt="" />
+                    <Rankimg src={PlayerRankImg} alt="" />
                 </FlexColumn>
                 <Flex style={{
                     width: "50%", justifyContent: "flex-end", margin: " 0 5%",
@@ -72,16 +71,30 @@ const LandingDesktop = () => {
                 </Flex>
             </PlayerRank>
 
-            <ModuleCont>
-                <UpperModuleCont>
-                    <Betting />
-                    <LiveChatNew />
-                </UpperModuleCont>
-                <LowerModuleCont>
-                    <LastRollsNew />
-                    <GraphPool />
-                </LowerModuleCont>
-            </ModuleCont>
+            <ModuleParentCont>
+
+                <ModuleCont>
+                    <UpperModuleCont>
+                        <ModuleBox>
+                            <Betting />
+                        </ModuleBox>
+                        <ModuleBox>
+                            <LiveChatNew />
+                        </ModuleBox>
+                    </UpperModuleCont>
+                    <LowerModuleCont>
+                        <ModuleBox>
+                            <LastRollsNew />
+                        </ModuleBox>
+                        <ModuleBox>
+
+                            <GraphPool />
+                        </ModuleBox>
+
+                    </LowerModuleCont>
+                </ModuleCont>
+            </ModuleParentCont>
+
 
 
             <Disclaimer

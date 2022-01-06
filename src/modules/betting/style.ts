@@ -191,7 +191,7 @@ export const BetBox = styled.div`
   box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6),
     inset 0px 0px 20px rgba(202, 26, 231, 0.9);
   border-radius: 20px;
-  width: 45%;
+  width: 100%;
   max-width: 700px;
   height: 580px;
    margin-right: 20px;
@@ -199,7 +199,7 @@ export const BetBox = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: space-around;
-  padding: 10px 0;
+  // padding: 10px 0;
   position:relative;
 
   @media (max-width: ${screenSizes.mediaS}px) {
@@ -377,6 +377,11 @@ export const Chance = styled.input`
   }
 
   
+  @media (max-width: ${screenSizes.mediaM}px) {
+    width: 50px;
+    font-size:10px;
+    padding: 10px;
+}
   @media (max-width: ${screenSizes.mediaS}px) {
     width: 60px;
     font-size:10px;
@@ -417,6 +422,15 @@ export const TransChance = styled.button`
   :hover {
     background-color: rgba(0, 0, 0, 0.2);
   }
+
+  @media (max-width: ${screenSizes.mediaM}px) {
+    width: 40px;
+    max-width: 45px;
+    font-size:10px;
+    padding: 0;
+    margin-right: 5px;
+
+}
   
   @media (max-width: ${screenSizes.mediaS}px) {
     width: 35px;

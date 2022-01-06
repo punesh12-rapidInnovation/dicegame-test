@@ -344,7 +344,7 @@ const LiveChat = (props: any) => {
             // gridRowGap: '10px',
             width: "85%",
             maxWidth: "1300px",
-            minWidth: "1100px",
+            // minWidth: "1100px",
 
             padding: "40px 10px",
             display: "flex",
@@ -419,7 +419,7 @@ const LiveChat = (props: any) => {
             style={{
               width: "45%",
               marginTop: "30px",
-              maxWidth: "700plax",
+              maxWidth: "700px",
               height: "400px",
               padding: "20px",
             }}

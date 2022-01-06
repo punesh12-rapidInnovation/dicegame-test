@@ -56,6 +56,7 @@ const GraphPool = () => {
 
             </LastRollHeader>
             <BarChartCont>
+
                 {liquidityChartData && liquidityChartData.length ?
                     <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
                     : <p style={{ opacity: '0.5' }}>No data available</p>

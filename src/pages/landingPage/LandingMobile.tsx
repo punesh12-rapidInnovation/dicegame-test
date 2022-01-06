@@ -1,20 +1,18 @@
+import { useState } from 'react';
 import { Paths } from 'modules/app/components/routes/types';
+import history from 'shared/helpers/history';
 import Betting from 'modules/betting';
 import LastRollsNew from 'modules/LastRolls/LastRollsNew';
 import GraphPool from 'modules/liveChat/GraphPool/GraphPool';
 import LiveChatNew from 'modules/liveChat/LiveChatNew';
-import React, { useState } from 'react';
 import { PrimaryButton } from 'shared/button/Button';
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
-import history from 'shared/helpers/history';
-import { LandingMobileContainer, FunctionCont, FunctionStatus, ModuleCont, BetActiveTab, DepositNavCont } from './styleMobile';
+import { BetActiveTab, DepositNavCont, FunctionCont, FunctionStatus, LandingMobileContainer, ModuleCont } from './styleMobile';
 
 const LandingMobile = () => {
 
     const [activeTab, setActiveTab] = useState('bet')
     const [showDisclaimer, setShowDisclaimer] = useState(false);
-
-
 
     return (
         <LandingMobileContainer>
@@ -30,7 +28,7 @@ const LandingMobile = () => {
 
             <FunctionCont>
                 <FunctionStatus activeStatus={activeTab === 'bet'} onClick={() => setActiveTab('bet')} >Bet</FunctionStatus>
-                <FunctionStatus activeStatus={activeTab === 'chat'} onClick={() => setActiveTab('chat')}>chat</FunctionStatus>
+                <FunctionStatus activeStatus={activeTab === 'chat'} onClick={() => setActiveTab('chat')}>Global chat</FunctionStatus>
             </FunctionCont>
             <ModuleCont>
                 {activeTab === 'bet' && <BetActiveTab >

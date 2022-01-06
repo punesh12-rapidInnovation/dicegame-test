@@ -73,7 +73,7 @@ const LastRollsNew = () => {
                 </LastRollDetails>
                 <PrimaryButton className="button"
                     onClick={() => setShowResultModal(true)}
-                >SHow more</PrimaryButton>
+                >Show more</PrimaryButton>
             </LastRollDetailsCont>
 
             <ResultsModal

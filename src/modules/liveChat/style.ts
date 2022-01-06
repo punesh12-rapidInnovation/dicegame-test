@@ -82,7 +82,8 @@ export const ChatBox = styled.div`
 `;
 
 export const GlobalChatSection = styled.div`
-  background: rgba(0, 0, 0, 1);
+  // background: rgba(0, 0, 0, 1);
+  background:red;
   background-image: url(${Chatsection});
   background-position: center;
   background-size: cover;

@@ -1,4 +1,4 @@
-import { colors } from 'shared/styles/theme';
+import { colors, screenSizes } from 'shared/styles/theme';
 import styled from 'styled-components';
 
 import Background from 'assets/images/poolDetailsBg.png'
@@ -14,20 +14,33 @@ height:auto;
 display: flex;
 flex-direction: column;
 align-items:center;
+background-color: #000;
+`
+export const ModuleParentCont = styled.div`
+width:100%;
+height:auto;
+display: flex;
+flex-direction: column;
+align-items:center;
 background-size: cover;
 background-repeat: no-repeat;
 background-color: #000;
 background-image:url(${Background});
-// padding-top:25%;
 `
 
 export const ModuleCont = styled.div`
-Width:90%;
+Width:85%;
 margin:5rem;
 padding:4rem;
 background: linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%);
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9);
 border-radius: 20px;
+
+@media (max-width: ${screenSizes.mediaM}px) {
+    width: 95%;
+    margin:1rem;
+    padding:2rem;
+}
 `
 export const UpperModuleCont = styled.div`
 display: flex;
@@ -41,6 +54,14 @@ justify-content:center;
 align-items:center;
 margin:20px 0;
 `
+export const ModuleBox = styled.div`
+width:50%;
+min-width:50%;
+max-width:50%;
+margin:0 10px;
+`
+
+
 
 
 
