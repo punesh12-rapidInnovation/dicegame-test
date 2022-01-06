@@ -98,6 +98,7 @@ export const H1 = styled.h1`
   position: absolute;
   top: 50%;
   left: 30%;
+  text-align:center;
 
   @media (max-width: ${screenSizes.mediaS}px) {
     font-size: 12px;
