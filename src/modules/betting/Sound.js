@@ -30,7 +30,7 @@ export const rangeSliderSound = (
 	try {
 		const audio = new Audio(heart);
 
-		audio.playbackRate = playbackRate;
+		// audio.playbackRate = playbackRate;
 		audio.play();
 		// if (soundFlag === 0) {
 		// 	audio
