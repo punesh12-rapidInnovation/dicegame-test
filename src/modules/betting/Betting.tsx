@@ -92,8 +92,12 @@ const Betting = () => {
   const [rollDiceDisableOrNot, setrollDiceDisableOrNot] = useState<Boolean>(false);
   const [multiplier, setMultiplier] = useState(0);
 
-  const [play] = useSound(heart);
+  const [play] = useSound(heart, { interrupt: true });
 
+
+  useEffect(() => {
+    play();
+  }, [RangeValue])
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -200,8 +204,11 @@ const Betting = () => {
 
     // let speed = (Number(RangePercent) / 50)
     let speed = 50 / Number(RangePercent);
-    rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag);
+    // play();
+
+    // rangeSliderSound(speed.toFixed(2), true, soundFlag, setSoundFlag);
   };
+
 
   const BetSetThroughInput = (e: any) => {
     const { value } = e.target;
