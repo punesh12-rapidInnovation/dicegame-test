@@ -33,7 +33,8 @@ const LiveChatNew = () => {
   const [PeopleOnline, setPeopleOnline] = useState<number>(0);
   const [showWarning, setshowWarning] = useState<Boolean>(false);
 
-  const { showEmoji, setShowEmoji, ref } = useOutsideClick(false)
+  const { showEmoji, setShowEmoji, ref,inputref } = useOutsideClick(false)
+
 
     const { isTyping, startTyping, stopTyping, cancelTyping } = useTyping();
     
@@ -63,7 +64,7 @@ const LiveChatNew = () => {
         await axiosInstance.get(`/allBlockUser/${address}`).then(function (response) {
           //@ts-ignore
           const counter = response.data.result?.counter;
-          if (counter > 4) {
+          if (counter > 10) {
             setUserBlockedOrNot(true);
             console.log(UserBlockedOrNot);
             console.log(counter);
@@ -182,7 +183,7 @@ const LiveChatNew = () => {
     
 
 
-    const renderChat = useCallback(() => {
+  const renderChat = useCallback(() => {
     return liveMessages.map((m: any, index: any) =>
       m.username === userAddress ? (
         <OwnMsg key={index}>
@@ -261,17 +262,17 @@ const LiveChatNew = () => {
   }, [liveMessages]);
     
     //@ts-ignore
-  const pickEmoji = (e: any, { emoji }) => {
-    console.log(e.target);
-    const ref: any = inputRef.current;
-    ref.focus();
-    const start = inputMessage.substring(0, ref.selectionStart);
-    const end = inputMessage.substring(ref.selectionStart);
-    const text = start + emoji + end;
-    console.log(e.target);
-    setInputMessage(text);
-    setcursorPosition(start.length + emoji.length);
-  };
+  // const pickEmoji = (e: any, { emoji }) => {
+  //   console.log(e.target);
+  //   const ref: any = inputRef.current;
+  //   ref.focus();
+  //   const start = inputMessage.substring(0, ref.selectionStart);
+  //   const end = inputMessage.substring(ref.selectionStart);
+  //   const text = start + emoji + end;
+  //   console.log(e.target);
+  //   setInputMessage(text);
+  //   setcursorPosition(start.length + emoji.length);
+  // };
 
   const handleShowEmojis = () => {
     if (showEmojis === "flex") {
@@ -341,6 +342,8 @@ const LiveChatNew = () => {
                 style={{ width: "100%", height: "100%" }}
                 type="text"
                 placeholder="Type message..."
+                //@ts-ignore
+                onClick={() => console.log(ref)}
               />
 
               <Button onClick={handleSendMessage}></Button>
