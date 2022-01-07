@@ -682,7 +682,7 @@ const Betting = () => {
           <H2 FontSize="16px" style={{ marginBottom: "40px", marginTop: "30px" }}>
             CHANCE OF WINNING
           </H2>
-          <Flex>
+          <Flex JustifyContent="center">
             <RangeSlider
               value={RangeValue}
               onChange={RangeValueChanger}

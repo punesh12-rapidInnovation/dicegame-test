@@ -11,6 +11,10 @@ export const RangeSliderCont = styled.div`
   // margin: 30px 0;
   margin-top:20px;
 position: relative;
+
+@media (max-width: ${screenSizes.mediaS}px) {
+  width: 95%;
+}
 `
 
 export const RangeSliderInput = styled.input<any>`
@@ -128,7 +132,11 @@ export const SliderCalloutBox = styled.div<any>`
     padding:0px;
   width:95px;
   height:30px;
+  p{
+  font-size:8px;
 }
+}
+
 
 `
 export const ValueRange = styled.div<any>`
