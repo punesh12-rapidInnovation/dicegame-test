@@ -704,7 +704,7 @@ const Betting = () => {
             />
           </Flex>
         </FlexColumn>
-        <OddEvenDiv style={{ width: "100%" }}>
+        <OddEvenDiv style={{ width: "100%"}}>
           <Flex style={{ flexDirection: "column", width: "100%" }}>
             <Flex>
               <H2>Select</H2>
@@ -716,7 +716,7 @@ const Betting = () => {
                   paddingLeft: "10px",
                 }}
               >
-                <Flex style={{ justifyContent: "space-between", width: "60%" }}>
+                <Flex style={{ justifyContent: "space-between", width: "60%",marginRight:'10px' }}>
                   <label className="container">
                     Odd
                     <input type="checkbox" checked={checked1} onChange={() => handleCheckChange(1, 1)} />
@@ -793,11 +793,11 @@ const Betting = () => {
           </Flex>
         </OddEvenDiv>
 
-        <Flex style={{ marginTop: "10px" }}>
+        <Flex style={{ marginTop: "15px" }}>
           <H2 fontSize="18px" FontSizeMobile="16px">
             Roll Under{" "}
           </H2>
-          <H1 FontSize="48px" color={colors.primary}>
+          <H1 FontSize="38px" color={colors.primary}>
             {RangeValue + 1}
           </H1>
         </Flex>

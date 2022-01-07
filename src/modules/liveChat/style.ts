@@ -5,6 +5,7 @@ import toolTip from "assets/icons/toolTip.png";
 import smilingFace from "../../assets/images/smiling-face.svg";
 import { colors } from "shared/styles/theme";
 import warningtext from '../../assets/icons/warningtext.png';
+import { screenSizes } from "shared/styles/theme";
 
 export const Box = styled.div`
   background: linear-gradient(
@@ -194,13 +195,17 @@ height:60px
 export const MobWarningcont = styled.div`
 background: url(${warningtext});
 position:absolute;
-top:3%;
-right:8%;
+top:2%;
+right:12%;
 z-index:10;
 width:250px;
 height:60px;
-transform:scale(0.8);
+@media (max-width: 800px) {
+top:2%;
+right:18%;
+}
 `
+
 
 export const OthersMsgIcon = styled.img`
   position: absolute;
@@ -267,7 +272,11 @@ export const Emojisdiv = styled.div`
   position: absolute;
   left: 20px;
   top: 0%;
-  transform: translatey(-97%);
+@media (max-width: ${screenSizes.mediaS}px) {
+    margin:1rem;
+    padding:2rem;
+    transform: translatey(-800px);
+}
 `;
 
 export const Button = styled.button`

@@ -568,6 +568,7 @@ export const OddEvenDiv = styled.div`
   
   @media (max-width: ${screenSizes.mediaS}px) {
     padding: 10px;
+    margin-top:30px;
 }
 `;
 
