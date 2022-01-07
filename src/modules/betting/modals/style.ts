@@ -17,7 +17,7 @@ export const ModalBody = styled.div<ModalBodyProps>`
 	top: 0;
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
+	overflow: none;
 	-webkit-backdrop-filter: blur(5px);
 	      -moz-backdrop-filter: blur(5px);
 	        backdrop-filter: blur(5px);
