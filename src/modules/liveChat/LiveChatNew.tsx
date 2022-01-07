@@ -63,7 +63,7 @@ const LiveChatNew = () => {
         await axiosInstance.get(`/allBlockUser/${address}`).then(function (response) {
           //@ts-ignore
           const counter = response.data.result?.counter;
-          if (counter > 4) {
+          if (counter > 10) {
             setUserBlockedOrNot(true);
             console.log(UserBlockedOrNot);
             console.log(counter);

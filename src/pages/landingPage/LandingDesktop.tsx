@@ -57,18 +57,11 @@ const LandingDesktop = () => {
                 >
                     <Rankimg src={PlayerRankImg} alt="" />
                 </FlexColumn>
-                <Flex style={{
-                    width: "50%", justifyContent: "flex-end", margin: " 0 5%",
-                }}>
-                    <img
-                        src={PlayersImage}
-                        alt=""
-                        style={{ height: "65px", marginRight: "50px" }}
-                    />
-                    <PrimaryButton onClick={() => history.push(`${Paths.housePool}`)}>
+                
+                   
+                <PrimaryButton style={{width:'300px',marginRight:'10%'}}onClick={() => history.push(`${Paths.housePool}`)}>
                         DEPOSIT FUNDS
                     </PrimaryButton>
-                </Flex>
             </PlayerRank>
 
             <ModuleParentCont>
