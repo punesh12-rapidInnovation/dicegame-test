@@ -27,7 +27,7 @@ import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../bloc
 import { convertToEther, convertToWei } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
-import { instanceType, selectInstances } from "../../utils/contracts";
+import { instanceType, selectReadContractInstance, selectWriteContractInstance } from "../../utils/contracts";
 import { LINK_TOKEN_ADDRESS } from "../../config";
 import { setWalletBalance } from "logic/action/wallet.action";
 import { PrimaryButton } from "shared/button/Button";
@@ -94,7 +94,6 @@ const Betting = () => {
 
   const [play] = useSound(heart);
 
-  console.log("Sound check 1");
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -265,7 +264,7 @@ const Betting = () => {
     try {
       if (userAddress) {
         //create instance of an abi to call any blockChain function
-        const lpInstance = await selectInstances(
+        const lpInstance = await selectWriteContractInstance(
           instanceType.ERC20TOKEN, // type of instance
           LINK_TOKEN_ADDRESS //contract address
         );
@@ -319,7 +318,7 @@ const Betting = () => {
   const PlaceBet = async (myAccount: string | null, Amount: any, Rollunder: number, evenOdd: number) => {
     const Ethervalue = convertToWei(Number(Amount).toFixed(8).toString());
 
-    const lpInstance = await selectInstances(
+    const lpInstance = await selectWriteContractInstance(
       instanceType.BETTING, // type of instance
       BETTING_ADDRESS //contract address
     );
@@ -527,7 +526,7 @@ const Betting = () => {
 
     // return multiplier;
 
-    const BETTING_INSTANCE = await selectInstances(instanceType.BETTING);
+    const BETTING_INSTANCE = await selectReadContractInstance(instanceType.BETTING);
     // console.log('logs', rollUnder, _OddEvenStatus, isRangeTrue, rangeLow, rangeHigh);
 
     const multiplier = await BETTING_INSTANCE.methods
@@ -548,7 +547,7 @@ const Betting = () => {
     }
   };
   const setMaxBet = async (multiplier: any) => {
-    const HOUSEPOOL_INSTANCE = await selectInstances(instanceType.HOUSEPOOL);
+    const HOUSEPOOL_INSTANCE = await selectReadContractInstance(instanceType.HOUSEPOOL);
     const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
 
     if (maxProfit) {
@@ -595,7 +594,7 @@ const Betting = () => {
 
       // setProfit(finalProfit);
 
-      const BETTING_INSTANCE = await selectInstances(instanceType.BETTING);
+      const BETTING_INSTANCE = await selectReadContractInstance(instanceType.BETTING);
 
       const profit = await BETTING_INSTANCE.methods
         .GetProfit(rollUnder, _OddEvenStatus, rangeLow, rangeHigh, convertToWei(betValue.toString()))

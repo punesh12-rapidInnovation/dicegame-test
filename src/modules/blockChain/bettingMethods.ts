@@ -1,5 +1,5 @@
 import { BETTING_ADDRESS, HOUSEPOOL_ADDRESS } from "./../../config";
-import { instanceType, selectInstances } from "../../utils/contracts";
+import { instanceType, selectReadContractInstance } from "../../utils/contracts";
 import web3 from "../../utils/web3";
 
 
@@ -7,7 +7,7 @@ import web3 from "../../utils/web3";
 
 export const MinBetAmount = async () => {
   //create instance of an abi to call any blockChain function
-  const lpInstance = await selectInstances(
+  const lpInstance = await selectReadContractInstance(
     instanceType.HOUSEPOOL, // type of instance
     HOUSEPOOL_ADDRESS //contract address
   );
@@ -18,7 +18,7 @@ export const MinBetAmount = async () => {
 };
 export const MaxBetAmount = async () => {
   //create instance of an abi to call any blockChain function
-  const lpInstance = await selectInstances(
+  const lpInstance = await selectReadContractInstance(
     instanceType.HOUSEPOOL, // type of instance
     HOUSEPOOL_ADDRESS //contract address
   );
@@ -32,7 +32,7 @@ export const HouseEdge = async () => {
 
   try {
     //create instance of an abi to call any blockChain function
-    const lpInstance = await selectInstances(
+    const lpInstance = await selectReadContractInstance(
       instanceType.BETTING, // type of instance
       BETTING_ADDRESS //contract address
     );
@@ -46,7 +46,7 @@ export const HouseEdge = async () => {
 };
 export const HouseEdgeDiviser = async () => {
   //create instance of an abi to call any blockChain function
-  const lpInstance = await selectInstances(
+  const lpInstance = await selectReadContractInstance(
     instanceType.BETTING, // type of instance
     BETTING_ADDRESS //contract address
   );
@@ -63,7 +63,7 @@ export const PlaceBet = async (
   //create instance of an abi to call any blockChain function
   const Ethervalue = web3.utils.toWei(Amount.toString(), "ether");
 
-  const lpInstance = await selectInstances(
+  const lpInstance = await selectReadContractInstance(
     instanceType.BETTING, // type of instance
     BETTING_ADDRESS //contract address
   );

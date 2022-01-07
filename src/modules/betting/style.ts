@@ -378,7 +378,7 @@ export const Chance = styled.input`
 
   
   @media (max-width: ${screenSizes.mediaM}px) {
-    width: 50px;
+    width: 40px;
     font-size:10px;
     padding: 10px;
 }

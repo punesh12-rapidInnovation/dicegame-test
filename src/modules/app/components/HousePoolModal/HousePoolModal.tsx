@@ -5,14 +5,14 @@ import pulseIcon from "assets/icons/pulseIcon.svg";
 import { useState } from 'react';
 import { floatNumRegex } from 'shared/helpers/regrexConstants';
 
-import { instanceType, selectInstances } from 'utils/contracts';
+import { instanceType, selectReadContractInstance, selectWriteContractInstance } from 'utils/contracts';
 import { convertToWei, convertToEther } from 'utils/helper';
 import { setWalletBalance } from "logic/action/wallet.action";
 import web3 from 'utils/web3';
 import { useDispatch } from 'react-redux';
 
 const HousePoolModal = (props: any) => {
-    const { show, toggleModal, styles, userAddress, walletBalance, ActionType,txWaiting, depositDoneSuccess, closeModal,setTxWaiting, setTxSuccess, setTxError } = props;
+    const { show, toggleModal, styles, userAddress, walletBalance, ActionType, txWaiting, depositDoneSuccess, closeModal, setTxWaiting, setTxSuccess, setTxError } = props;
     const dispatch = useDispatch();
     const [depositAmount, setDepositAmount] = useState('')
 
@@ -47,19 +47,19 @@ const HousePoolModal = (props: any) => {
         try {
             setTxWaiting(true); setTxSuccess(false); setTxError(false);
             const value = depositAmount;
-            
-            const housepoolInstance = await selectInstances(
+
+            const housepoolInstance = await selectWriteContractInstance(
                 instanceType.HOUSEPOOL, // type of instance
-                );
+            );
             const receipt = await housepoolInstance.methods.deposit().send({
                 from: userAddress,
                 value: convertToWei(value),
             })
             console.log("receipt", receipt);
-            
+
             const balance = await web3.eth.getBalance(userAddress);
             dispatch(setWalletBalance(convertToEther(balance)));
-    
+
             depositDoneSuccess();
             setTxWaiting(false); setTxSuccess(true); setTxError(false);
             // setDepositAmount("");

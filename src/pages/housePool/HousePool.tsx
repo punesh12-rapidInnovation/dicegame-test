@@ -10,7 +10,7 @@ import verticalLine from "assets/icons/verticalLine.svg";
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import HousePoolTransaction from 'modules/app/components/HousePoolTransaction/HousePoolTransaction';
 import BarChart from 'modules/app/components/barChart/BarChart';
-import { instanceType, selectInstances } from 'utils/contracts';
+import { instanceType, selectReadContractInstance } from 'utils/contracts';
 import { useSelector } from 'react-redux';
 import { convertToEther, dateFromTimestamp } from 'utils/helper';
 import { CheckCont } from 'shared/Disclaimer/style';
@@ -60,7 +60,7 @@ const HousePool = () => {
                 // const res3 = await axiosInstance.get(`/allwithdraw/0x6531B1e3745802bb92F3BaFcE20dBb547f39f222`)
                 // setWithdrawTxs(res3.data);
                 //--
-                const housepoolInstance = await selectInstances(
+                const housepoolInstance = await selectReadContractInstance(
                     instanceType.HOUSEPOOL, // type of instance
                 );
                 let userItemlength = await housepoolInstance.methods.UserItemlength(`${userAddress}`).call()
@@ -126,7 +126,7 @@ const HousePool = () => {
             <Header />
             <InfoContainer>
                 <FlexCont
-                    style={{margin:"0 10px" }}
+                    style={{ margin: "0 10px" }}
                 >
                     <H3>Wallet {'>'} Liquidity</H3>
                     <H1>HOUSE POOL</H1>
@@ -136,7 +136,7 @@ const HousePool = () => {
                     <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
                 </FlexCont>
                 <FlexCont
-                style={{ margin:"0 10px" }}
+                    style={{ margin: "0 10px" }}
                 >
                     <PrimaryButton width="300px"
                         style={{ padding: '25px', fontSize: '18px', marginBottom: "30px" }}

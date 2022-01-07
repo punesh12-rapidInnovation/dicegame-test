@@ -40,7 +40,7 @@ const LandingPage = () => {
   useEffect(() => {
     window.addEventListener("resize", updateWidthAndHeight);
     return () => window.removeEventListener("resize", updateWidthAndHeight);
-  });
+  }, [window.innerWidth, window.innerHeight]);
 
   return width < screenSizes.mediaS ? (
     <LandingMobile />
