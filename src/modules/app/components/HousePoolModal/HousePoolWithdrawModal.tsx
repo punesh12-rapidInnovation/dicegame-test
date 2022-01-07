@@ -251,8 +251,8 @@ const HousePoolWithdrawModal = (props: any) => {
                         margin="0 0 10px 0"
                         width="100%"
                     >
-                        <div>Input</div>
-                        <div>Balance With Loss: {depositSelected.presentBalance ? parseFloat(convertToEther(depositSelected.presentBalance)) : 0.00}</div>
+                        <div style={{marginRight:"20px"}}>Input</div>
+                        <div style={{wordBreak:"break-all"}}>Balance With Loss: {depositSelected.presentBalance ? parseFloat(convertToEther(depositSelected.presentBalance)) : 0.00}</div>
                     </FlexCont>
                     <FlexCont
                         flexDirection="row"

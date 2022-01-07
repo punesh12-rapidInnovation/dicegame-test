@@ -57,6 +57,9 @@ background: linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 25
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9);
 border-radius: 20px;
 padding: 20px;
+@media (max-width: ${screenSizes.mediaM}px) {
+    padding: 10px;
+}
 `
 
 
