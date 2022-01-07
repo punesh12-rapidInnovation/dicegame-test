@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 
 const useOutsideClick = (initialValue) => {
     const ref = useRef(null);
+    const inputref = useRef(null);
     const [showEmoji, setShowEmoji] = useState(initialValue);
 
     const handleClickOutside = (event) => {
@@ -16,7 +17,7 @@ const useOutsideClick = (initialValue) => {
         }
     }, [ref]);
 
-    return { showEmoji, setShowEmoji, ref }
+    return { showEmoji, setShowEmoji, ref,inputref }
 }
 
 export default useOutsideClick;

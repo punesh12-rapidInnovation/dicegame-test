@@ -28,6 +28,8 @@ const SocketContextProvider = ({ children }: any) => {
   const [userTyping, setUserTyping] = React.useState<boolean>(false);
   const [userTypingAddress, setUserTypingAddress] = React.useState<string>("");
 
+
+  console.log(liveMessages);
   React.useEffect(() => {
     try {
       socket.on("connection", () => {
@@ -36,12 +38,13 @@ const SocketContextProvider = ({ children }: any) => {
       });
       //@ts-ignore
       socket.on("message", (data) => {
-        console.log("data context", data);
-        // setUserTyping(false);
-        let updatedMessages = liveMessages;
-        updatedMessages.push(data);
+        // console.log("data context", data);
+        // // setUserTyping(false);
+        // let updatedMessages = liveMessages;
+        // updatedMessages.push(data);
+        // console.log(updatedMessages);
 
-        setLiveMessages([...updatedMessages]);
+        setLiveMessages((liveMessages) => [...liveMessages,data]);
       });
       //@ts-ignore
       socket.on("typing", (data) => {
