@@ -15,10 +15,15 @@ left: 0;
 top: 0;
 width: 100%;
 height: 100%;
-overflow: auto;
+overflow: hidden;
 background: rgba(26, 39, 50, 0.7);
 -webkit-backdrop-filter: blur(5px);
         backdrop-filter: blur(5px);
+
+        	
+	@media (max-width: ${screenSizes.mediaS}px) {
+	overflow: hidden;
+	}
 
 `;
 
@@ -52,6 +57,7 @@ export const ModalContent = styled.div<any>`
 	@media (max-width: ${screenSizes.mediaS}px) {
     width: 95%;
     padding:20px;
+	overflow: hidden;
 	}
 `;
 
