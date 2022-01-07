@@ -30,8 +30,25 @@ export const rangeSliderSound = (
 	try {
 		const audio = new Audio(heart);
 
+		console.log('audio', !audio.ended);
+		if (!audio.ended) {
+			audio.play();
+		} else {
+			audio.pause();
+		}
+
 		// audio.playbackRate = playbackRate;
-		audio.play();
+		// audio.play();
+
+		// if (!audio.paused && !audio.ended) {
+		// 	audio.play();
+		// } else {
+		// 	// audio.pause();
+		// 	audio.addEventListener('ended', function () {
+		// 		audio.play();
+		// 	});
+		// }
+
 		// if (soundFlag === 0) {
 		// 	audio
 		// 		.play()
@@ -49,6 +66,7 @@ export const rangeSliderSound = (
 		// 	// audio.playbackRate = playbackRate;
 		// 	// audio.volume = playbackRate;
 		// 	audio.play();
+		// 	return audio.pause();
 		// });
 	} catch (error) {}
 };
