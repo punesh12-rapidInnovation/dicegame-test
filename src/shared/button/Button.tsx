@@ -25,8 +25,9 @@ export const PrimaryButton = styled.button<any>`
   }
 
   @media (max-width: ${screenSizes.mediaS}px) {
-    font-size: 10px;
+    font-size: 14px;
     // padding:5px 0;
+    
 	}
 `;
 
