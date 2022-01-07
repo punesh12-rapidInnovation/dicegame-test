@@ -291,7 +291,7 @@ const LiveChatNew = () => {
             <ChatTopDiv>
                 <ChatHeaderLeft>
                     <h1>Global chat</h1>
-                    <h5>{PeopleOnline}  PLAYING</h5>
+                    <h5>{PeopleOnline}  Chatting</h5>
                 </ChatHeaderLeft>
                 <img src={warning} alt="" onMouseOver={() => setshowWarning(true)}
                 onMouseOut={() => setshowWarning(false)} style={{ cursor: 'pointer' }} />
@@ -326,7 +326,8 @@ const LiveChatNew = () => {
                     <Picker
                       onSelect={handleEmojiSelect}
                       title='Pick your emoji…' emoji='point_up'
-                      emojiSize={20}
+                  emojiSize={15}
+                  style={{width:'240px'}}
                     />
                   </Emojisdiv>
                 )
