@@ -21,7 +21,6 @@ const LandingMobile = () => {
                     onClick={() => setShowDisclaimer(true)}
                 >Read disclaimer</p>
                 <PrimaryButton
-                    style={{ height: "20px" }}
                     onClick={() => history.push(`${Paths.housePool}`)}>
                     Deposit funds</PrimaryButton>
             </DepositNavCont>
