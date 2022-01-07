@@ -51,6 +51,7 @@ export const PrimaryButton = styled.button<any>`
   inset 0px 0px 14px rgba(202, 26, 231, 0.6);
   font-size: 16px;
    padding: 17px;
+   cursor: pointer;
 
   &:disabled {
       opacity:0.5;

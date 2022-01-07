@@ -94,10 +94,17 @@ const Betting = () => {
 
   const [play] = useSound(heart, { interrupt: true });
 
+  let soundCheck = localStorage.getItem("soundOff")
 
   useEffect(() => {
-    play();
-  }, [RangeValue])
+    if (localStorage.getItem("soundOff") !== null) {
+      const soundOff = localStorage.getItem("soundOff") || "";
+
+      console.log('soundOff', soundOff !== 'true');
+      if (soundOff !== 'true')
+        play();
+    }
+  }, [RangeValue, soundCheck])
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();

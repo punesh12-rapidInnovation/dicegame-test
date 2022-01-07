@@ -52,15 +52,20 @@ const WinModal = (props: any) => {
   }, []);
 
   useEffect(() => {
-    // setTimeout(() => {
-
     try {
-      if (show) betWinSound.play();
-      else
-        betWinSound.removeEventListener("ended", () => {
-          betWinSound.pause();
-          betWinSound.currentTime = 0;
-        });
+
+      if (localStorage.getItem("soundOff") !== null) {
+        const soundOff = localStorage.getItem("soundOff") || "";
+        if (soundOff !== 'true') {
+
+          if (show) betWinSound.play();
+          else
+            betWinSound.removeEventListener("ended", () => {
+              betWinSound.pause();
+              betWinSound.currentTime = 0;
+            });
+        }
+      }
     } catch (error) {
       console.log(error);
     }

@@ -2,12 +2,16 @@ import styled from 'styled-components';
 import landingTop from '../../../../assets/images/landingtop.png'
 import walletoutline from '../../../../assets/icons/walletoutline.png';
 import { screenSizes } from 'shared/styles/theme';
+import soundOn from "assets/icons/soundOn.svg";
 
 export const HeaderDiv = styled.div`
 position: absolute;
 height: 10vh;
 width: 100%;
 
+.soundCheck{
+        margin-right:10px;
+}
 
 `
 
@@ -105,5 +109,13 @@ color: white;
 -ms-transform: translate(-120px,-4px);
         transform: translate(-120px,-4px);
 `
+
+export const SoundCheck = styled.img<any>`
+width:100px;
+height:50px;
+// background:red;
+
+`
+
 
 

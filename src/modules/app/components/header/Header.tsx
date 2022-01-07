@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Login, setChainIdValue, setChatMessage, setWalletBalance } from "logic/action/wallet.action";
 import ConnectWallet from "shared/Connect-wallet";
 import web3 from "utils/web3";
-import { HeaderContainer, Walletcontainer, WalletLogo, HeaderDiv } from "./style";
+import { HeaderContainer, Walletcontainer, WalletLogo, HeaderDiv, SoundCheck } from "./style";
 import siteLogo from "assets/icons/sitelogo.png";
 import walletLogo from "assets/icons/walleticon.png";
+import soundOn from "assets/icons/soundOn.svg";
+import soundOff from "assets/icons/soundOff.svg";
 import { convertToEther } from "utils/helper";
 import { networkTestChainId } from "config";
 import WrongNetwork from "shared/wrong-network";
@@ -20,6 +22,7 @@ const Header = () => {
   const [connectWallet, setConnectWallet] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
   const [showWrongNetwork, setShowWrongNetwork] = useState(false);
+  const [soundStatus, setSoundStatus] = useState(true)
 
   useEffect(() => {
     try {
@@ -97,6 +100,27 @@ const Header = () => {
     window.location.reload();
   };
 
+
+  const handleToggleSound = () => {
+    if (localStorage.getItem("soundOff") === 'false' || localStorage.getItem("soundOff") === null) {
+      localStorage.setItem("soundOff", 'true')
+    }
+    else {
+      localStorage.setItem("soundOff", 'false')
+    }
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem("soundOff") !== null) {
+      const soundOff = localStorage.getItem("soundOff") || "";
+      if (soundOff !== 'true') {
+        setSoundStatus(true);
+      }
+      else setSoundStatus(false);
+    }
+
+  })
+
   return (
     <HeaderDiv>
       <HeaderContainer>
@@ -107,6 +131,10 @@ const Header = () => {
             <img className="siteLogo" src={siteLogo} alt="" />
           </Link>
         </div>
+
+        {/* <SoundCheck
+          onClick={() => handleToggleSound()}
+          src={soundStatus} /> */}
 
         <Walletcontainer>
           <WalletLogo src={walletLogo} />
