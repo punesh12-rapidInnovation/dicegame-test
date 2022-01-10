@@ -193,8 +193,8 @@ height:60px
 `
 
 export const MobWarningcont = styled.div`
-background: url(${warningtext}) no-repeat fixed center;
-
+background: url(${warningtext}) ;
+Background-size:contain;
 position:absolute;
 top:2%;
 right:12%;
