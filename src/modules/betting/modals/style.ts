@@ -19,8 +19,12 @@ export const ModalBody = styled.div<ModalBodyProps>`
 	height: 100%;
 	overflow: none;
 	-webkit-backdrop-filter: blur(5px);
-	      -moz-backdrop-filter: blur(5px);
-	        backdrop-filter: blur(5px);
+    -moz-backdrop-filter: blur(5px);
+     backdrop-filter: blur(5px);
+
+	 @media (max-width: ${screenSizes.mediaS}px) {
+    height:100vh;
+	}
 	
 .coinShower{
 	width:100%;

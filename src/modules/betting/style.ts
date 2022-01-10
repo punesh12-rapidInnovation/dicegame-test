@@ -548,6 +548,15 @@ export const Crossimg = styled.img`
   cursor: pointer;
 `;
 
+export const NotUnder = styled.div`
+bottom:-20px;
+@media (max-width: ${screenSizes.mediaS}px) {
+  bottom:-20px;
+  width:100%;
+}
+
+`
+
 export const BetResult = styled.div`
   display: flex;
   flex-direction: column;

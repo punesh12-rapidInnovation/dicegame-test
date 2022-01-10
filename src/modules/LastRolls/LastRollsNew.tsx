@@ -23,7 +23,7 @@ const LastRollsNew = () => {
 
     const NoResultMessage = () => {
         if (localStorage.getItem("LastRolls") === null) {
-            return <H1>No Previous Result Was Found</H1>;
+            return 'No Previous Result Was Found';
         } else {
             return;
         }
@@ -47,7 +47,7 @@ const LastRollsNew = () => {
                             <TD>MIN CHANCE</TD>
                             <TD>GAIN/LOSS</TD>
                         </TR>
-                        {NoResultMessage()}
+                        <H1 style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-30%)',width:'300px'}}>{NoResultMessage()}</H1>
                         {LastRolls.slice(0, 4).map((Roll: any, index: any) => (
                             <TR key={"lr" + index}>
                                 <TD style={{ textAlign: "left" }}>

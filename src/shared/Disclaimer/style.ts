@@ -22,7 +22,7 @@ background: rgba(26, 39, 50, 0.7);
 
         	
 	@media (max-width: ${screenSizes.mediaS}px) {
-	overflow: hidden;
+    height:100vh;
 	}
 
 `;

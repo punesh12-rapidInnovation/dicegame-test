@@ -72,12 +72,14 @@ background: #2A1966;
 box-shadow: inset 0px 0px 24px #CA1AE730;
 border-radius: 20px;
 position:relative;
+postion:relative;
 `
 export const TABLE = styled.table`
 // background:lightgrey;
 width:100%;
 margin:10px;
 color:${colors.white};
+
 `
 export const TR = styled.tr<any>`
 height: ${(props: any) => (props.header ? "60px" : '20px')};
