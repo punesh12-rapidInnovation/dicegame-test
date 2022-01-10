@@ -1,5 +1,7 @@
 import PlayerRankImg from "assets/icons/playerrank.svg";
+import { useEffect } from "react";
 import BeOneImage from "assets/images/beoneimage.png";
+import axios from "axios";
 import PlayersImage from "assets/images/PlayersImage.png";
 import { Paths } from 'modules/app/components/routes/types';
 import Betting from 'modules/betting';
@@ -22,6 +24,23 @@ import {
 
 const LandingDesktop = () => {
     const [showDisclaimer, setShowDisclaimer] = useState(false);
+    const [TotalBets, setTotalBets] = useState<number>(0);
+
+    useEffect(() => {
+        const GetBetCount = async () => {
+            const axiosInstance = axios.create({
+          baseURL: "https://diceroll.rapidinnovation.tech/pool",
+        });
+
+        await axiosInstance.get(`/betcount`).then(function (response) {
+          //@ts-ignore
+            const BetCount:number = response.data;
+            setTotalBets(BetCount);
+        });
+        }
+        GetBetCount();
+      }
+    , []);
 
     return (
         <LandingDesktopContainer>
@@ -57,10 +76,16 @@ const LandingDesktop = () => {
                 >
                     <Rankimg src={PlayerRankImg} alt="" />
                 </FlexColumn>
+                <Flex style={{width:'50%'}}>
+                <FlexColumn style={{width:'140px',alignItems:'flex-end'}}>
+                    <h1 style={{fontSize: '16px',lineHeight: '19px',color: '#00EAFF'}}>Total Bets Placed</h1>
+                        <h2 style={{ fontSize: '30px', lineHeight: '38px', color: '#FFFFFF' }}>{TotalBets}</h2>
+                </FlexColumn>
 
                 <PrimaryButton style={{ width: '300px', marginRight: '10%' }} onClick={() => history.push(`${Paths.housePool}`)}>
                     DEPOSIT FUNDS
-                </PrimaryButton>
+                    </PrimaryButton>
+                </Flex>
             </PlayerRank>
 
             <ModuleParentCont>

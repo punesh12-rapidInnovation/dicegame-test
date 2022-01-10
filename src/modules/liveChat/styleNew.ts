@@ -107,7 +107,7 @@ export const EmojiButton = styled.button`
 export const Emojisdiv = styled.div`
   position: absolute;
   left: 20px;
-  bottom: 5%;
+  bottom: 8%;
   @media (max-width: ${screenSizes.mediaS}px) {
     bottom:8%;
 }
