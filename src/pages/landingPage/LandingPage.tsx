@@ -42,7 +42,7 @@ const LandingPage = () => {
     return () => window.removeEventListener("resize", updateWidthAndHeight);
   }, [window.innerWidth, window.innerHeight]);
 
-  return width < screenSizes.mediaS ? (
+  return width - 50 < screenSizes.mediaS ? (
     <LandingMobile />
   ) : (
     <LandingDesktop />

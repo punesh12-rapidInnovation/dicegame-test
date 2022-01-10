@@ -38,7 +38,7 @@ border-radius: 20px;
 max-width:1300px;
 // min-width:1100px;
 
-@media (max-width: ${screenSizes.mediaM}px) {
+@media (max-width: ${screenSizes.mediaL}px) {
     width: 95%;
     margin:1rem;
     padding:2rem;
@@ -61,6 +61,10 @@ width:50%;
 min-width:50%;
 max-width:50%;
 margin:0 10px;
+
+@media (max-width: ${screenSizes.mediaL}px) {
+    margin:0 5px;
+}
 `
 
 

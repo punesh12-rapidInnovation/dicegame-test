@@ -94,10 +94,20 @@ const Betting = () => {
 
   const [play] = useSound(heart, { interrupt: true });
 
+  let soundCheck = localStorage.getItem("soundOff")
 
   useEffect(() => {
+    // if (localStorage.getItem("soundOff") !== null) {
+    //   const soundOff = localStorage.getItem("soundOff") || "";
+
+    //   console.log('soundOff', soundOff !== 'true');
+    //   if (soundOff !== 'true')
+    //     play();
+    // }
+
     play();
-  }, [RangeValue])
+
+  }, [RangeValue, soundCheck])
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -697,7 +707,7 @@ const Betting = () => {
             />
           </Flex>
         </FlexColumn>
-        <OddEvenDiv style={{ width: "100%"}}>
+        <OddEvenDiv style={{ width: "100%" }}>
           <Flex style={{ flexDirection: "column", width: "100%" }}>
             <Flex>
               <H2>Select</H2>
@@ -709,7 +719,7 @@ const Betting = () => {
                   paddingLeft: "10px",
                 }}
               >
-                <Flex style={{ justifyContent: "space-between", width: "60%",marginRight:'10px' }}>
+                <Flex style={{ justifyContent: "space-between", width: "60%", marginRight: '10px' }}>
                   <label className="container">
                     Odd
                     <input type="checkbox" checked={checked1} onChange={() => handleCheckChange(1, 1)} />

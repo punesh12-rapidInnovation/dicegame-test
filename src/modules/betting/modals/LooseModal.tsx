@@ -38,25 +38,33 @@ const LooseModal = (props: any) => {
         }
     };
 
-
     useEffect(() => {
-
         try {
-            if (show)
-                betLooseSound.play();
+
+            // if (localStorage.getItem("soundOff") !== null) {
+            //     const soundOff = localStorage.getItem("soundOff") || "";
+            //     if (soundOff !== 'true') {
+
+            //         if (show) betLooseSound.play();
+            //         else
+            //             betLooseSound.removeEventListener("ended", () => {
+            //                 betLooseSound.pause();
+            //                 betLooseSound.currentTime = 0;
+            //             });
+            //     }
+            // }
+
+
+            if (show) betLooseSound.play();
             else
-                betLooseSound.removeEventListener('ended', () => {
+                betLooseSound.removeEventListener("ended", () => {
                     betLooseSound.pause();
                     betLooseSound.currentTime = 0;
                 });
-
-
         } catch (error) {
-
+            console.log(error);
         }
-
-
-    }, [show])
+    }, [show]);
 
 
     return (

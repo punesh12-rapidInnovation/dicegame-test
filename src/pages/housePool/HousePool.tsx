@@ -123,7 +123,7 @@ const HousePool = () => {
     }
     return (
         <HousePoolCont>
-            <Header />
+            {/* <Header /> */}
             <InfoContainer>
                 <FlexCont
                     style={{ margin: "0 10px" }}
