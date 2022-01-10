@@ -382,8 +382,14 @@ export const Chance = styled.input`
   }
 
   
-  @media (max-width: ${screenSizes.mediaM}px) {
-    width: 40px;
+  @media (min-width: ${screenSizes.mediaM}px) and (max-width: ${screenSizes.mediaL}px) {
+    width: 60px;
+    font-size:12px;
+    padding: 10px;
+}
+ 
+  @media (min-width: 680px) and (max-width: ${screenSizes.mediaM}px) {
+    width: 50px;
     font-size:10px;
     padding: 10px;
 }

@@ -123,7 +123,6 @@ const HousePool = () => {
     }
     return (
         <HousePoolCont>
-            {/* <Header /> */}
             <InfoContainer>
                 <InfoTextContainer
                     style={{ margin: "0 10px" }}

@@ -98,17 +98,15 @@ const Betting = () => {
   let soundCheck = localStorage.getItem("soundOff")
 
   useEffect(() => {
-    // if (localStorage.getItem("soundOff") !== null) {
-    //   const soundOff = localStorage.getItem("soundOff") || "";
+    if (localStorage.getItem("soundOff") !== null) {
+      const soundOff = localStorage.getItem("soundOff") || "";
 
-    //   console.log('soundOff', soundOff !== 'true');
-    //   if (soundOff !== 'true')
-    //     play();
-    // }
+      console.log('soundOff', soundOff !== 'true');
+      if (soundOff !== 'true')
+        play();
+    }
 
-    play();
-
-  }, [RangeValue, soundCheck])
+  }, [RangeValue])
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -649,17 +647,30 @@ const Betting = () => {
               <TransChance
                 onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(8))}
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(5) : "-"}
+                {
+                  isNaN(((Number(OnLoadMin) + Number(OnLoadMax)) / 6)) || ((Number(OnLoadMin) + Number(OnLoadMax)) / 6) === Infinity ?
+                    "-" :
+                    ((Number(OnLoadMin) + Number(OnLoadMax)) / 6).toFixed(5)
+                }
               </TransChance>
+
               <TransChance
                 onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(8))}
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(5) : "-"}
+                {
+                  isNaN(((Number(OnLoadMin) + Number(OnLoadMax)) / 4)) || ((Number(OnLoadMin) + Number(OnLoadMax)) / 4) === Infinity ?
+                    "-" :
+                    ((Number(OnLoadMin) + Number(OnLoadMax)) / 4).toFixed(5)
+                }
               </TransChance>
               <TransChance
                 onClick={() => setBetAmount(((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(8))}
               >
-                {OnLoadMin && OnLoadMax ? ((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(5) : "-"}
+                {
+                  isNaN(((Number(OnLoadMin) + Number(OnLoadMax)) / 2)) || ((Number(OnLoadMin) + Number(OnLoadMax)) / 2) === Infinity ?
+                    "-" :
+                    ((Number(OnLoadMin) + Number(OnLoadMax)) / 2).toFixed(5)
+                }
               </TransChance>
 
               <TransChance onClick={SetMaxBetAmount}>MAX</TransChance>
@@ -673,7 +684,7 @@ const Betting = () => {
                 margin: "0",
                 fontSize: "12px",
                 position: "absolute",
-               
+
               }}
             >
               Bet amount not between {OnLoadMin}-{OnLoadMax}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Login,
@@ -65,6 +65,14 @@ const ConnectWallet = (props: any) => {
       }
     }
   };
+
+  // useEffect(() => {
+  //   let walletType = localStorage.getItem('walletType') || "";
+
+  //   if (walletType === "2")
+  //     connect(2);
+  // }, [])
+
 
   return (
     <WalletCont>
