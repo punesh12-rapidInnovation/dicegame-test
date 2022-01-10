@@ -293,7 +293,7 @@ const LiveChatNew = () => {
                     <h1>Global chat</h1>
                     <h5>{PeopleOnline}  Chatting</h5>
                 </ChatHeaderLeft>
-                <img src={warning} alt="" onMouseOver={() => setshowWarning(true)}
+                <img src={warning} alt=""  width='30px' onMouseOver={() => setshowWarning(true)}
                 onMouseOut={() => setshowWarning(false)} style={{ cursor: 'pointer' }} />
               {
                 showWarning ? <MobWarningcont></MobWarningcont> : ''
@@ -327,7 +327,7 @@ const LiveChatNew = () => {
                       onSelect={handleEmojiSelect}
                       title='Pick your emoji…' emoji='point_up'
                   emojiSize={20}
-                  style={{width:'240px'}}
+                  style={{width:'300px'}}
                     />
                   </Emojisdiv>
                 )
