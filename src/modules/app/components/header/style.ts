@@ -112,9 +112,12 @@ color: white;
 
 export const SoundCheck = styled.img<any>`
 width:100px;
-height:50px;
 // background:red;
-
+margin-right: 20px;
+cursor:pointer;
+@media (max-width: ${screenSizes.mediaM}px) {
+	width: 60px;
+}
 `
 
 
