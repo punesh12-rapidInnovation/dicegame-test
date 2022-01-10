@@ -28,25 +28,38 @@ const WaitingModal = (props: any) => {
     useEffect(() => {
         try {
 
-            if (localStorage.getItem("soundOff") !== null) {
-                const soundOff = localStorage.getItem("soundOff") || "";
-                if (soundOff !== 'true') {
+            // if (localStorage.getItem("soundOff") !== null) {
+            //     const soundOff = localStorage.getItem("soundOff") || "";
+            //     if (soundOff !== 'true') {
 
-                    if (show) {
-                        rollingDiceSound.play();
-                        rollingDiceSound.loop = true;
-                    }
-                    else {
-                        rollingDiceSound.loop = false;
-                        rollingDiceSound.removeEventListener('ended', () => {
-                            rollingDiceSound.pause();
-                            rollingDiceSound.currentTime = 0;
-                            rollingDiceSound.src = ""
-                        });
-                    }
-                }
+            //         if (show) {
+            //             rollingDiceSound.play();
+            //             rollingDiceSound.loop = true;
+            //         }
+            //         else {
+            //             rollingDiceSound.loop = false;
+            //             rollingDiceSound.removeEventListener('ended', () => {
+            //                 rollingDiceSound.pause();
+            //                 rollingDiceSound.currentTime = 0;
+            //                 rollingDiceSound.src = ""
+            //             });
+            //         }
+            //     }
+            // }
+
+
+            if (show) {
+                rollingDiceSound.play();
+                rollingDiceSound.loop = true;
             }
-
+            else {
+                rollingDiceSound.loop = false;
+                rollingDiceSound.removeEventListener('ended', () => {
+                    rollingDiceSound.pause();
+                    rollingDiceSound.currentTime = 0;
+                    rollingDiceSound.src = ""
+                });
+            }
 
         } catch (error) {
             console.log(error);

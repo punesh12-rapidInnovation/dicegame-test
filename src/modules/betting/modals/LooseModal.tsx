@@ -41,18 +41,26 @@ const LooseModal = (props: any) => {
     useEffect(() => {
         try {
 
-            if (localStorage.getItem("soundOff") !== null) {
-                const soundOff = localStorage.getItem("soundOff") || "";
-                if (soundOff !== 'true') {
+            // if (localStorage.getItem("soundOff") !== null) {
+            //     const soundOff = localStorage.getItem("soundOff") || "";
+            //     if (soundOff !== 'true') {
 
-                    if (show) betLooseSound.play();
-                    else
-                        betLooseSound.removeEventListener("ended", () => {
-                            betLooseSound.pause();
-                            betLooseSound.currentTime = 0;
-                        });
-                }
-            }
+            //         if (show) betLooseSound.play();
+            //         else
+            //             betLooseSound.removeEventListener("ended", () => {
+            //                 betLooseSound.pause();
+            //                 betLooseSound.currentTime = 0;
+            //             });
+            //     }
+            // }
+
+
+            if (show) betLooseSound.play();
+            else
+                betLooseSound.removeEventListener("ended", () => {
+                    betLooseSound.pause();
+                    betLooseSound.currentTime = 0;
+                });
         } catch (error) {
             console.log(error);
         }
