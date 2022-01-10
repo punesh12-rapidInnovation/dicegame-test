@@ -326,7 +326,7 @@ const LiveChatNew = () => {
                     <Picker
                       onSelect={handleEmojiSelect}
                       title='Pick your emoji…' emoji='point_up'
-                  emojiSize={15}
+                  emojiSize={20}
                   style={{width:'240px'}}
                     />
                   </Emojisdiv>
