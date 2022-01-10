@@ -10,6 +10,9 @@ display:flex;
 flex-direction: column;
 width: 100%;
 justify-content: center;
+@media (max-width: ${screenSizes.mediaM}px) {
+	font-size: 14px;
+}
 `
 
 export const H1 = styled.h1`

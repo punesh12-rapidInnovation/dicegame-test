@@ -22,6 +22,7 @@ import {
   P,
   ToolTipCont,
   HowToPlay,
+  NotUnder,
 } from "./style";
 import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
 import { convertToEther, convertToWei } from "../../utils/helper";
@@ -665,19 +666,19 @@ const Betting = () => {
             </Flex>
           </Flex>
           {BetRightOrNotAlert ? (
-            <H2
+            <NotUnder
               style={{
                 color: "red",
                 padding: "0",
                 margin: "0",
                 fontSize: "12px",
                 position: "absolute",
-                bottom: "-20px",
+               
               }}
             >
-              Bet amount should be between {OnLoadMin} and {OnLoadMax}
+              Bet amount not between {OnLoadMin}-{OnLoadMax}
               {/* Bet Amount Not Between The Minimum And Maximum Allowed */}
-            </H2>
+            </NotUnder>
           ) : (
             <H2
               style={{

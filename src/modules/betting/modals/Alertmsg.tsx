@@ -76,8 +76,8 @@ const Alertmsg = (props: any) => {
 
   return width < screenSizes.mediaS ? (
     <ModalBody show={show} onMouseDown={handleClickOutside} style={{ ...styles }}>
-      <ModalContent style={{ width: '300px', height: '150px', position: 'absolute', top: '50%', left: '50%' }}>
-        <InfoText style={{ fontSize: '14px', color: 'white',width:'100%',padding:'0 10px' }}>{alertText}</InfoText>
+      <ModalContent style={{ width: '300px', height: '150px', position: 'absolute', top: '50%', left: '50%',trasform:'translate(-50%,-50%)',textAlign:'center' }}>
+        <InfoText style={{ fontSize: '14px', color: 'white',width:'250px',display:'flex',justifyContent:'center',alignItems:'center' }}>{alertText}</InfoText>
 
       </ModalContent>
 

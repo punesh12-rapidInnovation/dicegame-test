@@ -30,6 +30,27 @@ align-items: center;
     flex-direction: column;
 }
 `
+export const InfoTextContainer = styled.div<any>`
+display: flex;
+flex-direction: column;
+justify-content: ${(props) => (props.justifyContent ? props.justifyContent : 'center')};
+align-items: ${(props) => (props.alignItems ? props.alignItems : 'flex-start')};
+color:${colors.white};
+
+
+p{
+    margin:10px 0;
+}
+
+h3{
+color: ${colors.purple};
+text-transform: uppercase;
+}
+@media (max-width: ${screenSizes.mediaM}px) {
+    align-items: center;
+    text-align: center;
+}
+`
 
 export const PoolDetailsContainer = styled.div`
 /*display:flex;*/
