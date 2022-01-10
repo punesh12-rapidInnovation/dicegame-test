@@ -298,6 +298,11 @@ export const H2 = styled.h2<any>`
 
 
   
+  @media (max-width: ${screenSizes.mediaM}px) {
+    font-size: ${(props) => (props.FontSizeMobile ? props.FontSize : "12px")};
+    font-weight: 400;
+    // margin:10px 0;
+}
   @media (max-width: ${screenSizes.mediaS}px) {
     font-size: ${(props) => (props.FontSizeMobile ? props.FontSize : "12px")};
     font-weight: 400;
@@ -614,6 +619,12 @@ margin:0 5px;
 min-width:50%;
 text-align:right;
 
+
+@media (max-width: ${screenSizes.mediaM}px) {
+  font-size:14px;
+  font-weight:600;
+  margin:0 2px;
+}
 @media (max-width: ${screenSizes.mediaS}px) {
   font-size:11px;
   font-weight:600;

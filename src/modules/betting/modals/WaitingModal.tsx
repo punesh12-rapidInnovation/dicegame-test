@@ -26,6 +26,8 @@ const WaitingModal = (props: any) => {
     };
 
     useEffect(() => {
+
+        let loading = localStorage.getItem("loading") || ''
         try {
 
             // if (localStorage.getItem("soundOff") !== null) {
@@ -48,7 +50,7 @@ const WaitingModal = (props: any) => {
             // }
 
 
-            if (show) {
+            if (show || loading === "true") {
                 rollingDiceSound.play();
                 rollingDiceSound.loop = true;
             }
