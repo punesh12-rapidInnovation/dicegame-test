@@ -101,26 +101,30 @@ const Header = () => {
   };
 
 
+  
+  useEffect(() => {
+    if (localStorage.getItem("soundOff") === 'true') setSoundStatus(false);
+    else setSoundStatus(true);
+    // if (localStorage.getItem("soundOff") !== null) {
+      //   const soundOff = localStorage.getItem("soundOff") || "";
+      //   if (soundOff !== 'true') {
+        //     setSoundStatus(true);
+        //   }
+        //   else setSoundStatus(false);
+        // }
+        
+  },[])
+      
   const handleToggleSound = () => {
     if (localStorage.getItem("soundOff") === 'false' || localStorage.getItem("soundOff") === null) {
-      localStorage.setItem("soundOff", 'true')
+      localStorage.setItem("soundOff", 'true');
+      setSoundStatus(false);
     }
     else {
       localStorage.setItem("soundOff", 'false')
+      setSoundStatus(true);
     }
   }
-
-  useEffect(() => {
-    if (localStorage.getItem("soundOff") !== null) {
-      const soundOff = localStorage.getItem("soundOff") || "";
-      if (soundOff !== 'true') {
-        setSoundStatus(true);
-      }
-      else setSoundStatus(false);
-    }
-
-  })
-
   return (
     <HeaderDiv>
       <HeaderContainer>
@@ -132,9 +136,9 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* <SoundCheck
+        <SoundCheck
           onClick={() => handleToggleSound()}
-          src={soundStatus} /> */}
+          src={soundStatus ? soundOn : soundOff} />
 
         <Walletcontainer>
           <WalletLogo src={walletLogo} />
