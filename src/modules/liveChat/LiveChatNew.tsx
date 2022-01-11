@@ -216,7 +216,7 @@ const LiveChatNew = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [userTyping, liveMessages]);
+  }, [userTyping, liveMessages,handleSendMessage]);
     
     useEffect(() => {
     //@ts-ignore
@@ -239,7 +239,7 @@ const LiveChatNew = () => {
     console.log("stop typing");
   };
 
-  const handleSendMessage = () => {
+  function handleSendMessage(){
     //@ts-ignore
     inputRef.current.focus();
     cancelTyping();

@@ -65,10 +65,10 @@ export const ChatMiddleDiv = styled.div`
     display: none;
   }
 
-  @media (maxwidth:1100px){
+  /* @media (maxwidth:1100px){
     overflow: scroll;
 
-  }
+  } */
 
  
 `;
