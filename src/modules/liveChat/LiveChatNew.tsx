@@ -239,6 +239,11 @@ const LiveChatNew = () => {
     console.log("stop typing");
   };
 
+  function sendThroughButton() {
+    handleSendMessage();
+    scrollToBottom();
+  }
+
   function handleSendMessage(){
     //@ts-ignore
     inputRef.current.focus();
@@ -349,7 +354,7 @@ const LiveChatNew = () => {
                 onClick={() => console.log(ref)}
               />
 
-              <Button onClick={() => handleSendMessage()}></Button>
+              <Button onClick={() => sendThroughButton()}></Button>
             </ChatInputParent>
 
              <Alertmsg
