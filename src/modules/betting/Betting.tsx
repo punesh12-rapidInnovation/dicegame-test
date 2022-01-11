@@ -98,13 +98,12 @@ const Betting = () => {
   let soundCheck = localStorage.getItem("soundOff")
 
   useEffect(() => {
-    if (localStorage.getItem("soundOff") !== null) {
-      const soundOff = localStorage.getItem("soundOff") || "";
+    const soundOff = localStorage.getItem("soundOff") || "";
 
-      console.log('soundOff', soundOff !== 'true');
-      if (soundOff !== 'true')
-        play();
-    }
+    console.log('soundOff', soundOff !== 'true');
+    if (soundOff !== 'true')
+      play();
+
 
   }, [RangeValue])
 

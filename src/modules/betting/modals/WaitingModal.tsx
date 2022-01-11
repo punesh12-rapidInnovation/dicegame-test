@@ -30,24 +30,20 @@ const WaitingModal = (props: any) => {
         let loading = localStorage.getItem("loading") || "";
         try {
 
-            if (localStorage.getItem("soundOff") !== null) {
-                const soundOff = localStorage.getItem("soundOff") || "";
-                if (soundOff !== 'true') {
+            const soundOff = localStorage.getItem("soundOff") || "";
+            if (soundOff !== 'true') {
 
-                    if (show || loading === "true") {
-                        rollingDiceSound.play();
-                        rollingDiceSound.loop = true;
-                    }
-                    else {
-                        rollingDiceSound.loop = false;
-                        rollingDiceSound.removeEventListener('ended', () => {
-                            rollingDiceSound.pause();
-                            rollingDiceSound.currentTime = 0;
-                            rollingDiceSound.src = ""
-                        });
-                    }
-
-
+                if (show || loading === "true") {
+                    rollingDiceSound.play();
+                    rollingDiceSound.loop = true;
+                }
+                else {
+                    rollingDiceSound.loop = false;
+                    rollingDiceSound.removeEventListener('ended', () => {
+                        rollingDiceSound.pause();
+                        rollingDiceSound.currentTime = 0;
+                        rollingDiceSound.src = ""
+                    });
                 }
             }
 
