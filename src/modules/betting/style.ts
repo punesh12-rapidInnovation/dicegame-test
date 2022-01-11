@@ -434,13 +434,19 @@ export const TransChance = styled.button`
     background-color: rgba(0, 0, 0, 0.2);
   }
 
+  @media (max-width: ${screenSizes.mediaL}px) {
+    width: 45px;
+    max-width: 55px;
+    font-size:10px;
+    padding: 0;
+    margin-right: 5px;
+}
   @media (max-width: ${screenSizes.mediaM}px) {
     width: 40px;
     max-width: 45px;
     font-size:10px;
     padding: 0;
     margin-right: 5px;
-
 }
   
   @media (max-width: ${screenSizes.mediaS}px) {
