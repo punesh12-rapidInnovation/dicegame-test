@@ -65,6 +65,11 @@ export const ChatMiddleDiv = styled.div`
     display: none;
   }
 
+  @media (maxwidth:1100px){
+    overflow: scroll;
+
+  }
+
  
 `;
 export const ChatInputParent = styled.div`

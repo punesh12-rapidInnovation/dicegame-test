@@ -240,6 +240,8 @@ const LiveChatNew = () => {
   };
 
   const handleSendMessage = () => {
+    //@ts-ignore
+    inputRef.current.focus();
     cancelTyping();
     sendTOAPI(inputMessage);
     setInputMessage("");
