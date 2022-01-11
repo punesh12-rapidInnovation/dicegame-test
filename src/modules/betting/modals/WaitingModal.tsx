@@ -25,15 +25,15 @@ const WaitingModal = (props: any) => {
         }
     };
 
-    useEffect(() => {
 
+    useEffect(() => {
         let loading = localStorage.getItem("loading") || "";
         try {
 
             const soundOff = localStorage.getItem("soundOff") || "";
             if (soundOff !== 'true') {
 
-                if (show && (loading !== null || loading !== undefined)) {
+                if (show && (loading !== null || loading !== undefined) && !!rollingDiceSound) {
                     rollingDiceSound.play();
                     rollingDiceSound.loop = true;
                 }
@@ -47,13 +47,11 @@ const WaitingModal = (props: any) => {
                 }
             }
 
-
-
         } catch (error) {
             console.log(error);
 
         }
-    })
+    }, [show, rollingDiceSound])
 
     return (
         <ModalBody
