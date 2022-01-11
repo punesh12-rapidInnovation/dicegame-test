@@ -6,7 +6,7 @@ import {
   ModelHead,
   InnerContent,
 } from "./style";
-import Cross from 'assets/icons/Cross.svg';
+// import Cross from 'assets/icons/Cross.svg';
 import { PrimaryButton } from "shared/button/Button";
 
 

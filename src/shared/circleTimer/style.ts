@@ -1,8 +1,7 @@
-import { colors } from "shared/styles/theme";
 import styled, { keyframes } from "styled-components";
 
 
-const Anim = (totalOffsetToBeDone:any) => keyframes`
+const Anim = (totalOffsetToBeDone: any) => keyframes`
 from {
     stroke-dashoffset: 0;
   }

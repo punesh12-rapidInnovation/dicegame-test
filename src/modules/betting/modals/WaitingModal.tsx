@@ -26,40 +26,28 @@ const WaitingModal = (props: any) => {
     };
 
     useEffect(() => {
+
+        let loading = localStorage.getItem("loading") || "";
         try {
 
-            // if (localStorage.getItem("soundOff") !== null) {
-            //     const soundOff = localStorage.getItem("soundOff") || "";
-            //     if (soundOff !== 'true') {
+            const soundOff = localStorage.getItem("soundOff") || "";
+            if (soundOff !== 'true') {
 
-            //         if (show) {
-            //             rollingDiceSound.play();
-            //             rollingDiceSound.loop = true;
-            //         }
-            //         else {
-            //             rollingDiceSound.loop = false;
-            //             rollingDiceSound.removeEventListener('ended', () => {
-            //                 rollingDiceSound.pause();
-            //                 rollingDiceSound.currentTime = 0;
-            //                 rollingDiceSound.src = ""
-            //             });
-            //         }
-            //     }
-            // }
-
-
-            if (show) {
-                rollingDiceSound.play();
-                rollingDiceSound.loop = true;
+                if (show || loading === "true") {
+                    rollingDiceSound.play();
+                    rollingDiceSound.loop = true;
+                }
+                else {
+                    rollingDiceSound.loop = false;
+                    rollingDiceSound.removeEventListener('ended', () => {
+                        rollingDiceSound.pause();
+                        rollingDiceSound.currentTime = 0;
+                        rollingDiceSound.src = ""
+                    });
+                }
             }
-            else {
-                rollingDiceSound.loop = false;
-                rollingDiceSound.removeEventListener('ended', () => {
-                    rollingDiceSound.pause();
-                    rollingDiceSound.currentTime = 0;
-                    rollingDiceSound.src = ""
-                });
-            }
+
+
 
         } catch (error) {
             console.log(error);

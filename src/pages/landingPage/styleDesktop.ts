@@ -1,9 +1,9 @@
-import { colors, screenSizes } from 'shared/styles/theme';
+import { screenSizes } from 'shared/styles/theme';
 import styled from 'styled-components';
 
 import Background from 'assets/images/poolDetailsBg.png'
-import landingtop from '../../assets/images/landingtop.png';
-import rectangle from '../../assets/images/rectangle.png';
+import landingtop from 'assets/images/landingtop.png';
+import rectangle from 'assets/images/rectangle.png';
 
 
 
@@ -42,6 +42,11 @@ max-width:1300px;
     width: 95%;
     margin:1rem;
     padding:2rem;
+}
+@media (max-width: ${screenSizes.mediaM}px) {
+    width: 99%;
+    margin:1rem;
+    padding:1rem;
 }
 `
 export const UpperModuleCont = styled.div`

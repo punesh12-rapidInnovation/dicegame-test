@@ -43,7 +43,7 @@ export const ModalBody = styled.div<ModalBodyProps>`
 	left: 0;
 	top: 0;
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 	overflow: auto;
 	background: rgba(26, 39, 50, 0.7);
 	-webkit-backdrop-filter: blur(5px);

@@ -5,7 +5,7 @@ import Header from 'modules/app/components/header';
 import { PrimaryButton } from 'shared/button/Button';
 import CustomModal from 'shared/custom-modal';
 import { colors } from 'shared/styles/theme';
-import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, PoolDetailsContainer, PoolDetailsGridItem, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle, InfoTextContainer } from './style';
+import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, PoolDetailsContainer, PoolDetailsGridItem, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle, InfoTextContainer,HouseP } from './style';
 import verticalLine from "assets/icons/verticalLine.svg";
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import HousePoolTransaction from 'modules/app/components/HousePoolTransaction/HousePoolTransaction';
@@ -132,7 +132,6 @@ const HousePool = () => {
     }
     return (
         <HousePoolCont>
-            {/* <Header /> */}
             <InfoContainer>
                 <InfoTextContainer
                     style={{ margin: "0 10px" }}
@@ -140,8 +139,8 @@ const HousePool = () => {
                     <H3>Wallet {'>'} Liquidity</H3>
                     <H1>HOUSE POOL</H1>
                     <H3>Pulse Token (PLS) </H3>
-                    <p>Choose your odds and roll the dice to win pulse and prizes. Play, Invest, Exchange <br />
-                        and join the Contest with high rewards at Pulseroll</p>
+                    <HouseP>Choose your odds and roll the dice to win pulse and prizes. Play, Invest, Exchange <br />
+                        and join the Contest with high rewards at Pulseroll</HouseP>
                     <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
                 </InfoTextContainer>
                 <FlexCont

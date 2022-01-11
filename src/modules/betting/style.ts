@@ -298,6 +298,11 @@ export const H2 = styled.h2<any>`
 
 
   
+  @media (max-width: ${screenSizes.mediaM}px) {
+    font-size: ${(props) => (props.FontSizeMobile ? props.FontSize : "12px")};
+    font-weight: 400;
+    // margin:10px 0;
+}
   @media (max-width: ${screenSizes.mediaS}px) {
     font-size: ${(props) => (props.FontSizeMobile ? props.FontSize : "12px")};
     font-weight: 400;
@@ -377,8 +382,14 @@ export const Chance = styled.input`
   }
 
   
-  @media (max-width: ${screenSizes.mediaM}px) {
-    width: 40px;
+  @media (min-width: ${screenSizes.mediaM}px) and (max-width: ${screenSizes.mediaL}px) {
+    width: 60px;
+    font-size:12px;
+    padding: 10px;
+}
+ 
+  @media (min-width: 680px) and (max-width: ${screenSizes.mediaM}px) {
+    width: 50px;
     font-size:10px;
     padding: 10px;
 }
@@ -423,13 +434,19 @@ export const TransChance = styled.button`
     background-color: rgba(0, 0, 0, 0.2);
   }
 
+  @media (max-width: ${screenSizes.mediaL}px) {
+    width: 45px;
+    max-width: 55px;
+    font-size:10px;
+    padding: 0;
+    margin-right: 5px;
+}
   @media (max-width: ${screenSizes.mediaM}px) {
     width: 40px;
     max-width: 45px;
     font-size:10px;
     padding: 0;
     margin-right: 5px;
-
 }
   
   @media (max-width: ${screenSizes.mediaS}px) {
@@ -623,6 +640,12 @@ margin:0 5px;
 min-width:50%;
 text-align:right;
 
+
+@media (max-width: ${screenSizes.mediaM}px) {
+  font-size:14px;
+  font-weight:600;
+  margin:0 2px;
+}
 @media (max-width: ${screenSizes.mediaS}px) {
   font-size:11px;
   font-weight:600;

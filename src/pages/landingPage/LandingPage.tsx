@@ -1,48 +1,21 @@
-import LiveChat from "../../modules/liveChat";
-import {
-  Landingdiv,
-  Beonediv,
-  Flexcol,
-  Beoneimagediv,
-  Beoneimg,
-  H1,
-  H2,
-  H3,
-  Playerrank,
-  Rankimg,
-} from "./style";
-import { Flex, FlexColumn } from "../../modules/betting/style";
-import Beoneimage from "../../assets/images/beoneimage.png";
-import rectangle from "../../assets/images/rectangle.png";
-import playerrank from "../../assets/icons/playerrank.svg";
-import PlayersImage from "../../assets/images/PlayersImage.png";
-import { PrimaryButton } from "shared/button/Button";
-import history from "shared/helpers/history";
-import { Paths } from "modules/app/components/routes/types";
-import Header from "modules/app/components/header";
-import { Link } from "pages/housePool/style";
-import { useState, useEffect } from "react";
-import Disclaimer from "shared/Disclaimer/Disclaimer";
+import { useEffect, useState } from "react";
 import { screenSizes } from "shared/styles/theme";
-import LandingMobile from "./LandingMobile";
 import LandingDesktop from "./LandingDesktop";
+import LandingMobile from "./LandingMobile";
 
 const LandingPage = () => {
-  const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
-  const [height, setHeight] = useState(window.innerHeight);
 
   const updateWidthAndHeight = () => {
     setWidth(window.innerWidth);
-    setHeight(window.innerHeight);
   };
 
   useEffect(() => {
     window.addEventListener("resize", updateWidthAndHeight);
     return () => window.removeEventListener("resize", updateWidthAndHeight);
-  }, [window.innerWidth, window.innerHeight]);
+  }, []);
 
-  return width - 50 < screenSizes.mediaS ? (
+  return width < screenSizes.mediaS ? (
     <LandingMobile />
   ) : (
     <LandingDesktop />

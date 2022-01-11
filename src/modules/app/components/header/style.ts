@@ -37,7 +37,7 @@ margin:0;
 padding:0;
 background: rgba(0,0,0,0.5);
 
-@media (max-width: ${screenSizes.mediaS}px) {
+@media (max-width: ${screenSizes.mediaL}px) {
         height:60px;
 
         .siteLogo{
@@ -52,7 +52,7 @@ background: rgba(0,0,0,0.5);
 
 `;
 
-export const Walletcontainer = styled.div`
+export const WalletContainer = styled.div`
 display:-webkit-box;
 display:-ms-flexbox;
 display:flex;
@@ -73,7 +73,7 @@ margin-right: 20px;
 
 @media (max-width: ${screenSizes.mediaS}px) {
         height:30px;   
-        width:160px;   
+        width:200px;   
 }
 `
 
@@ -111,12 +111,12 @@ color: white;
 `
 
 export const SoundCheck = styled.img<any>`
-width:100px;
-// background:red;
+width:30px;
 margin-right: 20px;
 cursor:pointer;
+
 @media (max-width: ${screenSizes.mediaM}px) {
-	width: 60px;
+        margin-right: 10px;     
 }
 `
 

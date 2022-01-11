@@ -83,6 +83,15 @@ padding: 20px;
 }
 `
 
+export const HouseP = styled.p`
+@media (max-width: ${screenSizes.mediaS}px) {
+    br{
+        display: none;
+    }
+}
+
+`;
+
 
 
 export const TransactionContainer = styled.div`
