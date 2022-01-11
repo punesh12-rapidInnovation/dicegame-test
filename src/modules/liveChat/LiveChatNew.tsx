@@ -216,7 +216,7 @@ const LiveChatNew = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [userTyping, liveMessages,handleSendMessage]);
+  }, [userTyping, liveMessages]);
     
     useEffect(() => {
     //@ts-ignore
@@ -349,7 +349,7 @@ const LiveChatNew = () => {
                 onClick={() => console.log(ref)}
               />
 
-              <Button onClick={handleSendMessage}></Button>
+              <Button onClick={() => handleSendMessage()}></Button>
             </ChatInputParent>
 
              <Alertmsg
