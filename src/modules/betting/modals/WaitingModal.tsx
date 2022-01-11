@@ -33,7 +33,7 @@ const WaitingModal = (props: any) => {
             const soundOff = localStorage.getItem("soundOff") || "";
             if (soundOff !== 'true') {
 
-                if (show || loading === "true") {
+                if (show && (loading !== null || loading !== undefined)) {
                     rollingDiceSound.play();
                     rollingDiceSound.loop = true;
                 }
