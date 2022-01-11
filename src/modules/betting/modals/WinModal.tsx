@@ -54,17 +54,15 @@ const WinModal = (props: any) => {
   useEffect(() => {
     try {
 
-      if (localStorage.getItem("soundOff") !== null) {
-        const soundOff = localStorage.getItem("soundOff") || "";
-        if (soundOff !== "true") {
+      const soundOff = localStorage.getItem("soundOff") || "";
+      if (soundOff !== "true") {
 
-          if (show) betWinSound.play();
-          else
-            betWinSound.removeEventListener("ended", () => {
-              betWinSound.pause();
-              betWinSound.currentTime = 0;
-            });
-        }
+        if (show) betWinSound.play();
+        else
+          betWinSound.removeEventListener("ended", () => {
+            betWinSound.pause();
+            betWinSound.currentTime = 0;
+          });
       }
 
     } catch (error) {
