@@ -66,12 +66,12 @@ const ConnectWallet = (props: any) => {
     }
   };
 
-  // useEffect(() => {
-  //   let walletType = localStorage.getItem('walletType') || "";
+  useEffect(() => {
+    let walletType = localStorage.getItem('walletType') || "";
 
-  //   if (walletType === "2")
-  //     connect(2);
-  // }, [])
+    if (walletType === "2")
+      connect(2);
+  }, [])
 
 
   return (
