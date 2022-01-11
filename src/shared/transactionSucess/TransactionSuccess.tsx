@@ -2,7 +2,7 @@
 import CustomModal from 'shared/custom-modal';
 
 const TransactionSuccess = (props: any) => {
-  const { show, toggleModal, heading, styles } = props;
+  const { show, toggleModal } = props;
   return (
     <CustomModal
       show={show}

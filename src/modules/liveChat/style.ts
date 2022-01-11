@@ -1,11 +1,9 @@
+import { screenSizes } from "shared/styles/theme";
 import styled from "styled-components";
+import warningtext from '../../assets/icons/warningtext.png';
 import Chatsection from "../../assets/images/Chatsection.png";
 import sendimage from "../../assets/images/send-icon.svg";
-import toolTip from "assets/icons/toolTip.png";
 import smilingFace from "../../assets/images/smiling-face.svg";
-import { colors } from "shared/styles/theme";
-import warningtext from '../../assets/icons/warningtext.png';
-import { screenSizes } from "shared/styles/theme";
 
 export const Box = styled.div`
   background: linear-gradient(

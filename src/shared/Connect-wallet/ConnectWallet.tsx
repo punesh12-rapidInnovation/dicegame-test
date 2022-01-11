@@ -31,6 +31,7 @@ const ConnectWallet = (props: any) => {
   const [showModal, setShowModal] = useState(false);
   const [disconnectWallet, setDisconnectWallet] = useState(false);
   const [walletType] = useState(false);
+  const [metamaskNotExist, setMetamaskNotExist] = useState(false)
 
   const connect = async (type: any) => {
     if (connectWallet) {
@@ -59,12 +60,15 @@ const ConnectWallet = (props: any) => {
         }
         setShowModal(false);
         setConnectWallet(true);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
         // setErrorModal(true);
+        if (error.code === undefined)
+          setMetamaskNotExist(true)
       }
     }
   };
+
 
   useEffect(() => {
     let walletType = localStorage.getItem('walletType') || "";
@@ -72,6 +76,7 @@ const ConnectWallet = (props: any) => {
     if (walletType === "2")
       connect(2);
   }, [])
+
 
 
   return (
@@ -91,8 +96,11 @@ const ConnectWallet = (props: any) => {
         )
       ) : null}
 
-      <CustomModal show={showModal} toggleModal={() => setShowModal(false)}>
+      <CustomModal show={showModal} toggleModal={() => { setShowModal(false); setMetamaskNotExist(false) }}>
         <WalletList>
+          {
+            metamaskNotExist ? <p style={{ textAlign: 'center', color: "red" }}>Not able to detect the Metamask.</p> : null
+          }
           {chainId === 0 ? null : (
             <WalletOption onClick={() => connect(WalletTypes.metamask)}>
               Metamask
@@ -110,7 +118,7 @@ const ConnectWallet = (props: any) => {
       >
         <WalletOption onClick={() => connect(walletType)}>Logout</WalletOption>
       </CustomModal>
-    </WalletCont>
+    </WalletCont >
   );
 };
 

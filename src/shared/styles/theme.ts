@@ -1,7 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 
-import ThemeBackground from "assets/images/theme-background.svg";
-
 const BalooDa = require("assets/fonts/BalooDa2.ttf");
 
 export interface Colors {

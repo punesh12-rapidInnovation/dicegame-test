@@ -1,64 +1,62 @@
-import { useState, useEffect, memo } from "react";
-import { TimerWrapper } from "modules/app/components/HousePoolTransaction/style";
-import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { useState, useEffect } from "react";
 import { CircleTimerCont, Inner, Outer } from './style';
 import { pad } from "utils/helper";
 
 
 const CircleTimer = (props: any) => {
-    const { value, actionAfterTimerOver, getTimeLeft } = props;
-    // const { value, rowIndex } = props;
-    // const lockedTime:any = localStorage.getItem(`lockedTime${rowIndex}`);
-    // const value = 2;
-    const [counter, setCounter] = useState(value>0?value:0);//value>0?value:0
+  const { value, actionAfterTimerOver, getTimeLeft } = props;
+  // const { value, rowIndex } = props;
+  // const lockedTime:any = localStorage.getItem(`lockedTime${rowIndex}`);
+  // const value = 2;
+  const [counter, setCounter] = useState(value > 0 ? value : 0);//value>0?value:0
 
-    // const [circleDasharray, setCircleDasharray] = useState(200);
-    // const [circleDashoffset, setCircleDashoffset] = useState(200);
-  
-    // useEffect(() => {
-    //   setCounter(value>0?value:0);
-    // },[])
+  // const [circleDasharray, setCircleDasharray] = useState(200);
+  // const [circleDashoffset, setCircleDashoffset] = useState(200);
+
+  // useEffect(() => {
+  //   setCounter(value>0?value:0);
+  // },[])
 
 
-    useEffect(() => {
+  useEffect(() => {
 
-      if (counter<=0) return;
-      
-      const intervalId = setInterval(() => {
-          // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
-          // let lockedTime = parseFloat(lockedTimeString);
-          // console.log(counter);
-          // setLockedTimeLeft(newValue);
-          // const lockedTimeArrayString:any = localStorage.getItem("lockedTimeArray");
-          // let lockedTimeArray = JSON.parse(lockedTimeArrayString);
-          // localStorage.setItem(`lockedTime${rowIndex}`, `${counter - 1}`)
-          if (counter<=0) {
-            console.log("interval clear");
-            
-            clearInterval(intervalId)
-          } else {
-            // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
-            // setCounter(counter-1);
-            console.log("timeLefrt",getTimeLeft());
-            
-            setCounter(getTimeLeft());
-            // setCircleDashoffset(circleDashoffset+(circleDasharray/counter));
-          }
-        }, 1000);
-        
-        if (counter<=0) clearInterval(intervalId);
+    if (counter <= 0) return;
 
-        return () => clearInterval(intervalId);
-    },[counter])
-      
-      
-    useEffect(() => {
+    const intervalId = setInterval(() => {
+      // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
+      // let lockedTime = parseFloat(lockedTimeString);
+      // console.log(counter);
+      // setLockedTimeLeft(newValue);
+      // const lockedTimeArrayString:any = localStorage.getItem("lockedTimeArray");
+      // let lockedTimeArray = JSON.parse(lockedTimeArrayString);
+      // localStorage.setItem(`lockedTime${rowIndex}`, `${counter - 1}`)
+      if (counter <= 0) {
+        console.log("interval clear");
 
-      if (counter<=0) {
-        actionAfterTimerOver()
-      };
+        clearInterval(intervalId)
+      } else {
+        // const lockedTimeString:any = localStorage.getItem(`lockedTime${rowIndex}`);
+        // setCounter(counter-1);
+        console.log("timeLefrt", getTimeLeft());
 
-    },[counter])
+        setCounter(getTimeLeft());
+        // setCircleDashoffset(circleDashoffset+(circleDasharray/counter));
+      }
+    }, 1000);
+
+    if (counter <= 0) clearInterval(intervalId);
+
+    return () => clearInterval(intervalId);
+  }, [counter])
+
+
+  useEffect(() => {
+
+    if (counter <= 0) {
+      actionAfterTimerOver()
+    };
+
+  }, [counter])
 
 
   // useEffect(() => {
@@ -99,15 +97,15 @@ const CircleTimer = (props: any) => {
 
   const formatTime = (timeInSec: any) => {
 
-      let h = Math.floor(timeInSec / 3600);
-      let m = Math.floor(timeInSec % 3600 / 60);
-      let s = Math.floor(timeInSec % 3600 % 60);
+    let h = Math.floor(timeInSec / 3600);
+    let m = Math.floor(timeInSec % 3600 / 60);
+    let s = Math.floor(timeInSec % 3600 % 60);
 
-      h = h >=0 ? h : 0;
-      m = m >=0 ? m : 0;
-      s = s >=0 ? s : 0;
+    h = h >= 0 ? h : 0;
+    m = m >= 0 ? m : 0;
+    s = s >= 0 ? s : 0;
 
-      return `${pad(h)}:${pad(m)}:${pad(s)}`;
+    return `${pad(h)}:${pad(m)}:${pad(s)}`;
   };
 
   return (
@@ -127,30 +125,30 @@ const CircleTimer = (props: any) => {
     //     </CountdownCircleTimer>
     // </TimerWrapper>
     <CircleTimerCont
-    // circleDasharray={`${circleDasharray}`}
-    // circleDashoffset={`${circleDashoffset}`}
-    totalTime={value}
+      // circleDasharray={`${circleDasharray}`}
+      // circleDashoffset={`${circleDashoffset}`}
+      totalTime={value}
     // totalOffsetToBeDone={200}
     >
       <Outer>
         <Inner>
-          <div style={{color:"#fff"}}>
-              {formatTime(counter)}
+          <div style={{ color: "#fff" }}>
+            {formatTime(counter)}
           </div>
         </Inner>
       </Outer>
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100px" height="100px">
-         <defs>
-            <linearGradient id="GradientColor">
-               <stop offset="0%" stop-color="#EF0896" />
-               <stop offset="50%" stop-color="#7007FF" />
-               <stop offset="100%" stop-color="#00C8FF" />
-            </linearGradient>
-         </defs>
-         <circle cx="50" cy="50" r="40" stroke-linecap="round" />
+        <defs>
+          <linearGradient id="GradientColor">
+            <stop offset="0%" stop-color="#EF0896" />
+            <stop offset="50%" stop-color="#7007FF" />
+            <stop offset="100%" stop-color="#00C8FF" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="40" stroke-linecap="round" />
       </svg>
     </CircleTimerCont>
-    );
-  };
-  export default CircleTimer;
-  
+  );
+};
+export default CircleTimer;
+

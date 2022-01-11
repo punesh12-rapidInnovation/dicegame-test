@@ -1,9 +1,9 @@
-import { colors, screenSizes } from 'shared/styles/theme';
+import { screenSizes } from 'shared/styles/theme';
 import styled from 'styled-components';
 
 import Background from 'assets/images/poolDetailsBg.png'
-import landingtop from '../../assets/images/landingtop.png';
-import rectangle from '../../assets/images/rectangle.png';
+import landingtop from 'assets/images/landingtop.png';
+import rectangle from 'assets/images/rectangle.png';
 
 
 
