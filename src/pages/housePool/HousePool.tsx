@@ -32,6 +32,7 @@ const HousePool = () => {
     // const [withdrawTxs, setWithdrawTxs] = useState<any>([])
     const [totalValueLocked, setTotalValueLocked] = useState<any>("0")
     const [totalFunds, setTotalFunds] = useState<any>("0")
+    const [poolContributionPercent, setPoolContributionPercent] = useState<any>("0")
     const [liquidityChartData, setLiquidityChartData] = useState<any>([])
     const [hoverLiquidityChartValue, setHoverLiquidityChartValue] = React.useState<any>("")
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = React.useState<any>("")
@@ -74,11 +75,19 @@ const HousePool = () => {
                 }
                 const usersArray = await Promise.all(promiseArray)
                 console.log("TotalFunds", usersArray.reduce((a: any, c: any) => a + parseFloat(c.Balance), 0));
-
-                setTotalFunds(usersArray.reduce((a: any, c: any) => a + parseFloat(c.Balance), 0));
+                let totalFunds = usersArray.reduce((a: any, c: any) => a + parseFloat(c.Balance), 0);
+                setTotalFunds(totalFunds);
+                
                 let totalValueLocked = await housepoolInstance.methods.TotalValueLocked().call();
-                setTotalValueLocked(totalValueLocked)
+                setTotalValueLocked(totalValueLocked);
                 // console.log("totalValueLocked",totalValueLocked);
+
+                let totalDepositedAmount = await housepoolInstance.methods.TotalDepositedAmount().call();
+                if(totalFunds!==0 && totalDepositedAmount!==0){
+                    totalFunds = convertToEther(`${totalFunds}`)
+                    totalDepositedAmount = convertToEther(`${totalDepositedAmount}`)
+                    setPoolContributionPercent((totalFunds/totalDepositedAmount)*100);
+                }
             }
         } //
 
@@ -185,7 +194,9 @@ const HousePool = () => {
                     >
                         <PoolFundsCont>
                             <h5>Your Total Funds</h5>
-                            <h1>{parseFloat(`${convertToEther(`${totalFunds}`)}`).toFixed(3)}</h1>
+                            <h1>{parseFloat(`${convertToEther(`${totalFunds}`)}`).toFixed(3)} 
+                              <span style={{fontSize:"14px", marginLeft:"5px"}}>({`${parseFloat(`${poolContributionPercent}`).toFixed(4)}%`})</span>
+                            </h1> 
                             <p>PULSE TOKEN</p>
                         </PoolFundsCont>
                     </FlexCont>
