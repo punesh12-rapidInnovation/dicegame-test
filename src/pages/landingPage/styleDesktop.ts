@@ -38,10 +38,11 @@ border-radius: 20px;
 max-width:1300px;
 // min-width:1100px;
 
-@media (max-width: ${screenSizes.mediaL}px) {
+@media (max-width: 1300px) {
     width: 95%;
     margin:1rem;
     padding:2rem;
+    margin-top:30px;
 }
 @media (max-width: ${screenSizes.mediaM}px) {
     width: 99%;

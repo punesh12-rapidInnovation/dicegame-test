@@ -633,7 +633,7 @@ const Betting = () => {
       </HowToPlay>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
-          <H2 MarginBottom="16px" style={{ marginTop: "10px" }}>BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS</H2>
+          <H2 MarginBottom="16px" style={{ marginTop: "10px" }}>BET AMOUNT | AVL BL : {walletBalance ? walletBalance.substring(0,10) : 0} PLS</H2>
           <Flex>
             <Chance
               value={BetAmount}
