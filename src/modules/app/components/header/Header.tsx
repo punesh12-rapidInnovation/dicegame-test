@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Login, setChainIdValue, setChatMessage, setWalletBalance } from "logic/action/wallet.action";
 import ConnectWallet from "shared/Connect-wallet";
 import web3 from "utils/web3";
-import { HeaderContainer, Walletcontainer, WalletLogo, HeaderDiv, SoundCheck } from "./style";
+import { HeaderContainer, WalletContainer, WalletLogo, HeaderDiv, SoundCheck } from "./style";
 import siteLogo from "assets/icons/sitelogo.png";
 import walletLogo from "assets/icons/walleticon.png";
 import soundOn from "assets/icons/soundOn.svg";
@@ -101,26 +101,30 @@ const Header = () => {
   };
 
 
+
+  useEffect(() => {
+    if (localStorage.getItem("soundOff") === 'true') setSoundStatus(false);
+    else setSoundStatus(true);
+    // if (localStorage.getItem("soundOff") !== null) {
+    //   const soundOff = localStorage.getItem("soundOff") || "";
+    //   if (soundOff !== 'true') {
+    //     setSoundStatus(true);
+    //   }
+    //   else setSoundStatus(false);
+    // }
+
+  }, [])
+
   const handleToggleSound = () => {
     if (localStorage.getItem("soundOff") === 'false' || localStorage.getItem("soundOff") === null) {
-      localStorage.setItem("soundOff", 'true')
+      localStorage.setItem("soundOff", 'true');
+      setSoundStatus(false);
     }
     else {
       localStorage.setItem("soundOff", 'false')
+      setSoundStatus(true);
     }
   }
-
-  useEffect(() => {
-    if (localStorage.getItem("soundOff") !== null) {
-      const soundOff = localStorage.getItem("soundOff") || "";
-      if (soundOff !== 'true') {
-        setSoundStatus(true);
-      }
-      else setSoundStatus(false);
-    }
-
-  })
-
   return (
     <HeaderDiv>
       <HeaderContainer>
@@ -132,11 +136,12 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* <SoundCheck
-          onClick={() => handleToggleSound()}
-          src={soundStatus} /> */}
 
-        <Walletcontainer>
+        <SoundCheck
+          onClick={() => handleToggleSound()}
+          src={soundStatus ? soundOn : soundOff} />
+
+        <WalletContainer>
           <WalletLogo src={walletLogo} />
           <ConnectWallet
             connectWallet={connectWallet}
@@ -145,7 +150,9 @@ const Header = () => {
             setConnectWallet={setConnectWallet}
             showWalletContent
           />
-        </Walletcontainer>
+        </WalletContainer>
+
+
       </HeaderContainer>
       <WrongNetwork
         show={showWrongNetwork}
@@ -159,7 +166,7 @@ const Header = () => {
       >
         <Disclaimer />
       </CustomModal>
-    </HeaderDiv>
+    </HeaderDiv >
   );
 };
 

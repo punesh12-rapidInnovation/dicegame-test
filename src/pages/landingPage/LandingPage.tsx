@@ -28,7 +28,6 @@ import LandingMobile from "./LandingMobile";
 import LandingDesktop from "./LandingDesktop";
 
 const LandingPage = () => {
-  const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
   const [height, setHeight] = useState(window.innerHeight);
 
@@ -42,7 +41,7 @@ const LandingPage = () => {
     return () => window.removeEventListener("resize", updateWidthAndHeight);
   }, [window.innerWidth, window.innerHeight]);
 
-  return width - 50 < screenSizes.mediaS ? (
+  return width < screenSizes.mediaS ? (
     <LandingMobile />
   ) : (
     <LandingDesktop />
