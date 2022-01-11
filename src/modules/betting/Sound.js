@@ -1,4 +1,4 @@
-import heart from '../../assets/sound/heartbeat.mp3';
+import heart from '../../assets/sound/Heartbeat2.mp3';
 // import win from 'assets/sound/bigWin.wav';
 import RollingDice from '../../assets/sound/Dice2.wav';
 import bigWin from '../../assets/sound/bigWin.mp3';
