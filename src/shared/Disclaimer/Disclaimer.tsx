@@ -7,10 +7,11 @@ import Alertmsg from "modules/betting/modals/Alertmsg";
 
 const Disclaimer = (props: any) => {
   const [LocalAgree, setLocalAgree] = useState<boolean>();
-  const [ReactAgree, setReactAgree] = useState<boolean>();
   const [AlertModalState, setAlertModalState] = useState(false);
   const [CheckedState, setCheckedState] = useState<boolean>(false);
   const { show, toggleModal } = props;
+
+  let ShowDisclaimer = localStorage.getItem("ShowDisclaimer") || "";
 
   const CheckedOrNot = () => {
     const localChecked = localStorage.getItem("ShowDisclaimer");
@@ -23,15 +24,16 @@ const Disclaimer = (props: any) => {
 
   useEffect(() => {
     CheckedOrNot();
-  }, [localStorage.getItem("ShowDisclaimer")]);
+  }, [ShowDisclaimer]);
 
+  let Agree = localStorage.getItem("Agree") || ""
   useEffect(() => {
     if (localStorage.getItem("Agree") === "true") {
       setLocalAgree(true);
     } else {
       setLocalAgree(false);
     }
-  }, [localStorage.getItem("Agree")]);
+  }, [Agree]);
 
   const crossFunction = () => {
     toggleModal();
