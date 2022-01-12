@@ -59,9 +59,9 @@ export interface ScreenSizes {
 }
 export const screenSizes: ScreenSizes = {
   mediaXS: 360,
-  mediaS: 640,
-  mediaM: 800,
-  mediaL: 1024,
+  mediaS: 850,
+  mediaM: 1024,
+  mediaL: 1110,
   mediaXL: 1280,
   mediaXLL: 1440,
   mediaXXL: 1600,
