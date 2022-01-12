@@ -78,8 +78,8 @@ const Chart = ({
       for (let i = 0; i <= 5; i++) {
         ticks.push((intervalOfSixTicks * i).toFixed(2));
       }
-      ticks = ticks.map((tick: any) => (tick > 1 ? tick : !parseFloat(tick) ? 0 : tick));
-      // console.log("ticks",ticks);
+      ticks = ticks.map((tick: any) => (tick > 1 ? parseFloat(tick) : !parseFloat(tick) ? 0 : parseFloat(tick)));
+      console.log("ticks",ticks);
 
       return ticks;
     } else {
