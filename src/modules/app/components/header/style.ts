@@ -88,6 +88,7 @@ margin-left:-10px;
 }
 `
 export const Walletoutline = styled.img`
+border:2px solid white;
 width: 130px;
 -webkit-transform: translatex(-30px);
 -ms-transform: translatex(-30px);
