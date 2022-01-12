@@ -38,6 +38,7 @@ export const AddressInfo = styled.div`
 	
 	@media (max-width: ${screenSizes.mediaS}px) {
 		font-size:10px;   
+		margin-Left:5px;
 }
 `;
 export const ConnectWalletButton = styled.button`
@@ -53,6 +54,7 @@ export const ConnectWalletButton = styled.button`
 	@media (max-width: ${screenSizes.mediaS}px) {
 		width:90%;
 		font-size:10px;   
+		margin-Left:5px;
 		// margin-left:10px;
 		// background:red;
 }
