@@ -3,7 +3,8 @@ import {
 	LOGIN,
 	SET_CHAINID,
 	WALLET_CONNECT_CHECK,
-	SET_MESSAGE
+	SET_MESSAGE,
+	SET_LASTROLL
 } from '../reducer/constants';
 
 export const walletConnectCheck = (value: any) => {
@@ -36,6 +37,14 @@ export const setChatMessage = (message: any) => {
 
 	return {
 		type: SET_MESSAGE,
+		value: message,
+	};
+};
+
+export const setLastRollData = (message: any) => {
+
+	return {
+		type: SET_LASTROLL,
 		value: message,
 	};
 };

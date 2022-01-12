@@ -4,3 +4,4 @@ export const LOGIN = 'LOGIN';
 export const SET_CHAINID = 'SET_CHAINID';
 export const GET_BALANCE = 'GET_BALANCE';
 export const SET_MESSAGE = 'SET_MESSAGE';
+export const SET_LASTROLL = 'SET_LASTROLL';

@@ -30,7 +30,7 @@ import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
 import { instanceType, selectReadContractInstance, selectWriteContractInstance } from "../../utils/contracts";
 import { LINK_TOKEN_ADDRESS } from "../../config";
-import { setWalletBalance } from "logic/action/wallet.action";
+import { setLastRollData, setWalletBalance } from "logic/action/wallet.action";
 import { PrimaryButton } from "shared/button/Button";
 import { colors } from "shared/styles/theme";
 import { floatNumRegex } from "shared/helpers/regrexConstants";
@@ -96,7 +96,6 @@ const Betting = () => {
 
   const [play] = useSound(heart, { interrupt: true });
 
-  let soundCheck = localStorage.getItem("soundOff")
 
   useEffect(() => {
     const soundOff = localStorage.getItem("soundOff") || "";
@@ -104,12 +103,11 @@ const Betting = () => {
     console.log('soundOff', soundOff !== 'true');
     if (soundOff !== 'true')
       play();
-
-
   }, [RangeValue])
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
+
 
   const { socket } = useContext(SocketContext);
 
@@ -423,6 +421,7 @@ const Betting = () => {
     console.log("storingcalled");
     if (localStorage.getItem("LastRolls") === null) {
       localStorage.setItem("LastRolls", JSON.stringify([ResultObject]));
+      dispatch(setLastRollData([ResultObject]))
       console.log("not exist ran");
     } else {
       console.log("exist ran");
@@ -431,10 +430,14 @@ const Betting = () => {
         Resulttillnow.splice(-1);
         // console.log(Resulttillnow);
         localStorage.setItem("LastRolls", JSON.stringify(Resulttillnow));
+        dispatch(setLastRollData(Resulttillnow))
+
       }
       const PreviousResults = JSON.parse(localStorage.getItem("LastRolls") || "[]");
       PreviousResults.unshift(ResultObject);
       localStorage.setItem("LastRolls", JSON.stringify(PreviousResults));
+      dispatch(setLastRollData(PreviousResults))
+
     }
   };
 
@@ -637,7 +640,7 @@ const Betting = () => {
       </HowToPlay>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
-          <H2 MarginBottom="16px" style={{ marginTop: "10px" }}>BET AMOUNT | AVL BL : {walletBalance ? walletBalance.substring(0,10) : 0} PLS</H2>
+          <H2 MarginBottom="16px" style={{ marginTop: "10px" }}>BET AMOUNT | AVL BL : {walletBalance ? walletBalance.substring(0, 10) : 0} PLS</H2>
           <Flex>
             <Chance
               value={BetAmount}
