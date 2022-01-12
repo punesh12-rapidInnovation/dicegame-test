@@ -247,7 +247,7 @@ class Wallet {
 		switch (this.walletType) {
 			case WalletTypes.metamask:
 				//@ts-ignore
-				// localStorage.removeItem('address');
+				localStorage.removeItem('address');
 				removeLocalData();
 				await this.web3.currentProvider._handleDisconnect();
 				// localStorage.clear();
@@ -345,29 +345,29 @@ export default new Wallet();
 
 
 export const removeLocalData = () => {
-	// localStorage.removeItem('walletType')
-	// localStorage.removeItem('walletConnected')
-	// localStorage.removeItem('walletconnect')
-	// localStorage.removeItem('address')
-	// localStorage.removeItem('WALLETCONNECT_DEEPLINK_CHOICE')
-	// localStorage.removeItem('PlacingBetId')
-	// localStorage.removeItem('Loading')
-	// localStorage.removeItem('Agree')
-	// localStorage.removeItem('ShowDisclaimer')
+	localStorage.removeItem('walletType')
+	localStorage.removeItem('walletConnected')
+	localStorage.removeItem('walletconnect')
+	localStorage.removeItem('address')
+	localStorage.removeItem('WALLETCONNECT_DEEPLINK_CHOICE')
+	localStorage.removeItem('PlacingBetId')
+	localStorage.removeItem('Loading')
+	localStorage.removeItem('Agree')
+	localStorage.removeItem('ShowDisclaimer')
 
-	try {
-		let lastRollData: any;
-		if (localStorage.getItem("LastRolls") !== null)
-			lastRollData = JSON.parse(localStorage.getItem("LastRolls") || '');
-		localStorage.clear();
+	// try {
+	// 	let lastRollData: any;
+	// 	if (localStorage.getItem("LastRolls") !== null)
+	// 		lastRollData = JSON.parse(localStorage.getItem("LastRolls") || '');
+	// 	localStorage.clear();
 
-		console.log('lastRollData', lastRollData);
+	// 	console.log('lastRollData', lastRollData);
 
-		if (lastRollData !== undefined)
-			localStorage.setItem('LastRolls', JSON.stringify(lastRollData))
+	// 	if (lastRollData !== undefined)
+	// 		localStorage.setItem('LastRolls', JSON.stringify(lastRollData))
 
-	} catch (error) {
+	// } catch (error) {
 
-	}
+	// }
 
 }
