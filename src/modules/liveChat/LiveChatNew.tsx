@@ -1,12 +1,12 @@
-import React,{useContext,useState,createRef,useEffect,useCallback} from 'react';
-import { LiveChatCont, ChatTopDiv, ChatHeaderLeft, ChatMiddleDiv, ChatInputParent,OwnMsg, SendButton, Input, EmojiButton,Emojisdiv,Button  } from './styleNew';
+import React, { useContext, useState, createRef, useEffect, useCallback } from 'react';
+import { LiveChatCont, ChatTopDiv, ChatHeaderLeft, ChatMiddleDiv, ChatInputParent, OwnMsg, SendButton, Input, EmojiButton, Emojisdiv, Button } from './styleNew';
 import threeDot from "assets/images/threedot.svg";
 import { SocketContext } from 'modules/app/context/socket';
 import { useSelector } from "react-redux";
 import useOutsideClick from './hooks/useOutsideClick';
 import useTyping from './hooks/useTyping';
 import axios from 'axios';
-import {  Time, Messagediv, OtherMsgAddress, Report, OthersMsgIcon,MobWarningcont,TypingDiv} from './style';
+import { Time, Messagediv, OtherMsgAddress, Report, OthersMsgIcon, MobWarningcont, TypingDiv } from './style';
 import ChatProfile from "../../assets/icons/ChatProfileIcon.svg";
 import ReportIcon from "assets/icons/reportIcon.svg";
 import warning from '../../assets/icons/warning.svg';
@@ -16,11 +16,13 @@ import 'emoji-mart/css/emoji-mart.css';
 import Alertmsg from 'modules/betting/modals/Alertmsg';
 //@ts-ignore
 import { Picker } from 'emoji-mart';
+import useSound from 'use-sound';
+import { buttonClick } from 'modules/betting/Sound';
 const LiveChatNew = () => {
-    const { userAddress } = useSelector((state: any) => state.wallet);
-    const { socket, liveMessages, setLiveMessages, userTyping, setUserTyping, userTypingAddress } =
-        useContext(SocketContext);
-    
+  const { userAddress } = useSelector((state: any) => state.wallet);
+  const { socket, liveMessages, setLiveMessages, userTyping, setUserTyping, userTypingAddress } =
+    useContext(SocketContext);
+
   const inputRef = createRef<HTMLInputElement>();
   const messagesEndRef = createRef<HTMLDivElement>();
   const [showEmojis, setshowEmojis] = useState("none");
@@ -33,13 +35,16 @@ const LiveChatNew = () => {
   const [PeopleOnline, setPeopleOnline] = useState<number>(0);
   const [showWarning, setshowWarning] = useState<Boolean>(false);
 
-  const { showEmoji, setShowEmoji, ref,inputref } = useOutsideClick(false)
+  const { showEmoji, setShowEmoji, ref, inputref } = useOutsideClick(false)
 
 
-    const { isTyping, startTyping, stopTyping, cancelTyping } = useTyping();
-    
+  const { isTyping, startTyping, stopTyping, cancelTyping } = useTyping();
 
-    const handleEmojiShow = () => { setShowEmoji((v: any) => !v) }
+  const [play] = useSound(buttonClick, { interrupt: true });
+
+
+
+  const handleEmojiShow = () => { setShowEmoji((v: any) => !v) }
   const handleEmojiSelect = (e: any) => {
     setInputMessage((InputMessage) => (InputMessage += e.native))
   }
@@ -50,9 +55,9 @@ const LiveChatNew = () => {
   }, [liveMessages]);
 
   //@ts-ignore
-    const address = JSON.parse(localStorage.getItem("address"));
-    
-    useEffect(() => {
+  const address = JSON.parse(localStorage.getItem("address"));
+
+  useEffect(() => {
     const getBlockStatus = async () => {
       //@ts-ignore
       const address = JSON.parse(localStorage.getItem("address"));
@@ -73,18 +78,20 @@ const LiveChatNew = () => {
             console.log(counter);
           }
         });
-         }
-        };
-         getBlockStatus();
-    }, [address]);
-    
-    const sendTOAPI = (msg: string) => {
+      }
+    };
+    getBlockStatus();
+  }, [address]);
+
+  const sendTOAPI = (msg: string) => {
     if (UserBlockedOrNot) {
       console.log(UserBlockedOrNot);
       setAlertModaltext("You Have Been Blocked From Global Chat");
       setAlertModalState(true);
       return;
     } else {
+
+
       setUserTyping(false);
       var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
       var localISOTime = new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
@@ -106,8 +113,12 @@ const LiveChatNew = () => {
       setInputMessage("");
 
       try {
-        console.log("send api ", data);
 
+        const soundOff = localStorage.getItem("soundOff") || "";
+        if (soundOff !== 'true')
+          play();
+
+        console.log("send api ", data);
         //@ts-ignore
         socket.emit("message", data);
 
@@ -119,9 +130,9 @@ const LiveChatNew = () => {
         console.log(e);
       }
     }
-    };
+  };
 
-    const HandleReport = async (address: string) => {
+  const HandleReport = async (address: string) => {
     const walletConnectOrNot = localStorage.getItem("walletConnected");
     if (walletConnectOrNot !== "true") {
       setAlertModaltext("Connect Wallet to Send Message To Global Chat");
@@ -179,8 +190,8 @@ const LiveChatNew = () => {
       setAlertModaltext("Global Chat Access Blocked");
       setAlertModalState(true);
     }
-    };
-    
+  };
+
 
 
   const renderChat = useCallback(() => {
@@ -191,7 +202,7 @@ const LiveChatNew = () => {
           <Time>{m.time.substring(11, 16)}</Time>
         </OwnMsg>
       ) : (
-        <Messagediv key={index} style={{maxWidth:'300px'}}>
+        <Messagediv key={index} style={{ maxWidth: '300px' }}>
           <OthersMsgIcon src={ChatProfile} alt="" />
           <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
           {m.content}
@@ -203,9 +214,9 @@ const LiveChatNew = () => {
         </Messagediv>
       )
     );
-    }, [liveMessages]);
-    
-    const scrollToBottom = () => {
+  }, [liveMessages]);
+
+  const scrollToBottom = () => {
     //@ts-ignore
     messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -217,8 +228,8 @@ const LiveChatNew = () => {
   useEffect(() => {
     scrollToBottom();
   }, [userTyping, liveMessages]);
-    
-    useEffect(() => {
+
+  useEffect(() => {
     //@ts-ignore
     inputRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
@@ -240,11 +251,14 @@ const LiveChatNew = () => {
   };
 
   function sendThroughButton() {
+
     handleSendMessage();
     scrollToBottom();
   }
 
-  function handleSendMessage(){
+  function handleSendMessage() {
+
+
     //@ts-ignore
     inputRef.current.focus();
     cancelTyping();
@@ -267,8 +281,8 @@ const LiveChatNew = () => {
     setPeopleOnline(usersOnline.length);
     console.log(usersOnline);
   }, [liveMessages]);
-    
-    //@ts-ignore
+
+  //@ts-ignore
   // const pickEmoji = (e: any, { emoji }) => {
   //   console.log(e.target);
   //   const ref: any = inputRef.current;
@@ -291,80 +305,80 @@ const LiveChatNew = () => {
     }
   };
 
-    
 
-    return (
-        <LiveChatCont>
-            <ChatTopDiv>
-                <ChatHeaderLeft>
-                    <h1>Global chat</h1>
-                    <h5>{PeopleOnline}  Chatting</h5>
-                </ChatHeaderLeft>
-                <img src={warning} alt=""  width='30px' onMouseOver={() => setshowWarning(true)}
-                onMouseOut={() => setshowWarning(false)} style={{ cursor: 'pointer' }} />
-              {
-                showWarning ? <MobWarningcont></MobWarningcont> : ''
-              }
-            </ChatTopDiv>
-            <ChatMiddleDiv >
-               {renderChat()}
-              {userTyping ? (
-                <TypingDiv>
-                  <OthersMsgIcon src={ChatProfile} alt="" />
-                  <OtherMsgAddress>
-                    {formatAddress(userTypingAddress)}
-                    <br /> is typing..
-                  </OtherMsgAddress>
-                </TypingDiv>
-              ) : (
-                // <Messagediv>
-                //   <OthersMsgIcon src={ChatProfile} alt="" />
-                //   <OtherMsgAddress>Typing..</OtherMsgAddress>
-                // </Messagediv>
-                ""
-              )}
-              <div ref={messagesEndRef} />
-            </ChatMiddleDiv>
-            <ChatInputParent>
-                <EmojiButton style={{ width: '20px', height: '20px' }} onClick={handleEmojiShow}></EmojiButton>
-                {
-                showEmoji && (
-                  <Emojisdiv ref={ref}>
-                    <Picker
-                      onSelect={handleEmojiSelect}
-                      title='Pick your emoji…' emoji='point_up'
-                  emojiSize={20}
-                  style={{width:'300px'}}
-                    />
-                  </Emojisdiv>
-                )
-              }
-               <Input
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyDown={startTyping}
-                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                onKeyUp={stopTyping}
-                value={inputMessage}
-                //@ts-ignore
-                ref={inputRef}
-                style={{ width: "100%", height: "100%" }}
-                type="text"
-                placeholder="Type message..."
-                //@ts-ignore
-                onClick={() => console.log(ref)}
+
+  return (
+    <LiveChatCont>
+      <ChatTopDiv>
+        <ChatHeaderLeft>
+          <h1>Global chat</h1>
+          <h5>{PeopleOnline}  Chatting</h5>
+        </ChatHeaderLeft>
+        <img src={warning} alt="" width='30px' onMouseOver={() => setshowWarning(true)}
+          onMouseOut={() => setshowWarning(false)} style={{ cursor: 'pointer' }} />
+        {
+          showWarning ? <MobWarningcont></MobWarningcont> : ''
+        }
+      </ChatTopDiv>
+      <ChatMiddleDiv >
+        {renderChat()}
+        {userTyping ? (
+          <TypingDiv>
+            <OthersMsgIcon src={ChatProfile} alt="" />
+            <OtherMsgAddress>
+              {formatAddress(userTypingAddress)}
+              <br /> is typing..
+            </OtherMsgAddress>
+          </TypingDiv>
+        ) : (
+          // <Messagediv>
+          //   <OthersMsgIcon src={ChatProfile} alt="" />
+          //   <OtherMsgAddress>Typing..</OtherMsgAddress>
+          // </Messagediv>
+          ""
+        )}
+        <div ref={messagesEndRef} />
+      </ChatMiddleDiv>
+      <ChatInputParent>
+        <EmojiButton style={{ width: '20px', height: '20px' }} onClick={handleEmojiShow}></EmojiButton>
+        {
+          showEmoji && (
+            <Emojisdiv ref={ref}>
+              <Picker
+                onSelect={handleEmojiSelect}
+                title='Pick your emoji…' emoji='point_up'
+                emojiSize={20}
+                style={{ width: '300px' }}
               />
-
-              <Button onClick={() => sendThroughButton()}></Button>
-            </ChatInputParent>
-
-             <Alertmsg
-          show={AlertModalState}
-          toggleModal={() => setAlertModalState(false)}
-          alertText={AlertModaltext}
+            </Emojisdiv>
+          )
+        }
+        <Input
+          onChange={(e) => setInputMessage(e.target.value)}
+          onKeyDown={startTyping}
+          onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+          onKeyUp={stopTyping}
+          value={inputMessage}
+          //@ts-ignore
+          ref={inputRef}
+          style={{ width: "100%", height: "100%" }}
+          type="text"
+          placeholder="Type message..."
+          //@ts-ignore
+          onClick={() => console.log(ref)}
         />
 
-        </LiveChatCont>
-    );
+        <Button onClick={() => sendThroughButton()}></Button>
+      </ChatInputParent>
+
+      <Alertmsg
+        show={AlertModalState}
+        toggleModal={() => setAlertModalState(false)}
+        alertText={AlertModaltext}
+      />
+
+    </LiveChatCont>
+  );
 };
 
 export default LiveChatNew;
