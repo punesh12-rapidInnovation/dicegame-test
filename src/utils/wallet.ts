@@ -248,9 +248,9 @@ class Wallet {
 		switch (this.walletType) {
 			case WalletTypes.metamask:
 				//@ts-ignore
+				removeLocalData();
 				await this.web3.currentProvider._handleDisconnect();
 				// localStorage.clear();
-				removeLocalData();
 				window.location.reload();
 				break;
 
@@ -344,7 +344,7 @@ export const setupNetwork = async (dispatch: any, walletType: any) => {
 export default new Wallet();
 
 
-export const removeLocalData = () => {
+export const removeLocalData = async () => {
 	localStorage.removeItem('walletType')
 	localStorage.removeItem('walletConnected')
 	localStorage.removeItem('walletconnect')
