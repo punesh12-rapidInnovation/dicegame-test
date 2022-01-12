@@ -191,8 +191,6 @@ const LiveChatNew = () => {
     }
   };
 
-
-
   const renderChat = useCallback(() => {
     return liveMessages.map((m: any, index: any) =>
       m.username === userAddress ? (
@@ -247,7 +245,6 @@ const LiveChatNew = () => {
 
   const sendThroughButton = React.useCallback((e) => {
      //@ts-ignore
-    inputRef.current.focus();
     cancelTyping();
     sendTOAPI(inputMessage);
     setInputMessage("");
