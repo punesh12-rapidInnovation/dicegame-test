@@ -75,7 +75,7 @@ const LandingDesktop = () => {
                     <Rankimg src={PlayerRankImg} alt="" />
                 </FlexColumn>
                 <Flex style={{ width: '50%' }}>
-                    <FlexColumn style={{ width: '140px', alignItems: 'center' }}>
+                    <FlexColumn style={{ minWidth: '140px', alignItems: 'center' }}>
                         <h1 style={{ fontSize: '16px', lineHeight: '19px', color: '#00EAFF' }}>Total Bets Placed</h1>
                         <h2 style={{ fontSize: '30px', lineHeight: '38px', color: '#FFFFFF' }}>{TotalBets}</h2>
                     </FlexColumn>
