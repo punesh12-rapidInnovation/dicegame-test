@@ -8,7 +8,6 @@ import ModalBackground from "assets/images/ModalBackground.png";
 interface ModalBodyProps {
 	show: boolean;
 }
-
 export const ModalBody = styled.div<ModalBodyProps>`
 	display: ${(props) => (props.show ? 'block' : 'none')};
 	position: fixed;
@@ -193,7 +192,7 @@ padding: 40px;
 	top: 50%;
 	-webkit-transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
-	        transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 	max-height: 100%;
 	max-width: 100%;
 	::-webkit-scrollbar {

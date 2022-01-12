@@ -50,6 +50,7 @@ import betLooseSound from "../../assets/sound/heartbeat.mp3";
 
 import useSound from "use-sound";
 import { SocketContext } from "modules/app/context/socket";
+import HousePool from "pages/housePool";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
@@ -564,6 +565,7 @@ const Betting = () => {
   const setMaxBet = async (multiplier: any) => {
     const HOUSEPOOL_INSTANCE = await selectReadContractInstance(instanceType.HOUSEPOOL);
     const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
+    console.log(HOUSEPOOL_INSTANCE, maxProfit);
 
     if (maxProfit) {
       const maxBet = convertToEther(maxProfit) / multiplier;
@@ -585,10 +587,12 @@ const Betting = () => {
       setMultiplier(multiplier);
     };
     getMultiplier();
+    console.log('568 parent ran')
 
     setMaxBet(multiplier);
 
     calcTempPlayerProfit(RangeValue, evenOdd, BetAmount, rangeLow, rangeHigh);
+    console.log('after set max called')
   }, [RangeValue, BetAmount, userAddress, evenOdd, rangeLow, rangeHigh, multiplier]);
 
   const calcTempPlayerProfit = async (
@@ -633,7 +637,7 @@ const Betting = () => {
       </HowToPlay>
       <BetMiddle>
         <FlexColumn style={{ position: "relative" }}>
-          <H2 MarginBottom="16px" style={{ marginTop: "10px" }}>BET AMOUNT | AVL BL : {walletBalance ? walletBalance : 0} PLS</H2>
+          <H2 MarginBottom="16px" style={{ marginTop: "10px" }}>BET AMOUNT | AVL BL : {walletBalance ? walletBalance.substring(0,10) : 0} PLS</H2>
           <Flex>
             <Chance
               value={BetAmount}
