@@ -35,9 +35,9 @@ const ConnectWallet = (props: any) => {
 
   const connect = async (type: any) => {
     if (connectWallet) {
+      removeLocalData();
       await wallet.disconnect();
       // localStorage.clear();
-      removeLocalData();
       dispatch(walletConnectCheck(false));
     } else {
       try {

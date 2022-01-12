@@ -87,7 +87,7 @@ width:100%;
 border-collapse:collapse;
 
 @media (max-width: ${screenSizes.mediaS}px) {
-  font-size:10px;
+  font-size:12px;
 }
 `
 export const THead = styled.thead`
@@ -101,9 +101,12 @@ height:70px;
 border-radius:10px;
 text-align:center;
 
+th{
+  padding:10px;
+}
 
 @media (max-width: ${screenSizes.mediaS}px) {
-  font-size:10px;
+  font-size:12px;
 }
 `
 export const TR = styled.tr`
