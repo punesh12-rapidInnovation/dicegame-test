@@ -243,27 +243,27 @@ const LiveChatNew = () => {
     console.log("stop typing");
   };
 
-  const sendThroughButton = React.useCallback((e) => {
-     //@ts-ignore
-    cancelTyping();
-    sendTOAPI(inputMessage);
-    setInputMessage("");
-  }, [inputMessage])
+  const sendThroughButton = () => {
+    let NakliEvent = {
+      key: 'Enter',
+    }
+    handleSendMessage(NakliEvent);
 
-
-  const handleSendMessage = React.useCallback((e) => {
+  }
+  const handleSendMessage = (e:any) => {
     if (e.key === "Enter") {
     //@ts-ignore
+      inputRef.current.focus();
     cancelTyping();
     sendTOAPI(inputMessage);
     setInputMessage(""); 
     }
-  }, [inputMessage])
+  }
 
   useEffect(() => {
     console.log('Runnnning')
     scrollToBottom();
-  }, [userTyping, liveMessages,handleSendMessage,sendThroughButton]);
+  }, [userTyping, liveMessages]);
   
 
   useEffect(() => {
