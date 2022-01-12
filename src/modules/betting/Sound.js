@@ -3,8 +3,9 @@ import heart from '../../assets/sound/HumanHeart.mp3';
 import RollingDice from '../../assets/sound/Dice2.wav';
 import bigWin from '../../assets/sound/bigWin.mp3';
 import bigLoose from '../../assets/sound/bigLoose.mp3';
+import buttonClick from '../../assets/sound/buttonClick.mp3';
 
-export { heart, bigWin, bigLoose };
+export { heart, bigWin, bigLoose, buttonClick };
 
 export const Sound = (audioSource, play, loop) => {
 	const audio = new Audio(audioSource);
