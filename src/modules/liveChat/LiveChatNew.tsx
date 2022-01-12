@@ -245,10 +245,11 @@ const LiveChatNew = () => {
 
   const sendThroughButton = React.useCallback((e) => {
      //@ts-ignore
+    inputRef.current.focus();
     cancelTyping();
     sendTOAPI(inputMessage);
     setInputMessage("");
-  }, [inputMessage])
+  }, [inputMessage,inputRef])
 
 
   const handleSendMessage = React.useCallback((e) => {
