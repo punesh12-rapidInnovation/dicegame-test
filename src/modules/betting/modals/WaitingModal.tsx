@@ -17,7 +17,7 @@ const WaitingModal = (props: any) => {
     const { show, toggleModal, styles } = props;
 
 
-    const [play, { stop }] = useSound(heart, { interrupt: true });
+    const [play, { stop }] = useSound(heart, { interrupt: true, loop: true });
 
     const handleClickOutside = (e: any) => {
         if (e.target === e.currentTarget) {
@@ -27,23 +27,24 @@ const WaitingModal = (props: any) => {
 
 
     useEffect(() => {
-        let loading = localStorage.getItem("loading") || "";
         try {
-
             const soundOff = localStorage.getItem("soundOff") || "";
             if (soundOff !== 'true') {
 
-                if (show && (loading !== null || loading !== undefined) && !!rollingDiceSound) {
-                    rollingDiceSound.play();
-                    rollingDiceSound.loop = true;
+                if (show) {
+                    // rollingDiceSound.play();
+                    // rollingDiceSound.loop = true;
+                    play();
                 }
                 else {
-                    rollingDiceSound.loop = false;
-                    rollingDiceSound.removeEventListener('ended', () => {
-                        rollingDiceSound.pause();
-                        rollingDiceSound.currentTime = 0;
-                        rollingDiceSound.src = ""
-                    });
+                    // rollingDiceSound.loop = false;
+                    // rollingDiceSound.removeEventListener('ended', () => {
+                    //     rollingDiceSound.pause();
+                    //     rollingDiceSound.currentTime = 0;
+                    //     rollingDiceSound.src = ""
+                    // });
+
+                    stop();
                 }
             }
 
@@ -51,7 +52,7 @@ const WaitingModal = (props: any) => {
             console.log(error);
 
         }
-    }, [show, rollingDiceSound])
+    })
 
     return (
         <ModalBody
