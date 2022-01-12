@@ -345,16 +345,17 @@ export default new Wallet();
 
 
 export const removeLocalData = () => {
-	localStorage.removeItem('walletType')
-	localStorage.removeItem('walletConnected')
-	localStorage.removeItem('walletconnect')
-	localStorage.removeItem('address')
-	localStorage.removeItem('WALLETCONNECT_DEEPLINK_CHOICE')
-	localStorage.removeItem('PlacingBetId')
-	localStorage.removeItem('Loading')
-	localStorage.removeItem('Agree')
-	localStorage.removeItem('ShowDisclaimer')
+	// localStorage.removeItem('address')
+	// localStorage.removeItem('walletType')
+	// localStorage.removeItem('walletConnected')
+	// localStorage.removeItem('walletconnect')
+	// localStorage.removeItem('WALLETCONNECT_DEEPLINK_CHOICE')
+	// localStorage.removeItem('PlacingBetId')
+	// localStorage.removeItem('Loading')
+	// localStorage.removeItem('Agree')
+	// localStorage.removeItem('ShowDisclaimer')
 
+	localStorage.clear();
 	// try {
 	// 	let lastRollData: any;
 	// 	if (localStorage.getItem("LastRolls") !== null)
