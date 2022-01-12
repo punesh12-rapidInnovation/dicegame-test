@@ -49,26 +49,32 @@ const Header = () => {
   useEffect(() => {
     const changedAccountAddress = async () => {
       try {
-        web3.currentProvider.on("accountsChanged", async function () {
-          let accounts = await web3.eth.getAccounts();
-          // console.log(accounts);
-          localStorage.setItem("address", JSON.stringify(accounts[0]));
-          setWalletAddress(accounts[0]);
-          dispatch(Login(accounts[0]));
+        if (!!walletAddress) {
+          web3.currentProvider.on("accountsChanged", async function () {
+            let accounts = await web3.eth.getAccounts();
 
-          if (!accounts.length) disconnectWallet();
-        });
+            console.log('accounts', accounts);
+            setWalletAddress(accounts[0]);
+            dispatch(Login(accounts[0]));
+            localStorage.setItem("address", JSON.stringify(accounts[0]));
 
-        web3.currentProvider.on("chainChanged", (chainId: number) => {
-          dispatch(setChainIdValue(chainId));
-        });
+            if (!accounts.length) disconnectWallet();
+          });
+
+          web3.currentProvider.on("chainChanged", (chainId: number) => {
+            dispatch(setChainIdValue(chainId));
+          });
+        }
       } catch (err: any) {
         console.log(err);
       }
     };
 
+    console.log('web3', web3.currentProvider);
+
     changedAccountAddress();
-  }, [dispatch, chainId]);
+  }, []);
+
 
   useEffect(() => {
     const getWalletBalance = async () => {
@@ -95,7 +101,7 @@ const Header = () => {
     // await web3.disconnect();
     await wallet.disconnect();
     // localStorage.clear();
-    removeLocalData();
+    // removeLocalData();
     dispatch(walletConnectCheck(false));
     window.location.reload();
   };
