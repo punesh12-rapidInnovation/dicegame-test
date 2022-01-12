@@ -3,7 +3,8 @@ import {
 	LOGIN,
 	SET_CHAINID,
 	WALLET_CONNECT_CHECK,
-	SET_MESSAGE
+	SET_MESSAGE,
+	SET_LASTROLL
 } from './constants';
 
 const initialState = {
@@ -41,6 +42,11 @@ const walletReducer = (state = initialState, action: any) => {
 			return {
 				...state,
 				chatMessage: action.value,
+			};
+		case SET_LASTROLL:
+			return {
+				...state,
+				lastRollsData: action.value,
 			};
 
 		default:

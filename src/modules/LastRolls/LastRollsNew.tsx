@@ -1,6 +1,8 @@
 import DiceIcon from "assets/icons/Diceicon.svg";
+import { setLastRollData } from "logic/action/wallet.action";
 import ResultsModal from 'modules/betting/modals/ResultsModal';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { PrimaryButton } from 'shared/button/Button';
 import { convertToEther } from 'utils/helper';
 import LossIcon from "../../assets/icons/Lossicon.svg";
@@ -9,17 +11,22 @@ import { H1, LastRollCont, LastRollDetails, LastRollDetailsCont, LastRollHeader,
 
 
 
-const LastRollsNew = () => {
+const LastRollsNew = (props: any) => {
 
     const [showResultModal, setShowResultModal] = useState(false);
     const [LastRolls, setLastRolls] = useState<any>([])
+
+    const { lastRollsData } = useSelector((state: any) => state.wallet);
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (localStorage.getItem("LastRolls") !== null) {
             const lastRolls = JSON.parse(localStorage.getItem("LastRolls") || "");
             setLastRolls(lastRolls)
+            dispatch(setLastRollData(lastRolls))
+
         }
-    }, [localStorage.getItem("LastRolls")])
+    }, [localStorage.getItem("LastRolls"), lastRollsData])
 
     const NoResultMessage = () => {
         if (localStorage.getItem("LastRolls") === null) {
@@ -47,7 +54,7 @@ const LastRollsNew = () => {
                             <TD>MIN CHANCE</TD>
                             <TD>GAIN/LOSS</TD>
                         </TR>
-                        <H1 style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-30%)',width:'300px'}}>{NoResultMessage()}</H1>
+                        <H1 style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-30%)', width: '300px' }}>{NoResultMessage()}</H1>
                         {LastRolls.slice(0, 4).map((Roll: any, index: any) => (
                             <TR key={"lr" + index}>
                                 <TD style={{ textAlign: "left" }}>
