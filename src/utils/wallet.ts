@@ -124,7 +124,7 @@ class Wallet {
 						if (accounts.length) {
 							address = accounts[0];
 							dispatch(Login(address.toString()));
-							localStorage.setItem('address', JSON.stringify(address));
+							// localStorage.setItem('address', JSON.stringify(address));
 						}
 					}
 				);
