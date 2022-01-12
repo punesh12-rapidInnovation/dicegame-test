@@ -250,7 +250,7 @@ class Wallet {
 				//@ts-ignore
 				await this.web3.currentProvider._handleDisconnect();
 				// localStorage.clear();
-				removeLocalData()
+				removeLocalData();
 				window.location.reload();
 				break;
 
@@ -345,15 +345,13 @@ export default new Wallet();
 
 
 export const removeLocalData = () => {
-
-	localStorage.removeItem('address')
 	localStorage.removeItem('walletType')
 	localStorage.removeItem('walletConnected')
 	localStorage.removeItem('walletconnect')
+	localStorage.removeItem('address')
 	localStorage.removeItem('WALLETCONNECT_DEEPLINK_CHOICE')
 	localStorage.removeItem('PlacingBetId')
 	localStorage.removeItem('Loading')
 	localStorage.removeItem('Agree')
 	localStorage.removeItem('ShowDisclaimer')
-
 }
