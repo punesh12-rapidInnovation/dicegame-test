@@ -11,7 +11,8 @@ const initialState = {
 	userAddress: '',
 	chainId: '',
 	walletBalance: '',
-	chatMessage: []
+	chatMessage: [],
+	lastRollsData: localStorage.getItem('LastRolls')
 };
 
 const walletReducer = (state = initialState, action: any) => {

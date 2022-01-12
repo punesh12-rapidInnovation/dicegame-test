@@ -23,10 +23,10 @@ const LastRollsNew = (props: any) => {
         if (localStorage.getItem("LastRolls") !== null) {
             const lastRolls = JSON.parse(localStorage.getItem("LastRolls") || "");
             setLastRolls(lastRolls)
-            dispatch(setLastRollData(lastRolls))
+            // dispatch(setLastRollData(lastRolls))
 
         }
-    }, [localStorage.getItem("LastRolls"), lastRollsData])
+    }, [lastRollsData])
 
     const NoResultMessage = () => {
         if (localStorage.getItem("LastRolls") === null) {
