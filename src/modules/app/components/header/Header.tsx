@@ -49,22 +49,19 @@ const Header = () => {
   useEffect(() => {
     const changedAccountAddress = async () => {
       try {
-        if (!!walletAddress) {
-          web3.currentProvider.on("accountsChanged", async function () {
-            let accounts = await web3.eth.getAccounts();
+        web3.currentProvider.on("accountsChanged", async function () {
+          let accounts = await web3.eth.getAccounts();
+          setWalletAddress(accounts[0]);
+          dispatch(Login(accounts[0]));
+          localStorage.setItem("address", JSON.stringify(accounts[0]));
 
-            console.log('accounts', accounts);
-            setWalletAddress(accounts[0]);
-            dispatch(Login(accounts[0]));
-            localStorage.setItem("address", JSON.stringify(accounts[0]));
+          if (!accounts.length) disconnectWallet();
+        });
 
-            if (!accounts.length) disconnectWallet();
-          });
+        web3.currentProvider.on("chainChanged", (chainId: number) => {
+          dispatch(setChainIdValue(chainId));
+        });
 
-          web3.currentProvider.on("chainChanged", (chainId: number) => {
-            dispatch(setChainIdValue(chainId));
-          });
-        }
       } catch (err: any) {
         console.log(err);
       }
