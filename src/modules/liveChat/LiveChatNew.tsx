@@ -113,7 +113,6 @@ const LiveChatNew = () => {
       setInputMessage("");
 
       try {
-
         const soundOff = localStorage.getItem("soundOff") || "";
         if (soundOff !== 'true')
           play();
@@ -226,10 +225,6 @@ const LiveChatNew = () => {
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [userTyping, liveMessages]);
-
-  useEffect(() => {
     //@ts-ignore
     inputRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
@@ -250,21 +245,34 @@ const LiveChatNew = () => {
     console.log("stop typing");
   };
 
-  function sendThroughButton() {
-
-    handleSendMessage();
-    scrollToBottom();
-  }
-
-  function handleSendMessage() {
-
-
-    //@ts-ignore
-    inputRef.current.focus();
+  const sendThroughButton = React.useCallback((e) => {
+     //@ts-ignore
     cancelTyping();
     sendTOAPI(inputMessage);
     setInputMessage("");
-  };
+  }, [inputMessage])
+
+  useEffect(() => {
+    //@ts-ignore
+    inputRef.current.focus()
+
+  },[sendThroughButton])
+
+
+  const handleSendMessage = React.useCallback((e) => {
+    if (e.key === "Enter") {
+    //@ts-ignore
+    cancelTyping();
+    sendTOAPI(inputMessage);
+    setInputMessage(""); 
+    }
+  }, [inputMessage])
+
+  useEffect(() => {
+    console.log('Runnnning')
+    scrollToBottom();
+  }, [userTyping, liveMessages,handleSendMessage,sendThroughButton]);
+  
 
   useEffect(() => {
     if (isTyping || showEmoji) startTypingMessage();
@@ -356,7 +364,7 @@ const LiveChatNew = () => {
         <Input
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={startTyping}
-          onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+          onKeyPress={(e) => handleSendMessage(e)}
           onKeyUp={stopTyping}
           value={inputMessage}
           //@ts-ignore
@@ -368,7 +376,7 @@ const LiveChatNew = () => {
           onClick={() => console.log(ref)}
         />
 
-        <Button onClick={() => sendThroughButton()}></Button>
+        <Button onClick={sendThroughButton}></Button>
       </ChatInputParent>
 
       <Alertmsg
