@@ -360,6 +360,9 @@ export const removeLocalData = () => {
 
 	localStorage.clear();
 	window.location.reload();
+
+
+
 	// try {
 	// 	let lastRollData: any;
 	// 	if (localStorage.getItem("LastRolls") !== null)
