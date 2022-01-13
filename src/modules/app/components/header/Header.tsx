@@ -53,6 +53,8 @@ const Header = () => {
           let accounts = await web3.eth.getAccounts();
           setWalletAddress(accounts[0]);
           dispatch(Login(accounts[0]));
+          console.log('reached');
+
           localStorage.setItem('address', JSON.stringify(accounts[0]));
 
           if (!accounts.length) disconnectWallet();
