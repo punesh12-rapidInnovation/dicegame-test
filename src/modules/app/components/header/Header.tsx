@@ -57,6 +57,7 @@ const Header = () => {
           dispatch(Login(accounts[0]));
 
           localStorage.setItem('address', JSON.stringify(accounts[0]));
+          // console.log('userAddress');
 
           if (!accounts.length) disconnectWallet();
         });
