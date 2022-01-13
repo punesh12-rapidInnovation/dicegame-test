@@ -358,24 +358,20 @@ export const removeLocalData = () => {
 	// localStorage.removeItem('Agree')
 	// localStorage.removeItem('ShowDisclaimer')
 
-	localStorage.clear();
-	window.location.reload();
 
+	try {
+		let lastRollData: any;
+		if (localStorage.getItem("LastRolls") !== null)
+			lastRollData = JSON.parse(localStorage.getItem("LastRolls") || '');
+		localStorage.clear();
 
+		if (lastRollData !== undefined)
+			localStorage.setItem('LastRolls', JSON.stringify(lastRollData));
 
-	// try {
-	// 	let lastRollData: any;
-	// 	if (localStorage.getItem("LastRolls") !== null)
-	// 		lastRollData = JSON.parse(localStorage.getItem("LastRolls") || '');
-	// 	localStorage.clear();
+		window.location.reload();
 
-	// 	console.log('lastRollData', lastRollData);
+	} catch (error) {
 
-	// 	if (lastRollData !== undefined)
-	// 		localStorage.setItem('LastRolls', JSON.stringify(lastRollData))
-
-	// } catch (error) {
-
-	// }
+	}
 
 }
