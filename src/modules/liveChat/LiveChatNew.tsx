@@ -216,18 +216,10 @@ const LiveChatNew = () => {
     );
   }, [liveMessages]);
 
-  window.onscroll = function () { scrollToBottom() };
-
   const scrollToBottom = () => {
-    if (isVisible) {
-      console.log(messagesEndRef);
+    console.log(messagesEndRef);
     //@ts-ignore
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-    });
-    }
-    
+    messagesEndRef.current?.scrollBy(0,10000000);
   };
 
   useEffect(() => {
@@ -329,7 +321,7 @@ const LiveChatNew = () => {
           showWarning ? <MobWarningcont></MobWarningcont> : ''
         }
       </ChatTopDiv>
-      <ChatMiddleDiv >
+      <ChatMiddleDiv ref={messagesEndRef}>
         {renderChat()}
         {userTyping ? (
           <TypingDiv>
@@ -346,7 +338,6 @@ const LiveChatNew = () => {
           // </Messagediv>
           ""
         )}
-        <h6 ref={messagesEndRef} style={{padding:'0',margin:'0',opacity:'0'}}>this helps</h6>
       </ChatMiddleDiv>
       <ChatInputParent>
         <EmojiButton style={{ width: '20px', height: '20px' }} onClick={handleEmojiShow}></EmojiButton>
