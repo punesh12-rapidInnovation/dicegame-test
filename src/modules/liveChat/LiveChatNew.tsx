@@ -14,6 +14,7 @@ import { formatAddress } from 'utils/helper';
 import Emojis from "./EmojiComponent/Emojis";
 import 'emoji-mart/css/emoji-mart.css';
 import Alertmsg from 'modules/betting/modals/Alertmsg';
+import useOnScreen from './hooks/useOnScreen';
 //@ts-ignore
 import { Picker } from 'emoji-mart';
 import useSound from 'use-sound';
@@ -24,7 +25,8 @@ const LiveChatNew = () => {
     useContext(SocketContext);
 
   const inputRef = createRef<HTMLInputElement>();
-  const messagesEndRef = createRef<HTMLDivElement>();
+  const messagesEndRef = createRef<any>();
+  const ScrollCondition = createRef<HTMLButtonElement>();
   const [showEmojis, setshowEmojis] = useState("none");
   const [cursorPosition, setcursorPosition] = useState();
   const [inputMessage, setInputMessage] = useState("");
@@ -39,6 +41,7 @@ const LiveChatNew = () => {
 
 
   const { isTyping, startTyping, stopTyping, cancelTyping } = useTyping();
+  const isVisible = useOnScreen(ScrollCondition);
 
   const [play] = useSound(buttonClick, { interrupt: true });
 
@@ -213,13 +216,18 @@ const LiveChatNew = () => {
     );
   }, [liveMessages]);
 
+  window.onscroll = function () { scrollToBottom() };
+
   const scrollToBottom = () => {
+    if (isVisible) {
+      console.log(messagesEndRef);
     //@ts-ignore
     messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
-      inline: "start",
     });
+    }
+    
   };
 
   useEffect(() => {
@@ -227,6 +235,7 @@ const LiveChatNew = () => {
     inputRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
 
+  
   const startTypingMessage = () => {
     if (!socket || UserBlockedOrNot) return;
     if (userAddress == undefined) return;
@@ -337,7 +346,7 @@ const LiveChatNew = () => {
           // </Messagediv>
           ""
         )}
-        <div ref={messagesEndRef} />
+        <h6 ref={messagesEndRef} style={{padding:'0',margin:'0',opacity:'0'}}>this helps</h6>
       </ChatMiddleDiv>
       <ChatInputParent>
         <EmojiButton style={{ width: '20px', height: '20px' }} onClick={handleEmojiShow}></EmojiButton>
@@ -368,7 +377,7 @@ const LiveChatNew = () => {
           onClick={() => console.log(ref)}
         />
 
-        <Button onClick={sendThroughButton}></Button>
+        <Button onClick={sendThroughButton} ref={ScrollCondition}></Button>
       </ChatInputParent>
 
       <Alertmsg
