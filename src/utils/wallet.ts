@@ -113,21 +113,23 @@ class Wallet {
 				if (accounts.length) {
 					address = accounts[0];
 					dispatch(Login(address.toString()));
+					console.log('reached');
 					localStorage.setItem('address', JSON.stringify(address));
 				} else {
 					throw new Error('No account found');
 				}
 				//@ts-ignore
-				this.web3.currentProvider.on(
-					'accountsChanged',
-					async (accounts: Array<string>) => {
-						if (accounts.length) {
-							address = accounts[0];
-							dispatch(Login(address.toString()));
-							// localStorage.setItem('address', JSON.stringify(address));
-						}
-					}
-				);
+				// this.web3.currentProvider.on(
+				// 	'accountsChanged',
+				// 	async (accounts: Array<string>) => {
+				// 		if (accounts.length) {
+				// 			address = accounts[0];
+				// 			dispatch(Login(address.toString()));
+				// 			console.log('reached');
+				// 			localStorage.setItem('address', JSON.stringify(address));
+				// 		}
+				// 	}
+				// );
 
 				//@ts-ignore
 				this.web3.currentProvider.on('chainChanged', (chainId: number) => {
@@ -144,6 +146,7 @@ class Wallet {
 				if (accounts.length) {
 					address = accounts[0];
 					dispatch(Login(address.toString()));
+					console.log('reached');
 					localStorage.setItem('address', JSON.stringify(address));
 				} else {
 					throw new Error('No account found');
@@ -355,21 +358,20 @@ export const removeLocalData = () => {
 	// localStorage.removeItem('Agree')
 	// localStorage.removeItem('ShowDisclaimer')
 
-	window.localStorage.clear();
-	window.location.reload();
-	// try {
-	// 	let lastRollData: any;
-	// 	if (localStorage.getItem("LastRolls") !== null)
-	// 		lastRollData = JSON.parse(localStorage.getItem("LastRolls") || '');
-	// 	localStorage.clear();
 
-	// 	console.log('lastRollData', lastRollData);
+	try {
+		let lastRollData: any;
+		if (localStorage.getItem("LastRolls") !== null)
+			lastRollData = JSON.parse(localStorage.getItem("LastRolls") || '');
+		localStorage.clear();
 
-	// 	if (lastRollData !== undefined)
-	// 		localStorage.setItem('LastRolls', JSON.stringify(lastRollData))
+		if (lastRollData !== undefined)
+			localStorage.setItem('LastRolls', JSON.stringify(lastRollData));
 
-	// } catch (error) {
+		window.location.reload();
 
-	// }
+	} catch (error) {
+
+	}
 
 }

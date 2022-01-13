@@ -15,8 +15,11 @@ try {
 		web3 = new Web3(provider);
 	}
 } catch (error) {
-	console.log('currentprovider is undefined from web3.ts', error);
-
+	console.log(error);
+	const provider = new Web3.providers.HttpProvider(
+		walletTestConnectId
+	);
+	web3 = new Web3(provider);
 }
 
 export default web3;
