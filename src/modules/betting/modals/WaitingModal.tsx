@@ -1,12 +1,8 @@
 
 import PulseRoll from "assets/icons/loadingPulseroll.svg";
 import RollingDice from "assets/icons/twoRollingDice.gif";
-import { useEffect, useState } from "react";
-import useSound from "use-sound";
-import { heart, rollingDiceSound } from '../Sound';
-
-import Hear from 'assets/sound/HumanHeart.mp3'
-
+import { useEffect } from "react";
+import { rollingDiceSound } from '../Sound';
 
 import {
     ModalBody,
@@ -18,9 +14,6 @@ import {
 const WaitingModal = (props: any) => {
     const { show, toggleModal, styles } = props;
 
-    const rollingDiceSound = new Audio(Hear);
-    rollingDiceSound.preload = 'metadata'
-
     // const [play, { stop }] = useSound(heart, { interrupt: true });
 
     // const handleClickOutside = (e: any) => {
@@ -29,35 +22,30 @@ const WaitingModal = (props: any) => {
     //     }
     // };
 
+
     useEffect(() => {
-        const timer = setTimeout(() => {
-            try {
-                const soundOff = localStorage.getItem("soundOff") || "";
-                if (soundOff !== 'true') {
+        try {
+            const soundOff = localStorage.getItem("soundOff") || "";
+            if (soundOff !== 'true') {
 
-                    if (show) {
-                        rollingDiceSound.play();
-                        rollingDiceSound.loop = true;
-                        // play();
-
-                    }
-                    else {
-                        rollingDiceSound.loop = false;
-                        rollingDiceSound.removeEventListener('ended', () => {
-                            rollingDiceSound.pause();
-                            rollingDiceSound.currentTime = 0;
-                            rollingDiceSound.src = ""
-                        });
-                        // stop();
-                    }
+                if (show) {
+                    rollingDiceSound.play();
+                    rollingDiceSound.loop = true;
                 }
-
-            } catch (error) {
-                console.log(error);
+                else {
+                    rollingDiceSound.loop = false;
+                    rollingDiceSound.removeEventListener('ended', () => {
+                        rollingDiceSound.pause();
+                        rollingDiceSound.currentTime = 0;
+                        rollingDiceSound.src = ""
+                    });
+                }
             }
-        }, 10);
-        return () => clearTimeout(timer);
-    }, [show]);
+        } catch (error) {
+            console.log(error);
+
+        }
+    })
 
 
     return (
@@ -73,6 +61,7 @@ const WaitingModal = (props: any) => {
                     className="rollingDice"
                     height={"200px"}
                     style={{ margin: "-30px", marginBottom: "5px" }}
+                    id="testTarget"
 
                     src={RollingDice} />
                 {/* <button onClick={toggle}>{playing ? "Pause" : "Play"}</button> */}
