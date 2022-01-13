@@ -22,8 +22,17 @@ const WaitingModal = (props: any) => {
     //     }
     // };
 
+    const doubleClick = () => {
+        return console.log('double click');
+
+    }
 
     useEffect(() => {
+        /*
+            Modern browsers autoplay policy will not allow web application to autoplay any audio/video without user interaction.
+        */
+        document.addEventListener("dblclick", doubleClick);  // trigger double click to autoplay audio/video after reload.
+
         try {
             const soundOff = localStorage.getItem("soundOff") || "";
             if (soundOff !== 'true') {
