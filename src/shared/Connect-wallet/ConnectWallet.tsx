@@ -72,7 +72,6 @@ const ConnectWallet = (props: any) => {
 
   useEffect(() => {
     let walletType = localStorage.getItem('walletType') || "";
-
     if (walletType === "2")
       connect(2);
   }, [])

@@ -355,7 +355,7 @@ export const removeLocalData = () => {
 	// localStorage.removeItem('Agree')
 	// localStorage.removeItem('ShowDisclaimer')
 
-	localStorage.clear();
+	window.localStorage.clear();
 	window.location.reload();
 	// try {
 	// 	let lastRollData: any;
