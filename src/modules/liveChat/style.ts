@@ -151,7 +151,6 @@ export const Messagediv = styled.div`
   padding: 15px;
   display: flex;
   font-size: 14px;
-  max-width: 350px;
   border-top-left-radius: 0;
   margin: 10px 0;
   align-self: flex-start;
@@ -162,6 +161,11 @@ export const Messagediv = styled.div`
   margin-top: 30px;
   min-width: 100px;
   padding-bottom: 30px;
+  max-width: 300px;
+  @media (max-width: ${screenSizes.mediaS}px) {
+    max-width:200px;
+  }
+  
 `;
 export const TypingDiv = styled.div`
   border-radius: 10px;
