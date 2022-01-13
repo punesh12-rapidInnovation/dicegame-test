@@ -202,7 +202,7 @@ const LiveChatNew = () => {
           <Time>{m.time.substring(11, 16)}</Time>
         </OwnMsg>
       ) : (
-        <Messagediv key={index} style={{ maxWidth: '300px' }}>
+        <Messagediv key={index} >
           <OthersMsgIcon src={ChatProfile} alt="" />
           <OtherMsgAddress>{m.username.substring(0, 10)}...</OtherMsgAddress>
           {m.content}
