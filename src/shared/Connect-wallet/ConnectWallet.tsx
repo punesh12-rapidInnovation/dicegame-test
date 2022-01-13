@@ -53,7 +53,7 @@ const ConnectWallet = (props: any) => {
         dispatch(setWalletBalance(convertToEther(balance)));
 
         if (address !== undefined) {
-          localStorage.setItem("address", JSON.stringify(address));
+          localStorage.setItem('address', JSON.stringify(address));
           localStorage.setItem("walletConnected", JSON.stringify(true));
           localStorage.setItem("walletType", JSON.stringify(type));
           dispatch(walletConnectCheck(true));

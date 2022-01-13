@@ -53,7 +53,7 @@ const Header = () => {
           let accounts = await web3.eth.getAccounts();
           setWalletAddress(accounts[0]);
           dispatch(Login(accounts[0]));
-          localStorage.setItem("address", JSON.stringify(accounts[0]));
+          localStorage.setItem('address', JSON.stringify(accounts[0]));
 
           if (!accounts.length) disconnectWallet();
         });
@@ -67,9 +67,8 @@ const Header = () => {
       }
     };
 
-    console.log('web3', web3.currentProvider);
-
-    changedAccountAddress();
+    if (connectWallet)
+      changedAccountAddress();
   }, []);
 
 
