@@ -17,7 +17,7 @@ const WaitingModal = (props: any) => {
     const { show, toggleModal, styles } = props;
 
 
-    const [play, { stop }] = useSound(heart, { interrupt: true, loop: true });
+    const [play, { stop }] = useSound(heart, { interrupt: true });
 
     const handleClickOutside = (e: any) => {
         if (e.target === e.currentTarget) {
