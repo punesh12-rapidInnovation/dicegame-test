@@ -124,7 +124,7 @@ class Wallet {
 						if (accounts.length) {
 							address = accounts[0];
 							dispatch(Login(address.toString()));
-							localStorage.setItem('address', JSON.stringify(address));
+							// localStorage.setItem('address', JSON.stringify(address));
 						}
 					}
 				);
@@ -171,7 +171,7 @@ class Wallet {
 						// localStorage.clear();
 						removeLocalData()
 
-						window.location.reload();
+						// window.location.reload();
 					}
 				);
 				break;
@@ -248,22 +248,22 @@ class Wallet {
 			case WalletTypes.metamask:
 				//@ts-ignore
 				localStorage.removeItem('address');
-				removeLocalData();
 				await this.web3.currentProvider._handleDisconnect();
+				removeLocalData();
 				// localStorage.clear();
-				window.location.reload();
+				// window.location.reload();
 				break;
 
 			case WalletTypes.walletConnect:
 				// localStorage.clear();
 				removeLocalData()
 
-				window.location.reload();
+				// window.location.reload();
 				break;
 
 			case WalletTypes.binance:
 				// localStorage.clear();
-				removeLocalData()
+				// removeLocalData()
 
 				window.location.reload();
 				break;
@@ -283,7 +283,7 @@ class Wallet {
 			default:
 				// localStorage.clear();
 				removeLocalData()
-				window.location.reload();
+				// window.location.reload();
 				throw new Error('Invalid wallet type');
 		}
 	};
@@ -355,7 +355,8 @@ export const removeLocalData = () => {
 	// localStorage.removeItem('Agree')
 	// localStorage.removeItem('ShowDisclaimer')
 
-	localStorage.clear();
+	window.localStorage.clear();
+	window.location.reload();
 	// try {
 	// 	let lastRollData: any;
 	// 	if (localStorage.getItem("LastRolls") !== null)
