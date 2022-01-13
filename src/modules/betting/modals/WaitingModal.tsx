@@ -24,14 +24,25 @@ const WaitingModal = (props: any) => {
 
     const doubleClick = () => {
         return console.log('double click');
-
     }
 
     useEffect(() => {
         /*
             Modern browsers autoplay policy will not allow web application to autoplay any audio/video without user interaction.
         */
-        document.addEventListener("dblclick", doubleClick);  // trigger double click to autoplay audio/video after reload.
+        window.addEventListener('load', () => {
+            //@ts-ignore
+            document.getElementById('modalBody').addEventListener("doubleClick", (e) => {
+                // alert("Test successful");
+                console.log('doubleclick');
+            });
+        })
+    })
+
+
+    useEffect(() => {
+
+        // document.addEventListener("dblclick", doubleClick);  // trigger double click to autoplay audio/video after reload.
 
         try {
             const soundOff = localStorage.getItem("soundOff") || "";
@@ -59,13 +70,15 @@ const WaitingModal = (props: any) => {
 
     return (
         <ModalBody
+            id='modalBody'
             show={show}
             style={{ ...styles }}
         >
             <ModalContent>
                 <Image
                     style={{ marginBottom: "10px" }}
-                    src={PulseRoll} />
+                    src={PulseRoll}
+                />
                 <Image
                     className="rollingDice"
                     height={"200px"}
