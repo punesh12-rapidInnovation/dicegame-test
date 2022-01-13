@@ -18,11 +18,12 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { walletConnectCheck, chainId } = useSelector((state: any) => state.wallet);
+  const { walletConnectCheck, chainId, userAddress } = useSelector((state: any) => state.wallet);
   const [connectWallet, setConnectWallet] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
   const [showWrongNetwork, setShowWrongNetwork] = useState(false);
   const [soundStatus, setSoundStatus] = useState(true)
+
 
   useEffect(() => {
     try {
@@ -75,6 +76,12 @@ const Header = () => {
     if (connectWallet)
       changedAccountAddress();
   }, [walletAddress]);
+
+  useEffect(() => {
+
+    if (!!userAddress)
+      localStorage.setItem('address', JSON.stringify(userAddress))
+  }, [userAddress])
 
 
   useEffect(() => {
