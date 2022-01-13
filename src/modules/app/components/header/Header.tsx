@@ -79,7 +79,7 @@ const Header = () => {
 
   useEffect(() => {
 
-    if (!!userAddress)
+    if (!!userAddress && connectWallet)
       localStorage.setItem('address', JSON.stringify(userAddress))
   }, [userAddress])
 
