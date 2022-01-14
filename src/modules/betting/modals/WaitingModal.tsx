@@ -22,23 +22,23 @@ const WaitingModal = (props: any) => {
     //     }
     // };
 
-    const doubleClick = () => {
-        return console.log('double click');
-    }
+    // const doubleClick = () => {
+    //     return console.log('double click');
+    // }
 
-    useEffect(() => {
-        /*
-            Modern browsers autoplay policy will not allow web application to autoplay any audio/video without user interaction.
-        */
-        if (show)
-            window.addEventListener('load', () => {
-                //@ts-ignore
-                document.getElementById('modalBody').addEventListener("doubleClick", (e) => {
-                    // alert("Test successful");
-                    console.log('doubleclick');
-                });
-            })
-    })
+    // useEffect(() => {
+    //     /*
+    //         Modern browsers autoplay policy will not allow web application to autoplay any audio/video without user interaction.
+    //     */
+    //     if (show)
+    //         window.addEventListener('load', () => {
+    //             //@ts-ignore
+    //             document.getElementById('modalBody').addEventListener("doubleClick", (e) => {
+    //                 // alert("Test successful");
+    //                 console.log('doubleclick');
+    //             });
+    //         })
+    // })
 
 
     useEffect(() => {
