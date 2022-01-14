@@ -41,6 +41,7 @@ const WaitingModal = (props: any) => {
     // })
 
 
+
     useEffect(() => {
 
         // document.addEventListener("dblclick", doubleClick);  // trigger double click to autoplay audio/video after reload.
