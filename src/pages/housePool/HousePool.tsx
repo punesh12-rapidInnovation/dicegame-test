@@ -5,7 +5,7 @@ import Header from 'modules/app/components/header';
 import { PrimaryButton } from 'shared/button/Button';
 import CustomModal from 'shared/custom-modal';
 import { colors } from 'shared/styles/theme';
-import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, PoolDetailsContainer, PoolDetailsGridItem, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle, InfoTextContainer,HouseP } from './style';
+import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, PoolDetailsContainer, PoolDetailsGridItem, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle, InfoTextContainer, HouseP } from './style';
 import verticalLine from "assets/icons/verticalLine.svg";
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import HousePoolTransaction from 'modules/app/components/HousePoolTransaction/HousePoolTransaction';
@@ -77,16 +77,16 @@ const HousePool = () => {
                 console.log("TotalFunds", usersArray.reduce((a: any, c: any) => a + parseFloat(c.Balance), 0));
                 let totalFunds = usersArray.reduce((a: any, c: any) => a + parseFloat(c.Balance), 0);
                 setTotalFunds(totalFunds);
-                
+
                 let totalValueLocked = await housepoolInstance.methods.TotalValueLocked().call();
                 setTotalValueLocked(totalValueLocked);
                 // console.log("totalValueLocked",totalValueLocked);
 
                 let totalDepositedAmount = await housepoolInstance.methods.TotalDepositedAmount().call();
-                if(totalFunds!==0 && totalDepositedAmount!==0){
+                if (totalFunds !== 0 && totalDepositedAmount !== 0) {
                     totalFunds = convertToEther(`${totalFunds}`)
                     totalDepositedAmount = convertToEther(`${totalDepositedAmount}`)
-                    setPoolContributionPercent((totalFunds/totalDepositedAmount)*100);
+                    setPoolContributionPercent((totalFunds / totalDepositedAmount) * 100);
                 }
             }
         } //
@@ -194,9 +194,9 @@ const HousePool = () => {
                     >
                         <PoolFundsCont>
                             <h5>Your Total Funds</h5>
-                            <h1>{parseFloat(`${convertToEther(`${totalFunds}`)}`).toFixed(3)} 
-                              <span style={{fontSize:"14px", marginLeft:"5px"}}>({`${parseFloat(`${poolContributionPercent}`).toFixed(4)}%`})</span>
-                            </h1> 
+                            <h1>{parseFloat(`${convertToEther(`${totalFunds}`)}`).toFixed(3)}
+                                <span style={{ fontSize: "14px", marginLeft: "5px" }}>({`${parseFloat(`${poolContributionPercent}`).toFixed(4)}%`})</span>
+                            </h1>
                             <p>PULSE TOKEN</p>
                         </PoolFundsCont>
                     </FlexCont>
@@ -248,10 +248,10 @@ const HousePool = () => {
                                         : null
                         }
                     </>
-                    <div style={{ width: '100%', height: "400px" }}>
+                    <div style={{ width: '100%', height: "400px", display: "flex", justifyContent: "center", alignItems: "center" }}>
                         {liquidityChartData && liquidityChartData.length ?
                             <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
-                            : null
+                            : <p style={{ opacity: '0.5', color: "white" }}>No data available</p>
                         }
                     </div>
                     {/* </div> */}
