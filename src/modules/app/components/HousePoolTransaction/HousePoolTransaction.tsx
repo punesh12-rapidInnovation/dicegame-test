@@ -189,7 +189,7 @@ const HousePoolTransaction = (props: any) => {
                                                 //     {/* {cell.value} */}
                                                 // </td>
 
-                                                if (cell.column.Header === "TOTAL VALUE") return <TD {...cell.getCellProps()}>{parseFloat(convertToEther(cell.value))} PLS</TD>
+                                                if (cell.column.Header === "TOTAL VALUE") return <TD {...cell.getCellProps()}>{parseFloat(convertToEther(cell.value)).toFixed(9)} PLS</TD>
                                                 if (cell.column.Header === "ACCOUNT") return <TD {...cell.getCellProps()}>{formatAddress(cell.value)}</TD>
                                                 if (cell.column.Header === "TIME") return <TD {...cell.getCellProps()}>{dateFromTimestamp(cell.value)} {timeFromTimestamp(cell.value)}</TD>
 
