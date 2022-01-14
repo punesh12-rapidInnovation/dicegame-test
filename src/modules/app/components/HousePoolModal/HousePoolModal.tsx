@@ -39,7 +39,7 @@ const HousePoolModal = (props: any) => {
         //     // setDepositAmount(lpBalance)
         //     setDepositAmount('')
         // else
-        setDepositAmount(Number(walletBalance).toFixed(6));
+        setDepositAmount(`${walletBalance}`);
         // setDepositAmount(dataForStaking.staked)
     }
 
@@ -86,7 +86,7 @@ const HousePoolModal = (props: any) => {
                     width="100%"
                 >
                     <div>Input</div>
-                    <div>Balance: {!!walletBalance && Number(walletBalance).toFixed(6)}</div>
+                    <div>Balance: {!!walletBalance && Number(walletBalance)}</div>
                 </FlexCont>
                 <FlexCont
                     flexDirection="row"
@@ -111,7 +111,7 @@ const HousePoolModal = (props: any) => {
                     > MAX</span>  <img src={pulseIcon} alt="" /> PLS</FlexCont>
                 </FlexCont>
             </InputCont>
-            <PrimaryButton margin={"30px 0 0 0"} onClick={handleDeposit} disabled={!parseFloat(depositAmount) || txWaiting} >{ActionType === "deposit" ? "Deposit" : "Withdraw"}</PrimaryButton>
+            <PrimaryButton margin={"30px 0 0 0"} onClick={handleDeposit} disabled={!parseFloat(depositAmount) || txWaiting || parseFloat(depositAmount) > parseFloat(walletBalance)} >{ActionType === "deposit" ? "Deposit" : "Withdraw"}</PrimaryButton>
         </HousePoolCont >
     );
 };
