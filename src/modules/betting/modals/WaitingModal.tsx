@@ -30,13 +30,14 @@ const WaitingModal = (props: any) => {
         /*
             Modern browsers autoplay policy will not allow web application to autoplay any audio/video without user interaction.
         */
-        window.addEventListener('load', () => {
-            //@ts-ignore
-            document.getElementById('modalBody').addEventListener("doubleClick", (e) => {
-                // alert("Test successful");
-                console.log('doubleclick');
-            });
-        })
+        if (show)
+            window.addEventListener('load', () => {
+                //@ts-ignore
+                document.getElementById('modalBody').addEventListener("doubleClick", (e) => {
+                    // alert("Test successful");
+                    console.log('doubleclick');
+                });
+            })
     })
 
 
