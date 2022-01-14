@@ -279,7 +279,7 @@ const HousePoolWithdrawModal = (props: any) => {
                     </FlexCont>
                 </InputCont>
                 <div style={{ margin: "10px 0", color: "#fff", textAlign: "right" }}>Pending Rewards: {depositSelected.pendingRewards ? parseFloat(convertToEther(depositSelected.pendingRewards)) : 0.00} PLS</div>
-                <PrimaryButton margin={"30px 0 0 0"} onClick={handleWithdraw} disabled={!parseFloat(withdrawAmount) || txWaiting}>Withdraw</PrimaryButton>
+                <PrimaryButton margin={"30px 0 0 0"} onClick={handleWithdraw} disabled={!parseFloat(withdrawAmount) || txWaiting || parseFloat(withdrawAmount) > parseFloat(convertToEther(depositSelected.presentBalance))}>Withdraw</PrimaryButton>
             </HousePoolCont >
         </>
     );
