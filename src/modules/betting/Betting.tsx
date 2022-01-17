@@ -367,6 +367,9 @@ const Betting = () => {
   useEffect(() => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
     console.log("result recieved");
+    if (sessionStorage.getItem("Loading") !== "true") {
+      return
+    }
 
     if (userAddress && LocalBetIt === ResultObject?.Betid) {
       if (ResultObject?.Status === "0") {
