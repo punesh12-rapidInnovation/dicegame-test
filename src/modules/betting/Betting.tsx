@@ -51,6 +51,7 @@ import betLooseSound from "../../assets/sound/heartbeat.mp3";
 import useSound from "use-sound";
 import { SocketContext } from "modules/app/context/socket";
 import HousePool from "pages/housePool";
+import { ERC20_ABI } from "utils/abi";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
@@ -306,6 +307,21 @@ const Betting = () => {
   //#endregion
 
   const PlaceBet = async (myAccount: string | null, Amount: any, Rollunder: number, evenOdd: number) => {
+    const LinkInstance = await selectWriteContractInstance(
+      instanceType.ERC20TOKEN, // type of instance
+      LINK_TOKEN_ADDRESS //contract address
+    );
+
+    const LinkBalance = await LinkInstance.methods.balanceOf(userAddress).call();
+    const EtherLinkBalance = convertToEther(LinkBalance);
+
+    if (EtherLinkBalance < 0.001) {
+      setAlertText("Minimum 0.001 Link Required To Place Bet");
+      setAlertModalState(true);
+      return
+    }
+
+
     const Ethervalue = convertToWei(Number(Amount).toFixed(8).toString());
 
     const lpInstance = await selectWriteContractInstance(
@@ -342,6 +358,7 @@ const Betting = () => {
         setBetplacedLoading(false);
         sessionStorage.setItem("Loading", "false");
         setPlacingBet(false);
+        window.location.reload();
         console.log(error);
       }
     }
