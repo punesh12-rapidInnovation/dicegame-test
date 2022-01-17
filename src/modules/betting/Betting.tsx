@@ -107,7 +107,7 @@ const Betting = () => {
   const dispatch = useDispatch();
 
 
-  const { socket,ResultObject } = useContext(SocketContext);
+  const { socket,ResultObject, setResultObject } = useContext(SocketContext);
 
   useEffect(() => {
     for (let index = 0; index <= 100; index++) {
@@ -294,6 +294,7 @@ const Betting = () => {
   };
 
   const toggleModal = () => {
+    setResultObject();
     setLoader(false);
     setSuccess(false);
     setError(false);
@@ -381,6 +382,7 @@ const Betting = () => {
     } else {
       console.log(ResultObject?.Betid, LocalBetIt);
     }
+    
   }, [ResultObject]);
 
   const StoringLastRolls = () => {
@@ -590,14 +592,17 @@ const Betting = () => {
       // const finalProfit = convertToWei(profit.toFixed(18).toString());
 
       // setProfit(finalProfit);
-
-      const BETTING_INSTANCE = await selectReadContractInstance(instanceType.BETTING);
+      if (betValue) {
+        const BETTING_INSTANCE = await selectReadContractInstance(instanceType.BETTING);
 
       const profit = await BETTING_INSTANCE.methods
         .GetProfit(rollUnder, _OddEvenStatus, rangeLow, rangeHigh, convertToWei(betValue.toString()))
         .call();
 
       setProfit(profit);
+        
+      }
+      
     } catch (error) {
       console.log(error);
     }

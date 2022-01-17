@@ -20,7 +20,7 @@ interface SocketContextInterface {
   userTypingAddress: string;
   setUserTypingAddress: React.Dispatch<React.SetStateAction<string>>;
   ResultObject: any;
-  
+  setResultObject: any;
 }
 
 export const SocketContext = React.createContext({} as SocketContextInterface);
@@ -107,6 +107,7 @@ const SocketContextProvider = ({ children }: any) => {
         setUserTypingAddress,
         userTypingAddress,
         ResultObject,
+        setResultObject
       }}
     >
       {children}

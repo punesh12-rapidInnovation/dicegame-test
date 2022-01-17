@@ -46,6 +46,7 @@ const LastRollsNew = (props: any) => {
             <LastRollDetailsCont>
                 <LastRollDetails>
                     <TABLE>
+                        <tbody>
 
                         <TR header key="">
 
@@ -76,6 +77,7 @@ const LastRollsNew = (props: any) => {
                                 )}
                             </TR>
                         ))}
+                            </tbody>
                     </TABLE>
                 </LastRollDetails>
                 <PrimaryButton className="button"
