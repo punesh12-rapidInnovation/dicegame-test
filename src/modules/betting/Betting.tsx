@@ -337,6 +337,9 @@ const Betting = () => {
       if (error.code === 4001) {
         setPlacingBet(false);
       } else {
+        setPlacingBet(false);
+        setLoader(false);
+        setBetplacedLoading(false);
         sessionStorage.setItem("Loading", "false");
         setPlacingBet(false);
         console.log(error);
