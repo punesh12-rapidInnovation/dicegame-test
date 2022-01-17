@@ -22,7 +22,7 @@ import {
 
 const LandingDesktop = () => {
     const [showDisclaimer, setShowDisclaimer] = useState(false);
-    const [TotalBets, setTotalBets] = useState<number>(0);
+    const [TotalPlayers, setTotalPlayers] = useState<number>(0);
 
     useEffect(() => {
         const GetBetCount = async () => {
@@ -32,8 +32,9 @@ const LandingDesktop = () => {
 
             await axiosInstance.get(`/betcount`).then(function (response) {
                 //@ts-ignore
-                const BetCount: number = response.data;
-                setTotalBets(BetCount);
+                const PlayerCount: number = response.data;
+                //@ts-ignore
+                setTotalPlayers(PlayerCount?.playerCount);
             });
         }
         GetBetCount();
@@ -76,8 +77,8 @@ const LandingDesktop = () => {
                 </FlexColumn>
                 <Flex style={{ width: '50%' }}>
                     <FlexColumn style={{ minWidth: '140px', alignItems: 'center' }}>
-                        <h1 style={{ fontSize: '16px', lineHeight: '19px', color: '#00EAFF' }}>Total Bets Placed</h1>
-                        <h2 style={{ fontSize: '30px', lineHeight: '38px', color: '#FFFFFF' }}>{TotalBets}</h2>
+                        <h1 style={{ fontSize: '16px', lineHeight: '19px', color: '#00EAFF' }}>Total Players</h1>
+                        <h2 style={{ fontSize: '30px', lineHeight: '38px', color: '#FFFFFF' }}>{TotalPlayers}</h2>
                     </FlexColumn>
 
                     <PrimaryButton style={{ width: '300px', marginRight: '10%' }} onClick={() => history.push(`${Paths.housePool}`)}>

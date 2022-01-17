@@ -58,8 +58,6 @@ const Betting = () => {
   const [Profit, setProfit] = useState<number>(0);
   const [UserAllowance, setUserAllowance] = useState(false);
   const [BetplacedLoading, setBetplacedLoading] = useState(false);
-  const [PlacingBetId, setPlacingBetId] = useState();
-  const [ResultObject, setResultObject] = useState<any>();
   const [ResultPopupDisplay, setResultPopupDisplay] = useState<string>("none");
   const [showResultModal, setShowResultModal] = useState(false);
   const [ResultRoll, setResultRoll] = useState("0");
@@ -109,7 +107,7 @@ const Betting = () => {
   const dispatch = useDispatch();
 
 
-  const { socket } = useContext(SocketContext);
+  const { socket,ResultObject } = useContext(SocketContext);
 
   useEffect(() => {
     for (let index = 0; index <= 100; index++) {
@@ -117,7 +115,7 @@ const Betting = () => {
       // setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
       setNumbers((prev: any) => [...prev, index]);
     }
-    if (localStorage.getItem("Loading") === "true") {
+    if (sessionStorage.getItem("Loading") === "true") {
       setLoader(true);
     }
   }, []);
@@ -125,7 +123,7 @@ const Betting = () => {
   //@ts-ignore
   useEffect(() => {
     const localChecked = localStorage.getItem("ShowDisclaimer");
-    const Loading = localStorage.getItem("Loading");
+    const Loading = sessionStorage.getItem("Loading");
     if (Loading === "true") {
       setshowDisclaimer(false);
     } else if (localChecked === null || localChecked === "false") {
@@ -144,41 +142,19 @@ const Betting = () => {
 
     getBalance();
 
-    const connect = () => {
-      try {
-        socket.on("connection", () => {
-          // Replace event name with connection event name
-          console.log("websocket connected");
-        });
-        socket.on("betevent", (data: any) => {
-          console.log(data);
-          const LocalBetId = localStorage.getItem("PlacingBetId");
-          let betId;
-          if (PlacingBetId) betId = PlacingBetId;
-          else betId = LocalBetId;
-          if (betId === data.BetID) {
-            console.log("ResultObjectupdated");
-            setResultObject({
-              Betid: data.BetID,
-              Diceresult: data.DiceResult,
-              Playeraddress: data.PlayerAddress,
-              Playernumber: data.PlayerNumber,
-              Status: data.Status,
-              Date: new Date().toLocaleString(),
-              Value: data.Value,
-              BetAmount: localStorage.getItem("BetAmount"),
-            });
-          } else {
-            console.log(data.BetID);
-          }
-        });
-      } catch (err) {
-        console.log("err", err);
-      }
-    };
+    // const connect = () => {
+    //   try {
+    //     socket.on("connection", () => {
+    //       // Replace event name with connection event name
+    //       console.log("websocket connected");
+    //     });
+    //   } catch (err) {
+    //     console.log("err", err);
+    //   }
+    // };
 
-    connect();
-  }, [PlacingBetId]);
+    // connect();
+  }, []);
 
   window.onbeforeunload = function () {
     if (PlacingBet) return "Leaving this page will reset the wizard";
@@ -235,7 +211,7 @@ const Betting = () => {
   // };
 
   const CallingPlaceBet = async () => {
-    if (localStorage.getItem("Loading") === "true") {
+    if (sessionStorage.getItem("Loading") === "true") {
       return;
     } else if (PlacingBet) {
       return;
@@ -254,7 +230,6 @@ const Betting = () => {
         const RollUnder: any = RangeValue + 1;
         const BetId = await PlaceBet(userAddress, BetAmount, RollUnder, evenOdd);
         console.log(BetId);
-        setPlacingBetId(BetId?.events.LogBet.returnValues.BetID);
         localStorage.setItem("PlacingBetId", BetId?.events.LogBet.returnValues.BetID);
       }
     }
@@ -304,7 +279,7 @@ const Betting = () => {
   };
 
   const ButtonText = () => {
-    if (localStorage.getItem("Loading") === "true") {
+    if (sessionStorage.getItem("Loading") === "true") {
       return "Loading Result...";
     } else if (PlacingBet) {
       return "Placing Bet..";
@@ -350,7 +325,7 @@ const Betting = () => {
         .once("confirmation", function (receipt: any) {
           setPlacingBet(false);
           setBetplacedLoading(true);
-          localStorage.setItem("Loading", "true");
+          sessionStorage.setItem("Loading", "true");
           localStorage.setItem("BetAmount", BetAmount);
           // window.location.reload();
         });
@@ -361,7 +336,7 @@ const Betting = () => {
       if (error.code === 4001) {
         setPlacingBet(false);
       } else {
-        localStorage.setItem("Loading", "false");
+        sessionStorage.setItem("Loading", "false");
         setPlacingBet(false);
         console.log(error);
       }
@@ -382,7 +357,7 @@ const Betting = () => {
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
         setShowResultModal(true);
-        localStorage.setItem("Loading", "false");
+        sessionStorage.setItem("Loading", "false");
         localStorage.setItem("BetAmount", "0");
         // setBetAmount(0);
         StoringLastRolls();
@@ -396,7 +371,7 @@ const Betting = () => {
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
         setShowResultModal(true);
-        localStorage.setItem("Loading", "false");
+        sessionStorage.setItem("Loading", "false");
         // setBetAmount(0);
         StoringLastRolls();
         localStorage.setItem("BetAmount", "0");

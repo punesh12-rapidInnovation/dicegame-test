@@ -6,7 +6,7 @@ const SOCKET_URL = "wss://diceroll.rapidinnovation.tech";
 // const SOCKET_URL = "ws://localhost:4000";
 
 //@ts-ignore
-export const socket = socketio.connect(SOCKET_URL);
+export const socket = io(SOCKET_URL, { transports: ["websocket"] });
 // export const socket = io(SOCKET_URL);
 
 const BASE_URL = "https://diceroll.rapidinnovation.tech/api/message";
@@ -19,6 +19,8 @@ interface SocketContextInterface {
   setUserTyping: React.Dispatch<React.SetStateAction<boolean>>;
   userTypingAddress: string;
   setUserTypingAddress: React.Dispatch<React.SetStateAction<string>>;
+  ResultObject: any;
+  
 }
 
 export const SocketContext = React.createContext({} as SocketContextInterface);
@@ -27,6 +29,8 @@ const SocketContextProvider = ({ children }: any) => {
   const [liveMessages, setLiveMessages] = React.useState<any[]>([]);
   const [userTyping, setUserTyping] = React.useState<boolean>(false);
   const [userTypingAddress, setUserTypingAddress] = React.useState<string>("");
+  const [ResultObject, setResultObject] = React.useState<any>();
+  const [PlacingBetId, setPlacingBetId] = React.useState();
 
 
   console.log(liveMessages);
@@ -38,7 +42,7 @@ const SocketContextProvider = ({ children }: any) => {
       });
       //@ts-ignore
       socket.on("message", (data) => {
-        // console.log("data context", data);
+         console.log("data context", data);
         // // setUserTyping(false);
         // let updatedMessages = liveMessages;
         // updatedMessages.push(data);
@@ -57,6 +61,29 @@ const SocketContextProvider = ({ children }: any) => {
           setUserTypingAddress(data);
         }
       });
+
+      socket.on("betevent", (data: any) => {
+          console.log(data);
+          const LocalBetId = localStorage.getItem("PlacingBetId");
+          let betId;
+          if (PlacingBetId) betId = PlacingBetId;
+          else betId = LocalBetId;
+          if (betId === data.BetID) {
+            console.log("ResultObjectupdated");
+            setResultObject({
+              Betid: data.BetID,
+              Diceresult: data.DiceResult,
+              Playeraddress: data.PlayerAddress,
+              Playernumber: data.PlayerNumber,
+              Status: data.Status,
+              Date: new Date().toLocaleString(),
+              Value: data.Value,
+              BetAmount: localStorage.getItem("BetAmount"),
+            });
+          } else {
+            console.log(data.BetID);
+          }
+        });
 
       socket.on("disconnect", () => {
         console.log("disconnected context");
@@ -79,6 +106,7 @@ const SocketContextProvider = ({ children }: any) => {
         userTyping,
         setUserTypingAddress,
         userTypingAddress,
+        ResultObject,
       }}
     >
       {children}
