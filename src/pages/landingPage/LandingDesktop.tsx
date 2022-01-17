@@ -29,7 +29,6 @@ const LandingDesktop = () => {
             const axiosInstance = axios.create({
                 baseURL: "https://diceroll.rapidinnovation.tech/pool",
             });
-
             await axiosInstance.get(`/betcount`).then(function (response) {
                 //@ts-ignore
                 const PlayerCount: number = response.data;

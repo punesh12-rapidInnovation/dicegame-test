@@ -18,11 +18,12 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { walletConnectCheck, chainId } = useSelector((state: any) => state.wallet);
+  const { walletConnectCheck, chainId, userAddress } = useSelector((state: any) => state.wallet);
   const [connectWallet, setConnectWallet] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
   const [showWrongNetwork, setShowWrongNetwork] = useState(false);
   const [soundStatus, setSoundStatus] = useState(true)
+
 
   useEffect(() => {
     try {
@@ -34,13 +35,15 @@ const Header = () => {
       setWalletAddress(address);
       dispatch(Login(address));
 
-      const getBalance = async () => {
-        if (address) {
-          const balance = await web3.eth.getBalance(address);
-          dispatch(setWalletBalance(convertToEther(balance)));
-        }
-      };
-      getBalance();
+      if (connectWallet) {
+        const getBalance = async () => {
+          if (address) {
+            const balance = await web3.eth.getBalance(address);
+            dispatch(setWalletBalance(convertToEther(balance)));
+          }
+        };
+        getBalance();
+      }
     } catch (err: any) {
       console.log(err);
     }
@@ -53,9 +56,9 @@ const Header = () => {
           let accounts = await web3.eth.getAccounts();
           setWalletAddress(accounts[0]);
           dispatch(Login(accounts[0]));
-          console.log('reached');
 
           localStorage.setItem('address', JSON.stringify(accounts[0]));
+          // console.log('userAddress');
 
           if (!accounts.length) disconnectWallet();
         });
@@ -69,9 +72,16 @@ const Header = () => {
       }
     };
 
+    console.log('connectWallet', connectWallet)
     if (connectWallet)
       changedAccountAddress();
-  }, []);
+  }, [walletAddress]);
+
+  useEffect(() => {
+
+    if (!!userAddress && connectWallet)
+      localStorage.setItem('address', JSON.stringify(userAddress))
+  }, [userAddress])
 
 
   useEffect(() => {
@@ -80,7 +90,7 @@ const Header = () => {
       let accounts = await web3.eth.getAccounts();
 
       try {
-        if (accounts) {
+        if (accounts && connectWallet) {
           const address = accounts[0].toString();
           const balance = await web3.eth.getBalance(address);
           dispatch(setWalletBalance(convertToEther(balance)));

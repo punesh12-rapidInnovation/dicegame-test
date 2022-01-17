@@ -118,18 +118,18 @@ class Wallet {
 				} else {
 					throw new Error('No account found');
 				}
-				//@ts-ignore
-				// this.web3.currentProvider.on(
-				// 	'accountsChanged',
-				// 	async (accounts: Array<string>) => {
-				// 		if (accounts.length) {
-				// 			address = accounts[0];
-				// 			dispatch(Login(address.toString()));
-				// 			console.log('reached');
-				// 			localStorage.setItem('address', JSON.stringify(address));
-				// 		}
-				// 	}
-				// );
+
+				this.web3.currentProvider.on(
+					'accountsChanged',
+					async (accounts: Array<string>) => {
+						if (accounts.length) {
+							address = accounts[0];
+							dispatch(Login(address.toString()));
+							// console.log('reached');
+							// localStorage.setItem('address', JSON.stringify(address));
+						}
+					}
+				);
 
 				//@ts-ignore
 				this.web3.currentProvider.on('chainChanged', (chainId: number) => {

@@ -8,7 +8,7 @@ import { BarChartCont, ChartCont, HousePoolChartHead, HousePoolChartLabel, LastR
 
 const GraphPool = () => {
 
-    const [liquidityChartData, setLiquidityChartData] = useState<any>([{}]);
+    const [liquidityChartData, setLiquidityChartData] = useState<any>([]);
     const [hoverLiquidityChartValue, setHoverLiquidityChartValue] = useState<any>("");
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = useState<any>("");
 
@@ -59,7 +59,7 @@ const GraphPool = () => {
 
                 {liquidityChartData && liquidityChartData.length ?
                     <BarChart chartData={liquidityChartData} setHoverValue={setHoverLiquidityChartValue} setHoverDate={setHoverLiquidityChartDate} />
-                    : <p style={{ opacity: '0.5' }}>No data available</p>
+                    : <p style={{ opacity: '0.5', color: "white" }}>No data available</p>
                 }
             </BarChartCont>
         </ChartCont>
