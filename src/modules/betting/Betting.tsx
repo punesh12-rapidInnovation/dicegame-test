@@ -24,7 +24,7 @@ import {
   HowToPlay,
   NotUnder,
 } from "./style";
-import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser } from "../blockChain/bettingMethods";
+import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser,MinimumLink } from "../blockChain/bettingMethods";
 import { convertToEther, convertToWei } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
@@ -116,7 +116,7 @@ const Betting = () => {
       // setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
       setNumbers((prev: any) => [...prev, index]);
     }
-    if (sessionStorage.getItem("Loading") === "true") {
+    if (localStorage.getItem("Loading") === "true") {
       setLoader(true);
     }
   }, []);
@@ -124,7 +124,7 @@ const Betting = () => {
   //@ts-ignore
   useEffect(() => {
     const localChecked = localStorage.getItem("ShowDisclaimer");
-    const Loading = sessionStorage.getItem("Loading");
+    const Loading = localStorage.getItem("Loading");
     if (Loading === "true") {
       setshowDisclaimer(false);
     } else if (localChecked === null || localChecked === "false") {
@@ -212,7 +212,7 @@ const Betting = () => {
   // };
 
   const CallingPlaceBet = async () => {
-    if (sessionStorage.getItem("Loading") === "true") {
+    if (localStorage.getItem("Loading") === "true") {
       return;
     } else if (PlacingBet) {
       return;
@@ -280,7 +280,7 @@ const Betting = () => {
   };
 
   const ButtonText = () => {
-    if (sessionStorage.getItem("Loading") === "true") {
+    if (localStorage.getItem("Loading") === "true") {
       return "Loading Result...";
     } else if (PlacingBet) {
       return "Placing Bet..";
@@ -315,8 +315,11 @@ const Betting = () => {
     const LinkBalance = await LinkInstance.methods.balanceOf(userAddress).call();
     const EtherLinkBalance = convertToEther(LinkBalance);
 
-    if (EtherLinkBalance < 0.001) {
-      setAlertText("Minimum 0.001 Link Required To Place Bet");
+    const Link: number = await MinimumLink();
+    
+
+    if (EtherLinkBalance < convertToEther(Link)) {
+      setAlertText(`Minimum ${convertToEther(Link)} Link Required To Place Bet`);
       setAlertModalState(true);
       return
     }
@@ -342,7 +345,7 @@ const Betting = () => {
         .once("confirmation", function (receipt: any) {
           setPlacingBet(false);
           setBetplacedLoading(true);
-          sessionStorage.setItem("Loading", "true");
+          localStorage.setItem("Loading", "true");
           localStorage.setItem("BetAmount", BetAmount);
           // window.location.reload();
         });
@@ -356,7 +359,7 @@ const Betting = () => {
         setPlacingBet(false);
         setLoader(false);
         setBetplacedLoading(false);
-        sessionStorage.setItem("Loading", "false");
+        localStorage.setItem("Loading", "false");
         setPlacingBet(false);
         window.location.reload();
         console.log(error);
@@ -367,7 +370,7 @@ const Betting = () => {
   useEffect(() => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
     console.log("result recieved");
-    if (sessionStorage.getItem("Loading") !== "true") {
+    if (localStorage.getItem("Loading") !== "true") {
       return
     }
 
@@ -381,7 +384,7 @@ const Betting = () => {
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
         setShowResultModal(true);
-        sessionStorage.setItem("Loading", "false");
+        localStorage.setItem("Loading", "false");
         localStorage.setItem("BetAmount", "0");
         // setBetAmount(0);
         StoringLastRolls();
@@ -395,7 +398,7 @@ const Betting = () => {
         setPlayerRoll(ResultObject?.Playernumber);
         setResultPopupDisplay("flex");
         setShowResultModal(true);
-        sessionStorage.setItem("Loading", "false");
+        localStorage.setItem("Loading", "false");
         // setBetAmount(0);
         StoringLastRolls();
         localStorage.setItem("BetAmount", "0");

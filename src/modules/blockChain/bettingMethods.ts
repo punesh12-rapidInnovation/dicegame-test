@@ -76,3 +76,20 @@ export const PlaceBet = async (
   }
 };
 
+export const MinimumLink = async () => {
+
+  try {
+    //create instance of an abi to call any blockChain function
+    const lpInstance = await selectReadContractInstance(
+      instanceType.BETTING, // type of instance
+      BETTING_ADDRESS //contract address
+    );
+    if (true) {
+      const Links = await lpInstance.methods.s_fee().call();
+      return Links
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
