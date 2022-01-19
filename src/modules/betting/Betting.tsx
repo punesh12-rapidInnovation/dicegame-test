@@ -99,7 +99,6 @@ const Betting = () => {
   useEffect(() => {
     const soundOff = localStorage.getItem("soundOff") || "";
 
-    console.log('soundOff', soundOff !== 'true');
     if (soundOff !== 'true')
       play();
   }, [RangeValue])
@@ -347,6 +346,8 @@ const Betting = () => {
           setBetplacedLoading(true);
           localStorage.setItem("Loading", "true");
           localStorage.setItem("BetAmount", BetAmount);
+          sessionStorage.setItem("Profit", convertToEther(Profit.toString()))
+          sessionStorage.setItem("BetAmount", BetAmount);
           // window.location.reload();
         });
       console.log(RollDice);
@@ -369,7 +370,6 @@ const Betting = () => {
 
   useEffect(() => {
     const LocalBetIt = localStorage.getItem("PlacingBetId");
-    console.log("result recieved");
     if (localStorage.getItem("Loading") !== "true") {
       return
     }
@@ -385,10 +385,8 @@ const Betting = () => {
         setResultPopupDisplay("flex");
         setShowResultModal(true);
         localStorage.setItem("Loading", "false");
-        localStorage.setItem("BetAmount", "0");
         // setBetAmount(0);
         StoringLastRolls();
-        localStorage.setItem("BetAmount", "0");
       } else if (ResultObject?.Status === "1") {
         setResultRoll(ResultObject?.Diceresult);
         setWinLooseMsg("Hurray,You Won The Bet");
@@ -401,7 +399,6 @@ const Betting = () => {
         localStorage.setItem("Loading", "false");
         // setBetAmount(0);
         StoringLastRolls();
-        localStorage.setItem("BetAmount", "0");
       } else {
         console.log("unhandled result");
       }
@@ -482,7 +479,6 @@ const Betting = () => {
 
     // if (evenOdd === 0)
     //   setEvenOddProfit(0);
-    console.log("RangeCheckRan");
     //@ts-ignore
     const numberRangeLow = parseInt(rangeLow);
     //@ts-ignore
@@ -496,7 +492,6 @@ const Betting = () => {
       console.log(numberRangeLow, numberRangeHigh);
     } else {
       setrollDiceDisableOrNot(false);
-      console.log(numberRangeLow, numberRangeHigh);
     }
   }, [rangeLow, rangeHigh]);
 
@@ -571,7 +566,6 @@ const Betting = () => {
   const setMaxBet = async (multiplier: any) => {
     const HOUSEPOOL_INSTANCE = await selectReadContractInstance(instanceType.HOUSEPOOL);
     const maxProfit = await HOUSEPOOL_INSTANCE.methods.maxProfit().call();
-    console.log(HOUSEPOOL_INSTANCE, maxProfit);
 
     if (maxProfit) {
       const maxBet = convertToEther(maxProfit) / multiplier;
@@ -593,12 +587,10 @@ const Betting = () => {
       setMultiplier(multiplier);
     };
     getMultiplier();
-    console.log('568 parent ran')
 
     setMaxBet(multiplier);
 
     calcTempPlayerProfit(RangeValue, evenOdd, BetAmount, rangeLow, rangeHigh);
-    console.log('after set max called')
   }, [RangeValue, BetAmount, userAddress, evenOdd, rangeLow, rangeHigh, multiplier]);
 
   const calcTempPlayerProfit = async (
@@ -860,7 +852,6 @@ const Betting = () => {
         show={!loader && success && win && !error}
         toggleModal={() => toggleModal()}
         ResultObject={ResultObject}
-        Profit={convertToEther(Profit.toString())}
       />
 
       <LooseModal
@@ -868,7 +859,6 @@ const Betting = () => {
         show={!loader && success && !win && !error}
         toggleModal={() => toggleModal()}
         ResultObject={ResultObject}
-        LossAmount={BetAmount}
       />
 
       <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />

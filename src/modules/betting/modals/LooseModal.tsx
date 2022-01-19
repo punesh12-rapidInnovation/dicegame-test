@@ -28,8 +28,11 @@ import { useSelector } from "react-redux";
 
 
 const LooseModal = (props: any) => {
-    const { show, toggleModal, styles, ResultObject, LossAmount } = props;
+    const { show, toggleModal, styles, ResultObject } = props;
     const { userAddress } = useSelector((state: any) => state.wallet);
+
+
+    const LossAmount = sessionStorage.getItem('BetAmount');
 
 
     const handleClickOutside = (e: any) => {

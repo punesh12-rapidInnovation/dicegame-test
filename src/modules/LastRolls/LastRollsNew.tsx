@@ -1,5 +1,4 @@
 import DiceIcon from "assets/icons/Diceicon.svg";
-import { setLastRollData } from "logic/action/wallet.action";
 import ResultsModal from 'modules/betting/modals/ResultsModal';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +16,6 @@ const LastRollsNew = (props: any) => {
     const [LastRolls, setLastRolls] = useState<any>([])
 
     const { lastRollsData } = useSelector((state: any) => state.wallet);
-    const dispatch = useDispatch()
 
     useEffect(() => {
         if (localStorage.getItem("LastRolls") !== null) {

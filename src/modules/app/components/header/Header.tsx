@@ -72,7 +72,6 @@ const Header = () => {
       }
     };
 
-    console.log('connectWallet', connectWallet)
     if (connectWallet)
       changedAccountAddress();
   }, [walletAddress]);
