@@ -306,7 +306,7 @@ export const setupNetwork = async (dispatch: any, walletType: any) => {
 				decimals: 18,
 			},
 			rpcUrls: [walletTestConnectId],
-			blockExplorerUrls: ['https://testnet.bscscan.com/'],
+			blockExplorerUrls: ['https://mumbai.polygonscan.com'],
 		},
 	];
 

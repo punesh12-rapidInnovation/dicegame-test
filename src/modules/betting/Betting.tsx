@@ -24,7 +24,7 @@ import {
   HowToPlay,
   NotUnder,
 } from "./style";
-import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser,MinimumLink } from "../blockChain/bettingMethods";
+import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser, MinimumLink } from "../blockChain/bettingMethods";
 import { convertToEther, convertToWei } from "../../utils/helper";
 import { CheckAllowance } from "../blockChain/Routermethods";
 import { BETTING_ADDRESS } from "../../config";
@@ -101,14 +101,18 @@ const Betting = () => {
 
     console.log('soundOff', soundOff !== 'true');
     if (soundOff !== 'true')
-      play();
+
+      setTimeout(() => {
+        play();
+      }, 1200);
+
   }, [RangeValue])
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
 
 
-  const { socket,ResultObject, setResultObject } = useContext(SocketContext);
+  const { socket, ResultObject, setResultObject } = useContext(SocketContext);
 
   useEffect(() => {
     for (let index = 0; index <= 100; index++) {
@@ -179,6 +183,8 @@ const Betting = () => {
       setBetRightOrNotAlert(true);
     else setBetRightOrNotAlert(false);
   }, [BetAmount]);
+
+
 
   const RangeValueChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
     const RangePercent = parseInt(e.currentTarget.value);
@@ -316,7 +322,7 @@ const Betting = () => {
     const EtherLinkBalance = convertToEther(LinkBalance);
 
     const Link: number = await MinimumLink();
-    
+
 
     if (EtherLinkBalance < convertToEther(Link)) {
       setAlertText(`Minimum ${convertToEther(Link)} Link Required To Place Bet`);
@@ -408,7 +414,7 @@ const Betting = () => {
     } else {
       console.log(ResultObject?.Betid, LocalBetIt);
     }
-    
+
   }, [ResultObject]);
 
   const StoringLastRolls = () => {
@@ -621,14 +627,14 @@ const Betting = () => {
       if (betValue) {
         const BETTING_INSTANCE = await selectReadContractInstance(instanceType.BETTING);
 
-      const profit = await BETTING_INSTANCE.methods
-        .GetProfit(rollUnder, _OddEvenStatus, rangeLow, rangeHigh, convertToWei(betValue.toString()))
-        .call();
+        const profit = await BETTING_INSTANCE.methods
+          .GetProfit(rollUnder, _OddEvenStatus, rangeLow, rangeHigh, convertToWei(betValue.toString()))
+          .call();
 
-      setProfit(profit);
-        
+        setProfit(profit);
+
       }
-      
+
     } catch (error) {
       console.log(error);
     }
