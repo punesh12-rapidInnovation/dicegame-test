@@ -101,10 +101,11 @@ const Betting = () => {
 
     console.log('soundOff', soundOff !== 'true');
     if (soundOff !== 'true')
+      play();
 
-      setTimeout(() => {
-        play();
-      }, 1200);
+    // setTimeout(() => {
+    //   play();
+    // }, 1200);
 
   }, [RangeValue])
 
