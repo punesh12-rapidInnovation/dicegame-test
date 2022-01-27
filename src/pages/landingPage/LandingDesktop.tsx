@@ -72,7 +72,7 @@ const LandingDesktop = () => {
                         width: "100px",
                     }}
                 >
-                    <Rankimg src={PlayerRankImg} alt="" />
+                    {/* <Rankimg src={PlayerRankImg} alt="" /> */}
                 </FlexColumn>
                 <Flex style={{ width: '50%' }}>
                     <FlexColumn style={{ minWidth: '140px', alignItems: 'center' }}>
