@@ -165,6 +165,7 @@ const Betting = () => {
 
   const SetMinBetAmount = async () => {
     setBetAmount(((10 / 100) * Number(OnLoadMax)).toFixed(8));
+    setOnLoadMin(((10 / 100) * Number(OnLoadMax)).toFixed(8))
 
     // playBetSound();
   };
