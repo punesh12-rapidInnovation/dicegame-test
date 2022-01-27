@@ -22,16 +22,15 @@ export const RangeSliderInput = styled.input<any>`
   width: 100%;
   height: 4px;
   margin-bottom: 20px;
-  /*background: green;*/
   outline: none;
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
   cursor: pointer;
   &::-webkit-slider-thumb {
-    width: 10px;
+    width: 20px;
     height: 20px;
-    background:red;
-    // opacity:0.1;
+    // background:red;
+    background:transparent;
     border: none;
     cursor: pointer;
     -webkit-appearance: none;
@@ -51,10 +50,10 @@ export const RangeSliderInput = styled.input<any>`
     outline: 10px solid #19072e ;
   }
   &::-moz-range-thumb {
-    width: 10px;
+    width: 20px;
     height: 20px;
-    background:red;
-    // opacity:0.1;
+    // background:red;
+    background:transparent;
     border: none;
     cursor: pointer;
     -webkit-appearance: none;
