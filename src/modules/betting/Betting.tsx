@@ -735,7 +735,7 @@ const Betting = () => {
             >Advance options</H2>
             <img className="ExpandArrow" src={ExpandArrow} />
           </Flex>
-          <Flex style={{ display: `${showAdvanceOption ? "" : 'none'}` }} >
+          <Flex style={{ display: `${showAdvanceOption ? "" : 'none'}` }} disabled={RangeValue < 2} >
             <Flex style={{ flexDirection: "column" }}>
               <Flex>
                 <H2>Select</H2>
@@ -750,14 +750,18 @@ const Betting = () => {
                   <Flex style={{ justifyContent: "space-between", width: "60%", marginRight: '10px' }}>
                     <label className="container">
                       Odd
-                      <input type="checkbox" checked={checked1} onChange={() => handleCheckChange(1, 1)} />
+                      <input type="checkbox" checked={checked1} onChange={() => handleCheckChange(1, 1)}
+                        disabled={RangeValue < 2}
+                      />
                       <span className="checkmark"></span>
                     </label>
                   </Flex>
                   <Flex style={{ justifyContent: "space-between", width: "50%" }}>
                     <label className="container">
                       Even
-                      <input type="checkbox" checked={checked2} onChange={() => handleCheckChange(2, 2)} />
+                      <input type="checkbox" checked={checked2} onChange={() => handleCheckChange(2, 2)}
+                        disabled={RangeValue < 2}
+                      />
                       <span className="checkmark"></span>
                     </label>
                   </Flex>
@@ -772,7 +776,10 @@ const Betting = () => {
                     alignItems: "center",
                   }}
                 >
-                  <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue1}>
+                  <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue1}
+                    disabled={RangeValue < 2}
+
+                  >
                     {Numbers.map((data, index) => {
                       return (
                         <Option value={data} key={"rf" + index}>
@@ -783,7 +790,9 @@ const Betting = () => {
                     })}
                   </Select>
 
-                  <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue2}>
+                  <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue2}
+                    disabled={RangeValue < 2}
+                  >
                     {Numbers.map((data, index) => {
                       return (
                         <Option value={data} key={"rf" + index}>
@@ -806,7 +815,7 @@ const Betting = () => {
               }}
             >
               <Flex style={{ width: "100%" }} JustifyContent="center">
-                <P>+{Number(multiplier).toFixed(3)}x</P>
+                <P>+{Number(multiplier).toFixed(2)}x</P>
                 <div style={{ position: "relative" }}>
                   <img
                     className="helpIcon"

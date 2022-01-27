@@ -114,9 +114,10 @@ export const SliderCalloutBox = styled.div<any>`
   background: url(${SliderCallout});    
   background-repeat: no-repeat;
   background-size: contain;
+  z-index:10;
 
   p{
-    font-size:11px;
+    font-size:10.5px;
     font-weight:100;
     line-height:1.1;
   }

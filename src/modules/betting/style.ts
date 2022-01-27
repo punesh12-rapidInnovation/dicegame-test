@@ -330,11 +330,12 @@ export const Flex = styled.div<any>`
   display: flex;
   justify-content: ${(props) => props.JustifyContent || "space-between"};
   align-content: center;
-
   width: ${(props) => props.Width || "100%"};
   margin-bottom: ${(props) => props.MarginBottom || "0"}; 
   margin:0;
   padding:0;
+  opacity: ${(props) => props.disabled? "0.5": "1"};
+
 
   img{
     height:20px;

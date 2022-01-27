@@ -31,9 +31,9 @@ const RangeSlider = (props: any) => {
         <p>Roll under <span>{value + 1}</span>,</p>
         <p>Profit <span>+{
           width < screenSizes.mediaS ?
-            Profit && Number(convertToEther(Profit.toString())).toFixed(6)
+            Profit && Number(convertToEther(Profit.toString())).toFixed(4)
             :
-            Profit && Number(convertToEther(Profit.toString())).toFixed(10)
+            Profit && Number(convertToEther(Profit.toString())).toFixed(6)
 
         } PLS</span></p>
 
