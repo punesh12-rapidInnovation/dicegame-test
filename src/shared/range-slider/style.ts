@@ -8,7 +8,6 @@ export const RangeSliderCont = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  // margin: 30px 0;
   margin-top:20px;
 position: relative;
 
@@ -110,7 +109,7 @@ export const SliderCalloutBox = styled.div<any>`
   flex-direction: column;
   align-items:center;
   text-align:center;
-  padding:5px;
+  padding:2px;
   width:120px;
   height:55px;
   background: url(${SliderCallout});    
@@ -118,9 +117,9 @@ export const SliderCalloutBox = styled.div<any>`
   background-size: contain;
 
   p{
-    font-size:9px;
+    font-size:11px;
     font-weight:100;
-    line-height:1.3;
+    line-height:1.1;
   }
 
   span{

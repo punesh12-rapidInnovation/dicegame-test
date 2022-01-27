@@ -341,6 +341,24 @@ export const Flex = styled.div<any>`
     cursor:pointer;
   }
 
+  .helpIcon{
+    @media (max-width: ${screenSizes.mediaS}px) {
+      height:12px;
+    }
+  }
+  .ExpandArrow{
+    height:12px;
+    width:12px;
+    cursor: pointer;
+    margin:${(props: any) =>
+    props.iconStatus ? '0 5px 12px 5px' : '0 5px'};
+    transform: ${(props: any) =>
+      props.iconStatus ? 'rotate(180deg)' : 'rotate(0deg)'};
+    transition: 0.1s;
+    @media (max-width: ${screenSizes.mediaS}px) {
+      margin:0 5px;
+  }
+
   
 @media (max-width: ${screenSizes.mediaS}px) {
   img{
@@ -582,6 +600,7 @@ export const BetResult = styled.div`
 `;
 export const OddEvenDiv = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 20px;

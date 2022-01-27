@@ -38,9 +38,9 @@ const RangeSlider = (props: any) => {
         } PLS</span></p>
 
       </SliderCalloutBox>
-      <ValueRange>
+      {/* <ValueRange>
         <p>1%</p> <p>98%</p>
-      </ValueRange>
+      </ValueRange> */}
     </RangeSliderCont >
   );
 };
