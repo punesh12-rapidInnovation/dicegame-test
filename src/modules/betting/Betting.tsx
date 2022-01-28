@@ -40,6 +40,7 @@ import LooseModal from "./modals/LooseModal";
 import Alertmsg from "./modals/Alertmsg";
 import HelpIcon from "assets/icons/helpIcon.svg";
 import howtoplay from "../../assets/icons/HowToPlay.svg";
+import ExpandArrow from "../../assets/icons/expandArrow.svg";
 import CustomModal from "shared/custom-modal";
 import { CheckCont } from "shared/Disclaimer/style";
 import RangeSlider from "shared/range-slider/RangeSlider";
@@ -92,6 +93,7 @@ const Betting = () => {
   const [Disable, setDisable] = useState<boolean>(false);
   const [rollDiceDisableOrNot, setrollDiceDisableOrNot] = useState<Boolean>(false);
   const [multiplier, setMultiplier] = useState(0);
+  const [showAdvanceOption, setShowAdvanceOption] = useState(false);
 
   const [play] = useSound(heart, { interrupt: true });
 
@@ -102,10 +104,6 @@ const Betting = () => {
     if (soundOff !== 'true')
       play();
 
-    // setTimeout(() => {
-    //   play();
-    // }, 1200);
-
   }, [RangeValue])
 
   const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
@@ -115,15 +113,15 @@ const Betting = () => {
   const { socket, ResultObject, setResultObject } = useContext(SocketContext);
 
   useEffect(() => {
-    for (let index = 0; index <= 100; index++) {
+    setNumbers([]);
+    for (let index = 0; index <= RangeValue; index++) {
       //@ts-ignore
-      // setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
       setNumbers((prev: any) => [...prev, index]);
     }
     if (localStorage.getItem("Loading") === "true") {
       setLoader(true);
     }
-  }, []);
+  }, [RangeValue]);
 
   //@ts-ignore
   useEffect(() => {
@@ -146,19 +144,6 @@ const Betting = () => {
     };
 
     getBalance();
-
-    // const connect = () => {
-    //   try {
-    //     socket.on("connection", () => {
-    //       // Replace event name with connection event name
-    //       console.log("websocket connected");
-    //     });
-    //   } catch (err) {
-    //     console.log("err", err);
-    //   }
-    // };
-
-    // connect();
   }, []);
 
   window.onbeforeunload = function () {
@@ -203,7 +188,7 @@ const Betting = () => {
 
   const BetSetThroughInput = (e: any) => {
     const { value } = e.target;
-    console.log("value", value);
+    // console.log("value", value);
 
     if (floatNumRegex.test(value.toString())) {
       setBetAmount(value);
@@ -463,6 +448,7 @@ const Betting = () => {
     getWalletBalance();
   }, [userAddress, showResultModal]);
 
+
   const handleCheckChange = (value: any, checkNum: Number) => {
     if (checkNum === 1 && !checked1) {
       setChecked1(!checked1);
@@ -480,6 +466,17 @@ const Betting = () => {
       setEvenOdd(0);
     } else setEvenOdd(0);
   };
+
+  useEffect(() => {
+    if (RangeValue < 2) {
+      setEvenOdd(0);
+      setRangeLow(0);
+      setRangeHigh(0);
+      setChecked1(false)
+      setChecked2(false)
+    }
+
+  }, [RangeValue])
 
   useEffect(() => {
     // if (evenOdd !== 0) setEvenOddProfit(2);
@@ -634,7 +631,6 @@ const Betting = () => {
     }
   };
 
-  // console.log('Profit', Profit);
 
   // new approcah for betting -end
 
@@ -731,91 +727,118 @@ const Betting = () => {
             />
           </Flex>
         </FlexColumn>
-        <OddEvenDiv style={{ width: "100%" }}>
-          <Flex style={{ flexDirection: "column", width: "100%" }}>
-            <Flex>
-              <H2>Select</H2>
-              <Flex
-                JustifyContent="center"
-                style={{
-                  width: "60%",
-                  alignItems: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                <Flex style={{ justifyContent: "space-between", width: "60%", marginRight: '10px' }}>
-                  <label className="container">
-                    Odd
-                    <input type="checkbox" checked={checked1} onChange={() => handleCheckChange(1, 1)} />
-                    <span className="checkmark"></span>
-                  </label>
-                </Flex>
-                <Flex style={{ justifyContent: "space-between", width: "50%" }}>
-                  <label className="container">
-                    Even
-                    <input type="checkbox" checked={checked2} onChange={() => handleCheckChange(2, 2)} />
-                    <span className="checkmark"></span>
-                  </label>
-                </Flex>
-              </Flex>
-            </Flex>
-            <Flex>
-              <H2>Select Range</H2>
-              <Flex
-                style={{
-                  width: "60%",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue1}>
-                  {Numbers.map((data, index) => {
-                    return (
-                      <Option value={data} key={"rf" + index}>
-                        {data}
-                        {/* {index} */}
-                      </Option>
-                    );
-                  })}
-                </Select>
-
-                <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue2}>
-                  {Numbers.map((data, index) => {
-                    return (
-                      <Option value={data} key={"rf" + index}>
-                        {data}
-                        {/* {index} */}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </Flex>
-            </Flex>
-          </Flex>
+        <OddEvenDiv >
           <Flex
-            style={{
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "30%",
-              padding: "0",
-            }}
+            JustifyContent="flex-start"
+            iconStatus={showAdvanceOption}
+            style={{ alignItems: "center" }}
+            onClick={() => setShowAdvanceOption(!showAdvanceOption)}
+
           >
-            <Flex style={{ width: "100%" }} JustifyContent="center">
-              <P>+{Number(multiplier).toFixed(3)}x</P>
-              <div style={{ position: "relative" }}>
-                <img
-                  src={HelpIcon}
-                  alt="help"
-                  onMouseOver={() => setShowToolTip2(true)}
-                  onMouseOut={() => setShowToolTip2(false)}
-                />
-                {showToolTip2 && (
-                  <ToolTipCont>
-                    <p>Multiplier(in X)</p>
-                  </ToolTipCont>
-                )}
-              </div>
+            <H2
+              MarginBottom={showAdvanceOption ? '14px' : '0'}
+              style={{ cursor: "pointer" }}
+            >Advance options</H2>
+            <img className="ExpandArrow" src={ExpandArrow} />
+          </Flex>
+          <Flex style={{ display: `${showAdvanceOption ? "" : 'none'}` }} disabled={RangeValue < 2} >
+            <Flex style={{ flexDirection: "column" }}>
+              <Flex>
+                <H2>Select</H2>
+                <Flex
+                  JustifyContent="center"
+                  style={{
+                    width: "60%",
+                    alignItems: "center",
+                    paddingLeft: "10px",
+                  }}
+                >
+                  <Flex style={{ justifyContent: "space-between", width: "60%", marginRight: '10px' }}>
+                    <label className="container">
+                      Odd
+                      <input type="checkbox" checked={checked1} onChange={() => handleCheckChange(1, 1)}
+                        disabled={RangeValue < 2}
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </Flex>
+                  <Flex style={{ justifyContent: "space-between", width: "50%" }}>
+                    <label className="container">
+                      Even
+                      <input type="checkbox" checked={checked2} onChange={() => handleCheckChange(2, 2)}
+                        disabled={RangeValue < 2}
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </Flex>
+                </Flex>
+              </Flex>
+              <Flex>
+                <H2>Select Range</H2>
+                <Flex
+                  style={{
+                    width: "60%",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue1}
+                    defaultValue={rangeLow}
+                    disabled={RangeValue < 2}
+
+                  >
+                    {Numbers.map((data, index) => {
+                      return (
+                        <Option value={data} key={"rf" + index}>
+                          {data}
+                          {/* {index} */}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+
+                  <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue2}
+                    defaultValue={rangeHigh}
+                    disabled={RangeValue < 2}
+                  >
+                    {Numbers.map((data, index) => {
+                      return (
+                        <Option value={data} key={"rf" + index}>
+                          {data}
+                          {/* {index} */}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+                </Flex>
+              </Flex>
+            </Flex>
+            <Flex
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "30%",
+                padding: "0",
+              }}
+            >
+              <Flex style={{ width: "100%" }} JustifyContent="center">
+                <P>+{Number(multiplier).toFixed(2)}x</P>
+                <div style={{ position: "relative" }}>
+                  <img
+                    className="helpIcon"
+                    src={HelpIcon}
+                    alt="help"
+                    onMouseOver={() => setShowToolTip2(true)}
+                    onMouseOut={() => setShowToolTip2(false)}
+                  />
+                  {showToolTip2 && (
+                    <ToolTipCont>
+                      <p>Multiplier(in X)</p>
+                    </ToolTipCont>
+                  )}
+                </div>
+              </Flex>
             </Flex>
           </Flex>
         </OddEvenDiv>
@@ -836,7 +859,7 @@ const Betting = () => {
             +{convertToEther(Profit.toString())} PLS
           </H1>
         </Flex>
-      </BetMiddle>
+      </BetMiddle >
       <BetBottom>
         {UserAllowance ? (
           <PrimaryButton disabled={rollDiceDisableOrNot} onClick={() => CallingPlaceBet()}>
