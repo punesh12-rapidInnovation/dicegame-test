@@ -9,7 +9,7 @@ const SOCKET_URL = "wss://diceroll.rapidinnovation.tech";
 export const socket = io(SOCKET_URL, { transports: ["websocket"] });
 // export const socket = io(SOCKET_URL);
 
-const BASE_URL = "https://diceroll.rapidinnovation.tech/api/message";
+const BASE_URL = "https://dicegame-subs.rapidinnovation.tech/";
 
 interface SocketContextInterface {
   socket: any;
@@ -41,26 +41,26 @@ const SocketContextProvider = ({ children }: any) => {
         console.log("websocket connected");
       });
       //@ts-ignore
-      socket.on("message", (data) => {
-         console.log("data context", data);
-        // // setUserTyping(false);
-        // let updatedMessages = liveMessages;
-        // updatedMessages.push(data);
-        // console.log(updatedMessages);
+      // socket.on("message", (data) => {
+      //    console.log("data context", data);
+      //   // // setUserTyping(false);
+      //   // let updatedMessages = liveMessages;
+      //   // updatedMessages.push(data);
+      //   // console.log(updatedMessages);
 
-        setLiveMessages((liveMessages) => [...liveMessages,data]);
-      });
-      //@ts-ignore
-      socket.on("typing", (data) => {
-        console.log("typingdata", data);
-        if (data === "stop") {
-          setUserTyping(false);
-          setUserTypingAddress("0");
-        } else {
-          setUserTyping(true);
-          setUserTypingAddress(data);
-        }
-      });
+      //   setLiveMessages((liveMessages) => [...liveMessages,data]);
+      // });
+      // //@ts-ignore
+      // socket.on("typing", (data) => {
+      //   console.log("typingdata", data);
+      //   if (data === "stop") {
+      //     setUserTyping(false);
+      //     setUserTypingAddress("0");
+      //   } else {
+      //     setUserTyping(true);
+      //     setUserTypingAddress(data);
+      //   }
+      // });
 
       socket.on("betevent", (data: any) => {
           console.log(data);

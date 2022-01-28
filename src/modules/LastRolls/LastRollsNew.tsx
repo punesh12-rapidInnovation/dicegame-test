@@ -48,16 +48,16 @@ const LastRollsNew = (props: any) => {
 
                         <TR header key="">
 
-                            <TD header># DATE AND TIME</TD>
+                            <TD >Dice Roll</TD>
                             <TD>BET AMOUNT</TD>
                             <TD>MIN CHANCE</TD>
                             <TD>GAIN/LOSS</TD>
                         </TR>
                         <H1 style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-30%)', width: '300px' }}>{NoResultMessage()}</H1>
-                        {LastRolls.slice(0, 4).map((Roll: any, index: any) => (
+                        {LastRolls.map((Roll: any, index: any) => (
                             <TR key={"lr" + index}>
-                                <TD style={{ textAlign: "left" }}>
-                                    #{index + 1} - {Roll.Date}
+                                <TD >
+                                   {Roll.Diceresult}
                                 </TD>
                                 <TD>{Roll.BetAmount.substring(0, 8)}</TD>
                                 <TD>{Roll.Playernumber - 1}%</TD>
@@ -78,9 +78,9 @@ const LastRollsNew = (props: any) => {
                             </tbody>
                     </TABLE>
                 </LastRollDetails>
-                <PrimaryButton className="button"
+                {/* <PrimaryButton className="button"
                     onClick={() => setShowResultModal(true)}
-                >Show more</PrimaryButton>
+                >Show more</PrimaryButton> */}
             </LastRollDetailsCont>
 
             <ResultsModal

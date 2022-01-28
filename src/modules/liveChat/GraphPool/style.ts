@@ -7,7 +7,7 @@ box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7;
 border-radius: 20px;
   width: 100%;
   max-width: 700px;
-  height: 400px;
+  height: 410px;
   display: flex;
   flex-direction: column;
   align-items: center;
