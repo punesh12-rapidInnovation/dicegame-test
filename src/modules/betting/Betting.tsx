@@ -113,15 +113,15 @@ const Betting = () => {
   const { socket, ResultObject, setResultObject } = useContext(SocketContext);
 
   useEffect(() => {
-    for (let index = 0; index <= 100; index++) {
+    setNumbers([]);
+    for (let index = 0; index <= RangeValue; index++) {
       //@ts-ignore
-      // setNumbers((prev: any) => [...prev, `${index}-${index + 10}`]);
       setNumbers((prev: any) => [...prev, index]);
     }
     if (localStorage.getItem("Loading") === "true") {
       setLoader(true);
     }
-  }, []);
+  }, [RangeValue]);
 
   //@ts-ignore
   useEffect(() => {
@@ -449,6 +449,7 @@ const Betting = () => {
     getWalletBalance();
   }, [userAddress, showResultModal]);
 
+
   const handleCheckChange = (value: any, checkNum: Number) => {
     if (checkNum === 1 && !checked1) {
       setChecked1(!checked1);
@@ -466,6 +467,15 @@ const Betting = () => {
       setEvenOdd(0);
     } else setEvenOdd(0);
   };
+
+  useEffect(() => {
+    if (RangeValue < 2) {
+      setEvenOdd(0);
+      setRangeLow(0);
+      setRangeHigh(0);
+    }
+
+  }, [RangeValue])
 
   useEffect(() => {
     // if (evenOdd !== 0) setEvenOddProfit(2);
