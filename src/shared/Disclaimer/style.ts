@@ -70,6 +70,8 @@ ul,
   li {
     font-size: 13px;
     list-style: none;
+    font-weight:100;
+    line-height:1.5;
   }
 
   ul {

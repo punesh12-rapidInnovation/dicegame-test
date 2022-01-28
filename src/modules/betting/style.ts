@@ -330,15 +330,34 @@ export const Flex = styled.div<any>`
   display: flex;
   justify-content: ${(props) => props.JustifyContent || "space-between"};
   align-content: center;
-
   width: ${(props) => props.Width || "100%"};
   margin-bottom: ${(props) => props.MarginBottom || "0"}; 
   margin:0;
   padding:0;
+  opacity: ${(props) => props.disabled? "0.5": "1"};
+
 
   img{
     height:20px;
     cursor:pointer;
+  }
+
+  .helpIcon{
+    @media (max-width: ${screenSizes.mediaS}px) {
+      height:12px;
+    }
+  }
+  .ExpandArrow{
+    height:12px;
+    width:12px;
+    cursor: pointer;
+    margin:${(props: any) =>
+    props.iconStatus ? '0 5px 12px 5px' : '0 5px'};
+    transform: ${(props: any) =>
+      props.iconStatus ? 'rotate(180deg)' : 'rotate(0deg)'};
+    transition: 0.1s;
+    @media (max-width: ${screenSizes.mediaS}px) {
+      margin:0 5px;
   }
 
   
@@ -582,6 +601,7 @@ export const BetResult = styled.div`
 `;
 export const OddEvenDiv = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
