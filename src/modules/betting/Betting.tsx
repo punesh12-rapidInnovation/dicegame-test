@@ -473,6 +473,8 @@ const Betting = () => {
       setEvenOdd(0);
       setRangeLow(0);
       setRangeHigh(0);
+      setChecked1(false)
+      setChecked2(false)
     }
 
   }, [RangeValue])
@@ -787,6 +789,7 @@ const Betting = () => {
                   }}
                 >
                   <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue1}
+                    defaultValue={rangeLow}
                     disabled={RangeValue < 2}
 
                   >
@@ -801,6 +804,7 @@ const Betting = () => {
                   </Select>
 
                   <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue2}
+                    defaultValue={rangeHigh}
                     disabled={RangeValue < 2}
                   >
                     {Numbers.map((data, index) => {
