@@ -69,23 +69,17 @@ const Disclaimer = (props: any) => {
         <DisclaimerCont>
           <ul>
             <li>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-              labore et dolnc non blandit.
+              Responsibility for engaging with these sites and the associated contracts is the sole responsibility of the individual.
+              Read through the Terms and Conditions linked below for more information.
             </li>
             <li>
-              Eget felis eget nunc lobortis. Sed risus pi ut ornare lectus sit amet. Venenatis a condimentum
-              vitae sapien pellentesque habitant morbi tristique. Nisl nunc mi ipsum faucibus vitae aliquet
-              nec. Mattis enim ut tellus elementum sagittis vitae et. Mattis vulputate enim nulla aliquet.
+              Gambling is an activity that can cause stress and addiction which can lead to a series of irresponsible behaviors.
+              If gambling is a behavior which becomes detrimental or a hindrance to your ability to live a healthy life, please seek help.
             </li>
             <li>
-              {" "}
-              Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Est ultricies Pellentesque
-              pulvinar pellentesque habitant morbi tristique senectus. Cursus risus at ultrices mi.
+              Trading destroys your health and relationships, to lose money, or take another's who has it as bad.
             </li>
-            <li>
-              Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam
-              faucibus purus in massa tempor.{" "}
-            </li>
+
           </ul>
 
           {LocalAgree ? (
