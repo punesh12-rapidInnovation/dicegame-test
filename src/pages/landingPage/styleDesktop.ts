@@ -112,19 +112,18 @@ export const Beoneimagediv = styled.div`
 width: 40%;
 max-width: 400px;
 display: flex;
-justify-content: flex-end;
+flex-direction: column;
+justify-content: center;
 align-items:center;
 transform: translatey(15%);
 
->*{
-    margin-right: 20%;
-}
 `
 
 export const Beoneimg = styled.img`
-width: 250px;
-height: 250px;
+width: 200px;
+height: 200px;
 object-fit: contain;
+margin:5px;
 
 `
 

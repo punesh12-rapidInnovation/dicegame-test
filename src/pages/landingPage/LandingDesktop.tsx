@@ -39,17 +39,17 @@ const LandingDesktop = () => {
         GetBetCount();
     }
         , []);
-    
-    
+
+
 
     return (
         <LandingDesktopContainer>
             <Beonediv>
                 <Flexcol style={{ transform: "translateY(15%)" }}>
                     {/* <H2>EVERY DAY LOTS OF WINS</H2> */}
-                    <H1>Is Lady <PulseGradient>LUCK</PulseGradient> on <br/>your side?</H1>
+                    <H1>Is Lady <PulseGradient>LUCK</PulseGradient> on <br />your side?</H1>
                     <H3>
-                        Or <span style={{color:"#ca1ae7"}}>POOL</span> with the house?
+                        Or <span style={{ color: "#ca1ae7" }}>POOL</span> with the house?
                     </H3>
                     <Link
                         style={{ marginTop: "20px" }}
@@ -60,9 +60,12 @@ const LandingDesktop = () => {
                 </Flexcol>
                 <Beoneimagediv>
                     <Beoneimg src={BeOneImage} alt="" />
+                    <PrimaryButton style={{ width: '50%' }} onClick={() => history.push(`${Paths.housePool}`)}>
+                        HOUSEPOOL
+                    </PrimaryButton>
                 </Beoneimagediv>
             </Beonediv>
-            <PlayerRank>
+            {/* <PlayerRank>
                 <FlexColumn
                     style={{
                         padding: "10px",
@@ -72,7 +75,6 @@ const LandingDesktop = () => {
                         width: "100px",
                     }}
                 >
-                    {/* <Rankimg src={PlayerRankImg} alt="" /> */}
                 </FlexColumn>
                 <Flex style={{ width: '50%' }}>
                     <FlexColumn style={{ minWidth: '140px', alignItems: 'center' }}>
@@ -84,7 +86,7 @@ const LandingDesktop = () => {
                         DEPOSIT FUNDS
                     </PrimaryButton>
                 </Flex>
-            </PlayerRank>
+            </PlayerRank> */}
 
             <ModuleParentCont>
 
@@ -99,7 +101,7 @@ const LandingDesktop = () => {
                     </UpperModuleCont>
                     <LowerModuleCont>
                         <ModuleBox>
-                            <DepositCard/>
+                            <DepositCard />
                         </ModuleBox>
                         <ModuleBox>
                             <GraphPool />
@@ -111,7 +113,7 @@ const LandingDesktop = () => {
 
 
 
-            
+
 
 
 
