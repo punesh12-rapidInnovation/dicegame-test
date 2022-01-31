@@ -83,7 +83,8 @@ const LandingDesktop = () => {
                     </FlexColumn>
 
                     <PrimaryButton style={{ width: '300px', marginRight: '10%' }} onClick={() => history.push(`${Paths.housePool}`)}>
-                        DEPOSIT FUNDS
+                    HOUSE POOL
+                        {/* DEPOSIT FUNDS */}
                     </PrimaryButton>
                 </Flex>
             </PlayerRank> */}
