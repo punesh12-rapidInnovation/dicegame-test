@@ -1,4 +1,3 @@
-import PlayerRankImg from "assets/icons/playerrank.svg";
 import BeOneImage from "assets/images/beoneimage.png";
 import axios from "axios";
 import { Paths } from 'modules/app/components/routes/types';
@@ -6,12 +5,12 @@ import Betting from 'modules/betting';
 import { Flex, FlexColumn } from 'modules/betting/style';
 import LastRollsNew from 'modules/LastRolls/LastRollsNew';
 import GraphPool from 'modules/liveChat/GraphPool/GraphPool';
-import LiveChatNew from 'modules/liveChat/LiveChatNew';
 import { Link } from 'pages/housePool/style';
 import { useEffect, useState } from "react";
 import { PrimaryButton } from 'shared/button/Button';
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import history from 'shared/helpers/history';
+import DepositCard from "modules/DepositCard/DepositCard";
 import {
     Beonediv, Beoneimagediv,
     Beoneimg, Flexcol, H1,
@@ -28,7 +27,7 @@ const LandingDesktop = () => {
     useEffect(() => {
         const GetBetCount = async () => {
             const axiosInstance = axios.create({
-                baseURL: "https://diceroll.rapidinnovation.tech/pool",
+                baseURL: "https://dicegame-dev.rapidinnovation.tech/pool",
             });
             await axiosInstance.get(`/betcount`).then(function (response) {
                 //@ts-ignore
@@ -40,6 +39,8 @@ const LandingDesktop = () => {
         GetBetCount();
     }
         , []);
+    
+    
 
     return (
         <LandingDesktopContainer>
@@ -93,21 +94,24 @@ const LandingDesktop = () => {
                             <Betting />
                         </ModuleBox>
                         <ModuleBox>
-                            <LiveChatNew />
+                            <LastRollsNew />
                         </ModuleBox>
                     </UpperModuleCont>
                     <LowerModuleCont>
                         <ModuleBox>
-                            <LastRollsNew />
+                            <DepositCard/>
                         </ModuleBox>
                         <ModuleBox>
-
                             <GraphPool />
                         </ModuleBox>
 
                     </LowerModuleCont>
                 </ModuleCont>
             </ModuleParentCont>
+
+
+
+            
 
 
 

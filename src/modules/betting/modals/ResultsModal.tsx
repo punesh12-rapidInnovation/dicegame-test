@@ -67,7 +67,7 @@ const ResultsModal = (props: any) => {
                     </TD>
                   ) : (
                     <TD>
-                      <img src={Lossicon} style={{ marginRight: "5px" }} />
+                      <img src={Lossicon} style={{ marginRight: "5px" }} />                                                  
                       {convertToEther(Roll.Value).substring(0, 7)}
                     </TD>
                   )}

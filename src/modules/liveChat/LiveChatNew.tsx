@@ -78,7 +78,6 @@ const LiveChatNew = () => {
             console.log(counter);
           } else {
             console.log(UserBlockedOrNot);
-            console.log(counter);
           }
         });
       }
@@ -217,7 +216,6 @@ const LiveChatNew = () => {
   }, [liveMessages]);
 
   const scrollToBottom = () => {
-    console.log(messagesEndRef);
     //@ts-ignore
     messagesEndRef.current?.scrollBy(0,10000000);
   };
@@ -241,7 +239,6 @@ const LiveChatNew = () => {
     if (!socket) return;
     //@ts-ignore
     socket.emit("typing", "stop");
-    console.log("stop typing");
   };
 
   const sendThroughButton = () => {
@@ -262,7 +259,6 @@ const LiveChatNew = () => {
   }
 
   useEffect(() => {
-    console.log('Runnnning')
     scrollToBottom();
   }, [userTyping, liveMessages]);
   
@@ -280,7 +276,6 @@ const LiveChatNew = () => {
       }
     });
     setPeopleOnline(usersOnline.length);
-    console.log(usersOnline);
   }, [liveMessages]);
 
   //@ts-ignore

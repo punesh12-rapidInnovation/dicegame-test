@@ -3,20 +3,23 @@ import styled from "styled-components";
 
 
 export const LastRollCont = styled.div`
-background: #2A1966;
-box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 24px #CA1AE7;
-border-radius: 20px;
+background: linear-gradient(
+    90deg,
+    rgba(239, 8, 150, 0.1) -6.9%,
+    rgba(112, 7, 255, 0.1) 55.31%,
+    rgba(0, 200, 255, 0.1) 107.28%
+  );
+  box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6),
+    inset 0px 0px 20px rgba(202, 26, 231, 0.9);
+  border-radius: 20px;
   width: 100%;
   max-width: 700px;
-  height: 400px;
+  height: 580px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: space-around;
-
-  
-  @media (max-width: ${screenSizes.mediaS}px) {
-    height: 450px;
+  position:relative;
 }
 
 `

@@ -31,9 +31,11 @@ import { screenSizes } from "shared/styles/theme";
 import { formatAddress } from "utils/helper";
 
 const WinModal = (props: any) => {
-  const { show, toggleModal, styles, ResultObject, Profit } = props;
+  const { show, toggleModal, styles, ResultObject } = props;
 
   const [Numbers, setNumbers] = useState([]);
+
+  const Profit = sessionStorage.getItem('Profit');
 
   const handleClickOutside = (e: any) => {
     if (e.target === e.currentTarget) {
