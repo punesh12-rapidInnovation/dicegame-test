@@ -16,6 +16,7 @@ import {
     Beoneimg, Flexcol, H1,
     H2,
     H3, LandingDesktopContainer, LowerModuleCont, ModuleBox, ModuleCont, ModuleParentCont, PlayerRank,
+    PulseGradient,
     Rankimg, UpperModuleCont
 } from './styleDesktop';
 
@@ -45,12 +46,10 @@ const LandingDesktop = () => {
         <LandingDesktopContainer>
             <Beonediv>
                 <Flexcol style={{ transform: "translateY(15%)" }}>
-                    <H2>EVERY DAY LOTS OF WINS</H2>
-                    <H1>BE ONE OF THEM</H1>
+                    {/* <H2>EVERY DAY LOTS OF WINS</H2> */}
+                    <H1>Is Lady <PulseGradient>LUCK</PulseGradient> on <br/>your side?</H1>
                     <H3>
-                        Choose you odds and roll the dice to win pulse and
-                        prizes,invest,exchange,and join the contest with high rewards at
-                        pulseroll
+                        Or <span style={{color:"#ca1ae7"}}>POOL</span> with the house?
                     </H3>
                     <Link
                         style={{ marginTop: "20px" }}
