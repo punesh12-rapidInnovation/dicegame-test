@@ -85,11 +85,11 @@ const LandingDesktop = () => {
                     <PrimaryButton style={{ width: '300px', marginRight: '10%' }} onClick={() => history.push(`${Paths.housePool}`)}>
                     HOUSE POOL
                         {/* DEPOSIT FUNDS */}
-                    </PrimaryButton>
-                </Flex>
-            </PlayerRank> */}
+            {/* </PrimaryButton> */}
+            {/* </Flex > */}
+            {/* </PlayerRank > * /} */}
 
-            <ModuleParentCont>
+            < ModuleParentCont >
 
                 <ModuleCont>
                     <UpperModuleCont>
@@ -110,7 +110,7 @@ const LandingDesktop = () => {
 
                     </LowerModuleCont>
                 </ModuleCont>
-            </ModuleParentCont>
+            </ModuleParentCont >
 
 
 
@@ -122,7 +122,7 @@ const LandingDesktop = () => {
                 show={showDisclaimer}
                 toggleModal={() => setShowDisclaimer(false)}
             />
-        </LandingDesktopContainer>
+        </LandingDesktopContainer >
     );
 };
 
