@@ -16,7 +16,7 @@ const GraphPool = () => {
         try {
 
             const axiosInstance = axios.create({
-                baseURL: "https://diceroll.rapidinnovation.tech/pool",
+                baseURL: "https://dicegame-dev.rapidinnovation.tech/",
             });
             const getData = async () => {
                 const res = await axiosInstance.get("/allLiquidity");
