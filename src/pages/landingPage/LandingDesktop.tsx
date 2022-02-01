@@ -16,6 +16,7 @@ import {
     Beoneimg, Flexcol, H1,
     H2,
     H3, LandingDesktopContainer, LowerModuleCont, ModuleBox, ModuleCont, ModuleParentCont, PlayerRank,
+    PulseGradient,
     Rankimg, UpperModuleCont
 } from './styleDesktop';
 
@@ -38,19 +39,17 @@ const LandingDesktop = () => {
         GetBetCount();
     }
         , []);
-    
-    
+
+
 
     return (
         <LandingDesktopContainer>
             <Beonediv>
                 <Flexcol style={{ transform: "translateY(15%)" }}>
-                    <H2>EVERY DAY LOTS OF WINS</H2>
-                    <H1>BE ONE OF THEM</H1>
+                    {/* <H2>EVERY DAY LOTS OF WINS</H2> */}
+                    <H1>Is Lady <PulseGradient>LUCK</PulseGradient> on <br />your side?</H1>
                     <H3>
-                        Choose you odds and roll the dice to win pulse and
-                        prizes,invest,exchange,and join the contest with high rewards at
-                        pulseroll
+                        Or <span style={{ color: "#ca1ae7" }}>POOL</span> with the house?
                     </H3>
                     <Link
                         style={{ marginTop: "20px" }}
@@ -61,9 +60,12 @@ const LandingDesktop = () => {
                 </Flexcol>
                 <Beoneimagediv>
                     <Beoneimg src={BeOneImage} alt="" />
+                    <PrimaryButton style={{ width: '50%' }} onClick={() => history.push(`${Paths.housePool}`)}>
+                        HOUSEPOOL
+                    </PrimaryButton>
                 </Beoneimagediv>
             </Beonediv>
-            <PlayerRank>
+            {/* <PlayerRank>
                 <FlexColumn
                     style={{
                         padding: "10px",
@@ -73,7 +75,6 @@ const LandingDesktop = () => {
                         width: "100px",
                     }}
                 >
-                    {/* <Rankimg src={PlayerRankImg} alt="" /> */}
                 </FlexColumn>
                 <Flex style={{ width: '50%' }}>
                     <FlexColumn style={{ minWidth: '140px', alignItems: 'center' }}>
@@ -82,12 +83,13 @@ const LandingDesktop = () => {
                     </FlexColumn>
 
                     <PrimaryButton style={{ width: '300px', marginRight: '10%' }} onClick={() => history.push(`${Paths.housePool}`)}>
-                        DEPOSIT FUNDS
-                    </PrimaryButton>
-                </Flex>
-            </PlayerRank>
+                    HOUSE POOL
+                        {/* DEPOSIT FUNDS */}
+            {/* </PrimaryButton> */}
+            {/* </Flex > */}
+            {/* </PlayerRank > * /} */}
 
-            <ModuleParentCont>
+            < ModuleParentCont >
 
                 <ModuleCont>
                     <UpperModuleCont>
@@ -100,7 +102,7 @@ const LandingDesktop = () => {
                     </UpperModuleCont>
                     <LowerModuleCont>
                         <ModuleBox>
-                            <DepositCard/>
+                            <DepositCard />
                         </ModuleBox>
                         <ModuleBox>
                             <GraphPool />
@@ -108,11 +110,11 @@ const LandingDesktop = () => {
 
                     </LowerModuleCont>
                 </ModuleCont>
-            </ModuleParentCont>
+            </ModuleParentCont >
 
 
 
-            
+
 
 
 
@@ -120,7 +122,7 @@ const LandingDesktop = () => {
                 show={showDisclaimer}
                 toggleModal={() => setShowDisclaimer(false)}
             />
-        </LandingDesktopContainer>
+        </LandingDesktopContainer >
     );
 };
 

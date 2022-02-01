@@ -112,30 +112,30 @@ export const Beoneimagediv = styled.div`
 width: 40%;
 max-width: 400px;
 display: flex;
-justify-content: flex-end;
+flex-direction: column;
+justify-content: center;
 align-items:center;
 transform: translatey(15%);
 
->*{
-    margin-right: 20%;
-}
 `
 
 export const Beoneimg = styled.img`
-width: 250px;
-height: 250px;
+width: 200px;
+height: 200px;
 object-fit: contain;
+margin:5px;
 
 `
 
 export const H1 = styled.h1`
 font-size: 48px;
 font-weight: 750;
-background: linear-gradient(
+margin-bottom: 10px;
+/*background: linear-gradient(
             to right,rgba(239, 8, 150, 1), rgba(112, 7, 255, 1),
              rgba(0, 200, 255, 1));
 -webkit-text-fill-color: transparent;
--webkit-background-clip: text;
+-webkit-background-clip: text;*/
 `
 export const H2 = styled.h1`
 font-size: 17px;
@@ -144,6 +144,14 @@ export const H3 = styled.h1`
 font-size: 14px;
 font-weight: 400;
 max-width: 500px;
+`
+
+export const PulseGradient = styled.span`
+background: linear-gradient(
+            to right,rgba(239, 8, 150, 1), rgba(112, 7, 255, 1),
+             rgba(0, 200, 255, 1));
+-webkit-text-fill-color: transparent;
+-webkit-background-clip: text;
 `
 
 export const PlayerRank = styled.div`

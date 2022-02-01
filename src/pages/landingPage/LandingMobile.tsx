@@ -22,7 +22,7 @@ const LandingMobile = () => {
                 >Read disclaimer</p>
                 <PrimaryButton
                     onClick={() => history.push(`${Paths.housePool}`)}>
-                    Deposit funds</PrimaryButton>
+                    HOUSE POOL</PrimaryButton>
             </DepositNavCont>
 
             <FunctionCont>
