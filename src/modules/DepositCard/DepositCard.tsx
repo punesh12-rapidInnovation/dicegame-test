@@ -102,17 +102,17 @@ function DepositCard() {
 
 
     //@ts-ignore
-    useEffect(() => {
-        const localChecked = localStorage.getItem("ShowDisclaimer");
-        const Loading = localStorage.getItem("Loading");
-        if (Loading === "true") {
-            setshowDisclaimer(false);
-        } else if (localChecked === null || localChecked === "false") {
-            setshowDisclaimer(true);
-        } else {
-            setshowDisclaimer(false);
-        }
-    }, []);
+    // useEffect(() => {
+    //     const localChecked = localStorage.getItem("ShowDisclaimer");
+    //     const Loading = localStorage.getItem("Loading");
+    //     if (Loading === "true") {
+    //         setshowDisclaimer(false);
+    //     } else if (localChecked === null || localChecked === "false") {
+    //         setshowDisclaimer(true);
+    //     } else {
+    //         setshowDisclaimer(false);
+    //     }
+    // }, []);
 
     const handleDeposit = () => {
         const localChecked = localStorage.getItem("ShowDisclaimer");

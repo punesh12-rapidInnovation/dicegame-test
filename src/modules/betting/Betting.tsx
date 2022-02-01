@@ -919,7 +919,7 @@ const Betting = () => {
           purus in massa tempor.
         </h3>
       </CustomModal>
-      <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
+     <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
     </BetBox >
   );
 };

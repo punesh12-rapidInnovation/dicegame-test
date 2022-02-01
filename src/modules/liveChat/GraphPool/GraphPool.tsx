@@ -12,11 +12,11 @@ const GraphPool = () => {
     const [hoverLiquidityChartValue, setHoverLiquidityChartValue] = useState<any>("");
     const [hoverLiquidityChartDate, setHoverLiquidityChartDate] = useState<any>("");
 
-    useEffect(() => {
+     useEffect(() => {
         try {
 
             const axiosInstance = axios.create({
-                baseURL: "https://dicegame-dev.rapidinnovation.tech/",
+                baseURL: "https://dicegame-dev.rapidinnovation.tech/pool",
             });
             const getData = async () => {
                 const res = await axiosInstance.get("/allLiquidity");

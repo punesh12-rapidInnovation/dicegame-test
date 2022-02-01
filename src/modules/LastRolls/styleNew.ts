@@ -14,7 +14,7 @@ background: linear-gradient(
   border-radius: 20px;
   width: 100%;
   max-width: 700px;
-  height: 580px;
+  height: 640px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -65,8 +65,8 @@ button{
 
 `
 export const LastRollDetails = styled.div`
-flex-grow: 0.7;
 display: flex;
+height:100%;
 justify-content: center;
 align-items: flex-start;
 width: 100%;

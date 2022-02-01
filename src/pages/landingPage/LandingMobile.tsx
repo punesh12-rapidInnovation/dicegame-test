@@ -8,6 +8,7 @@ import LiveChatNew from 'modules/liveChat/LiveChatNew';
 import { PrimaryButton } from 'shared/button/Button';
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import { BetActiveTab, DepositNavCont, FunctionCont, FunctionStatus, LandingMobileContainer, ModuleCont } from './styleMobile';
+import DepositCard from 'modules/DepositCard/DepositCard';
 
 const LandingMobile = () => {
 
@@ -27,7 +28,7 @@ const LandingMobile = () => {
 
             <FunctionCont>
                 <FunctionStatus activeStatus={activeTab === 'bet'} onClick={() => setActiveTab('bet')} >Bet</FunctionStatus>
-                <FunctionStatus activeStatus={activeTab === 'chat'} onClick={() => setActiveTab('chat')}>Global chat</FunctionStatus>
+                <FunctionStatus activeStatus={activeTab === 'Deposit'} onClick={() => setActiveTab('Deposit')}>Deposit Funds</FunctionStatus>
             </FunctionCont>
             <ModuleCont>
                 {activeTab === 'bet' && <BetActiveTab >
@@ -35,9 +36,9 @@ const LandingMobile = () => {
                     <LastRollsNew />
                     <GraphPool />
                 </BetActiveTab>}
-                {activeTab === 'chat' &&
+                {activeTab === 'Deposit' &&
                     <BetActiveTab>
-                        <LiveChatNew />
+                        <DepositCard />
                     </BetActiveTab>}
             </ModuleCont>
 
