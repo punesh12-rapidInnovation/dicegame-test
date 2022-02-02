@@ -53,6 +53,7 @@ import useSound from "use-sound";
 import { SocketContext } from "modules/app/context/socket";
 import HousePool from "pages/housePool";
 import { ERC20_ABI } from "utils/abi";
+import HowToPlayModal from "shared/HowToPlay/HowToPlay";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
@@ -894,8 +895,8 @@ const Betting = () => {
       />
 
       <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />
-      <CustomModal show={showHowToPlay} heading="HOW TO PLAY" toggleModal={() => setshowHowToPlay(false)}>
-        <h3
+      {/* <CustomModal show={showHowToPlay} heading="HOW TO PLAY" toggleModal={() => setshowHowToPlay(false)}>
+        {/* <h3
           style={{
             marginTop: "30px",
             color: "white",
@@ -918,9 +919,11 @@ const Betting = () => {
           <br />
           Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus
           purus in massa tempor.
-        </h3>
-      </CustomModal>
-      <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
+        </h3> */}
+      {/* </CustomModal> * /} */}
+
+      < HowToPlayModal show={showHowToPlay} toggleModal={() => setshowHowToPlay(false)} />
+      < Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
     </BetBox >
   );
 };
