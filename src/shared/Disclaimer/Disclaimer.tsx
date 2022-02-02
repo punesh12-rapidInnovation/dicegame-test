@@ -4,6 +4,7 @@ import { DisclaimerCont, ModalBody, ModalContent, CheckCont } from "./style";
 import Cross from "assets/icons/Cross.svg";
 import { PrimaryButton } from "shared/button/Button";
 import Alertmsg from "modules/betting/modals/Alertmsg";
+import { colors } from "shared/styles/theme";
 
 const Disclaimer = (props: any) => {
   const [LocalAgree, setLocalAgree] = useState<boolean>();
@@ -77,7 +78,11 @@ const Disclaimer = (props: any) => {
               If gambling is a behavior which becomes detrimental or a hindrance to your ability to live a healthy life, please seek help.
             </li>
             <li>
-              Trading destroys your health and relationships, to lose money, or take another's who has it as bad.
+              <a href="https://www.youtube.com/watch?v=1_p8AuXDr4k"
+                style={{ color: 'white' }}
+              >
+                Trading destroys your health and relationships, to lose money, or take another's who has it as bad.
+              </a>
             </li>
 
           </ul>
@@ -98,6 +103,7 @@ const Disclaimer = (props: any) => {
                 }}
               >
                 Please read the disclaimer to proceed
+                {/* By accepting you agree to the <span style={{ color: colors.primary }}> Terms and Conditions </span> */}
               </p>
             </div>
           )}

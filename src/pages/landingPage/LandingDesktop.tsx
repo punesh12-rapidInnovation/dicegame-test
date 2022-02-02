@@ -55,13 +55,14 @@ const LandingDesktop = () => {
                         style={{ marginTop: "20px" }}
                         onClick={() => setShowDisclaimer(true)}
                     >
-                        Read our disclaimer to know more
+                        {/* Read our disclaimer to know more */}
+                        Read Terms and Conditions
                     </Link>
                 </Flexcol>
                 <Beoneimagediv>
                     <Beoneimg src={BeOneImage} alt="" />
                     <PrimaryButton style={{ width: '50%' }} onClick={() => history.push(`${Paths.housePool}`)}>
-                        HOUSEPOOL
+                        HOUSE POOL
                     </PrimaryButton>
                 </Beoneimagediv>
             </Beonediv>

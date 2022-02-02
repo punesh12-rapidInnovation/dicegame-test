@@ -53,6 +53,7 @@ import useSound from "use-sound";
 import { SocketContext } from "modules/app/context/socket";
 import HousePool from "pages/housePool";
 import { ERC20_ABI } from "utils/abi";
+import HowToPlayModal from "shared/HowToPlay/HowToPlay";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
@@ -86,7 +87,8 @@ const Betting = () => {
   const [showToolTip2, setShowToolTip2] = useState(false);
   const [evenOddProfit, setEvenOddProfit] = useState(0);
   const [rangeProfit, setRangeProfit] = useState(0);
-  const [Numbers, setNumbers] = useState([]);
+  const [Numbers1, setNumbers1] = useState([]);
+  const [Numbers2, setNumbers2] = useState([]);
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
@@ -113,15 +115,20 @@ const Betting = () => {
   const { socket, ResultObject, setResultObject } = useContext(SocketContext);
 
   useEffect(() => {
-    setNumbers([]);
+    setNumbers1([]);
+    setNumbers2([]);
+    for (let index = 0; index < rangeHigh; index++) {
+      //@ts-ignore
+      setNumbers1((prev: any) => [...prev, index]);
+    }
     for (let index = 0; index <= RangeValue; index++) {
       //@ts-ignore
-      setNumbers((prev: any) => [...prev, index]);
+      setNumbers2((prev: any) => [...prev, index]);
     }
     if (localStorage.getItem("Loading") === "true") {
       setLoader(true);
     }
-  }, [RangeValue]);
+  }, [RangeValue, rangeHigh]);
 
   //@ts-ignore
   useEffect(() => {
@@ -607,14 +614,6 @@ const Betting = () => {
   ) => {
     const rollUnder: number = rangeValue + 1;
     try {
-      // const returnedAmount: number = betValue * multiplier;
-
-      // const House: any = await CutHouseEdge(returnedAmount);
-      // const profit: number = House - betValue;
-
-      // const finalProfit = convertToWei(profit.toFixed(18).toString());
-
-      // setProfit(finalProfit);
       if (betValue) {
         const BETTING_INSTANCE = await selectReadContractInstance(instanceType.BETTING);
 
@@ -623,7 +622,6 @@ const Betting = () => {
           .call();
 
         setProfit(profit);
-
       }
 
     } catch (error) {
@@ -715,10 +713,16 @@ const Betting = () => {
         </FlexColumn>
 
         <FlexColumn>
-          <H2 FontSize="16px" style={{ marginBottom: "40px", marginTop: "30px" }}>
+          {/* <H2 FontSize="16px" style={{ marginBottom: "40px", marginTop: "30px" }}>
+            CHANCE OF WINNING
+          </H2> */}
+          <H2 FontSize="16px" style={{ marginBottom: "40px", visibility: "hidden" }}>
             CHANCE OF WINNING
           </H2>
-          <Flex JustifyContent="center">
+          <Flex JustifyContent="center"
+          // style={{ marginTop: "35px" }}
+
+          >
             <RangeSlider
               value={RangeValue}
               onChange={RangeValueChanger}
@@ -787,11 +791,10 @@ const Betting = () => {
                     disabled={RangeValue < 2}
 
                   >
-                    {Numbers.map((data, index) => {
+                    {Numbers1.map((data, index) => {
                       return (
                         <Option value={data} key={"rf" + index}>
                           {data}
-                          {/* {index} */}
                         </Option>
                       );
                     })}
@@ -801,11 +804,10 @@ const Betting = () => {
                     defaultValue={rangeHigh}
                     disabled={RangeValue < 2}
                   >
-                    {Numbers.map((data, index) => {
+                    {Numbers2.map((data, index) => {
                       return (
                         <Option value={data} key={"rf" + index}>
                           {data}
-                          {/* {index} */}
                         </Option>
                       );
                     })}
@@ -893,8 +895,8 @@ const Betting = () => {
       />
 
       <Alertmsg show={AlertModalState} toggleModal={() => toggleModal()} alertText={AlertText} />
-      <CustomModal show={showHowToPlay} heading="HOW TO PLAY" toggleModal={() => setshowHowToPlay(false)}>
-        <h3
+      {/* <CustomModal show={showHowToPlay} heading="HOW TO PLAY" toggleModal={() => setshowHowToPlay(false)}>
+        {/* <h3
           style={{
             marginTop: "30px",
             color: "white",
@@ -917,9 +919,11 @@ const Betting = () => {
           <br />
           Duis ut diam quam nulla porttitor massa id neque aliquam. Feugiat scelerisqu attis aliquam faucibus
           purus in massa tempor.
-        </h3>
-      </CustomModal>
-     <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
+        </h3> */}
+      {/* </CustomModal> * /} */}
+
+      < HowToPlayModal show={showHowToPlay} toggleModal={() => setshowHowToPlay(false)} />
+      < Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
     </BetBox >
   );
 };
