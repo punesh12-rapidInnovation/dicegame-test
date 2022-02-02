@@ -27,8 +27,8 @@ export const RangeSliderInput = styled.input<any>`
   transition: opacity 0.2s;
   cursor: pointer;
   &::-webkit-slider-thumb {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     // background:red;
     background:transparent;
     border: none;
@@ -50,8 +50,8 @@ export const RangeSliderInput = styled.input<any>`
     outline: 10px solid #19072e ;
   }
   &::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 60px;
+    height: 60px;
     // background:red;
     background:transparent;
     border: none;

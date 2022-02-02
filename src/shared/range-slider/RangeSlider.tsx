@@ -14,7 +14,7 @@ const RangeSlider = (props: any) => {
         style={{
           position: "absolute",
           top: "-20px",
-          left: width < screenSizes.mediaS ? `${value - 10}%` : `${value - 7}%`,
+          left: width < screenSizes.mediaS ? `${value - 10}%` : `${value > 4 ? value - 7: value - 3.5}%`,
           transform: "translate(-50%,-50%)",
         }}
         duration={HeartBeatSpeed}

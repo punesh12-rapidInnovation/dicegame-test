@@ -492,7 +492,7 @@ export const Range = styled.input`
   transition: opacity 0.2s;
   cursor: pointer;
   &::-webkit-slider-thumb {
-    width: 40px;
+    width: 50px;
     height: 40px;
     background-repeat: no-repeat;
     background-size: contain;
