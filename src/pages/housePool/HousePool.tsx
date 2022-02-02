@@ -141,7 +141,10 @@ const HousePool = () => {
                     <H3>Pulse Token (PLS) </H3>
                     <HouseP>Choose your odds and roll the dice to win pulse and prizes. Play, Invest, Exchange <br />
                         and join the Contest with high rewards at Pulseroll</HouseP>
-                    <Link onClick={() => setshowDisclaimer(true)}>Read our disclaimer to know more</Link>
+                    <Link onClick={() => setshowDisclaimer(true)}>
+                        {/* Read our disclaimer to know more */}
+                        Read Terms and Conditions
+                    </Link>
                 </InfoTextContainer>
                 <FlexCont
                     style={{ margin: "0 10px" }}

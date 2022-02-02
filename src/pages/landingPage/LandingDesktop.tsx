@@ -55,7 +55,8 @@ const LandingDesktop = () => {
                         style={{ marginTop: "20px" }}
                         onClick={() => setShowDisclaimer(true)}
                     >
-                        Read our disclaimer to know more
+                        {/* Read our disclaimer to know more */}
+                        Read Terms and Conditions
                     </Link>
                 </Flexcol>
                 <Beoneimagediv>
