@@ -77,7 +77,11 @@ const Disclaimer = (props: any) => {
               If gambling is a behavior which becomes detrimental or a hindrance to your ability to live a healthy life, please seek help.
             </li>
             <li>
-              Trading destroys your health and relationships, to lose money, or take another's who has it as bad.
+              <a href="https://www.youtube.com/watch?v=1_p8AuXDr4k"
+                style={{ color: 'white' }}
+              >
+                Trading destroys your health and relationships, to lose money, or take another's who has it as bad.
+              </a>
             </li>
 
           </ul>

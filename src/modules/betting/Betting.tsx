@@ -86,7 +86,8 @@ const Betting = () => {
   const [showToolTip2, setShowToolTip2] = useState(false);
   const [evenOddProfit, setEvenOddProfit] = useState(0);
   const [rangeProfit, setRangeProfit] = useState(0);
-  const [Numbers, setNumbers] = useState([]);
+  const [Numbers1, setNumbers1] = useState([]);
+  const [Numbers2, setNumbers2] = useState([]);
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showDisclaimer, setshowDisclaimer] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
@@ -113,15 +114,20 @@ const Betting = () => {
   const { socket, ResultObject, setResultObject } = useContext(SocketContext);
 
   useEffect(() => {
-    setNumbers([]);
-    for (let index = 0; index <= RangeValue; index++) {
+    setNumbers1([]);
+    setNumbers2([]);
+    for (let index = 0; index < rangeHigh; index++) {
       //@ts-ignore
-      setNumbers((prev: any) => [...prev, index]);
+      setNumbers1((prev: any) => [...prev, index]);
+    }
+    for (let index = 0; index < RangeValue; index++) {
+      //@ts-ignore
+      setNumbers2((prev: any) => [...prev, index]);
     }
     if (localStorage.getItem("Loading") === "true") {
       setLoader(true);
     }
-  }, [RangeValue]);
+  }, [RangeValue, rangeHigh]);
 
   //@ts-ignore
   useEffect(() => {
@@ -607,14 +613,6 @@ const Betting = () => {
   ) => {
     const rollUnder: number = rangeValue + 1;
     try {
-      // const returnedAmount: number = betValue * multiplier;
-
-      // const House: any = await CutHouseEdge(returnedAmount);
-      // const profit: number = House - betValue;
-
-      // const finalProfit = convertToWei(profit.toFixed(18).toString());
-
-      // setProfit(finalProfit);
       if (betValue) {
         const BETTING_INSTANCE = await selectReadContractInstance(instanceType.BETTING);
 
@@ -623,7 +621,6 @@ const Betting = () => {
           .call();
 
         setProfit(profit);
-
       }
 
     } catch (error) {
@@ -787,11 +784,10 @@ const Betting = () => {
                     disabled={RangeValue < 2}
 
                   >
-                    {Numbers.map((data, index) => {
+                    {Numbers1.map((data, index) => {
                       return (
                         <Option value={data} key={"rf" + index}>
                           {data}
-                          {/* {index} */}
                         </Option>
                       );
                     })}
@@ -801,11 +797,10 @@ const Betting = () => {
                     defaultValue={rangeHigh}
                     disabled={RangeValue < 2}
                   >
-                    {Numbers.map((data, index) => {
+                    {Numbers2.map((data, index) => {
                       return (
                         <Option value={data} key={"rf" + index}>
                           {data}
-                          {/* {index} */}
                         </Option>
                       );
                     })}
@@ -919,7 +914,7 @@ const Betting = () => {
           purus in massa tempor.
         </h3>
       </CustomModal>
-     <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
+      <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
     </BetBox >
   );
 };
