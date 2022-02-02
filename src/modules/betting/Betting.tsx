@@ -120,7 +120,7 @@ const Betting = () => {
       //@ts-ignore
       setNumbers1((prev: any) => [...prev, index]);
     }
-    for (let index = 0; index < RangeValue; index++) {
+    for (let index = 0; index <= RangeValue; index++) {
       //@ts-ignore
       setNumbers2((prev: any) => [...prev, index]);
     }
