@@ -61,7 +61,7 @@ const LandingDesktop = () => {
                 <Beoneimagediv>
                     <Beoneimg src={BeOneImage} alt="" />
                     <PrimaryButton style={{ width: '50%' }} onClick={() => history.push(`${Paths.housePool}`)}>
-                        HOUSEPOOL
+                        HOUSE POOL
                     </PrimaryButton>
                 </Beoneimagediv>
             </Beonediv>
