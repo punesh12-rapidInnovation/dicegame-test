@@ -9,6 +9,7 @@ import { PrimaryButton } from 'shared/button/Button';
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import { BetActiveTab, DepositNavCont, FunctionCont, FunctionStatus, LandingMobileContainer, ModuleCont } from './styleMobile';
 import DepositCard from 'modules/DepositCard/DepositCard';
+import Footer from 'modules/app/components/footer/Footer';
 
 const LandingMobile = () => {
 
@@ -20,12 +21,14 @@ const LandingMobile = () => {
             <DepositNavCont>
                 <p
                     onClick={() => setShowDisclaimer(true)}
-                >Read disclaimer</p>
+                >
+                    {/* Read disclaimer */}
+                    Read Terms and Conditions
+                </p>
                 <PrimaryButton
                     onClick={() => history.push(`${Paths.housePool}`)}>
                     HOUSE POOL</PrimaryButton>
             </DepositNavCont>
-
             <FunctionCont>
                 <FunctionStatus activeStatus={activeTab === 'bet'} onClick={() => setActiveTab('bet')} >Bet</FunctionStatus>
                 <FunctionStatus activeStatus={activeTab === 'Deposit'} onClick={() => setActiveTab('Deposit')}>Deposit Funds</FunctionStatus>
@@ -42,6 +45,7 @@ const LandingMobile = () => {
                     </BetActiveTab>}
             </ModuleCont>
 
+            <Footer />
 
             <Disclaimer
                 show={showDisclaimer}

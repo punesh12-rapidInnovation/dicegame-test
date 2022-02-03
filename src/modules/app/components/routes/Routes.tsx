@@ -8,6 +8,8 @@ import LiveChat from '../../../liveChat/LiveChat';
 import HousePool from 'pages/housePool';
 import LandingPage from 'pages/landingPage/LandingPage';
 import history from 'shared/helpers/history';
+import TermsAndConditions from 'pages/termsAndConditons/TermsAndConditions';
+import Footer from '../footer/Footer';
 
 
 
@@ -36,6 +38,12 @@ export const routes: RouteDefinition[] = [
     {
         path: Paths.housePool,
         component: HousePool,
+        protected: false,
+        redirect: Paths.landing,
+    },
+    {
+        path: Paths.terms_and_conditons,
+        component: TermsAndConditions,
         protected: false,
         redirect: Paths.landing,
     },
