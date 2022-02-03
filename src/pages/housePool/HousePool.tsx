@@ -19,6 +19,7 @@ import TransactionWaiting from 'shared/transactionWaiting/TransactionWaiting';
 import TransactionError from 'shared/transactionError/TransactionError';
 import TransactionSuccess from 'shared/transactionSucess/TransactionSuccess';
 import Alertmsg from 'modules/betting/modals/Alertmsg';
+import Footer from 'modules/app/components/footer/Footer';
 const HousePool = () => {
 
     const [showDepositModal, setshowDepositModal] = useState(false)
@@ -261,6 +262,7 @@ const HousePool = () => {
                 </PoolDetailsGridItem>
 
                 {/* </div> */}
+
             </PoolDetailsContainer>
             {/* <PoolDetailsContainer>
                 <PoolDetails style={{width:'450px',margin:'0',marginRight:'30px',height:'500px'}}>
@@ -333,7 +335,9 @@ const HousePool = () => {
                 <h1 style={{ color: "#fff" }}>Transactions</h1>
                 <HousePoolTransaction depositDoneNumber={depositDoneNumber} withdrawDoneNumber={withdrawDoneNumber} />
 
+                <Footer />
             </TransactionContainer>
+
 
             {showDepositModal &&
                 <CustomModal
@@ -391,7 +395,6 @@ const HousePool = () => {
 
 
             <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
-
         </HousePoolCont >
     );
 };

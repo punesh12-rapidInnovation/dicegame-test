@@ -5,6 +5,8 @@ import Cross from "assets/icons/Cross.svg";
 import { PrimaryButton } from "shared/button/Button";
 import Alertmsg from "modules/betting/modals/Alertmsg";
 import { colors } from "shared/styles/theme";
+import { Paths } from "modules/app/components/routes/types";
+import history from "shared/helpers/history";
 
 const Disclaimer = (props: any) => {
   const [LocalAgree, setLocalAgree] = useState<boolean>();
@@ -103,8 +105,13 @@ const Disclaimer = (props: any) => {
                   opacity: "0.5",
                 }}
               >
-                Please read the disclaimer to proceed
-                {/* By accepting you agree to the <span style={{ color: colors.primary }}> Terms and Conditions </span> */}
+                {/* Please read the disclaimer to proceed */}
+                By accepting you agree to the{" "}
+                <span
+                  style={{ color: colors.primary, cursor: "pointer" }}
+                  onClick={() => history.push(`${Paths.terms_and_conditons}`)}
+                >
+                  Terms and Conditions </span>
               </p>
             </div>
           )}

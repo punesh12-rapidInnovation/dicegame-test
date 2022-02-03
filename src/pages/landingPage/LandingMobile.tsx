@@ -9,6 +9,7 @@ import { PrimaryButton } from 'shared/button/Button';
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import { BetActiveTab, DepositNavCont, FunctionCont, FunctionStatus, LandingMobileContainer, ModuleCont } from './styleMobile';
 import DepositCard from 'modules/DepositCard/DepositCard';
+import Footer from 'modules/app/components/footer/Footer';
 
 const LandingMobile = () => {
 
@@ -44,6 +45,7 @@ const LandingMobile = () => {
                     </BetActiveTab>}
             </ModuleCont>
 
+            <Footer />
 
             <Disclaimer
                 show={showDisclaimer}
