@@ -79,6 +79,7 @@ const Disclaimer = (props: any) => {
             </li>
             <li>
               <a href="https://www.youtube.com/watch?v=1_p8AuXDr4k"
+                target="_blank" rel="noreferrer"
                 style={{ color: 'white' }}
               >
                 Trading destroys your health and relationships, to lose money, or take another's who has it as bad.

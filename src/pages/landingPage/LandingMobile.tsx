@@ -20,12 +20,14 @@ const LandingMobile = () => {
             <DepositNavCont>
                 <p
                     onClick={() => setShowDisclaimer(true)}
-                >Read disclaimer</p>
+                >
+                    {/* Read disclaimer */}
+                    Read Terms and Conditions
+                </p>
                 <PrimaryButton
                     onClick={() => history.push(`${Paths.housePool}`)}>
                     HOUSE POOL</PrimaryButton>
             </DepositNavCont>
-
             <FunctionCont>
                 <FunctionStatus activeStatus={activeTab === 'bet'} onClick={() => setActiveTab('bet')} >Bet</FunctionStatus>
                 <FunctionStatus activeStatus={activeTab === 'Deposit'} onClick={() => setActiveTab('Deposit')}>Deposit Funds</FunctionStatus>
