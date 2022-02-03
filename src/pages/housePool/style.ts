@@ -104,7 +104,7 @@ background-size: cover;
 background-repeat: no-repeat;
 background-color: #000;
 width:100%;
-padding: 30px 5%;
+// padding: 30px 5%;
 `
 
 

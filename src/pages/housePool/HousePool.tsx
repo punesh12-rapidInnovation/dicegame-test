@@ -332,8 +332,11 @@ const HousePool = () => {
                 </FlexCont>
             </PoolDetailsContainer> */}
             <TransactionContainer>
-                <h1 style={{ color: "#fff" }}>Transactions</h1>
-                <HousePoolTransaction depositDoneNumber={depositDoneNumber} withdrawDoneNumber={withdrawDoneNumber} />
+                <div style={{ padding: '30px 5%', width: '100%' }}>
+
+                    <h1 style={{ color: "#fff" }}>Transactions</h1>
+                    <HousePoolTransaction depositDoneNumber={depositDoneNumber} withdrawDoneNumber={withdrawDoneNumber} />
+                </div>
 
                 <Footer />
             </TransactionContainer>
