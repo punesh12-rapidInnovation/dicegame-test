@@ -2,11 +2,11 @@ import socketio from "socket.io-client";
 import * as React from "react";
 import { io } from "socket.io-client";
 
-const SOCKET_URL = "wss://diceroll.rapidinnovation.tech";
+const SOCKET_URL = "https://dicegame-subs.rapidinnovation.tech/";
 // const SOCKET_URL = "ws://localhost:4000";
 
 //@ts-ignore
-export const socket = io(SOCKET_URL, { transports: ["websocket"] });
+export const socket = io(SOCKET_URL);
 // export const socket = io(SOCKET_URL);
 
 const BASE_URL = "https://dicegame-subs.rapidinnovation.tech/";
