@@ -91,7 +91,22 @@ const Disclaimer = (props: any) => {
           </ul>
 
           {LocalAgree ? (
-            ""
+            <p
+              style={{
+                marginTop: "10px",
+                color: "white",
+                fontSize: "14px",
+                // textAlign: "right",
+                fontStyle: "italic",
+                // opacity: "0.5",
+              }}
+            >
+              <span
+                style={{ color: colors.primary, cursor: "pointer" }}
+                onClick={() => history.push(`${Paths.terms_and_conditons}`)}
+              >
+                Terms and Conditions </span>
+            </p>
           ) : (
             <div>
               <PrimaryButton onClick={() => setAgree()}>AGREE</PrimaryButton>
