@@ -18,7 +18,7 @@ const TermsAndConditions = () => {
     return (
         <TermsPageContainer>
             <HeaderDiv>
-                <H1>Check <PulseGradient>Terms & condition</PulseGradient></H1>
+                <H1><PulseGradient>Terms & condition</PulseGradient></H1>
             </HeaderDiv>
             <ModuleParentCont>
                 <ModuleCont>
