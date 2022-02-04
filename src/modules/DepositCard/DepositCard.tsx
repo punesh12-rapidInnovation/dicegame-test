@@ -117,7 +117,7 @@ function DepositCard() {
     const handleDeposit = () => {
         const localChecked = localStorage.getItem("ShowDisclaimer");
 
-        if (localChecked === null || localChecked === "false")
+        if (localStorage.getItem("Agree") !== "true")
             setshowDisclaimer(true)
         else
             if (!userAddress) setShowConnectWalletAlert(true);
@@ -127,7 +127,7 @@ function DepositCard() {
     const handleWithDraw = () => {
         const localChecked = localStorage.getItem("ShowDisclaimer");
 
-        if (localChecked === null || localChecked === "false")
+        if (localStorage.getItem("Agree") !== "true")
             setshowDisclaimer(true)
         else
             if (!userAddress) setShowConnectWalletAlert(true);
