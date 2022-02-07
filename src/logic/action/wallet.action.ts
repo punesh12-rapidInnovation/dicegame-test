@@ -4,7 +4,8 @@ import {
 	SET_CHAINID,
 	WALLET_CONNECT_CHECK,
 	SET_MESSAGE,
-	SET_LASTROLL
+	SET_LASTROLL,
+	SET_REDUXAGREE
 } from '../reducer/constants';
 
 export const walletConnectCheck = (value: any) => {
@@ -13,6 +14,14 @@ export const walletConnectCheck = (value: any) => {
 		value: value,
 	};
 };
+
+export const SetReduxAgree = (value: any) => {
+	return {
+		type: SET_REDUXAGREE,
+		value:value,
+	};
+};
+
 export const Login = (userAddress: string) => {
 	return {
 		type: LOGIN,

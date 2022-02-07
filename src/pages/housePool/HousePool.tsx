@@ -97,25 +97,10 @@ const HousePool = () => {
 
     }, [userAddress, depositDoneNumber, withdrawDoneNumber])
 
-
-
-    //@ts-ignore
-    useEffect(() => {
-        const localChecked = localStorage.getItem("ShowDisclaimer");
-        const Loading = localStorage.getItem("Loading");
-        if (Loading === "true") {
-            setshowDisclaimer(false);
-        } else if (localChecked === null || localChecked === "false") {
-            setshowDisclaimer(true);
-        } else {
-            setshowDisclaimer(false);
-        }
-    }, []);
-
     const handleDeposit = () => {
         const localChecked = localStorage.getItem("ShowDisclaimer");
 
-        if (localChecked === null || localChecked === "false")
+       if (localStorage.getItem("Agree") !== "true")
             setshowDisclaimer(true)
         else
             if (!userAddress) setShowConnectWalletAlert(true);
@@ -125,7 +110,7 @@ const HousePool = () => {
     const handleWithDraw = () => {
         const localChecked = localStorage.getItem("ShowDisclaimer");
 
-        if (localChecked === null || localChecked === "false")
+       if (localStorage.getItem("Agree") !== "true")
             setshowDisclaimer(true)
         else
             if (!userAddress) setShowConnectWalletAlert(true);

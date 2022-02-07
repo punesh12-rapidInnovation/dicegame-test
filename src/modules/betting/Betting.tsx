@@ -54,7 +54,6 @@ const Betting = () => {
   const [soundFlag, setSoundFlag] = useState(0);
   const [AlertModalState, setAlertModalState] = useState(false);
   const [AlertText, setAlertText] = useState("");
-
   const [loader, setLoader] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -88,7 +87,7 @@ const Betting = () => {
 
   }, [RangeValue])
 
-  const { walletBalance, userAddress } = useSelector((state: any) => state.wallet);
+  const { walletBalance, userAddress,ReduxAgree } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
 
 
@@ -112,6 +111,7 @@ const Betting = () => {
 
   //@ts-ignore
   useEffect(() => {
+    if(ReduxAgree) return
     const localChecked = localStorage.getItem("ShowDisclaimer");
     const Loading = localStorage.getItem("Loading");
     if (Loading === "true") {
@@ -129,7 +129,6 @@ const Betting = () => {
       let accounts = await web3.eth.getAccounts();
       Address = accounts[0];
     };
-
     getBalance();
   }, []);
 

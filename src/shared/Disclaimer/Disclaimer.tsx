@@ -7,12 +7,19 @@ import Alertmsg from "modules/betting/modals/Alertmsg";
 import { colors } from "shared/styles/theme";
 import { Paths } from "modules/app/components/routes/types";
 import history from "shared/helpers/history";
+import { useSelector } from "react-redux";
+import { SetReduxAgree } from "logic/action/wallet.action";
+import { useDispatch } from "react-redux";
 
 const Disclaimer = (props: any) => {
   const [LocalAgree, setLocalAgree] = useState<boolean>();
   const [AlertModalState, setAlertModalState] = useState(false);
   const [CheckedState, setCheckedState] = useState<boolean>(false);
   const { show, toggleModal } = props;
+
+  const dispatch = useDispatch();
+
+  const { ReduxAgree } = useSelector((state: any) => state.wallet);
 
   let ShowDisclaimer = localStorage.getItem("ShowDisclaimer") || "";
 
@@ -47,9 +54,12 @@ const Disclaimer = (props: any) => {
   };
 
   const setAgree = () => {
+    dispatch(SetReduxAgree(true))
     localStorage.setItem("Agree", "true");
     toggleModal();
   };
+
+  console.log(ReduxAgree)
 
   const SetLocalShowDisclaimer = () => {
     if (CheckedState) {

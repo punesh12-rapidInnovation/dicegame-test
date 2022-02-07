@@ -4,7 +4,8 @@ import {
 	SET_CHAINID,
 	WALLET_CONNECT_CHECK,
 	SET_MESSAGE,
-	SET_LASTROLL
+	SET_LASTROLL,
+	SET_REDUXAGREE
 } from './constants';
 
 const initialState = {
@@ -12,7 +13,8 @@ const initialState = {
 	chainId: '',
 	walletBalance: '',
 	chatMessage: [],
-	lastRollsData: localStorage.getItem('LastRolls')
+	lastRollsData: localStorage.getItem('LastRolls'),
+	ReduxAgree:false
 };
 
 const walletReducer = (state = initialState, action: any) => {
@@ -21,6 +23,12 @@ const walletReducer = (state = initialState, action: any) => {
 			return {
 				...state,
 				walletConnectCheck: action.value,
+			};
+		
+		case SET_REDUXAGREE:
+			return {
+				...state,
+				ReduxAgree:action.value
 			};
 
 		case LOGIN:
