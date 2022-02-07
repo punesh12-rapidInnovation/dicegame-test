@@ -115,16 +115,17 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items:center;
-transform: translatey(15%);
+transform: translatey(10%);
 
 `
 
 export const Beoneimg = styled.img`
-width: 200px;
-height: 200px;
+width: 250px;
+height: 250px;
 object-fit: contain;
 // margin:5px;
-margin-bottom:-12px;
+margin-bottom:-15px;
+z-index: 10;
 
 `
 
