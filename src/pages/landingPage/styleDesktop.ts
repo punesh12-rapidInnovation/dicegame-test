@@ -120,11 +120,11 @@ transform: translatey(10%);
 `
 
 export const Beoneimg = styled.img`
-width: 250px;
-height: 250px;
+width: 300px;
+height: 300px;
 object-fit: contain;
 // margin:5px;
-margin-bottom:-15px;
+margin-bottom:-20px;
 z-index: 10;
 
 `
@@ -144,7 +144,7 @@ font-size: 17px;
 `
 export const H3 = styled.h1`
 font-size: 18px;
-font-weight: 500;
+font-weight: 600;
 max-width: 500px;
 `
 

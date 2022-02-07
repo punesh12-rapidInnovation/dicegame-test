@@ -1,4 +1,4 @@
-import Women from "assets/images/women.png";
+import Women from "assets/images/women.svg";
 import axios from "axios";
 import { Paths } from 'modules/app/components/routes/types';
 import Betting from 'modules/betting';
