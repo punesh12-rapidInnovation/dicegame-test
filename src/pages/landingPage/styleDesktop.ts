@@ -123,7 +123,8 @@ export const Beoneimg = styled.img`
 width: 200px;
 height: 200px;
 object-fit: contain;
-margin:5px;
+// margin:5px;
+margin-bottom:-12px;
 
 `
 
@@ -141,8 +142,8 @@ export const H2 = styled.h1`
 font-size: 17px;
 `
 export const H3 = styled.h1`
-font-size: 14px;
-font-weight: 400;
+font-size: 18px;
+font-weight: 500;
 max-width: 500px;
 `
 

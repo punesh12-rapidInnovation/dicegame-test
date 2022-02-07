@@ -1,9 +1,8 @@
 import heart from '../../assets/sound/05-Dramatic-heartbeat.mp3';
-import RollingDice from '../../assets/sound/Dice2.wav';
-import Dice from '../../assets/sound/Dice-04.mp3';
-import bigWin from '../../assets/sound/bigWin.mp3';
 import bigLoose from '../../assets/sound/bigLoose.mp3';
+import bigWin from '../../assets/sound/bigWin.mp3';
 import buttonClick from '../../assets/sound/buttonClick.mp3';
+import Dice from '../../assets/sound/Dice-04.mp3';
 
 export { heart, bigWin, bigLoose, buttonClick };
 

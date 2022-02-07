@@ -1,8 +1,7 @@
 import DiceIcon from "assets/icons/Diceicon.svg";
 import ResultsModal from 'modules/betting/modals/ResultsModal';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { PrimaryButton } from 'shared/button/Button';
+import { useSelector } from "react-redux";
 import { convertToEther } from 'utils/helper';
 import LossIcon from "../../assets/icons/Lossicon.svg";
 import WinIcon from "../../assets/icons/Winicon.svg";
@@ -46,36 +45,36 @@ const LastRollsNew = (props: any) => {
                     <TABLE>
                         <tbody>
 
-                        <TR header key="">
+                            <TR header key="">
 
-                            <TD >Dice Roll</TD>
-                            <TD>BET AMOUNT</TD>
-                            <TD>MIN CHANCE</TD>
-                            <TD>GAIN/LOSS</TD>
-                        </TR>
-                        <H1 style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-30%)', width: '300px' }}>{NoResultMessage()}</H1>
-                        {LastRolls.map((Roll: any, index: any) => (
-                            <TR key={"lr" + index}>
-                                <TD >
-                                   {Roll.Diceresult}
-                                </TD>
-                                <TD>{Roll.BetAmount.substring(0, 8)}</TD>
-                                <TD>{Roll.Playernumber - 1}%</TD>
-                                {Roll.Status === "1" ? (
-                                    <TD>
-                                        {" "}
-                                        <img src={WinIcon} style={{ marginRight: "5px" }} alt='win-arrow' />
-                                        {(convertToEther(Roll.Value) - Roll.BetAmount).toFixed(5)}
-                                    </TD>
-                                ) : (
-                                    <TD>
-                                        <img src={LossIcon} style={{ marginRight: "5px" }} alt='lost-arrow' />
-                                        {convertToEther(Roll.Value).substring(0, 7)}
-                                    </TD>
-                                )}
+                                <TD >Dice Roll</TD>
+                                <TD>BET AMOUNT</TD>
+                                <TD>MIN CHANCE</TD>
+                                <TD>GAIN/LOSS</TD>
                             </TR>
-                        ))}
-                            </tbody>
+                            <H1 style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-30%)', width: '300px' }}>{NoResultMessage()}</H1>
+                            {LastRolls.map((Roll: any, index: any) => (
+                                <TR key={"lr" + index}>
+                                    <TD >
+                                        {Roll.Diceresult}
+                                    </TD>
+                                    <TD>{Roll.BetAmount.substring(0, 8)}</TD>
+                                    <TD>{Roll.Playernumber - 1}%</TD>
+                                    {Roll.Status === "1" ? (
+                                        <TD>
+                                            {" "}
+                                            <img src={WinIcon} style={{ marginRight: "5px" }} alt='win-arrow' />
+                                            {(convertToEther(Roll.Value) - Roll.BetAmount).toFixed(5)}
+                                        </TD>
+                                    ) : (
+                                        <TD>
+                                            <img src={LossIcon} style={{ marginRight: "5px" }} alt='lost-arrow' />
+                                            {convertToEther(Roll.Value).substring(0, 7)}
+                                        </TD>
+                                    )}
+                                </TR>
+                            ))}
+                        </tbody>
                     </TABLE>
                 </LastRollDetails>
                 {/* <PrimaryButton className="button"

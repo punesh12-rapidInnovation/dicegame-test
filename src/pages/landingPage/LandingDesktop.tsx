@@ -1,4 +1,4 @@
-import BeOneImage from "assets/images/beoneimage.png";
+import Women from "assets/images/women.png";
 import axios from "axios";
 import { Paths } from 'modules/app/components/routes/types';
 import Betting from 'modules/betting';
@@ -61,7 +61,7 @@ const LandingDesktop = () => {
                     </Link>
                 </Flexcol>
                 <Beoneimagediv>
-                    <Beoneimg src={BeOneImage} alt="" />
+                    <Beoneimg src={Women} alt="" />
                     <PrimaryButton style={{ width: '50%' }} onClick={() => history.push(`${Paths.housePool}`)}>
                         HOUSE POOL
                     </PrimaryButton>

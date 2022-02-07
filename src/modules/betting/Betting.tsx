@@ -1,59 +1,39 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import HelpIcon from "assets/icons/helpIcon.svg";
 import { ethers } from "ethers";
-import web3 from "../../utils/web3";
-import "./Checkbox.css";
-import Disclaimer from "shared/Disclaimer/Disclaimer";
-import {
-  BetBox,
-  BetMiddle,
-  BetBottom,
-  H2,
-  FlexColumn,
-  Flex,
-  H1,
-  Chance,
-  Range,
-  TransChance,
-  OddEvenDiv,
-  SliderThumb,
-  Select,
-  Option,
-  P,
-  ToolTipCont,
-  HowToPlay,
-  NotUnder,
-} from "./style";
-import { MinBetAmount, MaxBetAmount, HouseEdge, HouseEdgeDiviser, MinimumLink } from "../blockChain/bettingMethods";
-import { convertToEther, convertToWei } from "../../utils/helper";
-import { CheckAllowance } from "../blockChain/Routermethods";
-import { BETTING_ADDRESS } from "../../config";
-import { instanceType, selectReadContractInstance, selectWriteContractInstance } from "../../utils/contracts";
-import { LINK_TOKEN_ADDRESS } from "../../config";
 import { setLastRollData, setWalletBalance } from "logic/action/wallet.action";
+import { SocketContext } from "modules/app/context/socket";
+import React, { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { PrimaryButton } from "shared/button/Button";
-import { colors } from "shared/styles/theme";
+import Disclaimer from "shared/Disclaimer/Disclaimer";
 import { floatNumRegex } from "shared/helpers/regrexConstants";
+import HowToPlayModal from "shared/HowToPlay/HowToPlay";
+import RangeSlider from "shared/range-slider/RangeSlider";
+import { colors } from "shared/styles/theme";
+import useSound from "use-sound";
+import ExpandArrow from "../../assets/icons/expandArrow.svg";
+import howtoplay from "../../assets/icons/HowToPlay.svg";
+import betLooseSound from "../../assets/sound/heartbeat.mp3";
+import { BETTING_ADDRESS, LINK_TOKEN_ADDRESS } from "../../config";
+import { instanceType, selectReadContractInstance, selectWriteContractInstance } from "../../utils/contracts";
+import { convertToEther, convertToWei } from "../../utils/helper";
+import web3 from "../../utils/web3";
+import { HouseEdge, HouseEdgeDiviser, MinimumLink } from "../blockChain/bettingMethods";
+import { CheckAllowance } from "../blockChain/Routermethods";
+import "./Checkbox.css";
+import Alertmsg from "./modals/Alertmsg";
+import LooseModal from "./modals/LooseModal";
 import WaitingModal from "./modals/WaitingModal";
 import WinModal from "./modals/WinModal";
-import LooseModal from "./modals/LooseModal";
-import Alertmsg from "./modals/Alertmsg";
-import HelpIcon from "assets/icons/helpIcon.svg";
-import howtoplay from "../../assets/icons/HowToPlay.svg";
-import ExpandArrow from "../../assets/icons/expandArrow.svg";
-import CustomModal from "shared/custom-modal";
-import { CheckCont } from "shared/Disclaimer/style";
-import RangeSlider from "shared/range-slider/RangeSlider";
-import DisableModal from "shared/DisableModal/Disable";
-import { heart, rangeSliderSound, rollingDiceSound } from "./Sound";
+import { heart } from "./Sound";
+import {
+  BetBottom, BetBox,
+  BetMiddle, Chance, Flex, FlexColumn, H1, H2, HowToPlay,
+  NotUnder, OddEvenDiv, Option,
+  P, Select, ToolTipCont, TransChance
+} from "./style";
 
-import betLooseSound from "../../assets/sound/heartbeat.mp3";
 
-import useSound from "use-sound";
-import { SocketContext } from "modules/app/context/socket";
-import HousePool from "pages/housePool";
-import { ERC20_ABI } from "utils/abi";
-import HowToPlayModal from "shared/HowToPlay/HowToPlay";
 
 const Betting = () => {
   const [RangeValue, setRangeValue] = useState<number>(98);
