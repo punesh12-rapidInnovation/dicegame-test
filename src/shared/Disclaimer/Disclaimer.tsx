@@ -100,7 +100,29 @@ const Disclaimer = (props: any) => {
 
           </ul>
 
-          {LocalAgree ? (
+          <div>
+            <PrimaryButton onClick={() => setAgree()}>AGREE</PrimaryButton>
+            <p
+              style={{
+                marginTop: "10px",
+                color: "white",
+                fontSize: "14px",
+                textAlign: "right",
+                fontStyle: "italic",
+                opacity: "0.5",
+              }}
+            >
+              {/* Please read the disclaimer to proceed */}
+              By accepting you agree to the{" "}
+              <span
+                style={{ color: colors.primary, cursor: "pointer" }}
+                onClick={() => history.push(`${Paths.terms_and_conditons}`)}
+              >
+                Terms and Conditions </span>
+            </p>
+          </div>
+
+          {/* {LocalAgree ? (
             <p
               style={{
                 marginTop: "10px",
@@ -130,7 +152,6 @@ const Disclaimer = (props: any) => {
                   opacity: "0.5",
                 }}
               >
-                {/* Please read the disclaimer to proceed */}
                 By accepting you agree to the{" "}
                 <span
                   style={{ color: colors.primary, cursor: "pointer" }}
@@ -139,7 +160,7 @@ const Disclaimer = (props: any) => {
                   Terms and Conditions </span>
               </p>
             </div>
-          )}
+          )} */}
 
           <CheckCont>
             <label className="container" style={{ color: "white" }}>
