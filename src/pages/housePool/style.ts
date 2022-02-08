@@ -24,7 +24,7 @@ background-size: cover;
 background-repeat: no-repeat;
 background-position: 50% 50%;
 display: flex;
-justify-content: space-around;
+justify-content: space-between;
 align-items: center;
 @media (max-width: ${screenSizes.mediaM}px) {
     flex-direction: column;
@@ -36,6 +36,7 @@ flex-direction: column;
 justify-content: ${(props) => (props.justifyContent ? props.justifyContent : 'center')};
 align-items: ${(props) => (props.alignItems ? props.alignItems : 'flex-start')};
 color:${colors.white};
+min-height: 250px;
 
 
 p{
@@ -128,6 +129,7 @@ color:${colors.primary};
 font-style:italic;
 width:fit-content;
 cursor: pointer;
+text-decoration:underline;
 
 &:hover{
     text-decoration: underline;     

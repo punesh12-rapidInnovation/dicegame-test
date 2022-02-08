@@ -100,7 +100,7 @@ const HousePool = () => {
     const handleDeposit = () => {
         const localChecked = localStorage.getItem("ShowDisclaimer");
 
-       if (localStorage.getItem("Agree") !== "true")
+        if (localStorage.getItem("Agree") !== "true")
             setshowDisclaimer(true)
         else
             if (!userAddress) setShowConnectWalletAlert(true);
@@ -110,7 +110,7 @@ const HousePool = () => {
     const handleWithDraw = () => {
         const localChecked = localStorage.getItem("ShowDisclaimer");
 
-       if (localStorage.getItem("Agree") !== "true")
+        if (localStorage.getItem("Agree") !== "true")
             setshowDisclaimer(true)
         else
             if (!userAddress) setShowConnectWalletAlert(true);
@@ -120,20 +120,20 @@ const HousePool = () => {
         <HousePoolCont>
             <InfoContainer>
                 <InfoTextContainer
-                    style={{ margin: "0 10px" }}
+                    style={{ margin: "0 5%" }}
                 >
-                    <H3>Wallet {'>'} Liquidity</H3>
+                    {/* <H3>Wallet {'>'} Liquidity</H3> */}
                     <H1>HOUSE POOL</H1>
-                    <H3>Pulse Token (PLS) </H3>
-                    <HouseP>Choose your odds and roll the dice to win pulse and prizes. Play, Invest, Exchange <br />
-                        and join the Contest with high rewards at Pulseroll</HouseP>
+                    {/* <H3>Pulse Token (PLS) </H3> */}
+                    <HouseP>Deposit PLS into the House Pool to earn your share of the winnings
+                    </HouseP>
                     <Link onClick={() => setshowDisclaimer(true)}>
                         {/* Read our disclaimer to know more */}
                         Read Terms and Conditions
                     </Link>
                 </InfoTextContainer>
                 <FlexCont
-                    style={{ margin: "0 10px" }}
+                    style={{ margin: "0 5%" }}
                 >
                     <PrimaryButton width="300px"
                         style={{ padding: '25px', fontSize: '18px', marginBottom: "30px" }}
