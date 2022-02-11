@@ -1,6 +1,6 @@
 //config files
 
-export const walletTestConnectId = "https://rpc-mumbai.maticvigil.com/";
+export const walletTestConnectId = "https://rpc-mumbai.matic.today";
 export const walletMainConnectId = "https://polygon-rpc.com/";
 
 export const networkTestChainId = 80001;
