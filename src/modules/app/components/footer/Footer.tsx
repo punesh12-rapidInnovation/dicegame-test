@@ -1,9 +1,5 @@
-import { FooterCont, ImageCont } from "./style"
-import LinkedIn from 'assets/icons/linkedIn.png'
-import Instagram from 'assets/icons/instagram.png'
-import Facebook from 'assets/icons/facebook.png'
-import Twitter from 'assets/icons/twitter.png'
-import Telegram from 'assets/icons/telegram.png'
+import { Content, FooterCont, ImageCont, TabContainer } from "./style"
+import pulseLuckLogo from 'assets/icons/pulseLuckLogo.svg'
 import history from "shared/helpers/history"
 import { Paths } from "../routes/types"
 
@@ -13,20 +9,31 @@ const Footer = () => {
     return (
         <FooterCont>
 
-            <p>© 2022 Dice Game. All rights reserved |
-                <span
-                    onClick={() => history.push(`${Paths.terms_and_conditons}`)}
-                > Terms of Services </span>
-            </p>
+            <Content>
 
-            <ImageCont>
+                <ImageCont>
+                    <img src={pulseLuckLogo} alt="" />
+                    <p>© 2022 Pulseluck, All rights reserved. </p>
+                </ImageCont>
 
-                <img src={LinkedIn} alt="" />
-                <img src={Instagram} alt="" />
-                <img src={Facebook} alt="" />
-                <img src={Twitter} alt="" />
-                <img src={Telegram} alt="" />
-            </ImageCont>
+
+                <TabContainer
+                >
+                    <p>
+                        <a
+                            href="https://dev.dejpo3ivkz77h.amplifyapp.com/">
+                            GAMES
+                        </a>
+                    </p>
+                    <p
+                        onClick={() => history.push(`${Paths.housePool}`)}
+                    >HOUSEPOOL</p>
+                    <p
+                        onClick={() => history.push(`${Paths.terms_and_conditons}`)}
+                    >TERMS AND CONDITIONS</p>
+                    <p>POLICY</p>
+                </TabContainer>
+            </Content>
         </FooterCont>
     )
 }
