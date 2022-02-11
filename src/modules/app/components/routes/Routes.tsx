@@ -76,6 +76,7 @@ const Routes = () => {
                     return <Route key={i} path={route.path} exact {...rest} />
                 })}
             </Switch>
+            <Footer />
         </Router>
     );
 };

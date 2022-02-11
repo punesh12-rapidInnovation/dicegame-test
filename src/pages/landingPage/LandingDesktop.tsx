@@ -19,7 +19,6 @@ import {
     PulseGradient,
     Rankimg, UpperModuleCont
 } from './styleDesktop';
-import Footer from "modules/app/components/footer/Footer";
 
 const LandingDesktop = () => {
     const [showDisclaimer, setShowDisclaimer] = useState(false);
@@ -112,7 +111,6 @@ const LandingDesktop = () => {
 
                     </LowerModuleCont>
                 </ModuleCont>
-                <Footer />
             </ModuleParentCont >
 
 

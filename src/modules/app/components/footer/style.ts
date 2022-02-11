@@ -14,7 +14,6 @@ color:${colors.white};
 margin-left:auto;
 margin-right:auto;
 z-index:10;
-
  
 @media (max-width: ${screenSizes.mediaM}px) {
     justify-content:space-between;
