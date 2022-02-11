@@ -87,7 +87,7 @@ const Betting = () => {
 
   }, [RangeValue])
 
-  const { walletBalance, userAddress,ReduxAgree } = useSelector((state: any) => state.wallet);
+  const { walletBalance, userAddress, ReduxAgree } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
 
 
@@ -111,7 +111,7 @@ const Betting = () => {
 
   //@ts-ignore
   useEffect(() => {
-    if(ReduxAgree) return
+    if (ReduxAgree) return
     const localChecked = localStorage.getItem("ShowDisclaimer");
     const Loading = localStorage.getItem("Loading");
     if (Loading === "true") {
@@ -456,11 +456,11 @@ const Betting = () => {
   useEffect(() => {
     if (RangeValue < 2) {
       setEvenOdd(0);
-      setRangeLow(0);
-      setRangeHigh(0);
       setChecked1(false)
       setChecked2(false)
     }
+    setRangeLow(0);
+    setRangeHigh(0);
 
   }, [RangeValue])
 
@@ -768,6 +768,7 @@ const Betting = () => {
                   <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue1}
                     defaultValue={rangeLow}
                     disabled={RangeValue < 2}
+                    value={rangeLow}
 
                   >
                     {Numbers1.map((data, index) => {
@@ -782,6 +783,8 @@ const Betting = () => {
                   <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue2}
                     defaultValue={rangeHigh}
                     disabled={RangeValue < 2}
+                    value={rangeHigh}
+
                   >
                     {Numbers2.map((data, index) => {
                       return (

@@ -66,6 +66,7 @@ width:75%;
 display:flex;
 justify-content:space-around;
 align-items:center;
+align-content:center;
 font-size:12px;
 font-weight:600; 
 letter-spacing:1px;
