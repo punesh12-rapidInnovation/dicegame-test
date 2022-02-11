@@ -31,7 +31,7 @@ const Footer = () => {
                     <p
                         onClick={() => history.push(`${Paths.terms_and_conditons}`)}
                     >TERMS AND CONDITIONS</p>
-                    <p>POLICY</p>
+
                 </TabContainer>
             </Content>
         </FooterCont>
