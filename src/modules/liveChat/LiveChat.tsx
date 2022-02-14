@@ -46,6 +46,7 @@ import { useSelector } from "react-redux";
 import BarChart from "modules/app/components/barChart/BarChart";
 import { SocketContext } from "modules/app/context/socket";
 import { dateFromTimestamp, formatAddress } from "utils/helper";
+import axiosInstance from "utils/axios";
 
 const LiveChat = (props: any) => {
   const { userAddress } = useSelector((state: any) => state.wallet);
@@ -92,9 +93,7 @@ const LiveChat = (props: any) => {
       //@ts-ignore
       const address = JSON.parse(localStorage.getItem("address"));
       if (address !== null) {
-        const axiosInstance = axios.create({
-          baseURL: "https://diceroll.rapidinnovation.tech/pool",
-        });
+
 
         await axiosInstance.get(`/allBlockUser/${address}`).then(function (response) {
           //@ts-ignore
@@ -115,9 +114,7 @@ const LiveChat = (props: any) => {
   }, [address]);
 
   useEffect(() => {
-    const axiosInstance = axios.create({
-      baseURL: "https://diceroll.rapidinnovation.tech/pool",
-    });
+
     const getdata = async () => {
       const res = await axiosInstance.get("/allLiquidity");
       setLiquidityChartData(res.data);
@@ -280,9 +277,7 @@ const LiveChat = (props: any) => {
     }
 
     if (!UserBlockedOrNot) {
-      const axiosInstance = axios.create({
-        baseURL: "https://diceroll.rapidinnovation.tech/pool",
-      });
+
       await axiosInstance
         .post("/blockUser", {
           publicAddress: address,

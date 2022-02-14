@@ -2,6 +2,7 @@
 import axios from "axios";
 import BarChart from "modules/app/components/barChart/BarChart";
 import { useEffect, useState } from "react";
+import axiosInstance from "utils/axios";
 import { dateFromTimestamp } from "utils/helper";
 import { BarChartCont, ChartCont, HousePoolChartHead, HousePoolChartLabel, LastRollHeader } from "./style";
 
@@ -15,9 +16,6 @@ const GraphPool = () => {
     useEffect(() => {
         try {
 
-            const axiosInstance = axios.create({
-                baseURL: "https://pulseroll-api.pulseluck.com/pool",
-            });
             const getData = async () => {
                 const res = await axiosInstance.get("/allLiquidity");
                 setLiquidityChartData(res.data);

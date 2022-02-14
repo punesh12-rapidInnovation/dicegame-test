@@ -21,6 +21,7 @@ import {
     PulseGradient,
     Rankimg, UpperModuleCont
 } from './styleDesktop';
+import axiosInstance from "utils/axios";
 
 const LandingDesktop = () => {
     const [showDisclaimer, setShowDisclaimer] = useState(false);
@@ -28,9 +29,7 @@ const LandingDesktop = () => {
 
     useEffect(() => {
         const GetBetCount = async () => {
-            const axiosInstance = axios.create({
-                baseURL: "https://dicegame-dev.rapidinnovation.tech/pool",
-            });
+
             await axiosInstance.get(`/betcount`).then(function (response) {
                 //@ts-ignore
                 const PlayerCount: number = response.data;
@@ -39,8 +38,7 @@ const LandingDesktop = () => {
             });
         }
         GetBetCount();
-    }
-        , []);
+    }, []);
 
 
 
