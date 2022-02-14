@@ -1,7 +1,7 @@
 import * as React from "react";
 import { io } from "socket.io-client";
 
-const SOCKET_URL = "http://pulseroll-subs.pulseluck.com/";
+const SOCKET_URL = "https://pulseroll-subs.pulseluck.com";
 // const SOCKET_URL = "ws://localhost:4000";
 
 //@ts-ignore
@@ -60,7 +60,7 @@ const SocketContextProvider = ({ children }: any) => {
       // });
 
       socket.on("betevent", (data: any) => {
-        console.log(data);
+        console.log('data', data);
         const LocalBetId = localStorage.getItem("PlacingBetId");
         let betId;
         if (PlacingBetId) betId = PlacingBetId;

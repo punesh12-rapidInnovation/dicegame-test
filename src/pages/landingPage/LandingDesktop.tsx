@@ -61,7 +61,7 @@ const LandingDesktop = () => {
                 </Flexcol>
                 <Beoneimagediv>
                     <Beoneimg src={Women} alt="" />
-                    <PrimaryButton style={{ width: '60%' }} onClick={() => history.push(`${Paths.housePool}`)}>
+                    <PrimaryButton width={'80%'} onClick={() => history.push(`${Paths.housePool}`)}>
                         HOUSE POOL
                     </PrimaryButton>
                 </Beoneimagediv>

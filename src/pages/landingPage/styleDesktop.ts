@@ -80,7 +80,7 @@ margin:0 10px;
 export const Beonediv = styled.div`
 background: url(${landingtop});
 height: 45vh;
-min-height: 400px;
+min-height: 480px;
 width: 100%;
 background-size: contain;
 background-repeat: no-repeat;
@@ -88,9 +88,9 @@ background-color: #000;
 display: flex;
 justify-content: center;
 align-items:center;
- background-size: cover;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
+background-size: cover;
+background-repeat: no-repeat;
+background-position: 50% 50%;
 `
 export const Flexcol = styled.div`
 display: flex;
@@ -114,17 +114,17 @@ max-width: 400px;
 display: flex;
 flex-direction: column;
 justify-content: center;
+margin-top:-15px;
 align-items:center;
 transform: translatey(10%);
 
 `
 
 export const Beoneimg = styled.img`
-width: 300px;
-height: 300px;
+width: 390px;
+height: 390px;
 object-fit: contain;
-// margin:5px;
-margin-bottom:-20px;
+margin-bottom:-25px;
 z-index: 10;
 
 `
