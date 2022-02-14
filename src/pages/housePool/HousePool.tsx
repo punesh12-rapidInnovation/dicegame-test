@@ -19,6 +19,8 @@ import TransactionWaiting from 'shared/transactionWaiting/TransactionWaiting';
 import TransactionError from 'shared/transactionError/TransactionError';
 import TransactionSuccess from 'shared/transactionSucess/TransactionSuccess';
 import Alertmsg from 'modules/betting/modals/Alertmsg';
+import pulseLuckLogo from 'assets/icons/pulseLuckLogo.svg'
+
 
 
 const HousePool = () => {
@@ -119,6 +121,7 @@ const HousePool = () => {
     }
     return (
         <HousePoolCont>
+            <Header extraLogo={pulseLuckLogo} />
             <InfoContainer>
                 <InfoTextContainer
                     style={{ margin: "0 5%" }}

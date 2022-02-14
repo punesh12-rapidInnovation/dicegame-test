@@ -11,6 +11,8 @@ import { PrimaryButton } from 'shared/button/Button';
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import history from 'shared/helpers/history';
 import DepositCard from "modules/DepositCard/DepositCard";
+import Header from 'modules/app/components/header';
+
 import {
     Beonediv, Beoneimagediv,
     Beoneimg, Flexcol, H1,
@@ -44,6 +46,7 @@ const LandingDesktop = () => {
 
     return (
         <LandingDesktopContainer>
+            <Header />
             <Beonediv>
                 <Flexcol style={{ transform: "translateY(15%)" }}>
                     {/* <H2>EVERY DAY LOTS OF WINS</H2> */}

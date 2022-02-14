@@ -16,7 +16,9 @@ import CustomModal from "shared/custom-modal";
 import Disclaimer from "shared/Disclaimer/Disclaimer";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = (props: any) => {
+
+  const { extraLogo } = props;
   const dispatch = useDispatch();
   const { walletConnectCheck, chainId, userAddress } = useSelector((state: any) => state.wallet);
   const [connectWallet, setConnectWallet] = useState(false);
@@ -144,9 +146,14 @@ const Header = () => {
         <div className="invisibleDiv" style={{ width: "100%" }}></div>
 
         <div style={{ width: "100%" }}>
-          <Link to="/landing">
-            <img className="siteLogo" src={siteLogo} alt="" />
-          </Link>
+          {
+            extraLogo ?
+              <img className="siteLogo" src={extraLogo} alt="" />
+              :
+              <Link to="/landing">
+                <img className="siteLogo" src={siteLogo} alt="" />
+              </Link>
+          }
         </div>
 
 

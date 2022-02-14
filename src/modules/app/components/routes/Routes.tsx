@@ -10,6 +10,7 @@ import LandingPage from 'pages/landingPage/LandingPage';
 import history from 'shared/helpers/history';
 import TermsAndConditions from 'pages/termsAndConditons/TermsAndConditions';
 import Footer from '../footer/Footer';
+import { screenSizes } from 'shared/styles/theme';
 
 
 
@@ -67,7 +68,10 @@ function getRouteRenderWithAuth(route: RouteDefinition, i: number) {
 const Routes = () => {
     return (
         <Router history={history}>
-            <Header />
+            {
+                window.innerWidth < screenSizes.mediaS ?
+                    <Header /> : null
+            }
             <Switch>
                 <Redirect exact from="/" to={Paths.landing} />
                 {routes.map((route, i) => {
