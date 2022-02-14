@@ -6,7 +6,7 @@ import { PrimaryButton } from 'shared/button/Button';
 import CustomModal from 'shared/custom-modal';
 import { colors } from 'shared/styles/theme';
 import { PoolDetailsGridItem } from 'pages/housePool/style';
-import { InfoContainer,HousePoolCont,H1,FlexCont,H3,Link,PoolDetailsContainer, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle, InfoTextContainer, HouseP  } from 'pages/housePool/style';
+import { InfoContainer, HousePoolCont, H1, FlexCont, H3, Link, PoolDetailsContainer, PoolDetails, PoolFundsCont, TransactionContainer, VolumeChartLabel, BoxTitle, InfoTextContainer, HouseP } from 'pages/housePool/style';
 import verticalLine from "assets/icons/verticalLine.svg";
 import Disclaimer from 'shared/Disclaimer/Disclaimer';
 import HousePoolTransaction from 'modules/app/components/HousePoolTransaction/HousePoolTransaction';
@@ -21,7 +21,7 @@ import TransactionError from 'shared/transactionError/TransactionError';
 import TransactionSuccess from 'shared/transactionSucess/TransactionSuccess';
 import Alertmsg from 'modules/betting/modals/Alertmsg';
 
-   
+
 
 function DepositCard() {
     const [showDepositModal, setshowDepositModal] = useState(false)
@@ -49,7 +49,7 @@ function DepositCard() {
     const { userAddress, walletBalance } = useSelector((state: any) => state.wallet);
     useEffect(() => {
         const axiosInstance = axios.create({
-            baseURL: "https://dicegame-dev.rapidinnovation.tech/pool",
+            baseURL: "https://pulseroll-api.pulseluck.com/pool",
         });
         const getdata = async () => {
             console.log(userAddress);
@@ -133,24 +133,24 @@ function DepositCard() {
             if (!userAddress) setShowConnectWalletAlert(true);
             else setshowWithdrawModal(true); setActionType('withdraw')
     }
-        return (
-            <PoolDetailsGridItem style={{height:'410px'}}>
-                {/* <div style={{
+    return (
+        <PoolDetailsGridItem style={{ height: '410px' }}>
+            {/* <div style={{
                         background: "linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%)",
                         boxShadow: "0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9)",
                         borderRadius: "20px",
                     }}> */}
-                <FlexCont style={{ flexDirection: 'row', justifyContent: "space-around", height: '30%', alignItems: "center", width: '100%', }}>
-                    <FlexCont
-                        justifyContent="center"
-                        alignItems="center"
+            <FlexCont style={{ flexDirection: 'row', justifyContent: "space-around", height: '30%', alignItems: "center", width: '100%', }}>
+                <FlexCont
+                    justifyContent="center"
+                    alignItems="center"
 
-                    >
-                        <h3>liquidity</h3>
-                        <h1>${parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</h1>
-                        <p>{parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)} PLS</p>
-                    </FlexCont>
-                    {/* <img src={verticalLine} alt="" style={{width:'30%',height:'40px'}}/>
+                >
+                    <h3>liquidity</h3>
+                    <h1>${parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)}</h1>
+                    <p>{parseFloat(`${convertToEther(`${totalValueLocked}`)}`).toFixed(3)} PLS</p>
+                </FlexCont>
+                {/* <img src={verticalLine} alt="" style={{width:'30%',height:'40px'}}/>
                             <FlexCont
                                 justifyContent="center"
                                 alignItems="center" style={{ width: '30%', transform: 'translatey(-25px)' }}
@@ -159,43 +159,43 @@ function DepositCard() {
                             <h1>$1.89M</h1>
                             <p>124.18%</p>
                             </FlexCont> */}
-                </FlexCont>
-                <FlexCont
-                    justifyContent="center"
-                    alignItems="center"
-                    style={{ width: '100%', height: '50%' }}
-                >
-                    <PoolFundsCont>
-                        <h5>Your Total Funds</h5>
-                        <h1>{parseFloat(`${convertToEther(`${totalFunds}`)}`).toFixed(3)}
-                            <span style={{ fontSize: "14px", marginLeft: "5px" }}>({`${parseFloat(`${poolContributionPercent}`).toFixed(4)}%`})</span>
-                        </h1>
-                        <p>PULSE TOKEN</p>
-                    </PoolFundsCont>
-                </FlexCont>
-                <FlexCont
-                    style={{ marginBottom: "30px", width: '100%', flexDirection: 'row', justifyContent: 'center', height: '20%' }}
-                >
-                    <PrimaryButton
-                        width="40%"
-                        margin="0 10px"
-                        onClick={() => handleDeposit()}
-                        style={{ padding: '18px' }}
+            </FlexCont>
+            <FlexCont
+                justifyContent="center"
+                alignItems="center"
+                style={{ width: '100%', height: '50%' }}
+            >
+                <PoolFundsCont>
+                    <h5>Your Total Funds</h5>
+                    <h1>{parseFloat(`${convertToEther(`${totalFunds}`)}`).toFixed(3)}
+                        <span style={{ fontSize: "14px", marginLeft: "5px" }}>({`${parseFloat(`${poolContributionPercent}`).toFixed(4)}%`})</span>
+                    </h1>
+                    <p>PULSE TOKEN</p>
+                </PoolFundsCont>
+            </FlexCont>
+            <FlexCont
+                style={{ marginBottom: "30px", width: '100%', flexDirection: 'row', justifyContent: 'center', height: '20%' }}
+            >
+                <PrimaryButton
+                    width="40%"
+                    margin="0 10px"
+                    onClick={() => handleDeposit()}
+                    style={{ padding: '18px' }}
 
-                    >DEPOSIT FUNDS
-                    </PrimaryButton>
-                    <PrimaryButton
-                        width="45%"
-                        margin="0 10px"
-                        color={colors.primary}
-                        onClick={() => handleWithDraw()}
-                        style={{ padding: '18px' }}
+                >DEPOSIT FUNDS
+                </PrimaryButton>
+                <PrimaryButton
+                    width="45%"
+                    margin="0 10px"
+                    color={colors.primary}
+                    onClick={() => handleWithDraw()}
+                    style={{ padding: '18px' }}
 
-                    >WITHDRAW FUNDS</PrimaryButton>
-                </FlexCont>
-                {/* </div> */}
+                >WITHDRAW FUNDS</PrimaryButton>
+            </FlexCont>
+            {/* </div> */}
 
-                 {showDepositModal &&
+            {showDepositModal &&
                 <CustomModal
                     show={showDepositModal}
                     toggleModal={() => setshowDepositModal(false)}
@@ -251,9 +251,9 @@ function DepositCard() {
 
 
             <Disclaimer show={showDisclaimer} toggleModal={() => setshowDisclaimer(false)} />
-            </PoolDetailsGridItem>
-        )
-    }
+        </PoolDetailsGridItem>
+    )
+}
 
 
 export default DepositCard;

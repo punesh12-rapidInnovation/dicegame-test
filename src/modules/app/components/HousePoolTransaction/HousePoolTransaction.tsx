@@ -34,7 +34,7 @@ const HousePoolTransaction = (props: any) => {
 
     useEffect(() => {
         const axiosInstance = axios.create({
-            baseURL: "https://dicegame-dev.rapidinnovation.tech/pool",
+            baseURL: "https://pulseroll-api.pulseluck.com/pool",
         });
         const getdata = async () => {
             console.log(userAddress);

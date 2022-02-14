@@ -1,15 +1,12 @@
-import socketio from "socket.io-client";
 import * as React from "react";
 import { io } from "socket.io-client";
 
-const SOCKET_URL = "https://dicegame-subs.rapidinnovation.tech/";
+const SOCKET_URL = "http://pulseroll-subs.pulseluck.com/";
 // const SOCKET_URL = "ws://localhost:4000";
 
 //@ts-ignore
 export const socket = io(SOCKET_URL);
-// export const socket = io(SOCKET_URL);
 
-const BASE_URL = "https://dicegame-subs.rapidinnovation.tech/";
 
 interface SocketContextInterface {
   socket: any;
@@ -63,27 +60,27 @@ const SocketContextProvider = ({ children }: any) => {
       // });
 
       socket.on("betevent", (data: any) => {
-          console.log(data);
-          const LocalBetId = localStorage.getItem("PlacingBetId");
-          let betId;
-          if (PlacingBetId) betId = PlacingBetId;
-          else betId = LocalBetId;
-          if (betId === data.BetID) {
-            console.log("ResultObjectupdated");
-            setResultObject({
-              Betid: data.BetID,
-              Diceresult: data.DiceResult,
-              Playeraddress: data.PlayerAddress,
-              Playernumber: data.PlayerNumber,
-              Status: data.Status,
-              Date: new Date().toLocaleString(),
-              Value: data.Value,
-              BetAmount: localStorage.getItem("BetAmount"),
-            });
-          } else {
-            console.log(data.BetID);
-          }
-        });
+        console.log(data);
+        const LocalBetId = localStorage.getItem("PlacingBetId");
+        let betId;
+        if (PlacingBetId) betId = PlacingBetId;
+        else betId = LocalBetId;
+        if (betId === data.BetID) {
+          console.log("ResultObjectupdated");
+          setResultObject({
+            Betid: data.BetID,
+            Diceresult: data.DiceResult,
+            Playeraddress: data.PlayerAddress,
+            Playernumber: data.PlayerNumber,
+            Status: data.Status,
+            Date: new Date().toLocaleString(),
+            Value: data.Value,
+            BetAmount: localStorage.getItem("BetAmount"),
+          });
+        } else {
+          console.log(data.BetID);
+        }
+      });
 
       socket.on("disconnect", () => {
         console.log("disconnected context");
