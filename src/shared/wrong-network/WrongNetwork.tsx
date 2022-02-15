@@ -17,7 +17,7 @@ const WrongNetwork = (props: any) => {
 
   const handleClickOutside = (e: any) => {
     if (e.target === e.currentTarget) {
-      toggleModal();
+      return
     }
   };
 

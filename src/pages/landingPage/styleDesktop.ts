@@ -117,7 +117,6 @@ justify-content: center;
 margin-top:-15px;
 align-items:center;
 transform: translatey(10%);
-
 `
 
 export const Beoneimg = styled.img`
@@ -125,7 +124,6 @@ width: 390px;
 height: 390px;
 object-fit: contain;
 margin-bottom:-25px;
-z-index: 10;
 
 `
 

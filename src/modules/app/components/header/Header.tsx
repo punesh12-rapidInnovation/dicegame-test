@@ -148,7 +148,9 @@ const Header = (props: any) => {
         <div style={{ width: "100%" }}>
           {
             extraLogo ?
+              <Link to="/landing">
               <img className="siteLogo" src={extraLogo} alt="" />
+              </Link>
               :
               <Link to="/landing">
                 <img className="siteLogo" src={siteLogo} alt="" />
