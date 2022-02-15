@@ -578,7 +578,7 @@ const Betting = () => {
     const getMultiplier = async () => {
       const multiplier = await Multiplier(
         RangeValue,
-        rangeLow >= 0 && rangeHigh > 0,
+        rangeLow > 0 && rangeHigh > 0,
         evenOdd,
         rangeLow,
         rangeHigh
@@ -588,7 +588,6 @@ const Betting = () => {
     getMultiplier();
 
     setMaxBet(multiplier);
-
     calcTempPlayerProfit(RangeValue, evenOdd, BetAmount, rangeLow, rangeHigh);
   }, [RangeValue, BetAmount, userAddress, evenOdd, rangeLow, rangeHigh, multiplier]);
 
@@ -607,7 +606,6 @@ const Betting = () => {
         const profit = await BETTING_INSTANCE.methods
           .GetProfit(rollUnder, _OddEvenStatus, rangeLow, rangeHigh, convertToWei(betValue.toString()))
           .call();
-
         setProfit(profit);
       }
 
