@@ -96,10 +96,18 @@ const Betting = () => {
   useEffect(() => {
     setNumbers1([]);
     setNumbers2([]);
-    for (let index = 0; index < rangeHigh; index++) {
-      //@ts-ignore
-      setNumbers1((prev: any) => [...prev, index]);
-    }
+
+    if (rangeHigh === 0)
+      for (let index = 0; index <= rangeHigh; index++) {
+        //@ts-ignore
+        setNumbers1((prev: any) => [...prev, index]);
+      }
+    else
+      for (let index = 0; index < rangeHigh; index++) {
+        //@ts-ignore
+        setNumbers1((prev: any) => [...prev, index]);
+      }
+
     for (let index = 0; index <= RangeValue; index++) {
       //@ts-ignore
       setNumbers2((prev: any) => [...prev, index]);
@@ -774,11 +782,12 @@ const Betting = () => {
                     {Numbers1.map((data, index) => {
                       return (
                         <Option value={data} key={"rf" + index}>
-                          {data}
+                          {(data === 0) ? '-' : data}
                         </Option>
                       );
                     })}
                   </Select>
+
 
                   <Select id="rangeFrom" name="" style={{ width: "100%" }} onChange={handleSelectValue2}
                     defaultValue={rangeHigh}
@@ -789,7 +798,7 @@ const Betting = () => {
                     {Numbers2.map((data, index) => {
                       return (
                         <Option value={data} key={"rf" + index}>
-                          {data}
+                          {data === 0 ? '-' : data}
                         </Option>
                       );
                     })}
@@ -797,7 +806,7 @@ const Betting = () => {
                 </Flex>
               </Flex>
             </Flex>
-            <Flex
+            {/* <Flex
               style={{
                 flexDirection: "column",
                 justifyContent: "center",
@@ -823,13 +832,22 @@ const Betting = () => {
                   )}
                 </div>
               </Flex>
-            </Flex>
+            </Flex> */}
           </Flex>
         </OddEvenDiv>
 
         <Flex style={{ marginTop: "15px" }}>
           <H2 fontSize="18px" FontSizeMobile="16px">
-            Roll Under{" "}
+            Total Multiplier
+          </H2>
+          <H1 MobileFontSize="13px" color={colors.yellow}>
+            + {Number(multiplier).toFixed(2)}x
+          </H1>
+        </Flex>
+        <Flex >
+
+          <H2 fontSize="18px" FontSizeMobile="16px">
+            Roll Under
           </H2>
           <H1 FontSize="38px" color={colors.primary}>
             {RangeValue + 1}
