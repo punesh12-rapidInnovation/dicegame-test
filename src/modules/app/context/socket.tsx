@@ -1,8 +1,7 @@
+import { SOCKET_URL } from "config";
 import * as React from "react";
 import { io } from "socket.io-client";
 
-const SOCKET_URL = "https://pulseroll-subs.pulseluck.com";
-// const SOCKET_URL = "ws://localhost:4000";
 
 //@ts-ignore
 export const socket = io(SOCKET_URL, { transports: ['websocket'] });

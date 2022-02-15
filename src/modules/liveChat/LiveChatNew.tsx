@@ -19,6 +19,7 @@ import useOnScreen from './hooks/useOnScreen';
 import { Picker } from 'emoji-mart';
 import useSound from 'use-sound';
 import { buttonClick } from 'modules/betting/Sound';
+import axiosInstance from 'utils/axios';
 const LiveChatNew = () => {
   const { userAddress } = useSelector((state: any) => state.wallet);
   const { socket, liveMessages, setLiveMessages, userTyping, setUserTyping, userTypingAddress } =
@@ -65,10 +66,6 @@ const LiveChatNew = () => {
       //@ts-ignore
       const address = JSON.parse(localStorage.getItem("address"));
       if (address !== null) {
-        const axiosInstance = axios.create({
-          baseURL: "https://diceroll.rapidinnovation.tech/pool",
-        });
-
         await axiosInstance.get(`/allBlockUser/${address}`).then(function (response) {
           //@ts-ignore
           const counter = response.data.result?.counter;
@@ -166,9 +163,7 @@ const LiveChatNew = () => {
     }
 
     if (!UserBlockedOrNot) {
-      const axiosInstance = axios.create({
-        baseURL: "https://diceroll.rapidinnovation.tech/pool",
-      });
+
       await axiosInstance
         .post("/blockUser", {
           publicAddress: address,
@@ -217,7 +212,7 @@ const LiveChatNew = () => {
 
   const scrollToBottom = () => {
     //@ts-ignore
-    messagesEndRef.current?.scrollBy(0,10000000);
+    messagesEndRef.current?.scrollBy(0, 10000000);
   };
 
   useEffect(() => {
@@ -225,7 +220,7 @@ const LiveChatNew = () => {
     inputRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
 
-  
+
   const startTypingMessage = () => {
     if (!socket || UserBlockedOrNot) return;
     if (userAddress == undefined) return;
@@ -248,20 +243,20 @@ const LiveChatNew = () => {
     handleSendMessage(NakliEvent);
 
   }
-  const handleSendMessage = (e:any) => {
+  const handleSendMessage = (e: any) => {
     if (e.key === "Enter") {
-    //@ts-ignore
+      //@ts-ignore
       inputRef.current.focus();
-    cancelTyping();
-    sendTOAPI(inputMessage);
-    setInputMessage(""); 
+      cancelTyping();
+      sendTOAPI(inputMessage);
+      setInputMessage("");
     }
   }
 
   useEffect(() => {
     scrollToBottom();
   }, [userTyping, liveMessages]);
-  
+
 
   useEffect(() => {
     if (isTyping || showEmoji) startTypingMessage();

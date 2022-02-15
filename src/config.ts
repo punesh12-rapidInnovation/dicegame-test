@@ -4,6 +4,8 @@ export const walletTestConnectId = "https://rpc-mumbai.matic.today";
 export const walletMainConnectId = "https://polygon-rpc.com/";
 
 export const API_URL= "https://pulseroll-api.pulseluck.com/pool";
+export const SOCKET_URL = "https://pulseroll-subs.pulseluck.com";
+
 
 export const networkTestChainId = 80001;
 export const networkMainChainId = 137;

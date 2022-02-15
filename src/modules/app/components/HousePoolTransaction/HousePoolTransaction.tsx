@@ -6,6 +6,7 @@ import { DataContainer, PaginationCont, TABLE, TableStyles, TD, THead, TBody, TR
 import axios from 'axios';
 import { convertToEther, dateFromTimestamp, formatAddress, timeFromTimestamp } from 'utils/helper';
 import CircleTimer from 'shared/circleTimer/CircleTimer';
+import axiosInstance from 'utils/axios';
 
 
 const HousePoolTransaction = (props: any) => {
@@ -33,9 +34,7 @@ const HousePoolTransaction = (props: any) => {
     const { userAddress } = useSelector((state: any) => state.wallet);
 
     useEffect(() => {
-        const axiosInstance = axios.create({
-            baseURL: "https://pulseroll-api.pulseluck.com/pool",
-        });
+
         const getdata = async () => {
             console.log(userAddress);
             if (userAddress) {

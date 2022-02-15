@@ -20,6 +20,7 @@ import TransactionError from 'shared/transactionError/TransactionError';
 import TransactionSuccess from 'shared/transactionSucess/TransactionSuccess';
 import Alertmsg from 'modules/betting/modals/Alertmsg';
 import pulseLuckLogo from 'assets/icons/pulseLuckLogo.svg'
+import axiosInstance from 'utils/axios';
 
 
 
@@ -49,9 +50,7 @@ const HousePool = () => {
 
     const { userAddress, walletBalance } = useSelector((state: any) => state.wallet);
     useEffect(() => {
-        const axiosInstance = axios.create({
-            baseURL: "https://pulseroll-api.pulseluck.com/pool",
-        });
+
         const getdata = async () => {
             console.log(userAddress);
             const res1 = await axiosInstance.get('/allLiquidity');
