@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { PrimaryButton } from "shared/button/Button"
 import { H1, HeaderDiv, TermsPageContainer, PulseGradient, ModuleParentCont, ModuleCont, UL, LI, MoreTextContainer, DotsSpan, ButtonCont } from "./style"
+import Header from "modules/app/components/header"
 
 const TermsAndConditions = () => {
 
@@ -17,6 +18,7 @@ const TermsAndConditions = () => {
 
     return (
         <TermsPageContainer>
+            <Header/>
             <HeaderDiv>
                 <H1><PulseGradient>Terms & condition</PulseGradient></H1>
             </HeaderDiv>
