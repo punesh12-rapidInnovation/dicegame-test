@@ -83,8 +83,9 @@ export const Input = styled.input`
 		line-height: 30px;
 	}`
 export const Dropdown = styled.div<any>`
-	background: #fff;
-	color: #000; 
+    background:linear-gradient(90deg, rgba(239, 8, 150, 0.26) -6.9%, rgba(112, 7, 255, 0.26) 55.31%, rgba(0, 200, 255, 0.26) 107.28%), #2b1967;
+    box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9);
+	color: #fff; 
 	position: absolute;
 	border-radius: 10px;
 	width: 100%;
