@@ -6,7 +6,7 @@ import pulseIcon from "assets/icons/pulseIcon.svg";
 import downCarotIcon from 'assets/icons/downCarot.svg'
 import { floatNumRegex } from 'shared/helpers/regrexConstants';
 import { instanceType, selectReadContractInstance, selectWriteContractInstance } from 'utils/contracts';
-import { convertToEther, convertToWei } from 'utils/helper';
+import { convertToEther, convertToWei, dateFromTimestamp, timeFromTimestamp } from 'utils/helper';
 import CircleTimer from 'shared/circleTimer/CircleTimer';
 import { setWalletBalance } from "logic/action/wallet.action";
 import web3 from 'utils/web3';
@@ -226,7 +226,7 @@ const HousePoolWithdrawModal = (props: any) => {
                                             <div key={i} style={{ padding: "10px", display: "flex", alignItems: "center" }}
                                                 onClick={() => { setDepositSelected(item); setShowDepositList(false) }}>
                                                 <img style={{ marginRight: "10px" }} src={pulseIcon} alt="" />
-                                                <span>Deposit {i + 1}</span>
+                                                <span>Deposit {i + 1} | {dateFromTimestamp(item.DepositTime*1000)} {timeFromTimestamp(item.DepositTime*1000)} | {item.Balance && parseFloat(convertToEther(item.Balance))} PLS</span>
                                             </div>
 
                                         </>
