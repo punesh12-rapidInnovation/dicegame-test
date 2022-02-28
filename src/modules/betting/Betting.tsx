@@ -614,6 +614,13 @@ const Betting = () => {
     }
   };
 
+  useEffect(() => {
+    Numbers1.map((data) => {
+      if (data === 0)
+        setRangeLow(0);
+    })
+  }, [Numbers1])
+
 
   // new approcah for betting -end
 
