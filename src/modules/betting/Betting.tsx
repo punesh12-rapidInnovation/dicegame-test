@@ -182,7 +182,6 @@ const Betting = () => {
 
   const BetSetThroughInput = (e: any) => {
     const { value } = e.target;
-    // console.log("value", value);
 
     if (floatNumRegex.test(value.toString())) {
       setBetAmount(value);
@@ -190,12 +189,6 @@ const Betting = () => {
     if (!value) setBetAmount("");
   };
 
-  // const OutFocusSetBetamount = () => {
-  //   if (BetAmount === "") {
-  //     setBetAmount(0);
-  //     console.log("set 0");
-  //   }
-  // };
 
   const CallingPlaceBet = async () => {
     if (localStorage.getItem("Loading") === "true") {
@@ -415,7 +408,6 @@ const Betting = () => {
       const Resulttillnow = JSON.parse(localStorage.getItem("LastRolls") || "[]");
       if (Resulttillnow.length === 10) {
         Resulttillnow.splice(-1);
-        // console.log(Resulttillnow);
         localStorage.setItem("LastRolls", JSON.stringify(Resulttillnow));
         dispatch(setLastRollData(Resulttillnow))
 
@@ -543,7 +535,6 @@ const Betting = () => {
     // return multiplier;
 
     const BETTING_INSTANCE = await selectReadContractInstance(instanceType.BETTING);
-    // console.log('logs', rollUnder, _OddEvenStatus, isRangeTrue, rangeLow, rangeHigh);
 
     const multiplier = await BETTING_INSTANCE.methods
       .GetMultiplier(rollUnder, _OddEvenStatus, isRangeTrue, rangeLow, rangeHigh)
